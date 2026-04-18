@@ -3,51 +3,144 @@
 @tailwind utilities;
 
 :root {
-  --green-50: #f0fdf4;
-  --green-100: #dcfce7;
-  --green-500: #22c55e;
-  --green-600: #16a34a;
-  --green-700: #15803d;
-  --green-800: #166534;
-  --green-900: #14532d;
+  --primary: #16a34a;
+  --primary-light: #22c55e;
+  --primary-50: #f0fdf4;
+  --primary-100: #dcfce7;
+  --surface: #ffffff;
+  --surface-dim: #f8fafb;
+  --surface-container: #f1f3f5;
+  --on-surface: #1a1a1a;
+  --on-surface-dim: #6b7280;
+  --outline: #e5e7eb;
+  --outline-dim: #f3f4f6;
 }
 
 html, body {
   height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar - thinner */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 2px;
-}
+/* Thin scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
 
-/* Card hover effect */
-.card-hover {
-  transition: all 0.2s;
-}
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
+/* === ANIMATIONS === */
 
-/* Message fade in */
-.fade-in {
-  animation: fadeIn 0.3s ease-in;
+/* Fade + slide up */
+.msg-in {
+  animation: msgIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Print styles */
+/* Fade in only */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Slide up for empty state cards */
+.card-up {
+  animation: cardUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@keyframes cardUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger delay classes */
+.delay-1 { animation-delay: 0.05s; }
+.delay-2 { animation-delay: 0.1s; }
+.delay-3 { animation-delay: 0.15s; }
+.delay-4 { animation-delay: 0.2s; }
+.delay-5 { animation-delay: 0.25s; }
+
+/* Card hover */
+.card-hover {
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+.card-hover:active {
+  transform: scale(0.98);
+}
+
+/* Shimmer loading */
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Pulse ring for mic */
+.pulse-ring {
+  animation: pulseRing 1.5s ease-out infinite;
+}
+@keyframes pulseRing {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Typing dots */
+.typing-dot {
+  animation: typingDot 1.4s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Glass header */
+.glass-header {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Bot message sections */
+.bot-msg strong {
+  color: #111827;
+}
+
+.bot-msg p {
+  margin-bottom: 4px;
+}
+
+/* Smooth textarea */
+.input-area {
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.input-area:focus-within {
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.15);
+  border-color: #86efac;
+}
+
+/* Print */
 @media print {
   .no-print { display: none !important; }
-  .chat-container { max-height: none !important; overflow: visible !important; }
+  .chat-area { max-height: none !important; overflow: visible !important; }
+}
+
+/* Mobile safe area */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .input-safe {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
 }

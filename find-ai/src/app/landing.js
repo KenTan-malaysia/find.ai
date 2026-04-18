@@ -124,9 +124,9 @@ export default function Landing({ onStart, lang, setLang, hasSavedChat, onContin
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-[10px] flex items-center justify-center shadow-md"
             style={{ background: 'linear-gradient(135deg, #16a34a, #22c55e)' }}>
-            <span className="text-white text-sm font-bold">U</span>
+            <span className="text-white text-sm font-bold">F</span>
           </div>
-          <span className="text-base font-semibold text-gray-900">Unbelievebe</span>
+          <span className="text-base font-semibold text-gray-900">Find.ai</span>
         </div>
         <button
           onClick={() => setLang(lang === 'en' ? 'bm' : lang === 'bm' ? 'zh' : 'en')}
