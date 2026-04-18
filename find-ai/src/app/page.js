@@ -341,20 +341,96 @@ export default function Home() {
 
   const fmt = (text) => {
     let h = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
-    // Clause blocks — navy/blue theme
+
+    // ⚡ Legal Bridge — red/blue split card
     h = h.replace(
-      /📋.*?<strong>(.+?)<\/strong>.*?<br\/>(&gt;.*?)(?=<br\/><br\/>|$)/gs,
-      (_, title, clause) => {
-        const clean = clause.replace(/&gt;\s?/g, '').replace(/<br\/>/g, '\n').replace(/<\/?strong>/g, '').trim();
-        return `<div style="margin:16px 0;padding:16px;background:linear-gradient(135deg,#f1f5f9,#f8fafc);border:1px solid #e2e8f0;border-left:3px solid #3b82f6;border-radius:12px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-            <div style="display:flex;align-items:center;gap:6px"><span style="font-size:12px;font-weight:700;color:#1e293b">📋 ${title}</span></div>
-            <button onclick="navigator.clipboard.writeText(\`${clean.replace(/`/g,'\\`')}\`);this.textContent='Copied!';this.style.background='#0f172a';this.style.color='white';setTimeout(()=>{this.textContent='Copy';this.style.background='white';this.style.color='#334155'},2000)"
-              style="font-size:11px;padding:5px 14px;border-radius:8px;background:white;color:#334155;border:1px solid #e2e8f0;cursor:pointer;font-weight:600">Copy</button>
-          </div>
-          <div style="font-size:13px;color:#334155;font-style:italic;line-height:1.7;padding:12px;background:rgba(255,255,255,0.7);border-radius:8px">${clause.replace(/&gt;\s?/g,'')}</div></div>`;
+      /⚡(.*?)(?=<br\/><br\/>|<br\/>⚖️|<br\/>✅|$)/gs,
+      (match) => {
+        const content = match.replace(/^⚡\s*/, '').replace(/<br\/>/g, '<br/>');
+        return `<div style="margin:10px 0;padding:12px 14px;background:linear-gradient(135deg,#fef2f2,#eff6ff);border:1px solid #e2e8f0;border-left:3px solid #dc2626;border-right:3px solid #2563eb;border-radius:12px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.5px;color:#64748b;margin-bottom:6px">⚡ LEGAL BRIDGE</div>
+          <div style="font-size:12px;line-height:1.6;color:#334155">${content}</div></div>`;
       }
     );
+
+    // ⚖️ Law citation — subtle blue tag
+    h = h.replace(
+      /⚖️\s*(.*?)(?=<br\/>|$)/g,
+      (_, content) => `<div style="margin:8px 0;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px">
+        <span style="font-size:12px">⚖️</span><span style="font-size:12px;color:#1e40af;font-weight:500">${content}</span></div>`
+    );
+
+    // ✅ Action steps — clean numbered list with green accent
+    h = h.replace(
+      /✅\s*<strong>(.*?)<\/strong>(.*?)(?=<br\/><br\/>|<br\/>🚫|<br\/>💰|<br\/>📋|$)/gs,
+      (_, title, steps) => {
+        const stepsHtml = steps.replace(/<br\/>\s*(\d+)\.\s*/g, (__, num) =>
+          `<div style="display:flex;gap:8px;align-items:flex-start;margin-top:6px">
+            <span style="min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;background:#f0fdf4;color:#16a34a;font-size:10px;font-weight:700;border-radius:6px;border:1px solid #bbf7d0">${num}</span><span style="font-size:12px;color:#334155;line-height:1.5">`
+        ).replace(/<br\/>/g, '</span></div>');
+        return `<div style="margin:10px 0;padding:12px 14px;background:#f8fdf8;border:1px solid #dcfce7;border-radius:12px">
+          <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:4px">✅ ${title}</div>${stepsHtml}</div>`;
+      }
+    );
+
+    // Also handle ✅ without bold title (just numbered steps directly)
+    h = h.replace(
+      /✅\s*(?!<strong>)(.*?)(?=<br\/><br\/>|<br\/>🚫|<br\/>💰|<br\/>📋|$)/gs,
+      (_, steps) => {
+        if (steps.trim().length < 3) return `✅ ${steps}`;
+        const stepsHtml = steps.replace(/<br\/>\s*(\d+)\.\s*/g, (__, num) =>
+          `<div style="display:flex;gap:8px;align-items:flex-start;margin-top:6px">
+            <span style="min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;background:#f0fdf4;color:#16a34a;font-size:10px;font-weight:700;border-radius:6px;border:1px solid #bbf7d0">${num}</span><span style="font-size:12px;color:#334155;line-height:1.5">`
+        ).replace(/<br\/>/g, '</span></div>');
+        return `<div style="margin:10px 0;padding:12px 14px;background:#f8fdf8;border:1px solid #dcfce7;border-radius:12px">${stepsHtml}</div>`;
+      }
+    );
+
+    // 🚫 Warning — red accent
+    h = h.replace(
+      /🚫\s*(.*?)(?=<br\/>|$)/g,
+      (_, content) => `<div style="margin:8px 0;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;display:flex;align-items:center;gap:6px">
+        <span style="font-size:12px">🚫</span><span style="font-size:12px;color:#991b1b;font-weight:500">${content}</span></div>`
+    );
+
+    // 💰 Cost — amber tag
+    h = h.replace(
+      /💰\s*(.*?)(?=<br\/>|$)/g,
+      (_, content) => `<div style="margin:8px 0;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px">
+        <span style="font-size:12px">💰</span><span style="font-size:12px;color:#92400e;font-weight:500">${content}</span></div>`
+    );
+
+    // 📋 Clause blocks — navy/blue theme with copy button
+    h = h.replace(
+      /📋\s*(?:<strong>)?(.*?)(?:<\/strong>)?:?\s*<br\/>(?:```)?<br\/>([\s\S]*?)(?:```|(?=<br\/><br\/>)|$)/gs,
+      (_, title, clause) => {
+        const clean = clause.replace(/&gt;\s?/g, '').replace(/<br\/>/g, '\n').replace(/<\/?strong>/g, '').replace(/```/g, '').trim();
+        const displayClause = clause.replace(/&gt;\s?/g, '').replace(/```/g, '').trim();
+        return `<div style="margin:10px 0;padding:14px;background:linear-gradient(135deg,#f1f5f9,#f8fafc);border:1px solid #e2e8f0;border-left:3px solid #3b82f6;border-radius:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <span style="font-size:11px;font-weight:700;color:#1e293b">📋 ${title || 'Clause'}</span>
+            <button onclick="navigator.clipboard.writeText(\`${clean.replace(/`/g,'\\`').replace(/\n/g,'\\n')}\`);this.textContent='Copied!';this.style.background='#0f172a';this.style.color='white';setTimeout(()=>{this.textContent='Copy';this.style.background='white';this.style.color='#334155'},2000)"
+              style="font-size:10px;padding:4px 12px;border-radius:6px;background:white;color:#334155;border:1px solid #e2e8f0;cursor:pointer;font-weight:600">Copy</button>
+          </div>
+          <div style="font-size:12px;color:#334155;line-height:1.7;padding:10px 12px;background:rgba(255,255,255,0.7);border-radius:8px;font-family:monospace">${displayClause}</div></div>`;
+      }
+    );
+
+    // Also catch old-style clause blocks with > quotes
+    h = h.replace(
+      /📋\s*(?:<strong>)?(.*?)(?:<\/strong>)?.*?<br\/>(&gt;.*?)(?=<br\/><br\/>|$)/gs,
+      (_, title, clause) => {
+        const clean = clause.replace(/&gt;\s?/g, '').replace(/<br\/>/g, '\n').replace(/<\/?strong>/g, '').trim();
+        return `<div style="margin:10px 0;padding:14px;background:linear-gradient(135deg,#f1f5f9,#f8fafc);border:1px solid #e2e8f0;border-left:3px solid #3b82f6;border-radius:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <span style="font-size:11px;font-weight:700;color:#1e293b">📋 ${title || 'Clause'}</span>
+            <button onclick="navigator.clipboard.writeText(\`${clean.replace(/`/g,'\\`').replace(/\n/g,'\\n')}\`);this.textContent='Copied!';this.style.background='#0f172a';this.style.color='white';setTimeout(()=>{this.textContent='Copy';this.style.background='white';this.style.color='#334155'},2000)"
+              style="font-size:10px;padding:4px 12px;border-radius:6px;background:white;color:#334155;border:1px solid #e2e8f0;cursor:pointer;font-weight:600">Copy</button>
+          </div>
+          <div style="font-size:12px;color:#334155;line-height:1.7;padding:10px 12px;background:rgba(255,255,255,0.7);border-radius:8px;font-family:monospace">${clause.replace(/&gt;\s?/g,'')}</div></div>`;
+      }
+    );
+
     return h;
   };
 
