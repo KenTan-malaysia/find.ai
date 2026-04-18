@@ -108,52 +108,49 @@ find-ai/
 
 ---
 
-### MODULE C: CN-MY Enterprise Trust Link [NOT BUILT]
-**Status:** Planned
+### MODULE C: CN-MY Enterprise Trust Link [BUILT]
+**Status:** MVP complete — manual USCC input + risk scoring. No live API yet.
 
-**What it does:** Cross-border tenant verification for Chinese companies renting Malaysian industrial property. Queries China's NECIPS (National Enterprise Credit Information Publicity System) using the 18-digit USCC (Unified Social Credit Code).
+**What it does:** Cross-border tenant verification for Chinese companies renting Malaysian industrial property. User enters 18-digit USCC + company details manually → system validates USCC format → generates Trust Grade (A/B/C/D) with risk score.
 
-**Risk scoring:**
-- Paid-in Capital check
-- Tax Credit Rating (Grade A-D)
-- "Abnormal Operations List" status
-- Business scope alignment
+**Risk scoring (100 pts):**
+- Paid-in Capital (30 pts): ≥10M RMB = 30, ≥1M = 20, ≥100K = 10
+- Tax Credit Rating (25 pts): A=25, B=18, C=8, D=0
+- Years in Operation (20 pts): ≥10yr=20, ≥5yr=15, ≥2yr=8
+- Abnormal Operations List (15 pts): Not listed=15, Listed=0 (critical flag)
+- Court/Legal Records (10 pts): None=10, Has records=0
 
-**Goal:** Mitigate "Flight Risk" — Chinese manufacturer signs lease, sets up, then disappears. Malaysian landlord left with empty factory and unpaid rent.
+**Trust Grades:** A (≥80) Low Risk | B (≥60) Moderate | C (≥35) Elevated | D (<35) High Risk
 
-**Tech considerations:**
-- NECIPS API access (may need proxy or scraping — API availability unclear)
-- USCC validation (18-digit checksum algorithm)
-- Risk score algorithm
-- Report generation (PDF)
-- Language: Results from NECIPS will be in Chinese — need translation layer
+**Outputs:** Trust grade, score breakdown, risk/positive factors, downloadable HTML report
 
-**Legal considerations:**
-- Cross-border data privacy (PDPA Malaysia + China's PIPL)
-- Disclaimer: credit check is advisory, not a guarantee
+**Future:** Connect to NECIPS API or alternative Chinese company databases for auto-fill.
+
+**Files:** `src/app/calculators.js` (CNMYTrustLink component)
 
 ---
 
-### MODULE D: Situation Navigator [NOT BUILT]
-**Status:** Planned
+### MODULE D: Situation Navigator [BUILT]
+**Status:** MVP complete — 3 dispute flows with step-by-step guides + document templates.
 
-**What it does:** Decision-tree UI for managing disputes. User picks their situation → system walks them through the legal process → generates pre-filled documents.
+**What it does:** User picks their situation → system shows full legal process with steps, warnings, timeline, costs, and ready-to-copy document templates.
 
-**Situations to cover:**
-1. Rent default (late payment → notice → demand → court)
-2. Agent disputes (double commission, hidden fees)
-3. Management corporation conflicts (strata issues)
-4. Eviction process (legal steps, timeline, costs)
-5. Deposit disputes (deduction rights, evidence needed)
-6. Subletting detection and termination
+**Situations built:**
+1. Rent default — 4 steps (reminder → LOD → Form 198 → distress warrant). Includes LOD template.
+2. Deposit disputes — 4 steps (document → demand itemized list → LOD → tribunal). Includes deposit demand template.
+3. Eviction process — 4 steps (notice → possession order → hearing → writ). Includes notice to vacate template.
 
 **Outputs:**
-- Pre-filled Letter of Demand (LOD)
-- Small Claims Court Form 198
-- Timeline with estimated costs at each step
-- Decision: negotiate vs legal action (cost-benefit analysis)
+- Step-by-step legal guide with warnings at each step
+- Legal basis, timeline, and cost estimate per situation
+- Ready-to-copy Letter of Demand (LOD)
+- Ready-to-copy Deposit Demand Letter
+- Ready-to-copy Notice to Vacate
+- All in EN/BM/中文
 
-**Tech:** Decision tree can be a JSON-driven state machine. Document generation via docx/PDF templates.
+**Future:** Add agent disputes, strata issues, subletting. Add Form 198 PDF pre-fill.
+
+**Files:** `src/app/calculators.js` (SituationNavigator component, SITUATIONS data object)
 
 ---
 
@@ -220,9 +217,9 @@ Find.ai = the only platform where a tenant from Shanghai can find a factory in P
 
 **Killer Features:**
 A. SDSAS 2026 Calculator → "Tax Accuracy Certificate" for audit protection [BUILT]
-B. CN-MY Enterprise Trust Link → NECIPS query via 18-digit USCC, tells landlord if company is Grade A taxpayer or shell company [NOT BUILT]
+B. CN-MY Enterprise Trust Link → Manual USCC + risk scoring, Trust Grade A-D report [BUILT]
 C. Digital Evidence Vault → SHA-256 hashed photos, Section 90A court-ready report [BUILT]
-D. Situation Navigator → Decision trees, pre-filled LOD + Form 198 [NOT BUILT]
+D. Situation Navigator → 3 dispute flows, step-by-step guides + LOD/notice templates [BUILT]
 
 **Design Direction — "Mature Minimalism":**
 - NOT startup green vibes. Bank-level trust.
