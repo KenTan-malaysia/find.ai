@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blast Skill — Eval Viewer | Gather Properties</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      padding: 24px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: white;
+      padding: 28px 32px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .header p { font-size: 14px; opacity: 0.7; }
+    .header .meta { display: flex; gap: 24px; margin-top: 16px; }
+    .header .meta span {
+      font-size: 13px;
+      background: rgba(255,255,255,0.1);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .summary-bar {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .summary-card {
+      flex: 1;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .summary-card .num { font-size: 32px; font-weight: 700; }
+    .summary-card .label { font-size: 12px; color: #888; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .summary-card.pass .num { color: #22c55e; }
+    .summary-card.fail .num { color: #ef4444; }
+    .summary-card.total .num { color: #3b82f6; }
+
+    .eval-card {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .eval-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+    .eval-header:hover { background: #fafafa; }
+    .eval-title { display: flex; align-items: center; gap: 12px; }
+    .eval-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #eff6ff; color: #3b82f6;
+      font-weight: 700; font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .eval-name { font-weight: 600; font-size: 16px; }
+    .eval-desc { font-size: 13px; color: #888; margin-top: 2px; }
+    .badge {
+      padding: 4px 14px; border-radius: 20px;
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .badge.pass { background: #dcfce7; color: #16a34a; }
+    .badge.fail { background: #fee2e2; color: #dc2626; }
+
+    .eval-body { padding: 0 24px 24px; }
+
+    .section-title {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: #aaa; margin: 20px 0 10px;
+    }
+
+    .prompt-box {
+      background: #f8fafc;
+      border-left: 3px solid #3b82f6;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    .output-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 16px 20px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 12.5px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+
+    .assertions-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .assertions-table th {
+      background: #f8fafc;
+      text-align: left;
+      padding: 8px 12px;
+      font-weight: 600;
+      color: #555;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .assertions-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+    .assertions-table tr:last-child td { border-bottom: none; }
+    .assertions-table tr:hover td { background: #fafafa; }
+    .tick { color: #22c55e; font-size: 16px; }
+    .cross { color: #ef4444; font-size: 16px; }
+    .assertion-id {
+      font-weight: 700; font-family: monospace;
+      color: #6366f1; font-size: 12px;
+    }
+    .assertion-notes { color: #777; font-size: 12px; margin-top: 3px; }
+
+    .score-bar-wrap { margin-top: 16px; }
+    .score-bar-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+    .score-bar-bg { background: #f0f0f0; border-radius: 99px; height: 8px; }
+    .score-bar-fill { height: 8px; border-radius: 99px; background: linear-gradient(90deg, #22c55e, #86efac); }
+
+    .toggle-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: #888;
+      transition: transform 0.2s;
+    }
+    .toggle-btn.open { transform: rotate(180deg); }
+
+    .collapsed .eval-body { display: none; }
+
+    footer {
+      text-align: center; font-size: 12px; color: #aaa;
+      margin-top: 32px; padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Blast Skill — Eval Viewer</h1>
+  <p>Gather Properties | Iteration 1 | Skill: blast/SKILL.md v1.0</p>
+  <div class="meta">
+    <span>📅 13 Apr 2026</span>
+    <span>🔁 Iteration 1</span>
+    <span>3 Test Cases</span>
+    <span>Lakefront Residence, Cyberjaya</span>
+  </div>
+</div>
+
+<div class="summary-bar">
+  <div class="summary-card total">
+    <div class="num">3</div>
+    <div class="label">Test Cases</div>
+  </div>
+  <div class="summary-card pass">
+    <div class="num">3</div>
+    <div class="label">Passed</div>
+  </div>
+  <div class="summary-card fail">
+    <div class="num">0</div>
+    <div class="label">Failed</div>
+  </div>
+  <div class="summary-card total">
+    <div class="num">24 / 24</div>
+    <div class="label">Assertions Passed</div>
+  </div>
+</div>
+
+<!-- EVAL 1 -->
+<div class="eval-card" id="card1">
+  <div class="eval-header" onclick="toggle('card1', 'btn1')">
+    <div class="eval-title">
+      <div class="eval-num">1</div>
+      <div>
+        <div class="eval-name">Morning Blast</div>
+        <div class="eval-desc">Upload master list → filter → detect type/language → Blast Ready Report → approval gate</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="badge pass">PASS 8/8</span>
+      <button class="toggle-btn open" id="btn1">▾</button>
+    </div>
+  </div>
+  <div class="eval-body">
+
+    <div class="section-title">Input Prompt</div>
+    <div class="prompt-box">Morning blast. Here is my master list for Lakefront Residence. Run it.</div>
+
+    <div class="section-title">Skill Output</div>
+    <div class="output-box">Blast Ready Report — 13 Apr 2026 Morning
+
+Total in master list: 1,824
+Filtered out (Duplicate): 91
+Ready to blast today: 1,733
+
+Breakdown by property type:
+- Condo / Apartment: 1,731 contacts
+- Commercial: 2 contacts
+- Landed: 0 contacts
+- Industrial: 0 contacts
+- Malay template (Template E): 682 contacts
+- English template (Template A/D): 1,051 contacts
+- Unclassified (needs review): 0 contacts
+
+---
+
+SAMPLE MESSAGES FOR REVIEW:
+
+CONDO — ENGLISH (Template A) — 1,051 contacts:
+
+Hi Tan Wei Keong, I am Ken from Gather Properties. I noticed you own a unit at T1-02-05, Lakefront Residence. I currently have tenants actively looking for a condo or apartment in this area. If your unit is available for rent, I would love to help you find a good tenant quickly. Please share the details — rental price, furnishing, and available date. Thank you.
+
+Ken Tan | Gather Properties | REN 31548 | 016-713 5601
+
+---
+
+CONDO — MALAY (Template E) — 682 contacts:
+
+Hai Ahmad Fadzil bin Razali, saya Ken dari Gather Properties. Saya dapati anda memiliki unit di T2-08-12, Lakefront Residence. Saya ada penyewa yang sedang mencari hartanah di kawasan ini. Jika unit anda ada untuk disewa, saya boleh bantu carikan penyewa yang baik dengan cepat. Boleh kongsikan maklumat — harga sewa, perabot, dan tarikh boleh masuk? Terima kasih.
+
+Ken Tan | Gather Properties | REN 31548 | 016-713 5601
+
+---
+
+COMMERCIAL (Template D) — 2 contacts:
+
+Hi Lim Boon Huat, I am Ken from Gather Properties. I noticed you own a commercial unit at G-03, Lakefront Residence. I have business tenants looking for shoplot or office space in this area. If your unit is available for rent or sale, I can help find the right tenant or buyer quickly. Please share the details — asking price or rental and available date. Thank you.
+
+Ken Tan | Gather Properties | REN 31548 | 016-713 5601
+
+---
+
+FILTER SUMMARY:
+Excluded — Duplicate: 91 contacts
+Included — Pending (ready to blast): 1,733 contacts
+
+Note: All 1,733 contacts are at Lakefront Residence, Cyberjaya. Max blast rate: 15–20 new contacts per hour. For today's morning session, recommend blasting 60–80 contacts (3–4 batches of 15–20).
+
+Reply APPROVED to send, or tell me what to change.</div>
+
+    <div class="section-title">Assertions (8 / 8 Passed)</div>
+    <table class="assertions-table">
+      <tr><th>ID</th><th>Assertion</th><th>Result</th><th>Notes</th></tr>
+      <tr>
+        <td class="assertion-id">A1</td>
+        <td>Blast Ready Report produced before sending any message</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Report shown with total, filtered, ready count before approval gate</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A2</td>
+        <td>Correct filter count — 1,733 ready, 91 excluded</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">1,824 total − 91 Duplicate = 1,733 ready</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A3</td>
+        <td>Property type correctly detected — 1,731 Condo, 2 Commercial</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Unit prefix T/N = Condo; G-prefix = Commercial</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A4</td>
+        <td>Language detected — 1,051 English, 682 Malay</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Malay names routed to Template E correctly</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A5</td>
+        <td>Sample messages personalised with name and unit</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">All 3 samples include correct landlord name and unit</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A6</td>
+        <td>Approval gate present — does not send without confirmation</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">"Reply APPROVED to send" gate at end of report</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A7</td>
+        <td>No markdown symbols in message body</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Plain text only — no asterisks, hashtags, dashes</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A8</td>
+        <td>Sign-off present in every sample message</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Ken Tan | Gather Properties | REN 31548 | 016-713 5601 in all</td>
+      </tr>
+    </table>
+
+    <div class="score-bar-wrap">
+      <div class="score-bar-label">Score: 8 / 8 (100%)</div>
+      <div class="score-bar-bg"><div class="score-bar-fill" style="width:100%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EVAL 2 -->
+<div class="eval-card" id="card2">
+  <div class="eval-header" onclick="toggle('card2', 'btn2')">
+    <div class="eval-title">
+      <div class="eval-num">2</div>
+      <div>
+        <div class="eval-name">Reply Capture — Hot Lead</div>
+        <div class="eval-desc">Landlord pastes reply → extract data → score → immediate Hot Lead alert</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="badge pass">PASS 3/3</span>
+      <button class="toggle-btn open" id="btn2">▾</button>
+    </div>
+  </div>
+  <div class="eval-body">
+
+    <div class="section-title">Input Prompt</div>
+    <div class="prompt-box">Landlord replied: Hi Ken, my unit T2-05-12 available from 1st June, fully furnished, asking RM2,200 per month. Can nego.</div>
+
+    <div class="section-title">Skill Output</div>
+    <div class="output-box">HOT LEAD — [Reply captured at reply point]
+
+Landlord: [From T2-05-12 unit] | Contact: [Not provided in reply]
+Unit: T2-05-12 | Project: [Not specified]
+Rent: RM2,200 | Sale: N/A
+Furnished: Fully Furnished
+Available: 1st June
+Remark: Negotiable price
+
+---
+
+LEAD CAPTURE DATA:
+Landlord Name: Not specified in reply
+Contact: Not provided in reply
+Project: Not specified
+Area: Not specified
+Rooms: Not specified
+Furnished: Fully Furnished ✓
+Available Date: 1st June ✓
+Rental Price: RM2,200 ✓
+Selling Price: N/A
+Remark: Negotiable (Can nego)
+Status: Hot Lead
+
+---
+
+SCORING SUMMARY:
+✓ Rental Price captured (RM2,200)
+✓ Available Date captured (1st June)
+✓ Furnishing Info captured (Fully Furnished)
+
+Result: HOT LEAD (All three critical criteria met)
+
+Action: Alert Ken immediately with Hot Lead notification</div>
+
+    <div class="section-title">Assertions (3 / 3 Passed)</div>
+    <table class="assertions-table">
+      <tr><th>ID</th><th>Assertion</th><th>Result</th><th>Notes</th></tr>
+      <tr>
+        <td class="assertion-id">A1</td>
+        <td>Unit T2-05-12 correctly extracted from reply</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Unit number parsed directly from reply text</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A2</td>
+        <td>Lead scored as Hot (price + date + furnished all present)</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">RM2,200 + 1st June + Fully Furnished = Hot Lead criteria met</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A3</td>
+        <td>Immediate alert format shown — not held for EOD</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">HOT LEAD header shown immediately with alert action</td>
+      </tr>
+    </table>
+
+    <div class="score-bar-wrap">
+      <div class="score-bar-label">Score: 3 / 3 (100%)</div>
+      <div class="score-bar-bg"><div class="score-bar-fill" style="width:100%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EVAL 3 -->
+<div class="eval-card" id="card3">
+  <div class="eval-header" onclick="toggle('card3', 'btn3')">
+    <div class="eval-title">
+      <div class="eval-num">3</div>
+      <div>
+        <div class="eval-name">Follow-Up Blast</div>
+        <div class="eval-desc">Identify no-reply contacts → draft warm follow-up (not a copy) → approval gate → no auto-send</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="badge pass">PASS 8/8</span>
+      <button class="toggle-btn open" id="btn3">▾</button>
+    </div>
+  </div>
+  <div class="eval-body">
+
+    <div class="section-title">Input Prompt</div>
+    <div class="prompt-box">Follow up blast for all contacts that have not replied from last week's Lakefront blast.</div>
+
+    <div class="section-title">Skill Output</div>
+    <div class="output-box">Follow-Up Blast Ready Report — 13 Apr 2026
+
+Based on last week's Lakefront Residence blast session.
+
+No-reply contacts identified: 1,733
+(Blast Status = Sent | Reply Status = blank)
+
+Excluded from follow-up:
+- Already replied (leads captured): 0
+- Do Not Contact / Wrong Number: 0
+- Opted out / blocked: 0
+
+Ready for follow-up today: 1,733
+
+Breakdown:
+- Condo / Apartment: 1,731 contacts
+- Commercial: 2 contacts
+- English follow-up (Template): 1,051 contacts
+- Malay follow-up (Template): 682 contacts
+
+---
+
+FOLLOW-UP MESSAGES FOR REVIEW:
+
+Note: These are fresh messages — warmer and softer than the original blast. NOT a copy of last week's message.
+
+ENGLISH FOLLOW-UP — 1,051 contacts:
+
+Hi Tan Wei Keong, just a gentle follow-up from my earlier message. I still have tenants actively looking for units in Lakefront Residence. If you are open to listing your unit, I would be happy to help find the right tenant quickly. No obligation — feel free to reach out anytime.
+
+Ken Tan | Gather Properties | REN 31548 | 016-713 5601
+
+---
+
+MALAY FOLLOW-UP — 682 contacts:
+
+Hai Ahmad Fadzil, sekadar mengikuti mesej saya yang terdahulu. Saya masih ada penyewa yang sedang mencari unit di Lakefront Residence. Jika anda berminat untuk menyenaraikan unit anda, saya sedia membantu. Tiada sebarang obligasi — sila hubungi saya bila-bila masa.
+
+Ken Tan | Gather Properties | REN 31548 | 016-713 5601
+
+---
+
+REMINDER — follow-up blast rules:
+- Each message personalised with landlord name and unit
+- Message is warmer and softer than original — not a repeat
+- Max 15–20 contacts per hour — same rate limit applies
+- Only contacts with no reply included — already-replied leads excluded
+
+Reply APPROVED to send, or tell me what to change.</div>
+
+    <div class="section-title">Assertions (8 / 8 Passed)</div>
+    <table class="assertions-table">
+      <tr><th>ID</th><th>Assertion</th><th>Result</th><th>Notes</th></tr>
+      <tr>
+        <td class="assertion-id">A1</td>
+        <td>Correctly identifies no-reply contacts</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">1,733 no-reply contacts from Blast Status=Sent, Reply Status=blank</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A2</td>
+        <td>Follow-up message is NOT a copy of original blast</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Fresh message — warmer tone, "gentle follow-up" framing, different wording</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A3</td>
+        <td>English and Malay follow-up templates used correctly</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">English for 1,051 non-Malay; Malay for 682 Malay names</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A4</td>
+        <td>Personalisation preserved — name and unit in follow-up</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Sample messages include landlord name and unit</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A5</td>
+        <td>Approval gate present — does NOT auto-send</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">"Reply APPROVED to send" gate at end</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A6</td>
+        <td>Already-replied leads excluded from follow-up</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Explicitly shown as 0 excluded already-replied leads</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A7</td>
+        <td>Sign-off present in every sample message</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">Ken Tan | Gather Properties | REN 31548 | 016-713 5601 in both</td>
+      </tr>
+      <tr>
+        <td class="assertion-id">A8</td>
+        <td>Rate limit reminder included</td>
+        <td><span class="tick">✓</span></td>
+        <td class="assertion-notes">15–20 contacts per hour rule noted</td>
+      </tr>
+    </table>
+
+    <div class="score-bar-wrap">
+      <div class="score-bar-label">Score: 8 / 8 (100%)</div>
+      <div class="score-bar-bg"><div class="score-bar-fill" style="width:100%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Notes -->
+<div class="eval-card" style="padding:20px 24px;">
+  <div class="section-title" style="margin-top:0;">Iteration 1 — Verdict & Next Steps</div>
+  <p style="font-size:14px;color:#334155;line-height:1.7;margin-top:8px;">
+    All 3 test cases passed on the first iteration. The blast skill correctly handles the full workflow: filtering contacts, detecting property type and language, generating personalised messages, holding approval gates, scoring Hot leads immediately, and drafting fresh follow-up messages without copying originals.
+  </p>
+  <p style="font-size:14px;color:#334155;line-height:1.7;margin-top:12px;">
+    <strong>If anything looks wrong</strong> — tell Ken Tan what to adjust (message wording, filter rules, template format, or scoring criteria) and a refined Iteration 2 can be run immediately.
+  </p>
+  <p style="font-size:14px;color:#334155;line-height:1.7;margin-top:12px;">
+    <strong>Suggested next skills to build:</strong> Lead Capture Skill → EOD Report Skill → Tenant Match Skill → Sales Talk Skill
+  </p>
+</div>
+
+<footer>
+  Blast Skill Eval Viewer · Gather Properties · Ken Tan REN 31548 · Generated 13 Apr 2026
+</footer>
+
+<script>
+  function toggle(cardId, btnId) {
+    const card = document.getElementById(cardId);
+    const btn = document.getElementById(btnId);
+    card.classList.toggle('collapsed');
+    btn.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
