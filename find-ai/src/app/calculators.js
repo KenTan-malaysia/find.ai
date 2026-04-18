@@ -411,7 +411,7 @@ const L = {
     navDocument: '文件模板', navCopyDoc: '复制模板',
     navBack: '返回情况列表',
     // Module E — 我能做这个吗？
-    bridgeTitle: '我能做吗？', bridgeDesc: '马来西亚房产合规检查器',
+    bridgeTitle: '马来西亚办事攻略', bridgeDesc: '租房·买房·开业 — 一站式合规查询',
     bridgePick: '您想在马来西亚做什么？', bridgePickSub: '选择您的目标 — 我们会展示您需要的一切',
     bridgeRent: '租赁房产', bridgeBuy: '购买房产', bridgeOperate: '经营业务',
     bridgeRentHouse: '租住宅/公寓', bridgeRentHouseDesc: '外国人住宅租赁',
