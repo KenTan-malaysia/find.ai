@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find.ai — Legal Bridge: All Presentation Concepts</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; -webkit-font-smoothing: antialiased; }
+
+  .page { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+  .page-title { text-align: center; margin-bottom: 48px; }
+  .page-title h1 { font-size: 32px; font-weight: 800; color: white; margin-bottom: 8px; }
+  .page-title p { font-size: 14px; color: #64748b; }
+
+  .concept-section { margin-bottom: 56px; }
+  .concept-label { display: inline-flex; align-items: center; gap: 6px; background: rgba(59,130,246,0.12); color: #60a5fa; font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .concept-title { font-size: 22px; font-weight: 800; color: white; margin-bottom: 6px; }
+  .concept-desc { font-size: 13px; color: #94a3b8; margin-bottom: 20px; line-height: 1.6; max-width: 600px; }
+
+  /* Phone mockup */
+  .phone { width: 390px; background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4); margin: 0 auto; }
+  .phone-status { height: 44px; background: white; display: flex; align-items: center; justify-content: center; }
+  .phone-notch { width: 120px; height: 24px; background: #0f172a; border-radius: 0 0 16px 16px; }
+
+  /* ========= CONCEPT A: CHATBOT INLINE CARD ========= */
+  .chat-mock { background: #f8fafc; padding: 16px; min-height: 500px; }
+  .chat-msg-user { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+  .chat-msg-user .bubble { background: #0f172a; color: white; padding: 12px 16px; border-radius: 18px 18px 4px 18px; font-size: 13px; max-width: 75%; line-height: 1.5; }
+  .chat-msg-bot { display: flex; gap: 8px; margin-bottom: 16px; }
+  .chat-avatar { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #3b82f6, #60a5fa); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 10px; flex-shrink: 0; }
+  .chat-bot-content { max-width: 85%; }
+  .chat-bot-text { background: white; border: 1px solid #e2e8f0; padding: 14px; border-radius: 4px 16px 16px 16px; font-size: 13px; color: #334155; line-height: 1.65; }
+  .chat-bot-text strong { color: #0f172a; }
+
+  /* The Legal Bridge inline card */
+  .bridge-inline { margin-top: 10px; border-radius: 14px; overflow: hidden; border: 1.5px solid #e2e8f0; }
+  .bridge-inline-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: linear-gradient(135deg, #fef2f2, #eff6ff); border-bottom: 1px solid #e2e8f0; }
+  .bridge-inline-header .icon { font-size: 16px; }
+  .bridge-inline-header .title { font-size: 12px; font-weight: 700; color: #0f172a; }
+  .bridge-inline-header .tag { font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 4px; background: #dc2626; color: white; margin-left: auto; }
+
+  .bridge-inline-body { padding: 12px 14px; background: white; }
+  .bridge-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .bridge-side { flex: 1; padding: 10px; border-radius: 8px; }
+  .bridge-side.cn { background: #fef2f2; }
+  .bridge-side.my { background: #eff6ff; }
+  .bridge-side .flag { font-size: 12px; }
+  .bridge-side .term-zh { font-size: 15px; font-weight: 800; color: #0f172a; }
+  .bridge-side .term-en { font-size: 11px; font-weight: 600; color: #0f172a; }
+  .bridge-side .rule { font-size: 10px; color: #475569; margin-top: 4px; line-height: 1.4; }
+
+  .bridge-inline-warning { display: flex; gap: 6px; padding: 8px 10px; border-radius: 8px; background: #fffbeb; border: 1px solid #fde68a; margin-bottom: 10px; }
+  .bridge-inline-warning p { font-size: 10px; color: #92400e; line-height: 1.4; }
+
+  .bridge-inline-clause { background: #f8fafc; border-left: 2px solid #3b82f6; padding: 10px; border-radius: 0 8px 8px 0; }
+  .bridge-inline-clause .label { font-size: 9px; font-weight: 700; color: #3b82f6; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
+  .bridge-inline-clause .text { font-size: 10px; color: #475569; line-height: 1.5; font-style: italic; }
+  .bridge-inline-clause .copy-btn { display: inline-block; font-size: 9px; font-weight: 600; padding: 3px 8px; border-radius: 4px; background: white; border: 1px solid #e2e8f0; color: #334155; margin-top: 6px; cursor: pointer; }
+
+  /* ========= CONCEPT B: TERMINATION DEEP DIVE ========= */
+  .termination-card { background: white; border-radius: 16px; overflow: hidden; }
+  .term-header { background: linear-gradient(135deg, #0f172a, #1e293b); padding: 20px; text-align: center; }
+  .term-header h2 { font-size: 18px; font-weight: 800; color: white; margin-bottom: 4px; }
+  .term-header .zh { font-size: 22px; font-weight: 800; color: #60a5fa; }
+  .term-header p { font-size: 11px; color: #94a3b8; margin-top: 6px; }
+
+  .term-comparison { padding: 16px; }
+  .term-row { display: flex; gap: 0; margin-bottom: 1px; font-size: 12px; }
+  .term-row:first-child .term-cell { border-radius: 8px 8px 0 0; }
+  .term-row:last-child .term-cell { border-radius: 0 0 8px 8px; }
+  .term-label { width: 100px; padding: 10px; background: #f8fafc; color: #64748b; font-weight: 600; font-size: 10px; display: flex; align-items: center; flex-shrink: 0; border-right: 1px solid #e2e8f0; }
+  .term-cell { flex: 1; padding: 10px; color: #334155; line-height: 1.5; font-size: 11px; }
+  .term-cell.cn { background: #fef8f8; }
+  .term-cell.my { background: #f0f6ff; }
+  .term-cell strong { font-weight: 700; color: #0f172a; }
+  .term-cell .highlight { background: #fde68a; padding: 0 3px; border-radius: 2px; font-weight: 600; }
+
+  .term-table-header { display: flex; gap: 0; margin-bottom: 2px; }
+  .term-table-header div { flex: 1; padding: 8px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; border-radius: 8px 8px 0 0; }
+  .term-table-header .cn-h { background: #dc2626; color: white; }
+  .term-table-header .my-h { background: #1d4ed8; color: white; }
+  .term-table-header .lbl-h { width: 100px; flex: none; }
+
+  .term-verdict { margin: 16px; padding: 14px; border-radius: 12px; background: #fffbeb; border: 1px solid #fde68a; }
+  .term-verdict h3 { font-size: 12px; font-weight: 700; color: #92400e; margin-bottom: 6px; }
+  .term-verdict p { font-size: 11px; color: #78350f; line-height: 1.6; }
+  .term-verdict .action { margin-top: 10px; display: flex; gap: 8px; }
+  .term-verdict .btn { font-size: 11px; font-weight: 600; padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer; }
+  .term-verdict .btn-primary { background: #0f172a; color: white; }
+  .term-verdict .btn-secondary { background: white; color: #334155; border: 1px solid #e2e8f0; }
+
+  /* ========= CONCEPT C: SWIPE CARDS ========= */
+  .swipe-container { padding: 16px; background: #f8fafc; }
+  .swipe-card { background: white; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 12px; position: relative; overflow: hidden; }
+  .swipe-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .swipe-card.clash::before { background: linear-gradient(90deg, #dc2626, #f59e0b); }
+  .swipe-card.gap::before { background: linear-gradient(90deg, #f59e0b, #eab308); }
+  .swipe-card.diff::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+
+  .swipe-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .swipe-zh { font-size: 28px; font-weight: 800; color: #0f172a; }
+  .swipe-en { font-size: 12px; color: #64748b; font-weight: 600; }
+  .swipe-type { font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+  .swipe-type.clash { background: #fef2f2; color: #dc2626; }
+  .swipe-type.gap { background: #fffbeb; color: #d97706; }
+  .swipe-type.diff { background: #eff6ff; color: #3b82f6; }
+
+  .swipe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .swipe-box { padding: 12px; border-radius: 10px; }
+  .swipe-box.cn { background: #fef2f2; }
+  .swipe-box.my { background: #eff6ff; }
+  .swipe-box .flag-label { font-size: 10px; font-weight: 700; margin-bottom: 6px; }
+  .swipe-box.cn .flag-label { color: #dc2626; }
+  .swipe-box.my .flag-label { color: #1d4ed8; }
+  .swipe-box p { font-size: 11px; color: #475569; line-height: 1.5; }
+  .swipe-box p strong { color: #0f172a; }
+
+  .swipe-clause { background: #f8fafc; border-left: 3px solid #3b82f6; padding: 12px; border-radius: 0 10px 10px 0; }
+  .swipe-clause .lbl { font-size: 9px; font-weight: 700; color: #3b82f6; text-transform: uppercase; margin-bottom: 4px; }
+  .swipe-clause p { font-size: 10px; color: #334155; line-height: 1.6; font-style: italic; }
+
+  .swipe-dots { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
+  .swipe-dot { width: 8px; height: 8px; border-radius: 50%; background: #e2e8f0; }
+  .swipe-dot.active { background: #0f172a; width: 24px; border-radius: 4px; }
+
+  /* ========= CONCEPT D: AI CONTEXTUAL POPUP ========= */
+  .popup-mock { background: #f8fafc; padding: 16px; position: relative; }
+  .popup-overlay { position: absolute; inset: 0; background: rgba(15,23,42,0.3); z-index: 1; }
+  .popup-card { position: relative; z-index: 2; background: white; border-radius: 16px; margin: 60px 12px 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); overflow: hidden; border: 1px solid #e2e8f0; }
+  .popup-header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: linear-gradient(135deg, #fef2f2, #eff6ff); border-bottom: 1px solid #e2e8f0; }
+  .popup-header .badge { width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, #dc2626, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .popup-header h3 { font-size: 14px; font-weight: 700; color: #0f172a; }
+  .popup-header p { font-size: 10px; color: #64748b; }
+  .popup-header .close { margin-left: auto; width: 24px; height: 24px; border-radius: 6px; background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #94a3b8; }
+
+  .popup-body { padding: 14px 16px; }
+  .popup-detection { display: flex; align-items: center; gap: 6px; padding: 8px 10px; background: rgba(59,130,246,0.06); border-radius: 8px; margin-bottom: 12px; font-size: 10px; color: #3b82f6; font-weight: 600; }
+  .popup-detection .dot { width: 6px; height: 6px; border-radius: 50%; background: #3b82f6; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+  .popup-term-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .popup-term-box { flex: 1; padding: 10px; border-radius: 8px; text-align: center; }
+  .popup-term-box.cn { background: #fef2f2; }
+  .popup-term-box.my { background: #eff6ff; }
+  .popup-term-box .emoji { font-size: 16px; margin-bottom: 2px; }
+  .popup-term-box .term { font-size: 14px; font-weight: 800; color: #0f172a; }
+  .popup-term-box .sub { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+  .popup-arrow { text-align: center; font-size: 16px; color: #dc2626; padding: 4px; font-weight: 800; }
+
+  .popup-diff { padding: 10px; border-radius: 8px; background: #fffbeb; border: 1px solid #fde68a; margin-bottom: 12px; }
+  .popup-diff .h { font-size: 10px; font-weight: 700; color: #92400e; margin-bottom: 6px; }
+  .popup-diff table { width: 100%; font-size: 10px; border-collapse: collapse; }
+  .popup-diff td { padding: 4px 6px; color: #78350f; border-bottom: 1px solid rgba(253,230,138,0.5); }
+  .popup-diff td:first-child { font-weight: 600; width: 35%; }
+  .popup-diff td.cn-val { color: #dc2626; }
+  .popup-diff td.my-val { color: #1d4ed8; }
+
+  .popup-actions { display: flex; gap: 6px; }
+  .popup-btn { flex: 1; text-align: center; font-size: 11px; font-weight: 600; padding: 10px; border-radius: 10px; border: none; cursor: pointer; }
+  .popup-btn.primary { background: #0f172a; color: white; }
+  .popup-btn.secondary { background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0; }
+
+  /* Labels */
+  .demo-label { text-align: center; margin-top: 16px; font-size: 12px; font-weight: 600; color: #64748b; }
+  .demo-sublabel { text-align: center; font-size: 10px; color: #475569; margin-top: 2px; margin-bottom: 24px; }
+
+  /* Grid layout */
+  .concepts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 800px) { .concepts-grid { grid-template-columns: 1fr; } }
+
+  .recommend { display: inline-flex; align-items: center; gap: 4px; background: #16a34a; color: white; font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-left: 8px; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="page-title">
+    <h1>Legal Bridge — 4 Concepts</h1>
+    <p>Different ways to present cross-border legal gaps in Find.ai</p>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- ===== CONCEPT A: Inline Chat Card ===== -->
+    <div class="concept-section">
+      <div class="concept-label">Concept A <span class="recommend">★ RECOMMENDED</span></div>
+      <div class="concept-title">Inline Chat Card</div>
+      <div class="concept-desc">AI detects cross-border legal terms in the conversation and automatically shows a Legal Bridge card inside the chat. No extra clicks needed.</div>
+
+      <div class="phone">
+        <div class="phone-status"><div class="phone-notch"></div></div>
+        <div class="chat-mock">
+          <div class="chat-msg-user">
+            <div class="bubble">My Chinese tenant wants to terminate the lease early. They say they have 解除权 and want double deposit back. Is this right?</div>
+          </div>
+
+          <div class="chat-msg-bot">
+            <div class="chat-avatar">F</div>
+            <div class="chat-bot-content">
+              <div class="chat-bot-text">
+                <strong>⚖️ Contracts Act 1950</strong> — Your tenant is referring to Chinese law concepts that <strong>do not apply in Malaysia.</strong><br><br>
+
+                ✅ <strong>Do this:</strong><br>
+                1. Check your agreement's termination clause<br>
+                2. Standard: 2 months notice + forfeit deposit<br>
+                3. No "double return" in Malaysian law<br><br>
+
+                🚫 Don't agree to pay double deposit — no Malaysian law requires this.
+              </div>
+
+              <!-- THE LEGAL BRIDGE CARD -->
+              <div class="bridge-inline">
+                <div class="bridge-inline-header">
+                  <span class="icon">⚖️</span>
+                  <span class="title">Legal Bridge — Termination Rights</span>
+                  <span class="tag">CLASH</span>
+                </div>
+                <div class="bridge-inline-body">
+                  <div class="bridge-row">
+                    <div class="bridge-side cn">
+                      <div class="flag">🇨🇳 China</div>
+                      <div class="term-zh">解除权 + 定金罚则</div>
+                      <div class="rule">Tenant can terminate for "defects." If landlord at fault → pay double deposit back. Very common expectation.</div>
+                    </div>
+                    <div class="bridge-side my">
+                      <div class="flag">🇲🇾 Malaysia</div>
+                      <div class="term-en">Termination Clause</div>
+                      <div class="rule">Follow agreement terms only. No double return. Deposit forfeited if tenant breaks early. Contracts Act 1950.</div>
+                    </div>
+                  </div>
+                  <div class="bridge-inline-warning">
+                    <span>⚠️</span>
+                    <p><strong>Your tenant is using Chinese law logic.</strong> In Malaysia, early termination = forfeit deposit OR pay notice period. No double-return rule exists.</p>
+                  </div>
+                  <div class="bridge-inline-clause">
+                    <div class="label">📋 Add this clause to prevent future disputes</div>
+                    <div class="text">"This agreement is governed exclusively by Malaysian law. The concept of 定金 (double-return earnest money) under Chinese civil law does not apply. Early termination by either party requires [2] months written notice, and the defaulting party shall forfeit the security deposit."</div>
+                    <button class="copy-btn">Copy Clause</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-label">Best for: Natural discovery</div>
+      <div class="demo-sublabel">AI auto-detects 解除权, 定金, 违约金 etc. and shows the bridge card in context</div>
+    </div>
+
+    <!-- ===== CONCEPT B: Termination Deep Dive ===== -->
+    <div class="concept-section">
+      <div class="concept-label">Concept B</div>
+      <div class="concept-title">Deep Dive Table</div>
+      <div class="concept-desc">Detailed comparison table for complex topics like termination. Shows every angle side-by-side. Good for the CN-MY Trust Link tool.</div>
+
+      <div class="phone">
+        <div class="phone-status"><div class="phone-notch"></div></div>
+        <div class="termination-card">
+          <div class="term-header">
+            <div class="zh">合同解除 vs Termination</div>
+            <h2>Contract Termination — The Full Picture</h2>
+            <p>7 key differences that cause disputes</p>
+          </div>
+          <div class="term-comparison">
+            <div class="term-table-header">
+              <div class="lbl-h"></div>
+              <div class="cn-h">🇨🇳 China</div>
+              <div class="my-h">🇲🇾 Malaysia</div>
+            </div>
+
+            <div class="term-row">
+              <div class="term-label">Early exit right</div>
+              <div class="term-cell cn"><strong>解除权</strong> — broad right to terminate for "fundamental breach" or impossibility</div>
+              <div class="term-cell my">Must follow <strong>exact clause</strong> in agreement. No general "exit right."</div>
+            </div>
+            <div class="term-row">
+              <div class="term-label">Deposit rule</div>
+              <div class="term-cell cn"><strong>定金罚则</strong> — landlord fault = <span class="highlight">double return</span></div>
+              <div class="term-cell my">Refund deposit only. <span class="highlight">No double rule.</span></div>
+            </div>
+            <div class="term-row">
+              <div class="term-label">Penalty clause</div>
+              <div class="term-cell cn"><strong>违约金</strong> — fixed penalty, court adjusts but enforces</div>
+              <div class="term-cell my">Court can <span class="highlight">strike out</span> if not genuine pre-estimate of loss</div>
+            </div>
+            <div class="term-row">
+              <div class="term-label">Notice period</div>
+              <div class="term-cell cn">30 days standard, can be shorter by agreement</div>
+              <div class="term-cell my">Per agreement. Common: <strong>2 months</strong>. No legal default.</div>
+            </div>
+            <div class="term-row">
+              <div class="term-label">Force majeure</div>
+              <div class="term-cell cn"><strong>不可抗力</strong> — automatic by law, broadly interpreted</div>
+              <div class="term-cell my"><span class="highlight">Must be written in.</span> Not automatic. Courts interpret narrowly.</div>
+            </div>
+            <div class="term-row">
+              <div class="term-label">Defect rights</div>
+              <div class="term-cell cn">Tenant can terminate if property has defects affecting use</div>
+              <div class="term-cell my"><strong>Caveat emptor</strong> applies more. Inspect before signing.</div>
+            </div>
+            <div class="term-row">
+              <div class="term-label">Governing law</div>
+              <div class="term-cell cn">Chinese Civil Code 2021</div>
+              <div class="term-cell my">Contracts Act 1950, common law precedent</div>
+            </div>
+          </div>
+
+          <div class="term-verdict">
+            <h3>⚠️ The #1 Termination Dispute</h3>
+            <p>Chinese tenant terminates early, demands double deposit. Malaysian landlord says "no — you forfeit deposit." Both sides believe they're right because they're referencing different legal systems. <strong>The solution: explicit governing law clause + bilingual termination terms.</strong></p>
+            <div class="action">
+              <button class="btn btn-primary">Generate Bilingual Clause</button>
+              <button class="btn btn-secondary">Download Report</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-label">Best for: Due diligence before signing</div>
+      <div class="demo-sublabel">Landlord reviews all 7 termination gaps before drafting agreement with Chinese tenant</div>
+    </div>
+
+    <!-- ===== CONCEPT C: Swipe Cards ===== -->
+    <div class="concept-section">
+      <div class="concept-label">Concept C</div>
+      <div class="concept-title">Swipe Cards</div>
+      <div class="concept-desc">One concept per card, swipeable. Quick to scan, each card has the gap + fix. Good for the Tools hub as a standalone feature.</div>
+
+      <div class="phone">
+        <div class="phone-status"><div class="phone-notch"></div></div>
+        <div class="swipe-container">
+          <div style="padding: 4px 0 12px; text-align: center;">
+            <span style="font-size: 14px; font-weight: 700; color: #0f172a;">Legal Bridge</span>
+            <span style="font-size: 10px; color: #94a3b8; display: block; margin-top: 2px;">Swipe to see all gaps</span>
+          </div>
+
+          <div class="swipe-card clash">
+            <div class="swipe-top">
+              <div>
+                <div class="swipe-zh">解除权</div>
+                <div class="swipe-en">Right of Termination</div>
+              </div>
+              <span class="swipe-type clash">CLASH</span>
+            </div>
+            <div class="swipe-grid">
+              <div class="swipe-box cn">
+                <div class="flag-label">🇨🇳 CHINA</div>
+                <p>Broad right to exit for <strong>"fundamental breach"</strong>. Courts are liberal. Tenant can terminate if property has defects.</p>
+              </div>
+              <div class="swipe-box my">
+                <div class="flag-label">🇲🇾 MALAYSIA</div>
+                <p><strong>No general exit right.</strong> Must follow exact termination clause in agreement. Wrongful termination = breach.</p>
+              </div>
+            </div>
+            <div class="swipe-clause">
+              <div class="lbl">📋 Protective Clause</div>
+              <p>"Either party may terminate with [2] months written notice. Early termination without notice shall result in forfeiture of the security deposit. No other termination rights apply."</p>
+            </div>
+          </div>
+
+          <div class="swipe-card clash">
+            <div class="swipe-top">
+              <div>
+                <div class="swipe-zh">不可抗力</div>
+                <div class="swipe-en">Force Majeure</div>
+              </div>
+              <span class="swipe-type clash">CLASH</span>
+            </div>
+            <div class="swipe-grid">
+              <div class="swipe-box cn">
+                <div class="flag-label">🇨🇳 CHINA</div>
+                <p><strong>Automatic by law.</strong> Broadly interpreted. COVID, floods, policy changes all qualify. No need to write it in.</p>
+              </div>
+              <div class="swipe-box my">
+                <div class="flag-label">🇲🇾 MALAYSIA</div>
+                <p><strong>Must be explicitly written</strong> in the contract. Courts interpret narrowly. If not in agreement, it doesn't exist.</p>
+              </div>
+            </div>
+            <div class="swipe-clause">
+              <div class="lbl">📋 Protective Clause</div>
+              <p>"Neither party shall be liable for delays caused by events beyond reasonable control including but not limited to: natural disasters, epidemics, government orders, or war. Notice must be given within [7] days of the event."</p>
+            </div>
+          </div>
+
+          <div class="swipe-dots">
+            <div class="swipe-dot active"></div>
+            <div class="swipe-dot"></div>
+            <div class="swipe-dot"></div>
+            <div class="swipe-dot"></div>
+            <div class="swipe-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-label">Best for: Quick reference</div>
+      <div class="demo-sublabel">Landlord swipes through cards before meeting with Chinese tenant</div>
+    </div>
+
+    <!-- ===== CONCEPT D: AI Auto-Detect Popup ===== -->
+    <div class="concept-section">
+      <div class="concept-label">Concept D</div>
+      <div class="concept-title">AI Auto-Detect Popup</div>
+      <div class="concept-desc">AI detects a Chinese legal term in the chat and shows a floating popup with the comparison. Disappears when dismissed. Less intrusive than inline card.</div>
+
+      <div class="phone">
+        <div class="phone-status"><div class="phone-notch"></div></div>
+        <div class="popup-mock" style="min-height: 500px;">
+          <div class="popup-overlay"></div>
+
+          <!-- Dimmed chat behind -->
+          <div style="position: absolute; top: 50px; left: 16px; right: 16px; z-index: 0; opacity: 0.3;">
+            <div class="chat-msg-user"><div class="bubble">Tenant says he has 解除权 to terminate without penalty</div></div>
+          </div>
+
+          <div class="popup-card">
+            <div class="popup-header">
+              <div class="badge">⚖️</div>
+              <div>
+                <h3>Cross-Border Term Detected</h3>
+                <p>解除权 — different meaning in Malaysia</p>
+              </div>
+              <div class="close">✕</div>
+            </div>
+            <div class="popup-body">
+              <div class="popup-detection">
+                <div class="dot"></div>
+                Find.ai detected a Chinese legal term in your conversation
+              </div>
+
+              <div class="popup-term-row">
+                <div class="popup-term-box cn">
+                  <div class="emoji">🇨🇳</div>
+                  <div class="term">解除权</div>
+                  <div class="sub">Right to Terminate</div>
+                </div>
+                <div class="popup-term-box my">
+                  <div class="emoji">🇲🇾</div>
+                  <div class="term">No Equivalent</div>
+                  <div class="sub">Agreement terms only</div>
+                </div>
+              </div>
+
+              <div class="popup-arrow">≠</div>
+
+              <div class="popup-diff">
+                <div class="h">Key Differences</div>
+                <table>
+                  <tr><td>Termination right</td><td class="cn-val">Automatic by law</td><td class="my-val">Only per agreement</td></tr>
+                  <tr><td>Deposit on breach</td><td class="cn-val">Double return</td><td class="my-val">Forfeit only</td></tr>
+                  <tr><td>Penalty enforced?</td><td class="cn-val">Yes, court adjusts</td><td class="my-val">Can be struck out</td></tr>
+                  <tr><td>Force majeure</td><td class="cn-val">Automatic</td><td class="my-val">Must be written</td></tr>
+                </table>
+              </div>
+
+              <div class="popup-actions">
+                <button class="popup-btn primary">Get Protective Clause</button>
+                <button class="popup-btn secondary">Dismiss</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-label">Best for: Smart detection</div>
+      <div class="demo-sublabel">AI spots 解除权 in the chat and proactively warns the landlord</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

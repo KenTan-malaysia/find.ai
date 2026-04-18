@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find.ai — Legal Bridge Preview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #f1f5f9; color: #0f172a; -webkit-font-smoothing: antialiased; }
+
+  .container { max-width: 420px; margin: 0 auto; padding: 24px 16px; }
+
+  .preview-tag { display: inline-block; background: rgba(59,130,246,0.1); color: #3b82f6; font-size: 10px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
+
+  .header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .header-icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #dc2626, #f59e0b); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .header h1 { font-size: 20px; font-weight: 800; color: #0f172a; }
+  .header p { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+  .intro { background: white; border-radius: 14px; padding: 16px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+  .intro p { font-size: 13px; color: #475569; line-height: 1.7; }
+  .intro .flags { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 20px; }
+  .intro .flags span { font-size: 12px; color: #94a3b8; font-weight: 600; }
+
+  /* Legal Bridge Cards */
+  .bridge-card { background: white; border-radius: 16px; overflow: hidden; margin-bottom: 12px; border: 1px solid #e2e8f0; }
+  .bridge-card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; }
+  .bridge-card-header:hover { background: #f8fafc; }
+  .bridge-num { width: 28px; height: 28px; border-radius: 8px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .bridge-title-area { flex: 1; margin-left: 12px; }
+  .bridge-title { font-size: 14px; font-weight: 700; color: #0f172a; }
+  .bridge-subtitle { font-size: 11px; color: #94a3b8; margin-top: 1px; }
+  .bridge-badge { font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.3px; }
+  .badge-clash { background: #fef2f2; color: #dc2626; }
+  .badge-gap { background: #fffbeb; color: #d97706; }
+  .badge-diff { background: #eff6ff; color: #3b82f6; }
+
+  .bridge-body { padding: 0 16px 16px; }
+
+  .law-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .law-box { padding: 12px; border-radius: 10px; }
+  .law-box.cn { background: #fef2f2; border: 1px solid #fecaca; }
+  .law-box.my { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .law-box-flag { font-size: 14px; margin-bottom: 4px; }
+  .law-box-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .law-box.cn .law-box-label { color: #dc2626; }
+  .law-box.my .law-box-label { color: #1d4ed8; }
+  .law-box-term { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+  .law-box-zh { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+  .law-box-desc { font-size: 11px; color: #475569; line-height: 1.5; }
+
+  .clash-alert { display: flex; gap: 8px; padding: 10px 12px; border-radius: 10px; background: #fffbeb; border: 1px solid #fde68a; margin-bottom: 12px; }
+  .clash-alert-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .clash-alert p { font-size: 11px; color: #92400e; line-height: 1.5; }
+  .clash-alert strong { color: #78350f; }
+
+  .clause-box { background: #f8fafc; border-left: 3px solid #3b82f6; border-radius: 0 10px 10px 0; padding: 12px; margin-bottom: 8px; }
+  .clause-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #3b82f6; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+  .clause-text { font-size: 11px; color: #334155; line-height: 1.6; font-style: italic; }
+  .clause-copy { display: inline-block; font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 6px; background: white; border: 1px solid #e2e8f0; color: #334155; cursor: pointer; margin-top: 8px; }
+  .clause-copy:hover { background: #0f172a; color: white; border-color: #0f172a; }
+
+  /* Bottom disclaimer */
+  .disclaimer { text-align: center; padding: 20px 16px; margin-top: 12px; }
+  .disclaimer p { font-size: 10px; color: #94a3b8; line-height: 1.6; }
+
+  /* Section label */
+  .section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 10px; padding-left: 4px; }
+
+  .divider { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 20px 0; }
+  .divider-line { flex: 1; height: 1px; background: #e2e8f0; }
+  .divider-text { font-size: 10px; font-weight: 600; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="preview-tag">Feature Preview — Legal Bridge</div>
+
+  <div class="header">
+    <div class="header-icon">⚖️</div>
+    <div>
+      <h1>Legal Bridge</h1>
+      <p>China ↔ Malaysia legal concept translator</p>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <div class="intro">
+    <div class="flags">🇨🇳 <span>vs</span> 🇲🇾</div>
+    <p>Chinese and Malaysian law use different systems. These are the key gaps that cause disputes in cross-border tenancies. Each card shows the Chinese concept, the Malaysian equivalent (or gap), and a protective clause to add to your agreement.</p>
+  </div>
+
+  <div class="section-label">5 Key Legal Gaps</div>
+
+  <!-- Card 1: Earnest Money -->
+  <div class="bridge-card">
+    <div class="bridge-card-header">
+      <div class="bridge-num">1</div>
+      <div class="bridge-title-area">
+        <div class="bridge-title">定金 vs Security Deposit</div>
+        <div class="bridge-subtitle">Earnest Money — Double Return Rule</div>
+      </div>
+      <span class="bridge-badge badge-clash">CLASH</span>
+    </div>
+    <div class="bridge-body">
+      <div class="law-compare">
+        <div class="law-box cn">
+          <div class="law-box-flag">🇨🇳</div>
+          <div class="law-box-label">China Law</div>
+          <div class="law-box-zh">定金</div>
+          <div class="law-box-desc">If landlord breaches, must pay <strong>double</strong> the deposit back. Civil Code Art. 587. Very common — Chinese tenants expect this.</div>
+        </div>
+        <div class="law-box my">
+          <div class="law-box-flag">🇲🇾</div>
+          <div class="law-box-label">Malaysia Law</div>
+          <div class="law-box-term">Security Deposit</div>
+          <div class="law-box-desc">Refund of deposit only. <strong>No double-return rule</strong> exists in Malaysian law. Contracts Act 1950.</div>
+        </div>
+      </div>
+      <div class="clash-alert">
+        <div class="clash-alert-icon">⚠️</div>
+        <p><strong>Dispute risk:</strong> Chinese tenant may demand double deposit if landlord terminates early. Malaysian landlord has no legal obligation to pay double — this leads to heated disputes and wasted legal fees.</p>
+      </div>
+      <div class="clause-box">
+        <div class="clause-label">📋 Protective Clause</div>
+        <div class="clause-text">"Both parties acknowledge that this agreement is governed by Malaysian law. The security deposit of RM[X] shall be refunded in full upon satisfactory check-out, subject to deductions for damage beyond reasonable wear and tear. The Chinese law concept of 定金 (double-return earnest money) does not apply to this agreement."</div>
+        <button class="clause-copy">Copy Clause</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: Right of First Refusal -->
+  <div class="bridge-card">
+    <div class="bridge-card-header">
+      <div class="bridge-num">2</div>
+      <div class="bridge-title-area">
+        <div class="bridge-title">优先购买权 vs No Equivalent</div>
+        <div class="bridge-subtitle">Right of First Refusal to Purchase</div>
+      </div>
+      <span class="bridge-badge badge-gap">GAP</span>
+    </div>
+    <div class="bridge-body">
+      <div class="law-compare">
+        <div class="law-box cn">
+          <div class="law-box-flag">🇨🇳</div>
+          <div class="law-box-label">China Law</div>
+          <div class="law-box-zh">优先购买权</div>
+          <div class="law-box-desc">Tenant has <strong>automatic legal right</strong> to buy the property first if landlord sells. Civil Code Art. 726. Cannot be waived by contract.</div>
+        </div>
+        <div class="law-box my">
+          <div class="law-box-flag">🇲🇾</div>
+          <div class="law-box-label">Malaysia Law</div>
+          <div class="law-box-term">Does Not Exist</div>
+          <div class="law-box-desc"><strong>No automatic right.</strong> Tenant has zero priority to purchase unless written into the tenancy agreement as a specific clause.</div>
+        </div>
+      </div>
+      <div class="clash-alert">
+        <div class="clash-alert-icon">⚠️</div>
+        <p><strong>Dispute risk:</strong> Chinese tenant discovers landlord sold the factory to someone else. Tenant claims they should have been offered first — but this right doesn't exist in Malaysia. Lease may still be valid against new owner if registered.</p>
+      </div>
+      <div class="clause-box">
+        <div class="clause-label">📋 Protective Clause</div>
+        <div class="clause-text">"The Tenant acknowledges that under Malaysian law, no automatic right of first refusal to purchase the Property exists. Should the Landlord intend to sell, the Landlord shall give the Tenant [30] days written notice but is under no obligation to offer the Property to the Tenant first."</div>
+        <button class="clause-copy">Copy Clause</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: Liquidated Damages -->
+  <div class="bridge-card">
+    <div class="bridge-card-header">
+      <div class="bridge-num">3</div>
+      <div class="bridge-title-area">
+        <div class="bridge-title">违约金 vs Penalty Clause</div>
+        <div class="bridge-subtitle">Breach Penalty — Court Treatment</div>
+      </div>
+      <span class="bridge-badge badge-clash">CLASH</span>
+    </div>
+    <div class="bridge-body">
+      <div class="law-compare">
+        <div class="law-box cn">
+          <div class="law-box-flag">🇨🇳</div>
+          <div class="law-box-label">China Law</div>
+          <div class="law-box-zh">违约金</div>
+          <div class="law-box-desc">Fixed penalty amounts are <strong>standard and enforceable.</strong> Courts can adjust up or down but won't strike them out. Civil Code Art. 585.</div>
+        </div>
+        <div class="law-box my">
+          <div class="law-box-flag">🇲🇾</div>
+          <div class="law-box-label">Malaysia Law</div>
+          <div class="law-box-term">Penalty vs Liquidated Damages</div>
+          <div class="law-box-desc">Malaysian courts can <strong>strike down</strong> penalty clauses entirely if not a "genuine pre-estimate of loss." Contracts Act 1950, s.75.</div>
+        </div>
+      </div>
+      <div class="clash-alert">
+        <div class="clash-alert-icon">⚠️</div>
+        <p><strong>Dispute risk:</strong> Agreement says "RM50,000 penalty for early termination." Chinese party expects this is iron-clad. Malaysian court may reduce it to actual provable losses — could be much less.</p>
+      </div>
+      <div class="clause-box">
+        <div class="clause-label">📋 Protective Clause</div>
+        <div class="clause-text">"In the event of early termination, the defaulting party shall pay liquidated damages equivalent to [2] months' rent, which both parties agree represents a genuine pre-estimate of loss and not a penalty. This sum is governed by Section 75 of the Contracts Act 1950."</div>
+        <button class="clause-copy">Copy Clause</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4: Tenant Renovation Rights -->
+  <div class="bridge-card">
+    <div class="bridge-card-header">
+      <div class="bridge-num">4</div>
+      <div class="bridge-title-area">
+        <div class="bridge-title">装修权 vs Fixtures Rule</div>
+        <div class="bridge-subtitle">Tenant Improvements — Who Owns Them?</div>
+      </div>
+      <span class="bridge-badge badge-diff">DIFFERS</span>
+    </div>
+    <div class="bridge-body">
+      <div class="law-compare">
+        <div class="law-box cn">
+          <div class="law-box-flag">🇨🇳</div>
+          <div class="law-box-label">China Law</div>
+          <div class="law-box-zh">承租人装修权</div>
+          <div class="law-box-desc">Tenant improvements with landlord consent are <strong>protected and compensated</strong> at lease end. Tenant can claim reimbursement.</div>
+        </div>
+        <div class="law-box my">
+          <div class="law-box-flag">🇲🇾</div>
+          <div class="law-box-label">Malaysia Law</div>
+          <div class="law-box-term">Fixtures become landlord's</div>
+          <div class="law-box-desc">Anything permanently attached to the property <strong>belongs to the landlord</strong> at lease end. No automatic compensation. Common law fixture rule.</div>
+        </div>
+      </div>
+      <div class="clash-alert">
+        <div class="clash-alert-icon">⚠️</div>
+        <p><strong>Dispute risk:</strong> Chinese factory tenant spends RM500,000 on renovations. At lease end, they expect compensation or right to remove. Under Malaysian law, permanent fixtures belong to landlord — tenant loses everything.</p>
+      </div>
+      <div class="clause-box">
+        <div class="clause-label">📋 Protective Clause</div>
+        <div class="clause-text">"All renovations require prior written consent. Tenant-installed fixtures and fittings shall be categorized as either (a) removable — which the Tenant may remove at own cost and restore the premises, or (b) permanent — which shall become the property of the Landlord. An annexure listing all improvements and their category shall be signed by both parties."</div>
+        <button class="clause-copy">Copy Clause</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 5: Lease Registration -->
+  <div class="bridge-card">
+    <div class="bridge-card-header">
+      <div class="bridge-num">5</div>
+      <div class="bridge-title-area">
+        <div class="bridge-title">租赁登记 vs Lease Registration</div>
+        <div class="bridge-subtitle">When Is Registration Required?</div>
+      </div>
+      <span class="bridge-badge badge-diff">DIFFERS</span>
+    </div>
+    <div class="bridge-body">
+      <div class="law-compare">
+        <div class="law-box cn">
+          <div class="law-box-flag">🇨🇳</div>
+          <div class="law-box-label">China Law</div>
+          <div class="law-box-zh">租赁登记备案</div>
+          <div class="law-box-desc">Registration required for leases <strong>over 6 months</strong>. Unregistered leases are still valid between parties but cannot be enforced against third parties.</div>
+        </div>
+        <div class="law-box my">
+          <div class="law-box-flag">🇲🇾</div>
+          <div class="law-box-label">Malaysia Law</div>
+          <div class="law-box-term">3-year threshold</div>
+          <div class="law-box-desc">Registration required only for leases <strong>over 3 years</strong>. National Land Code s.213. Unregistered long leases may not bind new owners.</div>
+        </div>
+      </div>
+      <div class="clash-alert">
+        <div class="clash-alert-icon">⚠️</div>
+        <p><strong>Dispute risk:</strong> Chinese tenant with a 2-year unregistered lease assumes it's risky (in China it would be). In Malaysia, a 2-year lease doesn't need registration — but it's still not protected against new buyers. Best practice: always stamp the agreement.</p>
+      </div>
+      <div class="clause-box">
+        <div class="clause-label">📋 Protective Clause</div>
+        <div class="clause-text">"This agreement shall be duly stamped under the Stamp Act 1949 within 30 days of execution. For leases exceeding 3 years, the parties agree to register the lease with the relevant Land Office under Section 213 of the National Land Code 1965 at the Tenant's cost."</div>
+        <button class="clause-copy">Copy Clause</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-text">End of Preview</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="disclaimer">
+    <p>🛡️ Legal Bridge — part of Find.ai CN-MY Trust Link<br>Advisory only. Both parties should seek independent legal counsel for cross-border agreements.</p>
+  </div>
+</div>
+
+</body>
+</html>

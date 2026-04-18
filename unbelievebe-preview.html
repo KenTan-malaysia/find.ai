@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unbelievebe - UX Preview</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { font-family: 'Inter', sans-serif; }
+  .gradient-bg { background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0fdf4 100%); }
+  .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); }
+  .card-hover { transition: all 0.2s; }
+  .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+  .fade-in { animation: fadeIn 0.3s ease-in; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse-ring { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+  .pulse-ring { animation: pulse-ring 1.5s ease-out infinite; }
+  .clause-box { background: linear-gradient(135deg, #f0fdf4, #ecfdf5); }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
+</style>
+</head>
+<body class="bg-white">
+
+<!-- TAB SWITCHER -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:50;background:#111;display:flex;gap:0;">
+  <button onclick="show('landing')" id="tab-landing" style="flex:1;padding:10px;color:white;font-size:13px;font-weight:600;border:none;cursor:pointer;background:#22c55e;">Landing Page</button>
+  <button onclick="show('chat-empty')" id="tab-chat-empty" style="flex:1;padding:10px;color:#999;font-size:13px;font-weight:500;border:none;cursor:pointer;background:#111;">Chat (Empty)</button>
+  <button onclick="show('chat-active')" id="tab-chat-active" style="flex:1;padding:10px;color:#999;font-size:13px;font-weight:500;border:none;cursor:pointer;background:#111;">Chat (Active)</button>
+</div>
+
+<!-- ===== LANDING PAGE ===== -->
+<div id="landing" style="margin-top:40px;">
+  <div style="max-width:480px;margin:0 auto;min-height:100vh;">
+
+    <!-- Header -->
+    <header style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:32px;height:32px;background:#16a34a;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+          <span style="color:white;font-weight:700;font-size:14px;">U</span>
+        </div>
+        <span style="font-weight:600;font-size:16px;color:#111;">Unbelievebe</span>
+      </div>
+      <button style="font-size:12px;padding:6px 14px;border-radius:20px;background:#f0fdf4;color:#16a34a;border:none;font-weight:600;cursor:pointer;">BM</button>
+    </header>
+
+    <!-- Hero -->
+    <div style="padding:40px 24px 20px;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;background:#f0fdf4;font-size:11px;color:#16a34a;font-weight:600;margin-bottom:20px;">
+        <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;"></span>
+        AI-Powered Property Advisor
+      </div>
+      <h1 style="font-size:26px;font-weight:700;color:#111;line-height:1.3;margin:0 0 12px;">
+        Your Malaysian<br>Property Rights,<br><span style="color:#16a34a;">Made Simple.</span>
+      </h1>
+      <p style="font-size:14px;color:#888;line-height:1.6;margin:0 0 28px;max-width:320px;margin-left:auto;margin-right:auto;">
+        Instant legal answers, ready-to-use agreement clauses, and practical steps — all based on Malaysian law.
+      </p>
+      <button style="padding:14px 36px;background:#16a34a;color:white;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 15px rgba(22,163,74,0.3);">
+        Ask Your First Question
+      </button>
+      <p style="font-size:11px;color:#bbb;margin-top:10px;">Free. No sign-up needed.</p>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:flex;justify-content:center;gap:40px;padding:24px 20px;margin:0 24px;border-radius:16px;background:#fafafa;">
+      <div style="text-align:center;">
+        <div style="font-size:22px;font-weight:700;color:#16a34a;">50+</div>
+        <div style="font-size:11px;color:#999;margin-top:2px;">Laws Covered</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:22px;font-weight:700;color:#16a34a;">14</div>
+        <div style="font-size:11px;color:#999;margin-top:2px;">States</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:22px;font-weight:700;color:#16a34a;">24/7</div>
+        <div style="font-size:11px;color:#999;margin-top:2px;">Available</div>
+      </div>
+    </div>
+
+    <!-- What you get -->
+    <div style="padding:40px 24px 20px;">
+      <h3 style="font-size:16px;font-weight:700;color:#111;text-align:center;margin-bottom:20px;">Every answer includes</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="padding:16px;background:#fff;border:1px solid #f0f0f0;border-radius:14px;" class="card-hover">
+          <div style="font-size:20px;margin-bottom:8px;">⚖️</div>
+          <div style="font-size:13px;font-weight:600;color:#222;margin-bottom:4px;">The Law</div>
+          <div style="font-size:11px;color:#999;line-height:1.4;">Exact Act & Section that applies to your case</div>
+        </div>
+        <div style="padding:16px;background:#fff;border:1px solid #f0f0f0;border-radius:14px;" class="card-hover">
+          <div style="font-size:20px;margin-bottom:8px;">✅</div>
+          <div style="font-size:13px;font-weight:600;color:#222;margin-bottom:4px;">Action Steps</div>
+          <div style="font-size:11px;color:#999;line-height:1.4;">Clear steps to take, in the right order</div>
+        </div>
+        <div style="padding:16px;background:#fff;border:1px solid #f0f0f0;border-radius:14px;" class="card-hover">
+          <div style="font-size:20px;margin-bottom:8px;">🚫</div>
+          <div style="font-size:13px;font-weight:600;color:#222;margin-bottom:4px;">What to Avoid</div>
+          <div style="font-size:11px;color:#999;line-height:1.4;">Common mistakes that are actually illegal</div>
+        </div>
+        <div style="padding:16px;background:#fff;border:1px solid #f0f0f0;border-radius:14px;" class="card-hover">
+          <div style="font-size:20px;margin-bottom:8px;">📋</div>
+          <div style="font-size:13px;font-weight:600;color:#222;margin-bottom:4px;">Agreement Clause</div>
+          <div style="font-size:11px;color:#999;line-height:1.4;">Copy-paste into your tenancy agreement</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Common problems -->
+    <div style="padding:30px 24px;">
+      <h3 style="font-size:16px;font-weight:700;color:#111;text-align:center;margin-bottom:16px;">Built for your real problems</h3>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;">
+        <span style="font-size:12px;padding:8px 14px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #dcfce7;">Tenant tak bayar sewa</span>
+        <span style="font-size:12px;padding:8px 14px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #dcfce7;">Deposit disputes</span>
+        <span style="font-size:12px;padding:8px 14px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #dcfce7;">Eviction process</span>
+        <span style="font-size:12px;padding:8px 14px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #dcfce7;">Who pays repairs?</span>
+        <span style="font-size:12px;padding:8px 14px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #dcfce7;">Bad agreement</span>
+        <span style="font-size:12px;padding:8px 14px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #dcfce7;">LHDN rental tax</span>
+        <span style="font-size:12px;padding:8px 14px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #dcfce7;">Subletting</span>
+        <span style="font-size:12px;padding:8px 14px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #dcfce7;">Tenant won't leave</span>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div style="padding:40px 24px;text-align:center;background:#f0fdf4;border-radius:20px 20px 0 0;margin-top:20px;">
+      <p style="font-size:14px;color:#166534;font-weight:600;margin:0 0 16px;">Protect yourself before problems happen.</p>
+      <button style="padding:14px 36px;background:#16a34a;color:white;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 15px rgba(22,163,74,0.3);">
+        Start Now — Free
+      </button>
+      <p style="font-size:10px;color:#999;margin-top:12px;">AI guidance based on Malaysian law. Not a substitute for professional legal counsel.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAT EMPTY ===== -->
+<div id="chat-empty" style="display:none;margin-top:40px;">
+  <div style="max-width:480px;margin:0 auto;height:calc(100vh - 40px);display:flex;flex-direction:column;background:white;">
+
+    <!-- Chat Header -->
+    <header style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:white;border-bottom:1px solid #f0f0f0;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(22,163,74,0.25);">
+          <span style="color:white;font-weight:700;font-size:14px;">U</span>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111;">Unbelievebe</div>
+          <div style="display:flex;align-items:center;gap:5px;">
+            <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;"></span>
+            <span style="font-size:11px;color:#16a34a;font-weight:500;">Ready to help</span>
+          </div>
+        </div>
+      </div>
+      <button style="font-size:12px;padding:6px 16px;border-radius:20px;background:#f0fdf4;color:#16a34a;border:1px solid #dcfce7;font-weight:600;cursor:pointer;">BM</button>
+    </header>
+
+    <!-- Welcome Card -->
+    <div style="flex:1;display:flex;flex-direction:column;padding:20px;overflow-y:auto;">
+
+      <!-- Welcome bubble from bot -->
+      <div style="display:flex;gap:10px;margin-bottom:24px;">
+        <div style="width:30px;height:30px;min-width:30px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-top:2px;">
+          <span style="color:white;font-weight:700;font-size:10px;">U</span>
+        </div>
+        <div>
+          <div style="background:#f8faf8;border:1px solid #e8efe8;border-radius:0 16px 16px 16px;padding:16px;margin-bottom:8px;">
+            <div style="font-size:15px;font-weight:600;color:#111;margin-bottom:4px;">Hi, I'm your property advisor.</div>
+            <div style="font-size:13px;color:#666;line-height:1.5;">Tell me your situation in your own words — I'll give you the law, what to do, and a clause for your agreement.</div>
+          </div>
+          <div style="font-size:10px;color:#bbb;padding-left:4px;">Just now</div>
+        </div>
+      </div>
+
+      <!-- Quick actions label -->
+      <div style="font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;padding-left:4px;">Common situations</div>
+
+      <!-- Starter cards - vertical list -->
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button style="display:flex;align-items:center;gap:12px;text-align:left;font-size:13px;padding:14px 16px;border-radius:14px;border:1px solid #f0f0f0;background:white;color:#444;cursor:pointer;line-height:1.3;box-shadow:0 1px 3px rgba(0,0,0,0.03);" class="card-hover">
+          <span style="font-size:18px;min-width:24px;">💸</span>
+          <div>
+            <div style="font-weight:600;color:#222;font-size:13px;">Tenant didn't pay rent</div>
+            <div style="font-size:11px;color:#999;margin-top:2px;">Late payment, arrears, demand letter</div>
+          </div>
+        </button>
+        <button style="display:flex;align-items:center;gap:12px;text-align:left;font-size:13px;padding:14px 16px;border-radius:14px;border:1px solid #f0f0f0;background:white;color:#444;cursor:pointer;line-height:1.3;box-shadow:0 1px 3px rgba(0,0,0,0.03);" class="card-hover">
+          <span style="font-size:18px;min-width:24px;">🔒</span>
+          <div>
+            <div style="font-weight:600;color:#222;font-size:13px;">Deposit not returned</div>
+            <div style="font-size:11px;color:#999;margin-top:2px;">Deductions, evidence, refund rights</div>
+          </div>
+        </button>
+        <button style="display:flex;align-items:center;gap:12px;text-align:left;font-size:13px;padding:14px 16px;border-radius:14px;border:1px solid #f0f0f0;background:white;color:#444;cursor:pointer;line-height:1.3;box-shadow:0 1px 3px rgba(0,0,0,0.03);" class="card-hover">
+          <span style="font-size:18px;min-width:24px;">🔧</span>
+          <div>
+            <div style="font-weight:600;color:#222;font-size:13px;">Who pays for repairs?</div>
+            <div style="font-size:11px;color:#999;margin-top:2px;">Aircon, plumbing, structural damage</div>
+          </div>
+        </button>
+        <button style="display:flex;align-items:center;gap:12px;text-align:left;font-size:13px;padding:14px 16px;border-radius:14px;border:1px solid #f0f0f0;background:white;color:#444;cursor:pointer;line-height:1.3;box-shadow:0 1px 3px rgba(0,0,0,0.03);" class="card-hover">
+          <span style="font-size:18px;min-width:24px;">🚪</span>
+          <div>
+            <div style="font-weight:600;color:#222;font-size:13px;">How to evict tenant legally</div>
+            <div style="font-size:11px;color:#999;margin-top:2px;">Proper process, avoid illegal eviction</div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Voice hint -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:20px;padding:10px;background:#fafafa;border-radius:10px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+        <span style="font-size:11px;color:#999;">Tap the mic to speak your question in English or BM</span>
+      </div>
+    </div>
+
+    <!-- Input Bar -->
+    <div style="padding:12px 16px 16px;background:white;border-top:1px solid #f5f5f5;">
+      <div style="display:flex;align-items:center;gap:8px;background:#f5f5f5;border-radius:14px;padding:4px 4px 4px 16px;">
+        <input type="text" placeholder="Describe your situation..." style="flex:1;border:none;background:none;padding:10px 0;font-size:14px;outline:none;color:#333;" />
+        <button style="width:38px;height:38px;border-radius:12px;background:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+        </button>
+        <button style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(22,163,74,0.3);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+      <p style="text-align:center;font-size:10px;color:#d0d0d0;margin-top:8px;">AI advice — not a substitute for professional legal counsel</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAT ACTIVE ===== -->
+<div id="chat-active" style="display:none;margin-top:40px;">
+  <div style="max-width:480px;margin:0 auto;height:calc(100vh - 40px);display:flex;flex-direction:column;background:#f8f9fa;">
+
+    <!-- Chat Header -->
+    <header style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:white;border-bottom:1px solid #f0f0f0;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(22,163,74,0.25);">
+          <span style="color:white;font-weight:700;font-size:14px;">U</span>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111;">Unbelievebe</div>
+          <div style="display:flex;align-items:center;gap:5px;">
+            <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;"></span>
+            <span style="font-size:11px;color:#16a34a;font-weight:500;">Online</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button style="font-size:11px;padding:6px 14px;border-radius:20px;background:#f0fdf4;color:#16a34a;border:1px solid #dcfce7;font-weight:600;cursor:pointer;">BM</button>
+        <button style="font-size:11px;padding:6px 12px;border-radius:20px;background:#f5f5f5;color:#888;border:none;cursor:pointer;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+        </button>
+        <button style="font-size:11px;padding:6px 12px;border-radius:20px;background:#f5f5f5;color:#888;border:none;cursor:pointer;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Messages -->
+    <div style="flex:1;overflow-y:auto;padding:20px 16px;">
+
+      <!-- Timestamp -->
+      <div style="text-align:center;margin-bottom:16px;">
+        <span style="font-size:10px;color:#ccc;background:#f0f0f0;padding:4px 12px;border-radius:10px;">Today, 2:34 PM</span>
+      </div>
+
+      <!-- User message -->
+      <div style="display:flex;justify-content:flex-end;margin-bottom:16px;" class="fade-in">
+        <div style="max-width:78%;padding:14px 18px;background:linear-gradient(135deg,#16a34a,#1ea34e);color:white;border-radius:20px 20px 6px 20px;font-size:14px;line-height:1.5;box-shadow:0 2px 8px rgba(22,163,74,0.2);">
+          My tenant hasn't paid rent for 3 months. Monthly rent is RM2,500. What can I do?
+        </div>
+      </div>
+
+      <!-- Bot message -->
+      <div style="display:flex;gap:10px;margin-bottom:16px;" class="fade-in">
+        <div style="width:28px;height:28px;min-width:28px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-top:2px;">
+          <span style="color:white;font-weight:700;font-size:9px;">U</span>
+        </div>
+        <div style="max-width:calc(100% - 42px);">
+          <div style="background:white;border-radius:0 20px 20px 20px;padding:18px;font-size:13px;line-height:1.7;color:#333;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+
+            <div style="font-size:14px;color:#222;margin-bottom:14px;">Your tenant owes you <strong>RM7,500</strong>. You have strong legal grounds to recover this.</div>
+
+            <!-- Law card -->
+            <div style="padding:12px 14px;background:#fffbeb;border-left:3px solid #f59e0b;border-radius:0 10px 10px 0;margin-bottom:14px;">
+              <div style="font-size:11px;font-weight:700;color:#92400e;margin-bottom:4px;">⚖️ DISTRESS ACT 1951, SECTION 5</div>
+              <div style="font-size:12px;color:#78716c;line-height:1.5;">After 30 days unpaid, you can apply to court to seize your tenant's movable goods inside the unit to recover arrears.</div>
+            </div>
+
+            <!-- Do this -->
+            <div style="margin-bottom:14px;">
+              <div style="font-size:11px;font-weight:700;color:#16a34a;margin-bottom:8px;display:flex;align-items:center;gap:4px;">
+                <span style="width:18px;height:18px;background:#dcfce7;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;">✅</span>
+                DO THIS
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;padding-left:2px;">
+                <div style="display:flex;gap:8px;font-size:12px;color:#444;">
+                  <span style="min-width:18px;height:18px;background:#f0fdf4;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#16a34a;">1</span>
+                  Send written demand — give 7 days to pay
+                </div>
+                <div style="display:flex;gap:8px;font-size:12px;color:#444;">
+                  <span style="min-width:18px;height:18px;background:#f0fdf4;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#16a34a;">2</span>
+                  File Writ of Distress at Magistrates Court
+                </div>
+                <div style="display:flex;gap:8px;font-size:12px;color:#444;">
+                  <span style="min-width:18px;height:18px;background:#f0fdf4;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#16a34a;">3</span>
+                  Court approves in 2-4 weeks — bailiff seizes goods
+                </div>
+                <div style="display:flex;gap:8px;font-size:12px;color:#444;">
+                  <span style="min-width:18px;height:18px;background:#f0fdf4;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#16a34a;">4</span>
+                  Apply for eviction order separately if needed
+                </div>
+              </div>
+            </div>
+
+            <!-- Don't do this -->
+            <div style="padding:10px 12px;background:#fef2f2;border-radius:10px;margin-bottom:14px;">
+              <div style="font-size:11px;font-weight:700;color:#dc2626;margin-bottom:4px;display:flex;align-items:center;gap:4px;">
+                <span style="font-size:10px;">🚫</span> DON'T DO THIS
+              </div>
+              <div style="font-size:12px;color:#7f1d1d;line-height:1.4;">
+                Cannot change locks, cut water/electricity, or remove belongings — all illegal even if they owe you.
+              </div>
+            </div>
+
+            <!-- Cost pill -->
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+              <span style="font-size:11px;padding:5px 10px;background:#f5f5f5;border-radius:8px;color:#555;font-weight:500;">💰 RM7,500 owed</span>
+              <span style="font-size:11px;padding:5px 10px;background:#f5f5f5;border-radius:8px;color:#555;font-weight:500;">Filing: RM300-500</span>
+              <span style="font-size:11px;padding:5px 10px;background:#f5f5f5;border-radius:8px;color:#555;font-weight:500;">2-4 weeks</span>
+              <span style="font-size:11px;padding:5px 10px;background:#f0fdf4;border-radius:8px;color:#16a34a;font-weight:600;">No lawyer needed</span>
+            </div>
+
+            <!-- Clause block -->
+            <div style="padding:16px;background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:1px solid #bbf7d0;border-radius:14px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span style="width:22px;height:22px;background:#dcfce7;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;">📋</span>
+                  <span style="font-size:12px;font-weight:700;color:#166534;">Clause for your agreement</span>
+                </div>
+                <button onclick="this.textContent='Copied!';this.style.background='#16a34a';this.style.color='white';setTimeout(()=>{this.textContent='Copy';this.style.background='white';this.style.color='#16a34a'},2000)" style="font-size:11px;padding:5px 14px;border-radius:8px;background:white;color:#16a34a;border:1px solid #bbf7d0;cursor:pointer;font-weight:600;">Copy</button>
+              </div>
+              <div style="font-size:12px;color:#374151;font-style:italic;line-height:1.7;padding:10px 12px;background:rgba(255,255,255,0.6);border-radius:8px;">
+                "In the event that rent remains unpaid for more than fourteen (14) days after the due date, the Landlord shall be entitled to levy a late payment charge of 10% per annum on the outstanding sum, and may commence proceedings under the Distress Act 1951 to recover all arrears without further notice to the Tenant."
+              </div>
+            </div>
+
+          </div>
+          <div style="font-size:10px;color:#ccc;margin-top:6px;padding-left:4px;">2:34 PM</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Bar -->
+    <div style="padding:12px 16px 16px;background:white;border-top:1px solid #f5f5f5;">
+      <div style="display:flex;align-items:center;gap:8px;background:#f5f5f5;border-radius:14px;padding:4px 4px 4px 16px;">
+        <input type="text" placeholder="Ask a follow-up question..." style="flex:1;border:none;background:none;padding:10px 0;font-size:14px;outline:none;color:#333;" />
+        <button style="width:38px;height:38px;border-radius:12px;background:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+        </button>
+        <button style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(22,163,74,0.3);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  ['landing','chat-empty','chat-active'].forEach(s => {
+    document.getElementById(s).style.display = 'none';
+    document.getElementById('tab-'+s).style.background = '#111';
+    document.getElementById('tab-'+s).style.color = '#999';
+  });
+  document.getElementById(id).style.display = 'block';
+  document.getElementById('tab-'+id).style.background = '#22c55e';
+  document.getElementById('tab-'+id).style.color = 'white';
+}
+</script>
+
+</body>
+</html>

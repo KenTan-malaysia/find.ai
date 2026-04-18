@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Bridge v2 — "Can I Do This?" Checker Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f1f5f9; min-height: 100vh; padding: 20px; }
+  .phones { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; padding: 20px 0; }
+  .phone { width: 375px; height: 780px; background: white; border-radius: 40px; overflow: hidden; box-shadow: 0 25px 60px rgba(15,23,42,0.15); border: 8px solid #1e293b; position: relative; }
+  .phone-screen { height: 100%; overflow-y: auto; }
+  .phone-screen::-webkit-scrollbar { display: none; }
+  .label { text-align: center; margin-top: 12px; font-size: 13px; font-weight: 600; color: #64748b; }
+  .sublabel { text-align: center; font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+  /* Shared styles */
+  .header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #f1f5f9; }
+  .header-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #dc2626, #3b82f6); font-size: 18px; }
+  .header-title { font-size: 15px; font-weight: 700; color: #0f172a; }
+  .header-desc { font-size: 11px; color: #94a3b8; }
+  .close-btn { margin-left: auto; color: #94a3b8; font-size: 18px; cursor: pointer; }
+
+  .content { padding: 16px 20px; }
+
+  /* Screen 1: Goal Picker */
+  .goal-q { font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 4px; }
+  .goal-sub { font-size: 11px; color: #94a3b8; margin-bottom: 16px; }
+  .goal-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid #e2e8f0; border-radius: 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
+  .goal-card:hover { border-color: #3b82f6; background: rgba(59,130,246,0.02); }
+  .goal-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .goal-title { font-size: 13px; font-weight: 600; color: #1e293b; }
+  .goal-desc { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+  .goal-arrow { margin-left: auto; color: #cbd5e1; font-size: 14px; }
+
+  .section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #94a3b8; margin: 16px 0 10px; }
+
+  /* Screen 2: Sub-goal */
+  .sub-card { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 8px; }
+  .sub-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; background: #f8fafc; }
+  .sub-title { font-size: 12px; font-weight: 600; color: #1e293b; }
+  .sub-desc { font-size: 10px; color: #94a3b8; }
+
+  /* Screen 3: Result — Compliance Checklist */
+  .verdict-box { padding: 14px 16px; border-radius: 14px; margin-bottom: 16px; }
+  .verdict-yes { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .verdict-maybe { background: #fffbeb; border: 1px solid #fde68a; }
+  .verdict-no { background: #fef2f2; border: 1px solid #fecaca; }
+  .verdict-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .verdict-yes .verdict-label { color: #15803d; }
+  .verdict-maybe .verdict-label { color: #92400e; }
+  .verdict-text { font-size: 13px; font-weight: 600; }
+  .verdict-yes .verdict-text { color: #166534; }
+  .verdict-maybe .verdict-text { color: #78350f; }
+
+  .checklist-section { margin-bottom: 16px; }
+  .checklist-title { font-size: 11px; font-weight: 700; color: #334155; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .checklist-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+  .badge-required { background: #dc2626; color: white; }
+  .badge-recommended { background: #f59e0b; color: white; }
+  .badge-optional { background: #64748b; color: white; }
+
+  .check-item { display: flex; gap: 10px; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 6px; align-items: flex-start; }
+  .check-num { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+  .check-num-req { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+  .check-num-rec { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+  .check-body { flex: 1; }
+  .check-name { font-size: 12px; font-weight: 600; color: #1e293b; }
+  .check-dept { font-size: 10px; color: #3b82f6; margin-top: 2px; font-weight: 500; }
+  .check-detail { font-size: 10px; color: #64748b; margin-top: 3px; line-height: 1.5; }
+  .check-meta { display: flex; gap: 8px; margin-top: 5px; }
+  .check-tag { font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+  .tag-time { background: #f1f5f9; color: #475569; }
+  .tag-cost { background: #eff6ff; color: #2563eb; }
+  .tag-warn { background: #fef2f2; color: #dc2626; }
+
+  .cn-trap { padding: 10px 12px; border-radius: 10px; background: #fef2f2; border: 1px solid #fecaca; margin-bottom: 6px; }
+  .cn-trap-title { font-size: 10px; font-weight: 700; color: #991b1b; display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
+  .cn-trap-text { font-size: 11px; color: #7f1d1d; line-height: 1.5; }
+
+  .total-bar { padding: 14px 16px; border-radius: 14px; background: #f8fafc; border: 1px solid #e2e8f0; margin-top: 12px; }
+  .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .total-row:last-child { margin-bottom: 0; }
+  .total-label { font-size: 11px; color: #64748b; }
+  .total-value { font-size: 12px; font-weight: 700; color: #0f172a; }
+  .total-value-big { font-size: 14px; font-weight: 700; color: #0f172a; }
+
+  .action-btn { width: 100%; padding: 13px; border-radius: 12px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; margin-top: 12px; }
+  .btn-primary { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; }
+  .btn-secondary { background: #f8fafc; border: 1px solid #e2e8f0; color: #334155; margin-top: 8px; }
+
+  .footer-note { text-align: center; font-size: 9px; color: #94a3b8; margin-top: 12px; padding-bottom: 20px; }
+
+  /* Screen 4: Different result */
+  .timeline-item { display: flex; gap: 10px; margin-bottom: 2px; }
+  .timeline-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .timeline-line { width: 2px; background: #e2e8f0; margin: 2px 0 2px 3px; min-height: 20px; }
+  .timeline-content { flex: 1; padding-bottom: 12px; }
+  .timeline-step { font-size: 11px; font-weight: 600; color: #1e293b; }
+  .timeline-detail { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+  .page-title { text-align: center; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+  .page-sub { text-align: center; font-size: 13px; color: #64748b; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
+</style>
+</head>
+<body>
+
+<div class="page-title">Legal Bridge v2 — "Can I Do This?" Checker</div>
+<div class="page-sub">Not just information — a practical compliance roadmap. User picks their goal, system tells them exactly what they need, who to contact, how long it takes, and what it costs.</div>
+
+<div class="phones">
+
+<!-- SCREEN 1: Goal Picker -->
+<div>
+<div class="phone">
+<div class="phone-screen">
+  <div class="header">
+    <div class="header-icon">⚖️</div>
+    <div>
+      <div class="header-title">Can I Do This?</div>
+      <div class="header-desc">Malaysia property compliance checker</div>
+    </div>
+    <div class="close-btn">×</div>
+  </div>
+  <div class="content">
+    <div class="goal-q">What do you want to do in Malaysia?</div>
+    <div class="goal-sub">Select your goal — we'll show you everything you need</div>
+
+    <div class="section-label">Rent Property</div>
+    <div class="goal-card">
+      <div class="goal-icon" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);">🏠</div>
+      <div>
+        <div class="goal-title">Rent a House / Condo</div>
+        <div class="goal-desc">Residential tenancy as a foreigner</div>
+      </div>
+      <div class="goal-arrow">›</div>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">🏢</div>
+      <div>
+        <div class="goal-title">Rent an Office / Shop</div>
+        <div class="goal-desc">Commercial lease for business</div>
+      </div>
+      <div class="goal-arrow">›</div>
+    </div>
+    <div class="goal-card" style="border-color: #3b82f6; background: rgba(59,130,246,0.03);">
+      <div class="goal-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">🏭</div>
+      <div>
+        <div class="goal-title">Rent a Factory / Warehouse</div>
+        <div class="goal-desc">Industrial lease for manufacturing</div>
+      </div>
+      <div class="goal-arrow" style="color: #3b82f6;">›</div>
+    </div>
+
+    <div class="section-label">Buy Property</div>
+    <div class="goal-card">
+      <div class="goal-icon" style="background: linear-gradient(135deg, #16a34a, #4ade80);">🏡</div>
+      <div>
+        <div class="goal-title">Buy a House / Condo</div>
+        <div class="goal-desc">Foreign ownership requirements</div>
+      </div>
+      <div class="goal-arrow">›</div>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon" style="background: linear-gradient(135deg, #0ea5e9, #38bdf8);">🌍</div>
+      <div>
+        <div class="goal-title">Buy Land</div>
+        <div class="goal-desc">Agricultural, development, vacant</div>
+      </div>
+      <div class="goal-arrow">›</div>
+    </div>
+
+    <div class="section-label">Operate Business</div>
+    <div class="goal-card">
+      <div class="goal-icon" style="background: linear-gradient(135deg, #ec4899, #f472b6);">🍜</div>
+      <div>
+        <div class="goal-title">Open a Restaurant / F&B</div>
+        <div class="goal-desc">Food business licensing</div>
+      </div>
+      <div class="goal-arrow">›</div>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon" style="background: linear-gradient(135deg, #14b8a6, #2dd4bf);">⚙️</div>
+      <div>
+        <div class="goal-title">Set Up a Factory</div>
+        <div class="goal-desc">Manufacturing operations</div>
+      </div>
+      <div class="goal-arrow">›</div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="label">Screen 1: Pick Your Goal</div>
+<div class="sublabel">User selects what they want to do</div>
+</div>
+
+<!-- SCREEN 2: Specify Details -->
+<div>
+<div class="phone">
+<div class="phone-screen">
+  <div class="header">
+    <div class="header-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">🏭</div>
+    <div>
+      <div class="header-title">Rent a Factory</div>
+      <div class="header-desc">Tell us more so we can check</div>
+    </div>
+    <div class="close-btn">←</div>
+  </div>
+  <div class="content">
+    <div class="goal-q">What will you do in the factory?</div>
+    <div class="goal-sub">Different activities need different licenses</div>
+
+    <div class="sub-card" style="border-color: #3b82f6; background: rgba(59,130,246,0.03);">
+      <div class="sub-icon" style="background: #eff6ff;">🔧</div>
+      <div>
+        <div class="sub-title">Manufacturing / Assembly</div>
+        <div class="sub-desc">Producing or assembling products</div>
+      </div>
+    </div>
+    <div class="sub-card">
+      <div class="sub-icon">📦</div>
+      <div>
+        <div class="sub-title">Warehouse / Storage</div>
+        <div class="sub-desc">Storing goods, logistics hub</div>
+      </div>
+    </div>
+    <div class="sub-card">
+      <div class="sub-icon">🧪</div>
+      <div>
+        <div class="sub-title">Chemical / Hazardous</div>
+        <div class="sub-desc">Working with chemicals or hazardous materials</div>
+      </div>
+    </div>
+    <div class="sub-card">
+      <div class="sub-icon">🥘</div>
+      <div>
+        <div class="sub-title">Food Processing</div>
+        <div class="sub-desc">Food manufacturing or packaging</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 16px;">
+      <div class="goal-q" style="font-size: 12px;">Where is the factory?</div>
+      <div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;">
+        <span style="padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">Selangor</span>
+        <span style="padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 500; border: 1px solid #3b82f6; color: #2563eb; background: rgba(59,130,246,0.05);">Johor</span>
+        <span style="padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">Penang</span>
+        <span style="padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">Perak</span>
+        <span style="padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">Kedah</span>
+        <span style="padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">Sabah</span>
+        <span style="padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">Sarawak</span>
+        <span style="padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">Others...</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 16px;">
+      <div class="goal-q" style="font-size: 12px;">Is it on agricultural land?</div>
+      <div style="display: flex; gap: 8px; margin-top: 8px;">
+        <span style="flex: 1; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 600; border: 1px solid #3b82f6; color: #2563eb; background: rgba(59,130,246,0.05);">Yes</span>
+        <span style="flex: 1; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">No</span>
+        <span style="flex: 1; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">Not Sure</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 16px;">
+      <div class="goal-q" style="font-size: 12px;">Will you bring foreign workers?</div>
+      <div style="display: flex; gap: 8px; margin-top: 8px;">
+        <span style="flex: 1; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 600; border: 1px solid #3b82f6; color: #2563eb; background: rgba(59,130,246,0.05);">Yes</span>
+        <span style="flex: 1; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 500; border: 1px solid #e2e8f0; color: #64748b;">No</span>
+      </div>
+    </div>
+
+    <button class="action-btn btn-primary" style="margin-top: 20px;">Check My Requirements →</button>
+  </div>
+</div>
+</div>
+<div class="label">Screen 2: Specify Details</div>
+<div class="sublabel">Smart follow-up questions based on goal</div>
+</div>
+
+<!-- SCREEN 3: Compliance Result -->
+<div>
+<div class="phone">
+<div class="phone-screen">
+  <div class="header">
+    <div class="header-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">🏭</div>
+    <div>
+      <div class="header-title">Your Compliance Roadmap</div>
+      <div class="header-desc">Manufacturing in Johor (agricultural land)</div>
+    </div>
+    <div class="close-btn">←</div>
+  </div>
+  <div class="content">
+
+    <!-- Verdict -->
+    <div class="verdict-box verdict-maybe">
+      <div class="verdict-label">⚠️ CONDITIONALLY YES</div>
+      <div class="verdict-text">You CAN do this — but you need land conversion first. Agricultural land cannot be used for manufacturing without State Authority approval.</div>
+    </div>
+
+    <!-- China Trap Warning -->
+    <div class="cn-trap">
+      <div class="cn-trap-title">🇨🇳 China Assumption Trap</div>
+      <div class="cn-trap-text">In China, land use change (土地用途变更) is a standard process with clear timelines. In Malaysia, it requires State Authority approval and can take 12-24 months with NO guarantee of success. Do NOT sign lease until conversion is confirmed.</div>
+    </div>
+
+    <!-- Required Checklist -->
+    <div class="checklist-section">
+      <div class="checklist-title">
+        <span class="checklist-badge badge-required">REQUIRED</span>
+        Must have before operating
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">1</div>
+        <div class="check-body">
+          <div class="check-name">Land Use Conversion</div>
+          <div class="check-dept">→ Pejabat Tanah Johor (Land Office)</div>
+          <div class="check-detail">Convert agricultural → industrial under NLC Section 124. Must be done BEFORE any building or operations.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-time">⏱ 12-24 months</span>
+            <span class="check-tag tag-cost">💰 RM50K-200K premium</span>
+            <span class="check-tag tag-warn">⚠️ May be rejected</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">2</div>
+        <div class="check-body">
+          <div class="check-name">DOE Environmental License</div>
+          <div class="check-dept">→ Jabatan Alam Sekitar (DOE)</div>
+          <div class="check-detail">Environmental Impact Assessment (EIA) required for manufacturing. Apply to DOE Johor. Scheduled waste handling needs separate registration.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-time">⏱ 3-6 months</span>
+            <span class="check-tag tag-cost">💰 RM5K-50K (EIA)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">3</div>
+        <div class="check-body">
+          <div class="check-name">Factory & Machinery Registration</div>
+          <div class="check-dept">→ DOSH (Jabatan Keselamatan & Kesihatan)</div>
+          <div class="check-detail">Register under Factories & Machinery Act 1967. Boiler/pressure vessel certs if applicable. OSHA compliance audit.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-time">⏱ 1-3 months</span>
+            <span class="check-tag tag-cost">💰 RM1K-5K</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">4</div>
+        <div class="check-body">
+          <div class="check-name">PBT Business License</div>
+          <div class="check-dept">→ Majlis Perbandaran / Daerah Johor</div>
+          <div class="check-detail">Local council business premise license. Annual renewal. Must match approved land use.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-time">⏱ 2-4 weeks</span>
+            <span class="check-tag tag-cost">💰 RM200-2K/year</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">5</div>
+        <div class="check-body">
+          <div class="check-name">Fire Certificate (CF)</div>
+          <div class="check-dept">→ Bomba (Fire & Rescue Dept)</div>
+          <div class="check-detail">Fire safety cert required for factory operations. Inspection of fire exits, extinguishers, suppression systems.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-time">⏱ 2-6 weeks</span>
+            <span class="check-tag tag-cost">💰 RM500-3K</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">6</div>
+        <div class="check-body">
+          <div class="check-name">Foreign Worker Permits</div>
+          <div class="check-dept">→ Imigresen Malaysia + MOHR</div>
+          <div class="check-detail">Apply through FWCMS system. Need: levy payment, SOCSO registration, workers' housing compliance (Act 446). Quota approval from MOHR.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-time">⏱ 2-6 months</span>
+            <span class="check-tag tag-cost">💰 RM1.8K-2.5K/worker/year</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommended -->
+    <div class="checklist-section">
+      <div class="checklist-title">
+        <span class="checklist-badge badge-recommended">RECOMMENDED</span>
+        Strongly advised
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-rec">7</div>
+        <div class="check-body">
+          <div class="check-name">MIDA Manufacturing License</div>
+          <div class="check-dept">→ MIDA (Investment Authority)</div>
+          <div class="check-detail">If capital > RM2.5M or 75+ workers. Unlocks tax incentives (Pioneer Status / ITA). Strongly recommended for foreign companies.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-time">⏱ 2-4 months</span>
+            <span class="check-tag tag-cost">💰 Free to apply</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-rec">8</div>
+        <div class="check-body">
+          <div class="check-name">Environmental Liability Insurance</div>
+          <div class="check-dept">→ Any licensed insurer</div>
+          <div class="check-detail">EQA 1974 holds landlord AND tenant liable. Insurance protects both parties from environmental claims and cleanup costs.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-cost">💰 RM3K-15K/year</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="total-bar">
+      <div class="total-row">
+        <span class="total-label">Total licenses needed</span>
+        <span class="total-value">6 required + 2 recommended</span>
+      </div>
+      <div class="total-row">
+        <span class="total-label">Estimated total time</span>
+        <span class="total-value">14-30 months (land conversion is bottleneck)</span>
+      </div>
+      <div class="total-row">
+        <span class="total-label">Estimated total cost</span>
+        <span class="total-value-big">RM60K - RM275K+</span>
+      </div>
+    </div>
+
+    <button class="action-btn btn-primary">📥 Download Full Checklist</button>
+    <button class="action-btn btn-secondary">💬 Ask Find.ai for Help</button>
+
+    <div class="footer-note">Advisory guide only. Requirements may vary by local authority. Consult a licensed advisor before proceeding.</div>
+  </div>
+</div>
+</div>
+<div class="label">Screen 3: Compliance Roadmap</div>
+<div class="sublabel">Full checklist with departments, timeline, cost</div>
+</div>
+
+<!-- SCREEN 4: Different example — Buy Condo -->
+<div>
+<div class="phone">
+<div class="phone-screen">
+  <div class="header">
+    <div class="header-icon" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);">🏡</div>
+    <div>
+      <div class="header-title">Your Compliance Roadmap</div>
+      <div class="header-desc">Buy a condo in Penang (foreigner)</div>
+    </div>
+    <div class="close-btn">←</div>
+  </div>
+  <div class="content">
+
+    <!-- Verdict -->
+    <div class="verdict-box verdict-maybe">
+      <div class="verdict-label">⚠️ CONDITIONALLY YES</div>
+      <div class="verdict-text">Foreigners CAN buy in Penang — but minimum RM1,000,000 (island) or RM500,000 (mainland). You also need State Authority consent.</div>
+    </div>
+
+    <!-- China Trap -->
+    <div class="cn-trap">
+      <div class="cn-trap-title">🇨🇳 China Assumption Trap</div>
+      <div class="cn-trap-text">In China, property purchase is straightforward once you have funds. No "定金 double return" (earnest money) protection exists in Malaysia — if you default, you simply lose your deposit. Also: no 优先购买权 (right of first refusal) for existing tenants.</div>
+    </div>
+
+    <div class="checklist-section">
+      <div class="checklist-title">
+        <span class="checklist-badge badge-required">REQUIRED</span>
+        Must complete
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">1</div>
+        <div class="check-body">
+          <div class="check-name">Verify Minimum Price Threshold</div>
+          <div class="check-dept">→ Penang State Government</div>
+          <div class="check-detail">Island: RM1,000,000 min. Mainland: RM500,000 min. Property MUST be above threshold — no exceptions for foreigners.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-warn">⚠️ Below threshold = rejected</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">2</div>
+        <div class="check-body">
+          <div class="check-name">State Authority Consent</div>
+          <div class="check-dept">→ Pejabat Tanah & Galian Pulau Pinang</div>
+          <div class="check-detail">Apply via lawyer. Foreign ownership must be approved by State Authority under NLC. Non-strata titles are harder.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-time">⏱ 3-6 months</span>
+            <span class="check-tag tag-cost">💰 RM1K-3K (legal fees)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">3</div>
+        <div class="check-body">
+          <div class="check-name">Stamp Duty on SPA</div>
+          <div class="check-dept">→ LHDN (IRB) via MyTax</div>
+          <div class="check-detail">Tiered: 1% (first RM100K), 2% (RM100K-500K), 3% (RM500K-1M), 4% (above RM1M). SDSAS self-assessment applies.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-cost">💰 RM24,000+ (on RM1M property)</span>
+            <span class="check-tag tag-time">⏱ Within 30 days</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">4</div>
+        <div class="check-body">
+          <div class="check-name">Legal Fees & Disbursements</div>
+          <div class="check-dept">→ Licensed Malaysian lawyer</div>
+          <div class="check-detail">SPA legal fees (tiered scale), loan agreement fees (if financing), title transfer fees, registration fees.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-cost">💰 RM10K-25K total</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-req">5</div>
+        <div class="check-body">
+          <div class="check-name">RPGT Registration</div>
+          <div class="check-dept">→ LHDN (IRB)</div>
+          <div class="check-detail">Real Property Gains Tax: foreigners pay 30% (first 5 years), 10% (after year 5). File SPA with LHDN within 60 days of disposal.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-warn">⚠️ 30% if sold within 5 years</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist-section">
+      <div class="checklist-title">
+        <span class="checklist-badge badge-recommended">RECOMMENDED</span>
+        Strongly advised
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-rec">6</div>
+        <div class="check-body">
+          <div class="check-name">Land Title Search</div>
+          <div class="check-dept">→ Pejabat Tanah</div>
+          <div class="check-detail">Verify: freehold/leasehold, caveats, charges, Malay Reserve status, encumbrances. CRITICAL — do this before paying anything.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-cost">💰 RM50-100</span>
+            <span class="check-tag tag-time">⏱ Same day</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <div class="check-num check-num-rec">7</div>
+        <div class="check-body">
+          <div class="check-name">Defect Inspection (Sub-sale)</div>
+          <div class="check-dept">→ Licensed building inspector</div>
+          <div class="check-detail">In China you have 质保期 (warranty period). In Malaysia, developer warranty is only 24 months from VP. For sub-sale, inspect BEFORE signing SPA.</div>
+          <div class="check-meta">
+            <span class="check-tag tag-cost">💰 RM500-1.5K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline View -->
+    <div style="margin-top: 12px; margin-bottom: 12px;">
+      <div class="checklist-title" style="margin-bottom: 12px;">📅 Typical Timeline</div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: #3b82f6;"></div>
+        <div class="timeline-content">
+          <div class="timeline-step">Week 1-2: Sign SPA + pay 10% deposit</div>
+          <div class="timeline-detail">Lawyer prepares SPA. You pay booking + deposit.</div>
+        </div>
+      </div>
+      <div style="margin-left: 3px;"><div class="timeline-line"></div></div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: #f59e0b;"></div>
+        <div class="timeline-content">
+          <div class="timeline-step">Month 1-3: State Authority consent</div>
+          <div class="timeline-detail">Application submitted. Wait for approval. ⚠️ If rejected, SPA is void.</div>
+        </div>
+      </div>
+      <div style="margin-left: 3px;"><div class="timeline-line"></div></div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: #f59e0b;"></div>
+        <div class="timeline-content">
+          <div class="timeline-step">Month 3-4: Stamp duty + balance payment</div>
+          <div class="timeline-detail">Pay stamp duty via SDSAS. Complete balance 90% (or bank loan disbursement).</div>
+        </div>
+      </div>
+      <div style="margin-left: 3px;"><div class="timeline-line"></div></div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: #16a34a;"></div>
+        <div class="timeline-content">
+          <div class="timeline-step">Month 4-6: Title transfer registered</div>
+          <div class="timeline-detail">Title transferred at Land Office. Keys handed over. Done! 🎉</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="total-bar">
+      <div class="total-row">
+        <span class="total-label">Total steps</span>
+        <span class="total-value">5 required + 2 recommended</span>
+      </div>
+      <div class="total-row">
+        <span class="total-label">Estimated timeline</span>
+        <span class="total-value">4-6 months</span>
+      </div>
+      <div class="total-row">
+        <span class="total-label">Estimated total cost (excl. property)</span>
+        <span class="total-value-big">RM35K - RM55K+</span>
+      </div>
+    </div>
+
+    <button class="action-btn btn-primary">📥 Download Full Checklist</button>
+    <button class="action-btn btn-secondary">💬 Ask Find.ai for Help</button>
+
+    <div class="footer-note">Advisory guide only. Requirements vary by state and property type. Consult a licensed lawyer before proceeding.</div>
+  </div>
+</div>
+</div>
+<div class="label">Screen 4: Different Example</div>
+<div class="sublabel">Buy condo in Penang — shows timeline view</div>
+</div>
+
+</div>
+
+</body>
+</html>

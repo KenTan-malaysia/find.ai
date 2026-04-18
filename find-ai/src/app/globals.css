@@ -116,11 +116,19 @@ html, body {
   30% { transform: translateY(-4px); opacity: 1; }
 }
 
-/* Glass header */
+/* Glass header — banking-app elevated */
 .glass-header {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Elevated input bar — banking float */
+.input-elevated {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 -1px 12px rgba(15, 23, 42, 0.04);
 }
 
 /* Bot message sections */
@@ -132,13 +140,36 @@ html, body {
   margin-bottom: 4px;
 }
 
-/* Smooth textarea */
+/* Smooth textarea — banking input */
 .input-area {
-  transition: box-shadow 0.2s, border-color 0.2s;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .input-area:focus-within {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   border-color: #93c5fd;
+}
+
+/* Touch target minimum — 44px for mobile */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Banking-app action buttons on messages */
+.msg-actions {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.msg-group:hover .msg-actions,
+.msg-group:active .msg-actions {
+  opacity: 1;
+}
+/* Always visible on mobile (no hover) */
+@media (hover: none) {
+  .msg-actions { opacity: 1; }
 }
 
 /* Print */
@@ -147,9 +178,45 @@ html, body {
   .chat-area { max-height: none !important; overflow: visible !important; }
 }
 
-/* Mobile safe area */
+/* Mobile safe areas — all edges */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .input-safe {
     padding-bottom: calc(12px + env(safe-area-inset-bottom));
   }
+  .header-safe {
+    padding-top: calc(12px + env(safe-area-inset-top));
+  }
+}
+
+/* Starter card press state — tactile feedback */
+.starter-card {
+  transition: all 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.starter-card:active {
+  transform: scale(0.97);
+  background: #f8fafc !important;
+}
+
+/* Tools fab button */
+.tools-fab {
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 12px rgba(59, 130, 246, 0.15);
+}
+.tools-fab:active {
+  transform: scale(0.95);
+}
+
+/* Save button on messages */
+.save-float {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  z-index: 20;
+}
+
+/* Smooth scroll override */
+.chat-area {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }

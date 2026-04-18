@@ -158,18 +158,90 @@ Future workflow — Mode 2 (once Seampify API + Gmail notifications connected):
 
 Claude does NOT have direct WhatsApp access. Monitoring via Gmail notifications from Seampify only.
 
-**Unbelievebe — NEW PROJECT — Malaysian Landlord Advisor Web App.**
-Tech: Next.js 14 + Tailwind + Claude API (Sonnet)
-Location: `unbelievebe/` folder in Ken's Claude desktop folder
-When Ken says "unbelievebe" — work from this folder only. Read/edit files inside `unbelievebe/` directly. Do not load other context files unless Ken asks for something unrelated.
+**Find.ai — Malaysian PropTech Compliance & Advisory Platform (formerly Unbelievebe).**
+Tech: Next.js 14 + Tailwind + Claude API (Haiku)
+Location: `find-ai/` folder in Ken's Claude desktop folder. Old `unbelievebe/` folder is archived — do not edit.
+When Ken says "find.ai" or "unbelievebe" — work from `find-ai/` folder only. Full project docs in `find-ai/CLAUDE.md`.
+Two layers: free consumer Q&A (original Unbelievebe) + premium compliance modules (SDSAS, Evidence Vault, CN-MY Trust Link, Situation Navigator).
 Key files:
 - `src/app/page.js` — chat UI (React)
 - `src/app/api/chat/route.js` — Claude API backend + system prompt
 - `.env.local` — API key
 - `README.md` — deployment guide
-Status: V1 complete (chat working, starter questions, save/print, suggested follow-ups). Not yet deployed.
-Phase 1: Landlord-only advice. Phase 2: Add tenant mode.
-Deploy target: Vercel (free tier).
+Status: V2 deployed to Vercel at https://find-ai-lovat.vercel.app (formerly https://unbelievebe.vercel.app)
+GitHub: https://github.com/KenTan-malaysia/find.ai (old repo: https://github.com/KenTan-malaysia/unbelievebe)
+System prompt upgraded to polished multi-vertical version (5 verticals: landlord, S&P, first-time buyer, tenant, auction).
+Reference docs saved in `references/` folder.
+Model: claude-sonnet-4-6 (was broken with old model name, fix pushed)
+API key: set in Vercel env vars (Ken must regenerate — old key was exposed in chat)
+Phase 1: Landlord-focused launch. Phase 2: Add tenant mode.
+Deploy target: Vercel (free tier). Auto-deploys on git push.
+Workflow: Zeus edits code → Ken pushes to GitHub → Vercel auto-deploys.
+Model: claude-haiku-4-5-20251001 (fastest + cheapest, switched from Sonnet)
+Streaming: enabled — words appear one by one
+Answer format: icon-based (⚖️ law, ✅ do this, 🚫 don't, 💰 cost) — NO WhatsApp templates, this is end-user platform not agent tool. Detailed but scannable, not essay-style.
+Ken's feedback: no essays, no ChatGPT-style walls of text, must feel useful and Malaysian-specific
+Ken's name in app context: Zeus
+Token efficiency rule: only load files relevant to the question, never load everything
+App behavior: NOT a chatbot. Professional legal reference tool only. Ignores off-topic messages. No emojis, no casual tone.
+Core function: User describes situation in normal words → Unbelievebe gives legal position + ready-to-copy tenancy agreement clause.
+No WhatsApp templates (end-user platform, not agent tool).
+No follow-up questions at bottom of answers.
+
+Top landlord pain points to build around:
+MONEY: late payment, deposit disputes, unpaid utilities, low rental yield
+LEGAL: eviction confusion (most do it illegally), bad tenancy agreements, stamp duty, subletting
+DAMAGE: tenant damage with no proof, maintenance disputes (who pays), property left in bad condition
+TAX: undeclared rental income (LHDN fear), deductible expenses, profitability calculation
+TENANT: refuse to move out, overcrowding, noise, running business from residential unit
+KEY INSIGHT: No one teaches landlords to protect themselves BEFORE problems. App should be the tool they use BEFORE signing.
+
+Current app behavior: friendly chatbot + legal clause generator. Conversational tone like a property consultant.
+System prompt: built around top landlord pain points (money, legal, damage, tax, tenant management). Prevention-first approach.
+Model: claude-haiku-4-5-20251001 (fastest). Streaming enabled.
+
+ROADMAP PHASE 1 (all completed):
+1. Voice input ✅
+2. BM language toggle ✅
+3. Landing page ✅
+4. Starter questions redesign ✅
+5. Copy button on clauses ✅
+6. Save conversation as HTML ✅
+7. Polished UX — chat empty + active redesign ✅
+8. Mandarin Chinese (中文) language ✅ — 3-way toggle: EN → BM → 中文 → EN
+9. Dialect understanding ✅ — Kelantanese, Terengganu, Kedah, N9, Sarawak, Sabah all understood. Responds in standard BM/EN/中文.
+10. State-aware legal knowledge ✅ — Sabah/Sarawak different land laws handled. Asks state when law differs.
+11. WhatsApp share button ✅ — on every bot answer, opens wa.me with answer + app link
+12. Privacy badge ✅ — lock icon + "Your conversations stay on your device" on landing + chat
+13. Property profile ✅ — first-visit setup: role (landlord/tenant/buyer), state, property type, rent. Saved to localStorage. Shows tags in welcome bubble. Edit via profile icon in header.
+14. Session memory ✅ — chat history, language, profile all persist across browser sessions via localStorage. "Continue previous conversation" button on landing page.
+15. Profile context in API ✅ — profile data sent to AI for personalized answers (auto-applies correct state law, frames answer from user's role perspective)
+
+ROADMAP PHASE 2 (paused, resume when Ken says):
+1. Stamp duty + rental yield calculator [NEXT — paused]
+2. Tenant screening checklist
+3. Agreement health check (upsell to agreement generator later)
+4. Check-in/check-out photo system (evidence = power)
+5. Full tenancy agreement generator (paid feature)
+
+Ken needs to push latest commits to GitHub. Multiple features pending push.
+Ken's unbelievebe folder location: unknown — need to find on his Windows machine (not at ~/Desktop/Claude/unbelievebe).
+
+UX APPROVED: Ken confirmed the chat active design (law card with amber border, numbered steps, red don't-do card, cost pills, clause block with Copy) — said "the ux like this is great".
+
+SUCCESS ASSESSMENT:
+- Current version (legal Q&A only): 25-30%
+- With calculators + screening + Mandarin: 55-65%
+- With full landlord OS (agreement gen, rent tracker, evidence): 75-80%
+- Biggest gap: distribution (TikTok/Reels content, property Facebook groups)
+- Zero direct competition in Malaysia for this niche
+
+COMPETITIVE GAPS vs ChatGPT (identified):
+- Source verification / clickable law citations — not yet built
+- Multi-format output (PDF export) — not yet built
+- Rent collection tracker — not yet built
+- Tenancy agreement health check — not yet built
+- Distribution strategy — biggest risk, needs content marketing (TikTok/Reels about landlord problems)
 
 ---
 
