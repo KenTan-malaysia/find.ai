@@ -118,19 +118,20 @@ export default function Landing({ onStart, lang, setLang, hasSavedChat, onContin
   const c = t[lang];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)' }}>
       {/* Header */}
       <header className="flex items-center justify-between px-6 py-4 max-w-lg mx-auto">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-[10px] flex items-center justify-center shadow-md"
-            style={{ background: 'linear-gradient(135deg, #16a34a, #22c55e)' }}>
+          <div className="w-8 h-8 rounded-[10px] flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #3b82f6, #60a5fa)', boxShadow: '0 2px 8px rgba(59,130,246,0.3)' }}>
             <span className="text-white text-sm font-bold">F</span>
           </div>
-          <span className="text-base font-semibold text-gray-900">Find.ai</span>
+          <span className="text-base font-semibold text-white">Find.ai</span>
         </div>
         <button
           onClick={() => setLang(lang === 'en' ? 'bm' : lang === 'bm' ? 'zh' : 'en')}
-          className="text-xs px-3.5 py-1.5 rounded-full bg-green-50 hover:bg-green-100 text-green-700 font-semibold border border-green-100 transition"
+          className="text-xs px-3.5 py-1.5 rounded-full font-semibold transition"
+          style={{ background: 'rgba(255,255,255,0.08)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.1)' }}
         >
           {c.toggle}
         </button>
@@ -138,29 +139,31 @@ export default function Landing({ onStart, lang, setLang, hasSavedChat, onContin
 
       {/* Hero */}
       <div className="px-6 pt-10 pb-6 text-center max-w-lg mx-auto">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-green-50 text-green-700 text-xs font-semibold mb-6">
-          <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-6"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: '#cbd5e1' }}>
+          <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#10b981' }} />
           {c.badge}
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 leading-tight">
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 leading-tight">
           {c.hero}<br />
-          <span className="text-green-600">{c.heroHighlight}</span>
+          <span style={{ color: '#3b82f6' }}>{c.heroHighlight}</span>
         </h2>
-        <p className="text-gray-500 mb-7 text-sm sm:text-base max-w-sm mx-auto leading-relaxed">{c.sub}</p>
+        <p className="mb-7 text-sm sm:text-base max-w-sm mx-auto leading-relaxed" style={{ color: '#94a3b8' }}>{c.sub}</p>
         <button
           onClick={onStart}
           className="px-8 py-3.5 text-white rounded-[14px] text-sm font-semibold hover:brightness-110 transition"
-          style={{ background: 'linear-gradient(135deg, #16a34a, #22c55e)', boxShadow: '0 4px 15px rgba(22,163,74,0.3)' }}
+          style={{ background: 'linear-gradient(135deg, #3b82f6, #60a5fa)', boxShadow: '0 4px 20px rgba(59,130,246,0.3)' }}
         >
           {c.cta}
         </button>
-        <p className="text-[11px] text-gray-400 mt-2.5">{c.free}</p>
+        <p className="text-[11px] mt-2.5" style={{ color: '#64748b' }}>{c.free}</p>
 
         {/* Continue previous chat */}
         {hasSavedChat && (
           <button
             onClick={onContinueChat}
-            className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-green-200 bg-green-50 text-green-700 text-[13px] font-medium hover:bg-green-100 transition"
+            className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-medium transition"
+            style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', color: '#93c5fd' }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
@@ -172,31 +175,33 @@ export default function Landing({ onStart, lang, setLang, hasSavedChat, onContin
 
       {/* Privacy badge */}
       <div className="flex items-center justify-center gap-1.5 px-6 pb-2 max-w-lg mx-auto">
-        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
         </svg>
-        <span className="text-[10px] text-gray-400">{c.privacy}</span>
+        <span className="text-[10px]" style={{ color: '#64748b' }}>{c.privacy}</span>
       </div>
 
       {/* Stats */}
-      <div className="flex justify-center gap-10 sm:gap-16 px-6 py-6 mx-6 rounded-2xl bg-gray-50 max-w-lg sm:mx-auto">
+      <div className="flex justify-center gap-10 sm:gap-16 px-6 py-6 mx-6 rounded-2xl max-w-lg sm:mx-auto"
+        style={{ background: 'rgba(255,255,255,0.03)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         {c.stats.map((s, i) => (
           <div key={i} className="text-center">
-            <div className="text-xl sm:text-2xl font-bold text-green-600">{s.num}</div>
-            <div className="text-[11px] text-gray-500 mt-1">{s.label}</div>
+            <div className="text-xl sm:text-2xl font-bold" style={{ color: '#3b82f6' }}>{s.num}</div>
+            <div className="text-[11px] mt-1" style={{ color: '#64748b' }}>{s.label}</div>
           </div>
         ))}
       </div>
 
       {/* Features */}
       <div className="px-6 py-10 max-w-lg mx-auto">
-        <h3 className="text-base font-bold text-gray-900 text-center mb-5">{c.featuresTitle}</h3>
+        <h3 className="text-base font-bold text-center mb-5" style={{ color: '#e2e8f0' }}>{c.featuresTitle}</h3>
         <div className="grid grid-cols-2 gap-2.5">
           {c.features.map((f, i) => (
-            <div key={i} className="p-4 rounded-[14px] bg-white border border-gray-100 card-hover">
+            <div key={i} className="p-4 rounded-[14px] card-hover"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
               <div className="text-xl mb-2">{f.icon}</div>
-              <div className="text-[13px] font-semibold text-gray-800 mb-1">{f.title}</div>
-              <div className="text-[11px] text-gray-500 leading-relaxed">{f.desc}</div>
+              <div className="text-[13px] font-semibold mb-1" style={{ color: '#e2e8f0' }}>{f.title}</div>
+              <div className="text-[11px] leading-relaxed" style={{ color: '#64748b' }}>{f.desc}</div>
             </div>
           ))}
         </div>
@@ -204,25 +209,27 @@ export default function Landing({ onStart, lang, setLang, hasSavedChat, onContin
 
       {/* Problems */}
       <div className="px-6 py-8 max-w-lg mx-auto text-center">
-        <h3 className="text-base font-bold text-gray-900 mb-4">{c.problems}</h3>
+        <h3 className="text-base font-bold mb-4" style={{ color: '#e2e8f0' }}>{c.problems}</h3>
         <div className="flex flex-wrap justify-center gap-1.5">
           {c.problemList.map((p, i) => (
-            <span key={i} className="text-xs px-3.5 py-2 rounded-full bg-green-50 text-green-800 border border-green-100">{p}</span>
+            <span key={i} className="text-xs px-3.5 py-2 rounded-full"
+              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: '#94a3b8' }}>{p}</span>
           ))}
         </div>
       </div>
 
       {/* Bottom CTA */}
-      <div className="px-6 py-14 text-center bg-green-50 rounded-t-[20px] mt-4">
-        <p className="text-sm text-green-800 font-semibold mb-4">{c.bottomCta}</p>
+      <div className="px-6 py-14 text-center rounded-t-[20px] mt-4"
+        style={{ background: 'rgba(59,130,246,0.06)', borderTop: '1px solid rgba(59,130,246,0.1)' }}>
+        <p className="text-sm font-semibold mb-4" style={{ color: '#93c5fd' }}>{c.bottomCta}</p>
         <button
           onClick={onStart}
           className="px-8 py-3.5 text-white rounded-[14px] text-sm font-semibold hover:brightness-110 transition"
-          style={{ background: 'linear-gradient(135deg, #16a34a, #22c55e)', boxShadow: '0 4px 15px rgba(22,163,74,0.3)' }}
+          style={{ background: 'linear-gradient(135deg, #3b82f6, #60a5fa)', boxShadow: '0 4px 20px rgba(59,130,246,0.3)' }}
         >
           {c.ctaBottom}
         </button>
-        <p className="text-[10px] text-gray-400 mt-3">{c.disclaimer}</p>
+        <p className="text-[10px] mt-3" style={{ color: '#475569' }}>{c.disclaimer}</p>
       </div>
     </div>
   );

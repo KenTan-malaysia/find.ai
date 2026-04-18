@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 // ===== SHARED =====
 const CloseBtn = ({ onClick }) => (
-  <button onClick={onClick} className="text-gray-400 hover:text-gray-600 p-1">
+  <button onClick={onClick} className="p-1 transition" style={{ color: '#94a3b8' }}>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
 );
@@ -16,8 +16,8 @@ const ToolHeader = ({ icon, gradient, title, desc, onClose }) => (
         <span className="text-lg">{icon}</span>
       </div>
       <div>
-        <h3 className="text-base font-bold text-gray-900">{title}</h3>
-        <p className="text-[11px] text-gray-400">{desc}</p>
+        <h3 className="text-base font-bold" style={{ color: '#0f172a' }}>{title}</h3>
+        <p className="text-[11px]" style={{ color: '#94a3b8' }}>{desc}</p>
       </div>
     </div>
     <CloseBtn onClick={onClose} />
@@ -25,7 +25,7 @@ const ToolHeader = ({ icon, gradient, title, desc, onClose }) => (
 );
 
 const Modal = ({ children }) => (
-  <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" style={{ background: 'rgba(0,0,0,0.4)' }}>
+  <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" style={{ background: 'rgba(15,23,42,0.5)' }}>
     <div className="bg-white w-full max-w-lg rounded-t-[20px] sm:rounded-[20px] p-6 max-h-[90vh] overflow-y-auto fade-in">
       {children}
     </div>
@@ -34,11 +34,11 @@ const Modal = ({ children }) => (
 
 const RMInput = ({ value, onChange, placeholder, label }) => (
   <div>
-    <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">{label}</label>
-    <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-4 py-3">
-      <span className="text-sm text-gray-400 font-medium">RM</span>
+    <label className="text-[11px] font-semibold uppercase tracking-wider mb-1.5 block" style={{ color: '#64748b' }}>{label}</label>
+    <div className="flex items-center gap-2 rounded-xl px-4 py-3" style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+      <span className="text-sm font-medium" style={{ color: '#94a3b8' }}>RM</span>
       <input type="number" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-        className="flex-1 bg-transparent text-lg font-semibold text-gray-900 focus:outline-none" />
+        className="flex-1 bg-transparent text-lg font-semibold focus:outline-none" style={{ color: '#0f172a' }} />
     </div>
   </div>
 );
@@ -862,26 +862,31 @@ export default function Calculators({ lang, onClose }) {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" style={{ background: 'rgba(0,0,0,0.4)' }}>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" style={{ background: 'rgba(15,23,42,0.5)' }}>
       <div className="bg-white w-full max-w-lg rounded-t-[20px] sm:rounded-[20px] p-6 fade-in">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-base font-bold text-gray-900">{t.tools}</h3>
+          <h3 className="text-base font-bold" style={{ color: '#0f172a' }}>{t.tools}</h3>
           <CloseBtn onClick={onClose} />
         </div>
         <div className="space-y-2.5">
           {tools.map(tool => (
             <button key={tool.id} onClick={() => setActive(tool.id)}
-              className="w-full flex items-center gap-3 text-left px-4 py-4 rounded-[14px] border border-gray-100 bg-white card-hover"
-              style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+              className="w-full flex items-center gap-3 text-left px-4 py-4 rounded-[14px] bg-white card-hover"
+              style={{ border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(15,23,42,0.03)' }}>
               <div className="w-10 h-10 rounded-[12px] flex items-center justify-center" style={{ background: tool.gradient }}>
                 <span className="text-lg">{tool.icon}</span>
               </div>
               <div>
-                <div className="text-[14px] font-semibold text-gray-800">{tool.title}</div>
-                <div className="text-[11px] text-gray-400 mt-0.5">{tool.desc}</div>
+                <div className="text-[14px] font-semibold" style={{ color: '#1e293b' }}>{tool.title}</div>
+                <div className="text-[11px] mt-0.5" style={{ color: '#94a3b8' }}>{tool.desc}</div>
               </div>
             </button>
           ))}
+        </div>
+        {/* Shield security strip */}
+        <div className="flex items-center justify-center gap-1.5 mt-4 pt-3" style={{ borderTop: '1px solid #f1f5f9' }}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span className="text-[10px]" style={{ color: '#94a3b8' }}>All data encrypted & stored on your device</span>
         </div>
       </div>
     </div>

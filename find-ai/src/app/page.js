@@ -130,10 +130,10 @@ const UI = {
   },
 };
 
-// Logo
+// Logo — navy/blue gradient
 const Logo = ({ size = 32 }) => (
   <div className="flex items-center justify-center flex-shrink-0"
-    style={{ width: size, height: size, minWidth: size, background: 'linear-gradient(135deg, #16a34a, #22c55e)', borderRadius: size * 0.32 }}>
+    style={{ width: size, height: size, minWidth: size, background: 'linear-gradient(135deg, #3b82f6, #60a5fa)', borderRadius: size * 0.32 }}>
     <span className="text-white font-bold" style={{ fontSize: size * 0.38 }}>F</span>
   </div>
 );
@@ -341,18 +341,18 @@ export default function Home() {
 
   const fmt = (text) => {
     let h = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
-    // Clause blocks
+    // Clause blocks — navy/blue theme
     h = h.replace(
       /📋.*?<strong>(.+?)<\/strong>.*?<br\/>(&gt;.*?)(?=<br\/><br\/>|$)/gs,
       (_, title, clause) => {
         const clean = clause.replace(/&gt;\s?/g, '').replace(/<br\/>/g, '\n').replace(/<\/?strong>/g, '').trim();
-        return `<div style="margin:16px 0;padding:16px;background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:1px solid #bbf7d0;border-radius:16px">
+        return `<div style="margin:16px 0;padding:16px;background:linear-gradient(135deg,#f1f5f9,#f8fafc);border:1px solid #e2e8f0;border-left:3px solid #3b82f6;border-radius:12px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-            <div style="display:flex;align-items:center;gap:6px"><span style="font-size:12px;font-weight:700;color:#166534">📋 ${title}</span></div>
-            <button onclick="navigator.clipboard.writeText(\`${clean.replace(/`/g,'\\`')}\`);this.textContent='Copied!';this.style.background='#16a34a';this.style.color='white';setTimeout(()=>{this.textContent='Copy';this.style.background='white';this.style.color='#16a34a'},2000)"
-              style="font-size:11px;padding:5px 14px;border-radius:8px;background:white;color:#16a34a;border:1px solid #bbf7d0;cursor:pointer;font-weight:600">Copy</button>
+            <div style="display:flex;align-items:center;gap:6px"><span style="font-size:12px;font-weight:700;color:#1e293b">📋 ${title}</span></div>
+            <button onclick="navigator.clipboard.writeText(\`${clean.replace(/`/g,'\\`')}\`);this.textContent='Copied!';this.style.background='#0f172a';this.style.color='white';setTimeout(()=>{this.textContent='Copy';this.style.background='white';this.style.color='#334155'},2000)"
+              style="font-size:11px;padding:5px 14px;border-radius:8px;background:white;color:#334155;border:1px solid #e2e8f0;cursor:pointer;font-weight:600">Copy</button>
           </div>
-          <div style="font-size:13px;color:#374151;font-style:italic;line-height:1.7;padding:12px;background:rgba(255,255,255,0.7);border-radius:10px">${clause.replace(/&gt;\s?/g,'')}</div></div>`;
+          <div style="font-size:13px;color:#334155;font-style:italic;line-height:1.7;padding:12px;background:rgba(255,255,255,0.7);border-radius:8px">${clause.replace(/&gt;\s?/g,'')}</div></div>`;
       }
     );
     return h;
@@ -364,57 +364,68 @@ export default function Home() {
   if (!showChat && !showProfile)
     return <Landing onStart={startChat} lang={lang} setLang={setLang} hasSavedChat={hasSavedChat} onContinueChat={loadChat} />;
 
-  // Profile
+  // Profile — charcoal/navy theme
   if (showProfile) {
     const t = UI[lang];
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-white px-6">
+      <div className="flex flex-col items-center justify-center min-h-screen px-6" style={{ background: '#f1f5f9' }}>
         <Logo size={52} />
-        <h2 className="text-xl font-bold text-gray-900 mt-5 mb-1">{t.profileTitle}</h2>
-        <p className="text-[13px] text-gray-400 mb-8">{t.profileDesc}</p>
+        <h2 className="text-xl font-bold mt-5 mb-1" style={{ color: '#0f172a' }}>{t.profileTitle}</h2>
+        <p className="text-[13px] mb-8" style={{ color: '#64748b' }}>{t.profileDesc}</p>
         <div className="w-full max-w-sm space-y-4">
           <div>
-            <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2 block">{t.profileRole}</label>
+            <label className="text-[11px] font-semibold uppercase tracking-wider mb-2 block" style={{ color: '#64748b' }}>{t.profileRole}</label>
             <div className="flex gap-2">
               {['landlord','tenant','buyer'].map(r => (
                 <button key={r} onClick={() => setProfile({...profile, role: r})}
                   className={`flex-1 py-3 rounded-2xl text-[13px] font-semibold transition-all border-2 ${
-                    profile.role === r ? 'bg-green-50 border-green-400 text-green-700 shadow-sm' : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
-                  }`}>{t.roles[r]}</button>
+                    profile.role === r ? 'shadow-sm' : 'bg-white hover:border-gray-300'
+                  }`}
+                  style={profile.role === r
+                    ? { background: 'rgba(59,130,246,0.06)', borderColor: '#3b82f6', color: '#1d4ed8' }
+                    : { borderColor: '#e2e8f0', color: '#64748b' }
+                  }>{t.roles[r]}</button>
               ))}
             </div>
           </div>
           <div>
-            <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2 block">{t.profileState}</label>
+            <label className="text-[11px] font-semibold uppercase tracking-wider mb-2 block" style={{ color: '#64748b' }}>{t.profileState}</label>
             <select value={profile.state} onChange={(e) => setProfile({...profile, state: e.target.value})}
-              className="w-full py-3 px-4 rounded-2xl border-2 border-gray-200 text-sm text-gray-700 focus:outline-none focus:border-green-400 bg-white transition">
+              className="w-full py-3 px-4 rounded-2xl border-2 text-sm focus:outline-none transition bg-white"
+              style={{ borderColor: '#e2e8f0', color: '#334155' }}>
               <option value="">—</option>
               {STATES.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2 block">{t.profileType}</label>
+            <label className="text-[11px] font-semibold uppercase tracking-wider mb-2 block" style={{ color: '#64748b' }}>{t.profileType}</label>
             <div className="flex gap-2">
               {['condo','landed','shop'].map(tp => (
                 <button key={tp} onClick={() => setProfile({...profile, type: tp})}
                   className={`flex-1 py-3 rounded-2xl text-[12px] font-semibold transition-all border-2 ${
-                    profile.type === tp ? 'bg-green-50 border-green-400 text-green-700 shadow-sm' : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
-                  }`}>{t.types[tp]}</button>
+                    profile.type === tp ? 'shadow-sm' : 'bg-white hover:border-gray-300'
+                  }`}
+                  style={profile.type === tp
+                    ? { background: 'rgba(59,130,246,0.06)', borderColor: '#3b82f6', color: '#1d4ed8' }
+                    : { borderColor: '#e2e8f0', color: '#64748b' }
+                  }>{t.types[tp]}</button>
               ))}
             </div>
           </div>
           <div>
-            <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2 block">{t.profileRent}</label>
+            <label className="text-[11px] font-semibold uppercase tracking-wider mb-2 block" style={{ color: '#64748b' }}>{t.profileRent}</label>
             <input type="number" value={profile.rent} onChange={(e) => setProfile({...profile, rent: e.target.value})}
-              placeholder="2500" className="w-full py-3 px-4 rounded-2xl border-2 border-gray-200 text-sm focus:outline-none focus:border-green-400 transition" />
+              placeholder="2500" className="w-full py-3 px-4 rounded-2xl border-2 text-sm focus:outline-none transition"
+              style={{ borderColor: '#e2e8f0', color: '#334155' }} />
           </div>
         </div>
         <div className="flex gap-3 mt-10 w-full max-w-sm">
           <button onClick={() => { setShowProfile(false); setShowChat(true); }}
-            className="flex-1 py-3.5 rounded-2xl text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 transition">{t.profileSkip}</button>
+            className="flex-1 py-3.5 rounded-2xl text-sm font-medium transition"
+            style={{ background: '#e2e8f0', color: '#64748b' }}>{t.profileSkip}</button>
           <button onClick={() => { save('fi_profile', profile); setShowProfile(false); setShowChat(true); }}
             className="flex-1 py-3.5 rounded-2xl text-sm font-bold text-white transition hover:brightness-110"
-            style={{ background: 'linear-gradient(135deg, #16a34a, #22c55e)' }}>{t.profileSave}</button>
+            style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)' }}>{t.profileSave}</button>
         </div>
       </div>
     );
@@ -428,27 +439,28 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen max-w-lg mx-auto bg-white">
       {/* Header */}
-      <header className="no-print glass-header sticky top-0 z-10 flex items-center justify-between px-4 py-3" style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+      <header className="no-print glass-header sticky top-0 z-10 flex items-center justify-between px-4 py-3" style={{ borderBottom: '1px solid #e2e8f0' }}>
         <div className="flex items-center gap-2.5">
           <Logo size={34} />
           <div>
-            <h1 className="text-[15px] font-bold text-gray-900 leading-tight">{t.title}</h1>
+            <h1 className="text-[15px] font-bold leading-tight" style={{ color: '#0f172a' }}>{t.title}</h1>
             <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full" style={loading ? { animation: 'pulseRing 1.5s infinite' } : {}} />
-              <span className="text-[11px] text-gray-400 font-medium">{loading ? t.analyzing : has ? t.subtitleActive : t.subtitle}</span>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: loading ? '#3b82f6' : '#10b981', animation: loading ? 'pulseRing 1.5s infinite' : 'none' }} />
+              <span className="text-[11px] font-medium" style={{ color: '#94a3b8' }}>{loading ? t.analyzing : has ? t.subtitleActive : t.subtitle}</span>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
           <button onClick={() => setLang(lang === 'en' ? 'bm' : lang === 'bm' ? 'zh' : 'en')}
-            className="text-[11px] px-3 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold transition">{t.langToggle}</button>
+            className="text-[11px] px-3 py-1.5 rounded-full font-semibold transition"
+            style={{ background: '#f1f5f9', color: '#64748b' }}>{t.langToggle}</button>
           {has && (
-            <button onClick={clearChat} className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 transition" title={t.newChat}>
+            <button onClick={clearChat} className="p-2 rounded-full transition" style={{ background: '#f1f5f9', color: '#64748b' }} title={t.newChat}>
               <NewChatIcon />
             </button>
           )}
           {hasP && (
-            <button onClick={() => setShowProfile(true)} className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 transition" title={t.profileEdit}>
+            <button onClick={() => setShowProfile(true)} className="p-2 rounded-full transition" style={{ background: '#f1f5f9', color: '#64748b' }} title={t.profileEdit}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
               </svg>
@@ -458,38 +470,39 @@ export default function Home() {
       </header>
 
       {/* Chat area */}
-      <div ref={chatRef} className="chat-area flex-1 overflow-y-auto px-4 py-4" style={{ background: has ? '#fafafa' : 'white' }}>
+      <div ref={chatRef} className="chat-area flex-1 overflow-y-auto px-4 py-4" style={{ background: has ? '#f8fafc' : 'white' }}>
         {!has ? (
           /* Empty state */
           <div className="flex flex-col h-full">
             {/* Welcome */}
             <div className="mt-4 mb-8 card-up">
               <div className="text-center">
-                <h2 className="text-[20px] font-bold text-gray-900 mb-2">{t.welcomeTitle}</h2>
-                <p className="text-[13px] text-gray-400 leading-relaxed max-w-xs mx-auto">
+                <h2 className="text-[20px] font-bold mb-2" style={{ color: '#0f172a' }}>{t.welcomeTitle}</h2>
+                <p className="text-[13px] leading-relaxed max-w-xs mx-auto" style={{ color: '#94a3b8' }}>
                   {hasP ? t.welcomeReturning : t.welcomeDesc}
                 </p>
                 {hasP && (
                   <div className="flex flex-wrap justify-center gap-1.5 mt-3">
-                    {profile.role && <span className="text-[10px] px-2.5 py-1 rounded-full bg-green-50 text-green-700 font-medium">{t.roles[profile.role]}</span>}
-                    {profile.state && <span className="text-[10px] px-2.5 py-1 rounded-full bg-green-50 text-green-700 font-medium">{profile.state}</span>}
-                    {profile.type && <span className="text-[10px] px-2.5 py-1 rounded-full bg-green-50 text-green-700 font-medium">{t.types[profile.type]}</span>}
-                    {profile.rent && <span className="text-[10px] px-2.5 py-1 rounded-full bg-green-50 text-green-700 font-medium">RM{profile.rent}/mo</span>}
+                    {profile.role && <span className="text-[10px] px-2.5 py-1 rounded-full font-medium" style={{ background: 'rgba(59,130,246,0.08)', color: '#3b82f6' }}>{t.roles[profile.role]}</span>}
+                    {profile.state && <span className="text-[10px] px-2.5 py-1 rounded-full font-medium" style={{ background: 'rgba(59,130,246,0.08)', color: '#3b82f6' }}>{profile.state}</span>}
+                    {profile.type && <span className="text-[10px] px-2.5 py-1 rounded-full font-medium" style={{ background: 'rgba(59,130,246,0.08)', color: '#3b82f6' }}>{t.types[profile.type]}</span>}
+                    {profile.rent && <span className="text-[10px] px-2.5 py-1 rounded-full font-medium" style={{ background: 'rgba(59,130,246,0.08)', color: '#3b82f6' }}>RM{profile.rent}/mo</span>}
                   </div>
                 )}
               </div>
             </div>
 
             {/* Starter cards */}
-            <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2 pl-1 card-up delay-1">{t.commonSituations}</div>
+            <div className="text-[11px] font-semibold uppercase tracking-wider mb-2 pl-1 card-up delay-1" style={{ color: '#94a3b8' }}>{t.commonSituations}</div>
             <div className="space-y-2">
               {t.questions.map((q, i) => (
                 <button key={i} onClick={() => sendMessage(q.text)}
-                  className={`card-up delay-${i+1} w-full flex items-center gap-3.5 text-left px-4 py-3.5 rounded-2xl bg-white border border-gray-100 card-hover`}>
+                  className={`card-up delay-${i+1} w-full flex items-center gap-3.5 text-left px-4 py-3.5 rounded-2xl bg-white card-hover`}
+                  style={{ border: '1px solid #e2e8f0' }}>
                   <span className="text-xl">{q.icon}</span>
                   <div className="min-w-0">
-                    <div className="text-[13px] font-semibold text-gray-800">{q.title}</div>
-                    <div className="text-[11px] text-gray-400">{q.sub}</div>
+                    <div className="text-[13px] font-semibold" style={{ color: '#1e293b' }}>{q.title}</div>
+                    <div className="text-[11px]" style={{ color: '#94a3b8' }}>{q.sub}</div>
                   </div>
                 </button>
               ))}
@@ -497,9 +510,10 @@ export default function Home() {
 
             {/* Tools */}
             <button onClick={() => setShowCalc(true)}
-              className="card-up delay-5 flex items-center justify-center gap-2 mt-3 py-3 rounded-2xl bg-green-50 hover:bg-green-100 transition border border-green-100 w-full">
+              className="card-up delay-5 flex items-center justify-center gap-2 mt-3 py-3 rounded-2xl transition w-full"
+              style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.12)', color: '#3b82f6' }}>
               <ToolsIcon />
-              <span className="text-[13px] font-semibold text-green-700">{t.tools}</span>
+              <span className="text-[13px] font-semibold">{t.tools}</span>
             </button>
           </div>
         ) : (
@@ -512,18 +526,18 @@ export default function Home() {
                   <div className={`text-[14px] leading-relaxed ${
                     msg.role === 'user'
                       ? 'px-4 py-3 text-white rounded-[20px_20px_6px_20px]'
-                      : 'bot-msg bg-white px-4 py-4 rounded-[4px_20px_20px_20px] text-gray-800'
+                      : 'bot-msg bg-white px-4 py-4 rounded-[4px_20px_20px_20px]'
                   }`}
                     style={msg.role === 'user'
-                      ? { background: 'linear-gradient(135deg, #16a34a, #1ea34e)' }
-                      : { boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }
+                      ? { background: '#0f172a' }
+                      : { boxShadow: '0 1px 3px rgba(15,23,42,0.04)', color: '#334155', border: '1px solid #e2e8f0' }
                     }
                     dangerouslySetInnerHTML={{ __html: fmt(msg.content) }}
                   />
                   {msg.role === 'assistant' && msg.content && (
                     <div className="flex items-center gap-3 mt-1.5 pl-1">
-                      <button onClick={() => copyMsg(msg.content)} className="flex items-center gap-1 text-[10px] text-gray-300 hover:text-gray-500 transition"><CopyIcon /> Copy</button>
-                      <button onClick={() => shareWA(msg.content)} className="flex items-center gap-1 text-[10px] text-gray-300 hover:text-green-600 transition"><ShareIcon /> Share</button>
+                      <button onClick={() => copyMsg(msg.content)} className="flex items-center gap-1 text-[10px] transition" style={{ color: '#cbd5e1' }}><CopyIcon /> Copy</button>
+                      <button onClick={() => shareWA(msg.content)} className="flex items-center gap-1 text-[10px] transition" style={{ color: '#cbd5e1' }}><ShareIcon /> Share</button>
                     </div>
                   )}
                 </div>
@@ -534,11 +548,11 @@ export default function Home() {
             {loading && messages[messages.length - 1]?.content === '' && (
               <div className="flex gap-2.5 msg-in">
                 <Logo size={28} />
-                <div className="bg-white px-5 py-4 rounded-[4px_20px_20px_20px]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+                <div className="bg-white px-5 py-4 rounded-[4px_20px_20px_20px]" style={{ boxShadow: '0 1px 3px rgba(15,23,42,0.04)', border: '1px solid #e2e8f0' }}>
                   <div className="flex space-x-1.5">
-                    <div className="w-2 h-2 bg-green-400 rounded-full typing-dot" />
-                    <div className="w-2 h-2 bg-green-400 rounded-full typing-dot" />
-                    <div className="w-2 h-2 bg-green-400 rounded-full typing-dot" />
+                    <div className="w-2 h-2 rounded-full typing-dot" style={{ background: '#3b82f6' }} />
+                    <div className="w-2 h-2 rounded-full typing-dot" style={{ background: '#3b82f6' }} />
+                    <div className="w-2 h-2 rounded-full typing-dot" style={{ background: '#3b82f6' }} />
                   </div>
                 </div>
               </div>
@@ -548,39 +562,42 @@ export default function Home() {
       </div>
 
       {/* Input */}
-      <div className="no-print bg-white px-4 py-3 input-safe" style={{ borderTop: '1px solid rgba(0,0,0,0.04)' }}>
-        <div className="input-area flex items-center gap-1.5 rounded-2xl px-4 pr-1.5 py-1 border border-gray-200 bg-white transition">
+      <div className="no-print bg-white px-4 py-3 input-safe" style={{ borderTop: '1px solid #e2e8f0' }}>
+        <div className="input-area flex items-center gap-1.5 rounded-2xl px-4 pr-1.5 py-1 bg-white transition"
+          style={{ border: '1.5px solid #e2e8f0' }}>
           <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleKey}
             placeholder={listening ? t.placeholderListening : (has ? t.placeholderActive : t.placeholder)}
-            rows={1} className="flex-1 resize-none bg-transparent text-[14px] focus:outline-none text-gray-800 placeholder-gray-400 py-2.5"
-            style={{ maxHeight: '100px' }}
+            rows={1} className="flex-1 resize-none bg-transparent text-[14px] focus:outline-none py-2.5"
+            style={{ color: '#1e293b', maxHeight: '100px' }}
             onInput={(e) => { e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'; }}
           />
           {/* Tools button in input */}
           {!has && (
-            <button onClick={() => setShowCalc(true)} className="w-[36px] h-[36px] rounded-xl flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 transition">
+            <button onClick={() => setShowCalc(true)} className="w-[36px] h-[36px] rounded-xl flex items-center justify-center transition"
+              style={{ color: '#94a3b8' }}>
               <ToolsIcon />
             </button>
           )}
           {recRef.current !== undefined && (
             <button onClick={toggleVoice} disabled={loading}
               className={`w-[36px] h-[36px] rounded-xl flex items-center justify-center transition ${
-                listening ? 'bg-red-500 text-white pulse-ring' : 'text-gray-400 hover:text-green-600 hover:bg-green-50'
-              } disabled:opacity-40`}>
+                listening ? 'bg-red-500 text-white pulse-ring' : ''
+              } disabled:opacity-40`}
+              style={!listening ? { color: '#94a3b8' } : {}}>
               <MicIcon />
             </button>
           )}
           <button onClick={() => sendMessage(input)} disabled={!input.trim() || loading}
             className="w-[36px] h-[36px] rounded-xl flex items-center justify-center disabled:opacity-30 transition"
-            style={{ background: input.trim() ? 'linear-gradient(135deg, #16a34a, #22c55e)' : '#e5e7eb' }}>
+            style={{ background: input.trim() ? '#0f172a' : '#e2e8f0' }}>
             <SendIcon />
           </button>
         </div>
         <div className="flex items-center justify-center gap-1.5 mt-2">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
-          <p className="text-[10px] text-gray-300">{t.privacy}</p>
+          <p className="text-[10px]" style={{ color: '#cbd5e1' }}>{t.privacy}</p>
         </div>
       </div>
 
