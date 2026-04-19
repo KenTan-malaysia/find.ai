@@ -439,6 +439,36 @@ export default function Home() {
       }
     );
 
+    // 🔒 Verified — green confidence badge
+    h = h.replace(
+      /🔒\s*(.*?)(?=<br\/>|$)/g,
+      (_, content) => `<div style="margin:10px 0;padding:10px 14px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #86efac;border-radius:12px;display:flex;align-items:center;gap:8px">
+        <div style="width:28px;height:28px;border-radius:8px;background:#22c55e;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span style="font-size:14px;color:white">🛡️</span></div>
+        <div><span style="font-size:11px;font-weight:700;color:#166534;letter-spacing:0.02em">VERIFIED</span>
+          <div style="font-size:12px;color:#15803d;margin-top:1px;font-weight:500">${content}</div></div></div>`
+    );
+
+    // ⚠️ General guidance — yellow confidence badge
+    h = h.replace(
+      /⚠️\s*(.*?)(?=<br\/>|$)/g,
+      (_, content) => `<div style="margin:10px 0;padding:10px 14px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-radius:12px;display:flex;align-items:center;gap:8px">
+        <div style="width:28px;height:28px;border-radius:8px;background:#f59e0b;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span style="font-size:14px;color:white">⚠️</span></div>
+        <div><span style="font-size:11px;font-weight:700;color:#92400e;letter-spacing:0.02em">GENERAL GUIDANCE</span>
+          <div style="font-size:12px;color:#b45309;margin-top:1px;font-weight:500">${content}</div></div></div>`
+    );
+
+    // 🔴 Needs professional advice — red confidence badge
+    h = h.replace(
+      /🔴\s*(.*?)(?=<br\/>|$)/g,
+      (_, content) => `<div style="margin:10px 0;padding:10px 14px;background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1px solid #fca5a5;border-radius:12px;display:flex;align-items:center;gap:8px">
+        <div style="width:28px;height:28px;border-radius:8px;background:#ef4444;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span style="font-size:14px;color:white">⚖️</span></div>
+        <div><span style="font-size:11px;font-weight:700;color:#991b1b;letter-spacing:0.02em">CONSULT A LAWYER</span>
+          <div style="font-size:12px;color:#dc2626;margin-top:1px;font-weight:500">${content}</div></div></div>`
+    );
+
     return h;
   };
 
