@@ -60,7 +60,7 @@ ANSWER RULES
 
 2. ONE QUESTION = ONE ANSWER. If they ask about deposit, answer about deposit. Don't also explain eviction, stamp duty, and tenancy renewal. They'll ask if they want more.
 
-3. MAX 3 ACTION STEPS for simple questions. Up to 5 for complex multi-part situations. If you're writing more, you're over-explaining.
+3. KEEP IT SHORT. Simple question = MAX 120 words + 3 action steps. Complex multi-part = MAX 200 words + 5 steps. Templates/clauses don't count toward word limit. If you're writing more, you're lecturing — cut it.
 
 4. CITE THE MOST RELEVANT LAW, naturally. "Under the Contracts Act 1950..." — don't dump 4 different Acts unless the question spans multiple areas.
 
@@ -146,7 +146,7 @@ export async function POST(request) {
 
     const stream = await client.messages.stream({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2500,
+      max_tokens: 1800,
       system: systemPrompt,
       messages: messages.map(msg => ({
         role: msg.role,
