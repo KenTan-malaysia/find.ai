@@ -311,6 +311,87 @@ RENOVATION:
 - Strata: renovation must comply with by-laws. Structural changes need MC approval + engineer cert.
 - Renovation deposit to MC: typically RM500-5,000 (refundable after completion).
 
+SUBLETTING & SHORT-TERM RENTAL (AIRBNB):
+- Subletting = tenant renting out part/whole of the property to a third party.
+- ALWAYS requires written landlord consent — subletting without consent is a breach of tenancy agreement and grounds for termination.
+- Landlord can include a NO SUBLETTING clause in tenancy agreement. If breached → landlord may terminate + forfeit deposit.
+- Strata properties: MC by-laws may PROHIBIT or restrict short-term rentals (Airbnb). Check by-laws before listing.
+- No nationwide short-term rental (STR) licensing framework yet — Malaysia is in a transitional period. Some local authorities (DBKL, MBPJ) may require tourism/business license.
+- If unit is used for Airbnb: may need to register with local PBT, pay tourism tax (RM10/night for foreign tourists), and declare rental income to LHDN.
+- Condo rules: many MCs ban stays <30 days via house rules or by-law amendments. Violation = fine by MC + complaint to SMT.
+- Subletting without consent does NOT automatically make the sub-tenant trespasser — landlord must go through proper eviction for the head tenant.
+
+RENTAL INCOME TAX (LHDN):
+- ALL rental income must be declared under Section 4(d) of the Income Tax Act 1967.
+- Tax residents: progressive rate 0%–30% on chargeable income (after deductions).
+- Non-residents: flat 30% on gross rental income (limited deductions).
+- Allowable deductions: loan interest (investment loan only), quit rent, assessment/cukai taksiran, fire insurance premium, property repairs & maintenance (NOT capital improvements), property management fees, legal fees for rent recovery, agent commission.
+- Capital improvements (renovation to increase value) are NOT deductible — only repairs restoring original condition.
+- Filing: Form BE (employment + rental) or Form B (sole proprietor). Due by April 30 (no business income) or June 30 (with business income). File via MyTax e-Filing at mytax.hasil.gov.my.
+- Penalty: failure to declare = 45% penalty on underreported tax + possible criminal prosecution.
+- Co-owners: each owner declares their share of rental income based on ownership proportion.
+- Residential rental is EXEMPT from service tax (only commercial rental attracts 8% service tax from July 2025).
+
+MM2H (MALAYSIA MY SECOND HOME) PROPERTY RULES:
+- MM2H is a long-term residency programme — NOT citizenship or PR.
+- 3-tier system (revised 2021+):
+  * Silver: fixed deposit USD150,000 + can buy property ≥RM600,000
+  * Gold: fixed deposit USD500,000 + can buy property ≥RM1,000,000
+  * Platinum: fixed deposit USD1,000,000 + can buy property ≥RM2,000,000
+- Must purchase property within 1 year of visa approval.
+- Must hold the property for minimum 10 years.
+- Residency requirement: minimum 90 cumulative days per year in Malaysia.
+- MM2H holders are still considered FOREIGN BUYERS — subject to state consent, foreign buyer minimum thresholds, and 8% flat stamp duty on MOT.
+- Cannot purchase: Malay Reserve land, Bumiputera lots, properties below state minimum threshold, agricultural land (in most states).
+- Can get Malaysian mortgage: typically max 60-70% margin (vs 90% for citizens). Tenure may be shorter.
+
+NOISE & NUISANCE COMPLAINTS:
+- Strata properties: governed by SMA 2013 by-laws. MC can set quiet hours and noise rules.
+  * File written complaint to MC → MC investigates → can fine/warn offender.
+  * If MC fails to act → escalate to Strata Management Tribunal (SMT). Filing fee RM100 (residential).
+  * Common by-law: no excessive noise 10PM–8AM.
+- Landed properties: Environmental Quality Act 1974 + Local Government Act 1976 (Act 171).
+  * Noise from neighbours: complain to local PBT (council) → council issues notice → can compound fine.
+  * Construction noise: regulated by DOE guidelines. Construction only allowed 7AM–7PM weekdays in residential areas.
+- Legal remedies: private nuisance lawsuit → court can grant injunction (stop the noise) + award damages.
+- Tenant responsibility: if tenant causes nuisance → landlord can issue notice to remedy breach → if unresolved → grounds for eviction.
+
+PROPERTY INSURANCE:
+- Strata properties (SMA 2013 s.93): MC/JMB MUST insure the entire building — fire, allied perils, public liability.
+  * If MC fails to insure → MC committee members are PERSONALLY LIABLE for losses.
+  * Building insurance covers: common property + structural elements of all units.
+  * Individual unit interior (fixtures, fittings, renovations): owner's responsibility to insure separately.
+  * Tenants: should get contents insurance for personal belongings. NOT covered by MC or owner's policy.
+- Landed properties: no legal requirement to insure, but bank will require MRTA/MLTA or fire insurance if there's an active mortgage.
+- MRTA (Mortgage Reducing Term Assurance): covers outstanding loan if borrower dies. Reduces over time with loan balance.
+- MLTA (Mortgage Level Term Assurance): covers a fixed sum throughout the loan tenure. More expensive but better coverage.
+- Landlord best practice: insure building (fire + natural disaster) + public liability. Require tenant to have contents insurance as a tenancy condition.
+- Flood/natural disaster: standard fire policy does NOT cover flood. Need separate rider/extension. Important for flood-prone areas.
+
+STRATA SPECIAL LEVY:
+- SMA 2013 s.33: JMB/MC can impose a SPECIAL LEVY for any lawful expense not covered by the maintenance fund.
+- Common reasons: major repair (roof, lift replacement), repainting, upgrading fire safety, legal fund for litigation.
+- Process: MC must table the special levy at a General Meeting (AGM or EGM). Requires Ordinary Resolution (>50% of those present and voting).
+- Once properly passed at GM → ALL owners must pay. Individual owner CANNOT refuse if resolution was valid.
+- Dispute: if owner believes levy is improper → challenge at SMT within 6 months. Cannot simply refuse to pay.
+- Non-payment: MC can sue + register a charge on the unit (same enforcement as unpaid maintenance charges).
+- New buyer beware: check if any outstanding special levy exists before purchase — it may transfer to new owner.
+
+BANKRUPTCY & MORTGAGE DEFAULT:
+- Loan default timeline: miss 1 payment → bank sends reminder → miss 2-3 months → bank sends Letter of Demand (LOD, 14 days to pay) → after 4+ months default → bank may initiate foreclosure.
+- Foreclosure types:
+  * Individual title issued (NLC property): judicial sale via court — bank files originating summons → court order for sale → public auction.
+  * Master title / no title: private treaty sale or auction under loan agreement power of sale.
+- LACA (Loan to developer under HDA): court-ordered auction. Buyer gets full title transfer.
+- Non-LACA: auction by bank/auctioneer. May have title complications.
+- Auction process: bank sets reserve price → advertise → auction day → highest bidder wins → pay 5-10% deposit on the day → balance within 90-120 days.
+- No loan protection at auction: bid at your own risk. If can't get financing → forfeit deposit.
+- Bankruptcy: threshold is RM100,000 (increased from RM50,000 in 2020). If debts exceed this → creditors can petition for bankruptcy.
+- Department of Insolvency (DGI) becomes trustee → seizes assets including property.
+- Voluntary Arrangement (VA): alternative to bankruptcy. Debtor proposes repayment plan to creditors. If >75% of creditors (by value) agree → plan is binding on all.
+- During bankruptcy: cannot buy/sell property, be a company director, or travel overseas without DGI permission.
+- Discharge: automatic discharge after 3 years if debtor fulfills income payment agreement (IPA). Otherwise, can apply for discharge after 5 years.
+
 INDUSTRIAL & FACTORY:
 - NLC s.124 — must convert land use before operating (agriculture → industrial). Criminal offense if not.
 - DOE (Environmental Quality Act 1974) — environmental license needed.
