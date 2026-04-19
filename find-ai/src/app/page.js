@@ -2,8 +2,10 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Landing from './landing';
-import Calculators from './calculators';
 import ErrorBoundary from '../components/ErrorBoundary';
+import CNMYTrustLink from '../components/tools/CNMYTrustLink';
+import MYCompanyCheck from '../components/tools/MYCompanyCheck';
+import { L } from '../components/tools/labels';
 
 const STATES = [
   'Johor', 'Kedah', 'Kelantan', 'Melaka', 'Negeri Sembilan',
@@ -150,11 +152,7 @@ const SendIcon = () => (
     <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
   </svg>
 );
-const ToolsIcon = ({ size = 16 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
-  </svg>
-);
+// ToolsIcon removed — Stage 1 uses direct scoring cards
 const ShareIcon = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -189,7 +187,8 @@ export default function Home() {
   const [lang, setLang] = useState('en');
   const [showChat, setShowChat] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const [showCalc, setShowCalc] = useState(false);
+  const [showCN, setShowCN] = useState(false);
+  const [showMY, setShowMY] = useState(false);
   const [profile, setProfile] = useState({ role: '', state: '', type: '', rent: '' });
   const [hasSavedChat, setHasSavedChat] = useState(false);
   const [ready, setReady] = useState(false);
@@ -543,6 +542,7 @@ export default function Home() {
 
   // Chat
   const t = UI[lang];
+  const tl = L[lang]; // tool labels for card titles
   const has = messages.length > 0;
   const hasP = profile.role || profile.state;
 
@@ -582,10 +582,10 @@ export default function Home() {
       {/* Chat area */}
       <div ref={chatRef} className="chat-area flex-1 overflow-y-auto px-4 py-5" style={{ background: has ? '#f8fafc' : 'white' }}>
         {!has ? (
-          /* Empty state — banking clean */
+          /* Empty state — Stage 1: Chat + Company Scoring */
           <div className="flex flex-col h-full">
             {/* Welcome */}
-            <div className="mt-6 mb-8 card-up">
+            <div className="mt-4 mb-6 card-up">
               <div className="text-center">
                 <h2 className="text-[22px] font-bold mb-2.5" style={{ color: '#0f172a', letterSpacing: '-0.02em' }}>{t.welcomeTitle}</h2>
                 <p className="text-[13px] leading-relaxed max-w-[280px] mx-auto" style={{ color: '#94a3b8' }}>
@@ -602,32 +602,69 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Starter cards — bigger touch targets */}
-            <div className="text-[10px] font-bold uppercase tracking-widest mb-3 pl-1 card-up delay-1" style={{ color: '#cbd5e1' }}>{t.commonSituations}</div>
-            <div className="space-y-2.5">
+            {/* ===== COMPANY SCORING CARDS — Main Feature ===== */}
+            <div className="card-up delay-1 mb-5">
+              <div className="text-[10px] font-bold uppercase tracking-widest mb-2.5 pl-1" style={{ color: '#cbd5e1' }}>
+                {lang === 'en' ? 'Company Verification' : lang === 'bm' ? 'Pengesahan Syarikat' : '公司验证'}
+              </div>
+              <div className="flex gap-2.5">
+                {/* MY Company Check */}
+                <button onClick={() => setShowMY(true)}
+                  className="flex-1 flex flex-col items-center gap-2 py-5 px-3 rounded-2xl transition active:scale-[0.97]"
+                  style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', boxShadow: '0 4px 20px rgba(15,23,42,0.25)' }}>
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <span className="text-xl">🇲🇾</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-[13px] font-bold text-white">{tl.myCardTitle}</div>
+                    <div className="text-[10px] mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{tl.myCardDesc}</div>
+                  </div>
+                  {/* Mini traffic light indicator */}
+                  <div className="flex gap-1 mt-1">
+                    <div className="w-2 h-2 rounded-full" style={{ background: '#dc2626' }} />
+                    <div className="w-2 h-2 rounded-full" style={{ background: '#f59e0b' }} />
+                    <div className="w-2 h-2 rounded-full" style={{ background: '#16a34a' }} />
+                  </div>
+                </button>
+
+                {/* CN Company Check */}
+                <button onClick={() => setShowCN(true)}
+                  className="flex-1 flex flex-col items-center gap-2 py-5 px-3 rounded-2xl transition active:scale-[0.97]"
+                  style={{ background: 'linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%)', boxShadow: '0 4px 20px rgba(220,38,38,0.2)' }}>
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <span className="text-xl">🇨🇳</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-[13px] font-bold text-white">{tl.cnCardTitle}</div>
+                    <div className="text-[10px] mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{tl.cnCardDesc}</div>
+                  </div>
+                  <div className="flex gap-1 mt-1">
+                    <div className="w-2 h-2 rounded-full" style={{ background: '#fca5a5' }} />
+                    <div className="w-2 h-2 rounded-full" style={{ background: '#fde68a' }} />
+                    <div className="w-2 h-2 rounded-full" style={{ background: '#86efac' }} />
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* ===== Q&A STARTER QUESTIONS ===== */}
+            <div className="text-[10px] font-bold uppercase tracking-widest mb-2.5 pl-1 card-up delay-2" style={{ color: '#cbd5e1' }}>{t.commonSituations}</div>
+            <div className="space-y-2">
               {t.questions.map((q, i) => (
                 <button key={i} onClick={() => sendMessage(q.text)}
-                  className={`card-up delay-${i+1} starter-card w-full flex items-center gap-4 text-left px-4 py-4 rounded-2xl bg-white`}
+                  className={`card-up delay-${i+2} starter-card w-full flex items-center gap-3.5 text-left px-4 py-3.5 rounded-2xl bg-white`}
                   style={{ border: '1px solid #e2e8f0' }}>
-                  <span className="text-2xl flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl" style={{ background: '#f8fafc' }}>{q.icon}</span>
+                  <span className="text-xl flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-xl" style={{ background: '#f8fafc' }}>{q.icon}</span>
                   <div className="min-w-0">
                     <div className="text-[13px] font-semibold" style={{ color: '#0f172a' }}>{q.title}</div>
-                    <div className="text-[11px] mt-0.5" style={{ color: '#94a3b8' }}>{q.sub}</div>
+                    <div className="text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>{q.sub}</div>
                   </div>
-                  <svg className="flex-shrink-0 ml-auto" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg className="flex-shrink-0 ml-auto" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="2" strokeLinecap="round">
                     <path d="m9 18 6-6-6-6"/>
                   </svg>
                 </button>
               ))}
             </div>
-
-            {/* Tools */}
-            <button onClick={() => setShowCalc(true)}
-              className="card-up delay-5 flex items-center justify-center gap-2.5 mt-4 py-3.5 rounded-2xl transition w-full active:scale-[0.98]"
-              style={{ background: '#0f172a', color: '#fff' }}>
-              <ToolsIcon />
-              <span className="text-[13px] font-bold">{t.tools}</span>
-            </button>
           </div>
         ) : (
           /* Messages — banking-clean spacing */
@@ -692,13 +729,16 @@ export default function Home() {
             style={{ color: '#1e293b', maxHeight: '100px', lineHeight: '1.5' }}
             onInput={(e) => { e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'; }}
           />
-          {/* Tools button — always visible in chat */}
+          {/* Company check shortcuts — visible when chatting */}
           {has && (
-            <button onClick={() => setShowCalc(true)}
-              className="touch-target rounded-xl flex items-center justify-center transition active:scale-90"
-              style={{ color: '#94a3b8' }}>
-              <ToolsIcon />
-            </button>
+            <div className="flex gap-0.5">
+              <button onClick={() => setShowMY(true)} className="touch-target rounded-lg flex items-center justify-center transition active:scale-90" title={tl.myCardTitle}>
+                <span className="text-[14px]">🇲🇾</span>
+              </button>
+              <button onClick={() => setShowCN(true)} className="touch-target rounded-lg flex items-center justify-center transition active:scale-90" title={tl.cnCardTitle}>
+                <span className="text-[14px]">🇨🇳</span>
+              </button>
+            </div>
           )}
           {recRef.current !== undefined && (
             <button onClick={toggleVoice} disabled={loading}
@@ -723,7 +763,8 @@ export default function Home() {
         </div>
       </div>
 
-      {showCalc && <ErrorBoundary fallbackMessage="A tool crashed. Tap Try Again to reload."><Calculators lang={lang} onClose={() => setShowCalc(false)} /></ErrorBoundary>}
+      {showMY && <ErrorBoundary fallbackMessage="Tool crashed. Tap Try Again."><MYCompanyCheck lang={lang} onClose={() => setShowMY(false)} /></ErrorBoundary>}
+      {showCN && <ErrorBoundary fallbackMessage="Tool crashed. Tap Try Again."><CNMYTrustLink lang={lang} onClose={() => setShowCN(false)} /></ErrorBoundary>}
     </div>
   );
 }
