@@ -430,10 +430,10 @@ const MessageBubble = memo(function MessageBubble({ content, role, isStreaming, 
         </button>
       )}
       {role === 'assistant' && content && !isError && (
-        <div className="msg-actions flex items-center gap-1 mt-1.5 pl-0.5">
-          <button onClick={onCopy} className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}><CopyIcon /> Copy</button>
-          <button onClick={onShare} className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}><ShareIcon /> Share</button>
-          <button onClick={onSave} className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}>
+        <div className="msg-actions flex items-center gap-0.5 mt-1.5 pl-0.5">
+          <button onClick={onCopy} className="flex items-center gap-1 text-[11px] min-h-[44px] px-3 py-2 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}><CopyIcon /> Copy</button>
+          <button onClick={onShare} className="flex items-center gap-1 text-[11px] min-h-[44px] px-3 py-2 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}><ShareIcon /> Share</button>
+          <button onClick={onSave} className="flex items-center gap-1 text-[11px] min-h-[44px] px-3 py-2 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             Save</button>
         </div>
@@ -832,7 +832,7 @@ export default function Home() {
             <div>
               <label className="text-[11px] font-bold uppercase tracking-widest mb-3 block" style={{ color: '#94a3b8' }}>{t.profileState}</label>
               <select value={profile.state} onChange={(e) => setProfile({...profile, state: e.target.value})}
-                className="w-full py-3.5 px-4 rounded-xl text-[14px] font-medium focus:outline-none transition appearance-none"
+                className="w-full py-3.5 px-4 rounded-xl text-[16px] font-medium focus:outline-none transition appearance-none min-h-[48px]"
                 style={{ background: '#f8fafc', border: '1px solid #edf0f4', color: profile.state ? '#0f172a' : '#94a3b8' }}>
                 <option value="">—</option>
                 {STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -863,7 +863,7 @@ export default function Home() {
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[13px] font-bold" style={{ color: '#94a3b8' }}>RM</span>
                 <input type="number" value={profile.rent} onChange={(e) => setProfile({...profile, rent: e.target.value})}
-                  placeholder="2,500" className="w-full py-3.5 pl-12 pr-4 rounded-xl text-[14px] font-medium focus:outline-none transition"
+                  placeholder="2,500" className="w-full py-3.5 pl-12 pr-4 rounded-xl text-[16px] font-medium focus:outline-none transition min-h-[48px]"
                   style={{ background: '#f8fafc', border: '1px solid #edf0f4', color: '#0f172a' }} />
               </div>
             </div>
@@ -1085,7 +1085,7 @@ export default function Home() {
           style={{ border: '1.5px solid #e2e8f0' }}>
           <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleKey}
             placeholder={listening ? t.placeholderListening : (has ? t.placeholderActive : t.placeholder)}
-            rows={1} className="flex-1 resize-none bg-transparent text-[14px] focus:outline-none py-2.5"
+            rows={1} className="flex-1 resize-none bg-transparent text-[16px] focus:outline-none py-2.5"
             style={{ color: '#1e293b', maxHeight: '100px', lineHeight: '1.5' }}
             onInput={(e) => { e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'; }}
           />

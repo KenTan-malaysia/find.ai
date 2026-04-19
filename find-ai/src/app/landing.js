@@ -156,7 +156,7 @@ export default function Landing({ onStart, lang, setLang, hasSavedChat, onContin
         >
           {c.cta}
         </button>
-        <p className="text-[11px] mt-2.5" style={{ color: '#64748b' }}>{c.free}</p>
+        <p className="text-[12px] mt-2.5" style={{ color: '#64748b' }}>{c.free}</p>
 
         {/* Continue previous chat */}
         {hasSavedChat && (
@@ -187,7 +187,7 @@ export default function Landing({ onStart, lang, setLang, hasSavedChat, onContin
         {c.stats.map((s, i) => (
           <div key={i} className="text-center">
             <div className="text-xl sm:text-2xl font-bold" style={{ color: '#3b82f6' }}>{s.num}</div>
-            <div className="text-[11px] mt-1" style={{ color: '#64748b' }}>{s.label}</div>
+            <div className="text-[12px] mt-1" style={{ color: '#64748b' }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -201,7 +201,7 @@ export default function Landing({ onStart, lang, setLang, hasSavedChat, onContin
               style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
               <div className="text-xl mb-2">{f.icon}</div>
               <div className="text-[13px] font-semibold mb-1" style={{ color: '#e2e8f0' }}>{f.title}</div>
-              <div className="text-[11px] leading-relaxed" style={{ color: '#64748b' }}>{f.desc}</div>
+              <div className="text-[12px] leading-relaxed" style={{ color: '#64748b' }}>{f.desc}</div>
             </div>
           ))}
         </div>

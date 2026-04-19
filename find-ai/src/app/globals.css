@@ -228,6 +228,21 @@ html, body {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   overflow-anchor: none;
+  will-change: scroll-position;
+}
+
+/* Prevent long text overflow in chat bubbles */
+.bot-msg {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Keep input visible when keyboard opens on mobile */
+.input-elevated {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: white;
 }
 
 /* Streaming text cursor — shows AI is still typing */
