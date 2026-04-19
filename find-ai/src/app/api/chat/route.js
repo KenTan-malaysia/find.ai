@@ -164,10 +164,18 @@ EVICTION:
 - SELF-HELP EVICTION CONSEQUENCES (if landlord already did it):
   * Criminal: Penal Code s.441 (criminal trespass) — up to 6 months jail OR RM3,000 fine OR both.
   * Criminal: Disconnecting utilities may be "mischief" under Penal Code s.427-430.
-  * Civil: Tenant sues under Specific Relief Act s.8(1) for wrongful dispossession — damages include: deposit refund, renovation costs, loss of belongings, loss of business income, general damages. NO cap on amount.
+  * Civil: Tenant sues under Specific Relief Act s.8(1) for wrongful dispossession — NO cap on damages. Typical claims:
+    - Full deposit refund (RM3,000-15,000+)
+    - Replacement accommodation costs (hotel/temporary rental until resolved)
+    - Value of belongings damaged/lost (tenant's inventory list)
+    - Loss of business income if business operated from property
+    - General damages for distress and inconvenience (RM5,000-20,000 typical awards)
+    - Legal costs (tenant's lawyer fees if they win)
+  * Total exposure: easily RM20,000-100,000+ depending on property value and tenant's losses.
   * Court can ORDER landlord to restore tenant's possession AND pay damages.
-  * If landlord already changed locks: IMMEDIATELY restore access, do NOT touch tenant's belongings, consult lawyer, prepare for counterclaim.
-  * Proper eviction costs: RM8,000-RM12,000 legal fees, 6-8 months timeline. Cheaper than getting sued.
+  * Tenant's belongings: landlord CANNOT dispose of, sell, or move tenant's belongings. Doing so = potential theft charge. If already moved items → store safely, do NOT damage, return immediately upon request.
+  * If landlord already changed locks: (1) IMMEDIATELY restore access and return keys, (2) do NOT touch tenant's belongings, (3) consult lawyer, (4) prepare for counterclaim, (5) consider offering settlement to avoid court.
+  * Proper eviction costs: RM8,000-RM12,000 legal fees, 6-8 months timeline. ALWAYS cheaper than getting sued for wrongful dispossession.
 
 LEASE EXPIRY & HOLDOVER TENANCY:
 - When fixed-term lease expires and tenant stays WITH landlord accepting rent → automatically converts to PERIODIC TENANCY (month-to-month).
@@ -192,6 +200,14 @@ REPAIRS & HABITABILITY:
 - ALWAYS document everything: photos with dates, WhatsApp messages, repair receipts.
 - Tenant CANNOT withhold full rent — only deduct actual repair cost with proper notice and documentation.
 - For strata properties: if issue is common property (external walls, pipes, roof), MC is responsible, not individual landlord.
+- "ACT OF GOD" / FORCE MAJEURE — NOT A VALID EXCUSE:
+  * Landlord CANNOT refuse structural repairs by claiming "act of God" (flood, storm, natural disaster).
+  * Landlord's obligation to maintain habitable condition is contractual — force majeure only excuses performance if the TENANCY AGREEMENT includes a specific force majeure clause AND the event makes the entire property permanently unusable.
+  * Water leaks, storm damage, mold = landlord must repair. These are NOT "acts of God" — they are maintenance failures.
+  * If landlord refuses to fix after written notice and property becomes uninhabitable: tenant HAS the right to terminate lease early for material breach — no penalty, deposit must be returned.
+  * Tenant should: (1) send written notice with photos describing uninhabitable condition, (2) give landlord 14 days to fix, (3) if no action → written notice of termination citing material breach, (4) vacate and demand full deposit return.
+- CROSS-UNIT LEAKS (strata): if leak comes from upstairs unit → upstairs unit OWNER is liable, not your landlord. Your landlord should (1) report to MC, (2) MC inspects and determines source, (3) MC orders offending unit to fix. If between common pipes → MC responsible.
+- Typical damages for uninhabitable property: temporary accommodation costs, damaged belongings, early termination without penalty, full deposit return.
 
 RENT INCREASES & LEASE VARIATION:
 - During a fixed-term lease: landlord CANNOT increase rent unless the tenancy agreement contains a rent review clause.
@@ -290,6 +306,14 @@ JOINT OWNERSHIP:
 - Distribution Act 1958 (intestate, non-Muslim): spouse gets 1/3, children get 2/3. If no children, spouse gets 1/2, parents get 1/2. Muslims: Faraid rules apply.
 - Partition: co-owners can agree to divide land (NLC s.145). If cannot agree → apply to court for order of partition or sale.
 - Adding/removing names: requires MOT (stamp duty applies) or court order.
+- CO-OWNER REPAIR & COST DISPUTES:
+  * ALL co-owners share responsibility for property repairs proportionate to ownership share.
+  * If one co-owner pays for repairs alone: can claim contribution from other co-owner(s) under Contracts Act (duty to mitigate loss).
+  * If co-owner disappears/refuses to contribute: the paying co-owner can sue for reimbursement of their share.
+  * For strata property: MC handles common areas — co-ownership dispute is separate from MC obligation.
+  * For NON-STRATA buildings (landed, shophouse, mixed-use): NO MC exists. Co-owners are jointly responsible for all common areas (corridors, stairwells, parking, locks). Each pays proportionate share.
+  * If co-owner is unreachable for >6 months: paying co-owner should (1) document all repair costs with receipts, (2) send written demand to absent co-owner's last known address, (3) if no response — file civil suit for contribution OR apply to court for partition/sale under NLC s.145.
+  * Cannot change locks, sell property, or make major decisions unilaterally — all co-owners must consent (or court order required).
 
 PROPERTY INHERITANCE & DEATH:
 - Malaysia has NO inheritance tax (abolished in 1991).
@@ -323,6 +347,12 @@ STRATA (STA 1985 + SMA 2013):
 - MC must insure building: fire, perils, public liability. Failure = MC committee members personally liable.
 - If MC won't fix common property: file written complaint → 14 days → escalate to SMT.
 - Only unit OWNERS can file at SMT (not tenants). Tenants must go through their landlord.
+- BY-LAWS vs PRIVATE LEASE — WHICH PREVAILS?
+  * By-laws are STATUTORY (SMA 2013) — they bind ALL parcels, owners, and occupants automatically. Private lease terms CANNOT override by-laws.
+  * If tenant's lease says "Airbnb allowed" but MC by-laws prohibit short-term stays → by-laws prevail. Tenant is in violation regardless of lease.
+  * MC can enforce by-laws INDEPENDENTLY of landlord — MC doesn't need landlord's cooperation to issue fines or file at SMT against the occupant.
+  * Landlord's exposure: if tenant violates by-laws, MC can hold the OWNER liable (not just tenant). Owner may be fined or have charges registered against the unit.
+  * Best practice: landlord's lease should include clause: "Tenant shall comply with all MC by-laws. Breach of by-laws = breach of tenancy."
 
 COMMERCIAL LEASES:
 - No specific Commercial Tenancy Act — governed by Contracts Act + lease terms.
@@ -360,8 +390,18 @@ RENTAL INCOME TAX (LHDN):
 - ALL rental income must be declared under Section 4(d) of the Income Tax Act 1967.
 - Tax residents: progressive rate 0%–30% on chargeable income (after deductions).
 - Non-residents: flat 30% on gross rental income (limited deductions).
-- Allowable deductions: loan interest (investment loan only), quit rent, assessment/cukai taksiran, fire insurance premium, property repairs & maintenance (NOT capital improvements), property management fees, legal fees for rent recovery, agent commission.
-- Capital improvements (renovation to increase value) are NOT deductible — only repairs restoring original condition.
+- Allowable deductions (MUST have receipts/proof):
+  * Loan interest (investment loan only, NOT personal loan)
+  * Quit rent (cukai tanah)
+  * Assessment / cukai taksiran
+  * Fire insurance premium
+  * Property repairs & maintenance (repainting, plumbing fix, rewiring — NOT capital improvements)
+  * Property management fees / MC maintenance charges
+  * Legal fees for rent recovery / eviction
+  * Agent commission (typically 1 month rent for rental, claimed in the year paid)
+  * Cost of advertising for tenants
+- NOT deductible: capital improvements (renovation to increase value), furniture purchase (but can claim capital allowance on furnished rentals), landlord's personal travel to inspect property, mortgage principal repayment.
+- Utilities: landlord-paid utilities (water, electricity) ARE deductible if landlord bears the cost (not recharged to tenant). If tenant pays utilities directly → NOT landlord's deduction.
 - Filing: Form BE (employment + rental) or Form B (sole proprietor). Due by April 30 (no business income) or June 30 (with business income). File via MyTax e-Filing at mytax.hasil.gov.my.
 - Penalty: failure to declare = 45% penalty on underreported tax + possible criminal prosecution.
 - Co-owners: each owner declares their share of rental income based on ownership proportion.
@@ -373,8 +413,10 @@ RENTAL INCOME TAX (LHDN):
   * Civil penalty: 100% of tax undercharged (standard). Up to 300% (treble penalty) for serious cases (ITA s.113(2)).
   * Criminal penalty: intentional evasion = fine up to RM20,000 + imprisonment 1-5 years.
   * VOLUNTARY DISCLOSURE (before audit starts): penalty reduced to 10-15% of unpaid tax. Much better than being caught.
-  * If audit notice received: gather all tenancy agreements, bank statements, receipts for deductions, renovation records. Consult tax advisor immediately.
+  * Once audit notice is received: voluntary disclosure rate NO LONGER applies — full 100% penalty kicks in. This is why declaring early matters.
+  * If audit notice received: (1) gather all tenancy agreements, bank statements, receipts for deductions, renovation records, (2) consult tax advisor IMMEDIATELY, (3) cooperate fully — non-cooperation worsens penalties, (4) you CAN still claim legitimate deductions you forgot to declare — file amended returns for past years.
   * Cash rental payments without receipts: still taxable. LHDN can estimate income from lifestyle/assets if records missing.
+  * Multiple properties: each property's income/deductions tracked separately, but all aggregate onto one tax return. Under-declaring one property while correctly declaring others = still evasion on the undeclared portion.
 
 MM2H (MALAYSIA MY SECOND HOME) PROPERTY RULES:
 - MM2H is a long-term residency programme — NOT citizenship or PR.
