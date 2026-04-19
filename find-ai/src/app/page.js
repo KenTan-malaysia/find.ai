@@ -46,12 +46,35 @@ const UI = {
     continueChat: 'Continue',
     newChat: 'New Chat',
     tools: 'Tools',
-    questions: [
-      { icon: '💸', title: "Tenant didn't pay rent", sub: 'Demand letter & legal steps', text: "My tenant hasn't paid rent. What can I do?" },
-      { icon: '🔒', title: 'Deposit not returned', sub: 'Your rights & evidence needed', text: "Can my landlord keep my deposit?" },
-      { icon: '🔧', title: 'Who pays for repairs?', sub: 'Landlord vs tenant duties', text: "Who is responsible for repairs — landlord or tenant?" },
-      { icon: '🚪', title: 'How to evict legally', sub: 'Step-by-step process', text: "How do I legally evict my tenant?" },
-    ],
+    questions: {
+      landlord: [
+        { icon: '💸', title: "Tenant didn't pay rent", sub: 'Demand letter & legal steps', text: "My tenant hasn't paid rent for 2 months. What are my legal options?" },
+        { icon: '🚪', title: 'How to evict legally', sub: 'Step-by-step process', text: "How do I legally evict my tenant?" },
+        { icon: '📄', title: 'Stamp duty on tenancy', sub: 'Calculate & file correctly', text: "How much stamp duty do I need to pay for a RM2,500/month tenancy agreement?" },
+        { icon: '🛡️', title: 'Protect my property', sub: 'Clauses every landlord needs', text: "What clauses should I include in my tenancy agreement to protect myself?" },
+      ],
+      tenant: [
+        { icon: '🔒', title: 'Deposit not returned', sub: 'Your rights & evidence needed', text: "My landlord won't return my deposit. It's been 3 weeks since I moved out. What can I do?" },
+        { icon: '🔧', title: 'Who pays for repairs?', sub: 'Landlord vs tenant duties', text: "There's a ceiling leak in my rental. Who is responsible — landlord or tenant?" },
+        { icon: '📈', title: 'Landlord raising rent', sub: 'Can they do that mid-lease?', text: "My landlord wants to increase rent mid-lease. Is that legal?" },
+        { icon: '🚪', title: 'End lease early', sub: 'Penalties & notice period', text: "I need to break my lease early. What happens to my deposit?" },
+      ],
+      buyer: [
+        { icon: '🏠', title: 'Buying subsale property', sub: 'Full process step by step', text: "I want to buy a secondhand condo. What's the full process?" },
+        { icon: '🔨', title: 'Developer defects', sub: 'Claim within DLP period', text: "My new house has defects. The developer is not fixing them. What can I do?" },
+        { icon: '🌍', title: 'Foreign buyer rules', sub: 'Thresholds & restrictions', text: "I'm a foreigner. Can I buy property in Malaysia? What are the restrictions?" },
+        { icon: '⚖️', title: 'Auction property risks', sub: 'Lelong dos and don\'ts', text: "Is it safe to buy a lelong property? What should I watch out for?" },
+      ],
+      default: [
+        { icon: '💸', title: "Tenant didn't pay rent", sub: 'Demand letter & legal steps', text: "My tenant hasn't paid rent. What can I do?" },
+        { icon: '🔒', title: 'Deposit not returned', sub: 'Your rights & evidence needed', text: "My landlord won't return my deposit. What can I do?" },
+        { icon: '🏠', title: 'Buying subsale property', sub: 'Full process step by step', text: "I want to buy a secondhand condo. What's the full process?" },
+        { icon: '🔧', title: 'Who pays for repairs?', sub: 'Landlord vs tenant duties', text: "Who is responsible for repairs — landlord or tenant?" },
+      ],
+    },
+    copied: 'Copied!',
+    saved: 'Chat saved!',
+    followUps: 'Related questions',
   },
   bm: {
     title: 'Find.ai',
@@ -85,12 +108,35 @@ const UI = {
     continueChat: 'Teruskan',
     newChat: 'Chat Baru',
     tools: 'Alat',
-    questions: [
-      { icon: '💸', title: 'Penyewa tak bayar sewa', sub: 'Surat tuntutan & langkah undang-undang', text: 'Penyewa tak bayar sewa, apa boleh buat?' },
-      { icon: '🔒', title: 'Deposit tak dipulangkan', sub: 'Hak anda & bukti diperlukan', text: 'Tuan rumah simpan deposit saya, boleh ke?' },
-      { icon: '🔧', title: 'Siapa bayar pembaikan?', sub: 'Tugas tuan rumah vs penyewa', text: 'Siapa bertanggungjawab untuk pembaikan?' },
-      { icon: '🚪', title: 'Cara usir penyewa', sub: 'Proses langkah demi langkah', text: 'Macam mana nak usir penyewa secara sah?' },
-    ],
+    questions: {
+      landlord: [
+        { icon: '💸', title: 'Penyewa tak bayar sewa', sub: 'Surat tuntutan & langkah undang-undang', text: 'Penyewa tak bayar sewa 2 bulan, apa boleh buat?' },
+        { icon: '🚪', title: 'Cara usir penyewa', sub: 'Proses langkah demi langkah', text: 'Macam mana nak usir penyewa secara sah?' },
+        { icon: '📄', title: 'Duti setem penyewaan', sub: 'Kira & failkan dengan betul', text: 'Berapa duti setem untuk perjanjian sewa RM2,500 sebulan?' },
+        { icon: '🛡️', title: 'Lindungi hartanah saya', sub: 'Klausa penting untuk tuan rumah', text: 'Apa klausa yang perlu ada dalam perjanjian sewa untuk lindungi saya?' },
+      ],
+      tenant: [
+        { icon: '🔒', title: 'Deposit tak dipulangkan', sub: 'Hak anda & bukti diperlukan', text: 'Tuan rumah tak pulangkan deposit saya dah 3 minggu. Apa boleh buat?' },
+        { icon: '🔧', title: 'Siapa bayar pembaikan?', sub: 'Tugas tuan rumah vs penyewa', text: 'Siling bocor di rumah sewa. Siapa bertanggungjawab?' },
+        { icon: '📈', title: 'Sewa naik harga', sub: 'Boleh ke naikkan tengah kontrak?', text: 'Tuan rumah nak naikkan sewa tengah kontrak. Sah ke?' },
+        { icon: '🚪', title: 'Tamat kontrak awal', sub: 'Penalti & tempoh notis', text: 'Saya nak tamatkan sewa awal. Apa jadi deposit saya?' },
+      ],
+      buyer: [
+        { icon: '🏠', title: 'Beli rumah subsale', sub: 'Proses penuh langkah demi langkah', text: 'Saya nak beli kondo secondhand. Apa prosesnya?' },
+        { icon: '🔨', title: 'Kecacatan developer', sub: 'Tuntut dalam tempoh DLP', text: 'Rumah baru ada kecacatan. Developer tak nak baiki. Apa boleh buat?' },
+        { icon: '🌍', title: 'Pembeli asing', sub: 'Had minimum & sekatan', text: 'Boleh ke orang asing beli hartanah di Malaysia?' },
+        { icon: '⚖️', title: 'Risiko lelong', sub: 'Perkara perlu tahu', text: 'Selamat ke beli rumah lelong? Apa risiko?' },
+      ],
+      default: [
+        { icon: '💸', title: 'Penyewa tak bayar sewa', sub: 'Surat tuntutan & langkah undang-undang', text: 'Penyewa tak bayar sewa, apa boleh buat?' },
+        { icon: '🔒', title: 'Deposit tak dipulangkan', sub: 'Hak anda & bukti diperlukan', text: 'Tuan rumah simpan deposit saya, boleh ke?' },
+        { icon: '🏠', title: 'Beli rumah subsale', sub: 'Proses penuh langkah demi langkah', text: 'Saya nak beli kondo secondhand. Apa prosesnya?' },
+        { icon: '🔧', title: 'Siapa bayar pembaikan?', sub: 'Tugas tuan rumah vs penyewa', text: 'Siapa bertanggungjawab untuk pembaikan?' },
+      ],
+    },
+    copied: 'Disalin!',
+    saved: 'Chat disimpan!',
+    followUps: 'Soalan berkaitan',
   },
   zh: {
     title: 'Find.ai',
@@ -124,12 +170,35 @@ const UI = {
     continueChat: '继续',
     newChat: '新对话',
     tools: '工具',
-    questions: [
-      { icon: '💸', title: '租客拖欠租金', sub: '催款信和法律步骤', text: '租客没付租金，我该怎么办？' },
-      { icon: '🔒', title: '押金不退还', sub: '您的权利和所需证据', text: '房东扣住我的押金不退，合法吗？' },
-      { icon: '🔧', title: '维修费谁出？', sub: '房东vs租客责任', text: '维修费应该由谁承担？' },
-      { icon: '🚪', title: '如何合法驱逐', sub: '分步骤流程', text: '怎样合法地驱逐租客？' },
-    ],
+    questions: {
+      landlord: [
+        { icon: '💸', title: '租客拖欠租金', sub: '催款信和法律步骤', text: '租客已经2个月没付租金了，我该怎么办？' },
+        { icon: '🚪', title: '如何合法驱逐', sub: '分步骤流程', text: '怎样合法地驱逐租客？' },
+        { icon: '📄', title: '租约印花税', sub: '计算和申报', text: '月租RM2,500的租约需要交多少印花税？' },
+        { icon: '🛡️', title: '保护我的房产', sub: '房东必备条款', text: '租约里应该加什么条款来保护自己？' },
+      ],
+      tenant: [
+        { icon: '🔒', title: '押金不退还', sub: '您的权利和所需证据', text: '搬走3周了房东还不退押金，我该怎么办？' },
+        { icon: '🔧', title: '维修费谁出？', sub: '房东vs租客责任', text: '出租屋天花板漏水，谁负责维修？' },
+        { icon: '📈', title: '房东涨租金', sub: '合同期内能涨吗？', text: '房东要在合同期内涨租金，合法吗？' },
+        { icon: '🚪', title: '提前退租', sub: '违约金和押金', text: '我想提前退租，押金会怎样？' },
+      ],
+      buyer: [
+        { icon: '🏠', title: '买二手房', sub: '完整流程步骤', text: '我想买一套二手公寓，流程是什么？' },
+        { icon: '🔨', title: '开发商质量问题', sub: 'DLP期内索赔', text: '新房有质量问题开发商不修，我该怎么办？' },
+        { icon: '🌍', title: '外国人买房', sub: '门槛和限制', text: '外国人能在马来西亚买房吗？有什么限制？' },
+        { icon: '⚖️', title: '拍卖房风险', sub: '注意事项', text: '买拍卖房安全吗？要注意什么？' },
+      ],
+      default: [
+        { icon: '💸', title: '租客拖欠租金', sub: '催款信和法律步骤', text: '租客没付租金，我该怎么办？' },
+        { icon: '🔒', title: '押金不退还', sub: '您的权利和所需证据', text: '房东扣住我的押金不退，合法吗？' },
+        { icon: '🏠', title: '买二手房', sub: '完整流程步骤', text: '我想买一套二手公寓，流程是什么？' },
+        { icon: '🔧', title: '维修费谁出？', sub: '房东vs租客责任', text: '维修费应该由谁承担？' },
+      ],
+    },
+    copied: '已复制!',
+    saved: '对话已保存!',
+    followUps: '相关问题',
   },
 };
 
@@ -192,6 +261,8 @@ export default function Home() {
   const [profile, setProfile] = useState({ role: '', state: '', type: '', rent: '' });
   const [hasSavedChat, setHasSavedChat] = useState(false);
   const [ready, setReady] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [copied, setCopied] = useState(false);
   const chatRef = useRef(null);
   const inputRef = useRef(null);
   const recRef = useRef(null);
@@ -256,6 +327,71 @@ export default function Home() {
     return c.trim();
   };
 
+  // Generate smart follow-up suggestions from AI response
+  const genFollowUps = useCallback((userQ, aiAnswer) => {
+    const q = userQ.toLowerCase();
+    const a = aiAnswer.toLowerCase();
+    const picks = [];
+
+    // Topic-based follow-up mapping
+    const followUpMap = {
+      en: {
+        deposit: ['How do I write a demand letter for my deposit?', 'What counts as normal wear and tear?', 'Can I take this to tribunal?'],
+        rent: ['Can I use Distress Act to seize belongings?', 'How to write a Letter of Demand?', "What if tenant runs away owing rent?"],
+        evict: ['How long does court eviction take?', 'Can I claim damages after eviction?', 'What if tenant refuses to leave after notice?'],
+        stamp: ['What penalty if I stamp late?', 'Can unstamped agreement be used in court?', 'How to stamp via MyTax portal?'],
+        repair: ['Can I deduct repair costs from rent?', 'What if the issue is common property?', 'How to document defects properly?'],
+        buy: ['How much stamp duty will I pay?', 'What if my loan gets rejected?', 'How to do a land search?'],
+        subsale: ['What is the 3+1 completion timeline?', 'How to protect my earnest deposit?', 'What does the lawyer handle?'],
+        loan: ['What margin of finance can I get?', 'Conventional vs Islamic financing?', "What's the lock-in penalty?"],
+        auction: ['What risks should I check before bidding?', 'LACA vs Non-LACA — what\'s the difference?', 'Can I get financing for lelong property?'],
+        foreign: ['What is the minimum price in my state?', 'How much RPGT will I pay?', 'How long does state consent take?'],
+        defect: ['How to file at Homebuyer Tribunal?', 'What if developer goes bankrupt?', 'Can I claim LAD for late delivery?'],
+        strata: ['How to file at Strata Tribunal?', 'Can MC charge me extra?', 'What are my AGM voting rights?'],
+        agent: ['How to verify if agent is registered?', 'How much commission should I pay?', 'Can I deal directly without agent?'],
+        inherit: ['Do I need to pay stamp duty on inheritance?', 'Joint tenancy vs tenancy in common?', 'How to apply for Letter of Administration?'],
+      },
+      bm: {
+        deposit: ['Macam mana tulis surat tuntutan deposit?', 'Apa kira lusuh biasa?', 'Boleh bawa ke tribunal?'],
+        rent: ['Boleh guna Akta Distres untuk rampas barang?', 'Macam mana tulis surat tuntutan?', 'Kalau penyewa lari?'],
+        evict: ['Berapa lama proses mahkamah?', 'Boleh tuntut ganti rugi selepas usir?', 'Kalau penyewa enggan keluar?'],
+        default: ['Berapa duti setem untuk perjanjian sewa?', 'Apa hak saya sebagai tuan rumah?', 'Macam mana nak beli rumah subsale?'],
+      },
+      zh: {
+        deposit: ['怎么写押金催款信？', '什么算正常磨损？', '可以去消费者法庭吗？'],
+        rent: ['可以扣押租客物品吗？', '怎么写催款函？', '租客跑了怎么办？'],
+        default: ['租约印花税怎么算？', '我有什么权利？', '买二手房流程是什么？'],
+      },
+    };
+
+    const langMap = followUpMap[lang] || followUpMap.en;
+
+    // Match topic from question + answer
+    const topics = ['deposit', 'rent', 'evict', 'stamp', 'repair', 'buy', 'subsale', 'loan', 'auction', 'foreign', 'defect', 'strata', 'agent', 'inherit'];
+    const matched = topics.find(t => q.includes(t) || a.includes(t));
+
+    if (matched && langMap[matched]) {
+      picks.push(...langMap[matched]);
+    } else if (langMap.default) {
+      picks.push(...langMap.default);
+    } else {
+      // Fallback English
+      const fallbacks = followUpMap.en;
+      const fallbackMatch = topics.find(t => q.includes(t) || a.includes(t));
+      if (fallbackMatch && fallbacks[fallbackMatch]) picks.push(...fallbacks[fallbackMatch]);
+      else picks.push('How much stamp duty do I need to pay?', 'What are my rights as a tenant?', 'How to buy subsale property?');
+    }
+
+    // Filter out the question they just asked (fuzzy)
+    const filtered = picks.filter(p => {
+      const norm = p.toLowerCase().replace(/[?!.,]/g, '');
+      const qNorm = q.replace(/[?!.,]/g, '');
+      return !norm.includes(qNorm) && !qNorm.includes(norm);
+    });
+
+    setSuggestions(filtered.slice(0, 3));
+  }, [lang]);
+
   const sendMessage = useCallback(async (text) => {
     if (!text.trim() || loading) return;
     const userMsg = { role: 'user', content: text.trim() };
@@ -263,6 +399,7 @@ export default function Home() {
     setMessages([...all, { role: 'assistant', content: '' }]);
     setInput('');
     setLoading(true);
+    setSuggestions([]);
 
     try {
       const res = await fetch('/api/chat', {
@@ -295,6 +432,10 @@ export default function Home() {
           }
         }
       }
+
+      // Generate follow-up suggestions after response complete
+      if (full) genFollowUps(text.trim(), full);
+
     } catch (err) {
       const isOffline = !navigator.onLine;
       const errorMsg = isOffline
@@ -308,7 +449,7 @@ export default function Home() {
     }
     setLoading(false);
     inputRef.current?.focus();
-  }, [messages, loading, profile]);
+  }, [messages, loading, profile, genFollowUps]);
 
   const handleKey = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input); }
@@ -329,7 +470,7 @@ export default function Home() {
     a.click();
   };
 
-  const clearChat = () => { setMessages([]); save('fi_messages', []); setHasSavedChat(false); };
+  const clearChat = () => { setMessages([]); save('fi_messages', []); setHasSavedChat(false); setSuggestions([]); };
   const loadChat = () => { setMessages(load('fi_messages', [])); setHasSavedChat(false); setShowChat(true); };
 
   const shareWA = (text) => {
@@ -340,6 +481,8 @@ export default function Home() {
   const copyMsg = (text) => {
     const clean = text.replace(/\*\*/g, '').replace(/<[^>]*>/g, '');
     navigator.clipboard.writeText(clean);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const startChat = () => {
@@ -595,9 +738,14 @@ export default function Home() {
             className="touch-target text-[11px] px-3 py-1.5 rounded-xl font-semibold transition active:scale-95"
             style={{ background: '#f1f5f9', color: '#64748b' }}>{t.langToggle}</button>
           {has && (
-            <button onClick={clearChat} className="touch-target rounded-xl transition active:scale-95" style={{ color: '#94a3b8' }} title={t.newChat}>
-              <NewChatIcon />
-            </button>
+            <>
+              <button onClick={handleSave} className="touch-target rounded-xl transition active:scale-95" style={{ color: '#94a3b8' }} title="Save chat">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              </button>
+              <button onClick={clearChat} className="touch-target rounded-xl transition active:scale-95" style={{ color: '#94a3b8' }} title={t.newChat}>
+                <NewChatIcon />
+              </button>
+            </>
           )}
           {hasP && (
             <button onClick={() => setShowProfile(true)} className="touch-target rounded-xl transition active:scale-95" style={{ color: '#94a3b8' }} title={t.profileEdit}>
@@ -680,7 +828,7 @@ export default function Home() {
             {/* ===== Q&A STARTER QUESTIONS ===== */}
             <div className="text-[10px] font-bold uppercase tracking-widest mb-2.5 pl-1 card-up delay-2" style={{ color: '#cbd5e1' }}>{t.commonSituations}</div>
             <div className="space-y-2">
-              {t.questions.map((q, i) => (
+              {(t.questions[profile.role] || t.questions.default).map((q, i) => (
                 <button key={i} onClick={() => sendMessage(q.text)}
                   className={`card-up delay-${i+2} starter-card w-full flex items-center gap-3.5 text-left px-4 py-3.5 rounded-2xl bg-white`}
                   style={{ border: '1px solid #e2e8f0' }}>
@@ -745,6 +893,22 @@ export default function Home() {
                 </div>
               </div>
             )}
+
+            {/* Smart follow-up suggestions */}
+            {!loading && suggestions.length > 0 && (
+              <div className="fade-in mt-3 pl-[34px]">
+                <div className="text-[9px] font-bold uppercase tracking-widest mb-2" style={{ color: '#cbd5e1' }}>{t.followUps}</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {suggestions.map((s, i) => (
+                    <button key={i} onClick={() => { setSuggestions([]); sendMessage(s); }}
+                      className="text-[11px] px-3 py-2 rounded-xl font-medium transition-all active:scale-95 hover:shadow-sm"
+                      style={{ background: 'white', color: '#475569', border: '1px solid #e2e8f0' }}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -792,6 +956,17 @@ export default function Home() {
           <p className="text-[9px] font-medium" style={{ color: '#d1d5db' }}>{t.privacy}</p>
         </div>
       </div>
+
+      {/* Copy toast */}
+      {copied && (
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 fade-in">
+          <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-semibold text-white shadow-lg"
+            style={{ background: '#0f172a' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            {t.copied}
+          </div>
+        </div>
+      )}
 
       {showMY && <ErrorBoundary fallbackMessage="Tool crashed. Tap Try Again."><MYCompanyCheck lang={lang} onClose={() => setShowMY(false)} /></ErrorBoundary>}
       {showCN && <ErrorBoundary fallbackMessage="Tool crashed. Tap Try Again."><CNMYTrustLink lang={lang} onClose={() => setShowCN(false)} /></ErrorBoundary>}
