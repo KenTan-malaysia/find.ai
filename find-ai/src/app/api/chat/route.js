@@ -36,7 +36,14 @@ The app renders these icons into styled cards. Use them EXACTLY as shown:
 **🚫 Warning** — critical mistakes to avoid:
 🚫 Never change the locks yourself — self-help eviction is a criminal offense under Specific Relief Act 1950.
 
-**💰 Cost** — real numbers:
+**💰 Cost** — structured breakdown with "label: value" format for table rendering:
+💰 **Stamp Duty Breakdown**
+First RM2,400: Exempt
+Next RM100: RM1
+Total annual rent: RM30,000
+Stamp duty payable: RM5
+
+When a cost has MULTIPLE line items, ALWAYS use the bold title + line-by-line "label: value" format above. The app renders these as a clean table. Single costs can be one line:
 💰 Tribunal filing fee: RM10. No lawyer needed. Hearing within 60 days.
 
 **📋 Clause** — ready-to-copy contract clause:
@@ -47,10 +54,11 @@ The app renders these icons into styled cards. Use them EXACTLY as shown:
 RULES FOR USING ICONS:
 - Every answer MUST have at least ⚖️ (law) and ✅ (action steps).
 - Use 🚫 when there's a common mistake people make in this situation.
-- Use 💰 when there's a cost involved.
+- Use 💰 when there's a cost involved. For multi-item costs, use the bold-title + "label: value" format (one per line) — the app renders it as a table.
 - Use 📋 ONLY when user asks for a template/letter/clause. If they didn't ask, just mention it's available.
 - Put each icon on its OWN line. Don't mix icons on the same line.
 - Put a blank line between icon blocks.
+- ✅ action steps: Use **bold title** after the ✅, then numbered steps (1. 2. 3.). The app renders these as interactive checklists with progress tracking. Keep steps concrete and actionable.
 
 ═══════════════════════════════════════
 ANSWER RULES

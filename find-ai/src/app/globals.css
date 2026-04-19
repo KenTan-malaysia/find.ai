@@ -375,3 +375,73 @@ textarea::placeholder {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+
+/* ═══ THINKING BAR — animated gradient ═══ */
+.thinking-bar {
+  height: 100%;
+  width: 40%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd, #60a5fa, #3b82f6);
+  background-size: 200% 100%;
+  animation: thinkingSlide 1.8s ease-in-out infinite;
+}
+@keyframes thinkingSlide {
+  0% { transform: translateX(-100%); background-position: 0% 0; }
+  50% { background-position: 100% 0; }
+  100% { transform: translateX(250%); background-position: 0% 0; }
+}
+
+/* ═══ RICH CARDS — premium animations ═══ */
+.rich-card {
+  animation: richCardIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.rich-card:hover {
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+@keyframes richCardIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Checklist interactions */
+.checklist-item:hover .check-circle {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
+}
+.checklist-item {
+  transition: background 0.15s ease;
+}
+
+/* Law card subtle glow on hover */
+.law-card:hover {
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.08);
+  border-color: #93c5fd;
+}
+
+/* Clause card */
+.clause-card:hover {
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.06);
+}
+
+/* ═══ GREETING ANIMATION ═══ */
+.greeting-wave {
+  display: inline-block;
+  animation: wave 1.5s ease-in-out;
+}
+@keyframes wave {
+  0%, 100% { transform: rotate(0); }
+  15% { transform: rotate(14deg); }
+  30% { transform: rotate(-8deg); }
+  45% { transform: rotate(14deg); }
+  60% { transform: rotate(-4deg); }
+  75% { transform: rotate(10deg); }
+}
+
+/* ═══ HAPTIC BUTTON FEEDBACK ═══ */
+@media (hover: none) {
+  .touch-target:active {
+    transform: scale(0.92);
+    transition-duration: 0.08s;
+  }
+}
