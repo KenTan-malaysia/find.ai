@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find.ai — Landing Page Color Themes</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f1f5f9; }
+
+  .picker {
+    position: sticky; top: 0; z-index: 100;
+    background: white; border-bottom: 1px solid #e2e8f0;
+    padding: 16px 24px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .picker h2 { font-size: 14px; color: #334155; margin-right: 8px; white-space: nowrap; }
+  .picker button {
+    padding: 8px 18px; border-radius: 100px; font-size: 13px; font-weight: 600;
+    border: 2px solid #e2e8f0; background: white; color: #475569; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .picker button:hover { border-color: #94a3b8; }
+  .picker button.active { border-color: #3b82f6; background: #eff6ff; color: #1d4ed8; }
+
+  .phone-frame {
+    width: 390px; margin: 40px auto; border-radius: 40px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    background: #000;
+  }
+  .phone-notch {
+    height: 34px; background: #000; display: flex; align-items: center; justify-content: center;
+  }
+  .phone-notch div { width: 120px; height: 6px; background: #1a1a1a; border-radius: 3px; margin-top: 8px; }
+
+  .landing { min-height: 800px; overflow: hidden; }
+
+  /* Header */
+  .l-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; }
+  .l-logo { display: flex; align-items: center; gap: 10px; }
+  .l-logo-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; }
+  .l-logo-text { font-size: 15px; font-weight: 600; }
+  .l-lang { font-size: 11px; padding: 6px 14px; border-radius: 100px; font-weight: 600; border: 1px solid; }
+
+  /* Hero */
+  .l-hero { text-align: center; padding: 36px 24px 24px; }
+  .l-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 100px; font-size: 11px; font-weight: 600; margin-bottom: 20px; border: 1px solid; }
+  .l-badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .l-title { font-size: 24px; font-weight: 700; line-height: 1.3; margin-bottom: 12px; }
+  .l-sub { font-size: 13px; line-height: 1.6; max-width: 300px; margin: 0 auto 24px; }
+  .l-cta { display: inline-block; padding: 14px 32px; border-radius: 14px; font-size: 14px; font-weight: 600; color: white; border: none; }
+  .l-free { font-size: 11px; margin-top: 10px; }
+
+  /* Stats */
+  .l-stats { display: flex; justify-content: center; gap: 40px; padding: 20px 24px; margin: 0 24px; border-radius: 16px; }
+  .l-stat-num { font-size: 20px; font-weight: 700; }
+  .l-stat-label { font-size: 11px; margin-top: 4px; }
+
+  /* Features */
+  .l-features { padding: 32px 24px; }
+  .l-features-title { font-size: 14px; font-weight: 700; text-align: center; margin-bottom: 16px; }
+  .l-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .l-card { padding: 16px; border-radius: 14px; border: 1px solid; }
+  .l-card-icon { font-size: 18px; margin-bottom: 8px; }
+  .l-card-title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .l-card-desc { font-size: 11px; line-height: 1.5; }
+
+  /* Problems */
+  .l-problems { padding: 24px; text-align: center; }
+  .l-problems-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .l-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  .l-chip { font-size: 11px; padding: 8px 14px; border-radius: 100px; border: 1px solid; }
+
+  /* Bottom CTA */
+  .l-bottom { padding: 40px 24px; text-align: center; border-top: 1px solid; border-radius: 20px 20px 0 0; margin-top: 16px; }
+  .l-bottom-text { font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+  .l-bottom-cta { display: inline-block; padding: 14px 32px; border-radius: 14px; font-size: 14px; font-weight: 600; color: white; }
+  .l-disclaimer { font-size: 9px; margin-top: 12px; }
+
+  /* Theme label */
+  .theme-label {
+    text-align: center; margin-top: 12px; margin-bottom: 40px;
+    font-size: 13px; color: #64748b; font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<div class="picker">
+  <h2>Pick a theme:</h2>
+  <button class="active" onclick="show('midnight')">1. Midnight Blue (Current)</button>
+  <button onclick="show('emerald')">2. Emerald Trust</button>
+  <button onclick="show('clean')">3. Clean White</button>
+  <button onclick="show('warm')">4. Warm Gold</button>
+  <button onclick="show('royal')">5. Royal Purple</button>
+  <button onclick="show('ocean')">6. Ocean Teal</button>
+</div>
+
+<div id="container"></div>
+
+<script>
+const themes = {
+  midnight: {
+    name: "Midnight Blue (Current)",
+    desc: "Dark navy gradient with blue accents — what you have now",
+    bg: "linear-gradient(180deg, #0f172a 0%, #1e293b 100%)",
+    accent: "#3b82f6", accentLight: "#60a5fa", accentGlow: "rgba(59,130,246,0.3)",
+    ctaBg: "linear-gradient(135deg, #3b82f6, #60a5fa)",
+    logoIcon: "linear-gradient(135deg, #3b82f6, #60a5fa)",
+    logoText: "#ffffff",
+    headerText: "#ffffff",
+    badgeBg: "rgba(255,255,255,0.06)", badgeBorder: "rgba(255,255,255,0.08)", badgeText: "#cbd5e1", badgeDot: "#10b981",
+    title: "#ffffff", highlight: "#3b82f6",
+    sub: "#94a3b8", free: "#64748b",
+    langBg: "rgba(255,255,255,0.08)", langBorder: "rgba(255,255,255,0.1)", langText: "#cbd5e1",
+    statBg: "rgba(255,255,255,0.03)", statBorder: "rgba(255,255,255,0.05)",
+    statNum: "#3b82f6", statLabel: "#64748b",
+    featTitle: "#e2e8f0",
+    cardBg: "rgba(255,255,255,0.04)", cardBorder: "rgba(255,255,255,0.06)",
+    cardTitle: "#e2e8f0", cardDesc: "#64748b",
+    probTitle: "#e2e8f0",
+    chipBg: "rgba(255,255,255,0.05)", chipBorder: "rgba(255,255,255,0.08)", chipText: "#94a3b8",
+    bottomBg: "rgba(59,130,246,0.06)", bottomBorder: "rgba(59,130,246,0.1)",
+    bottomText: "#93c5fd", bottomCta: "linear-gradient(135deg, #3b82f6, #60a5fa)",
+    disclaimer: "#475569"
+  },
+  emerald: {
+    name: "Emerald Trust",
+    desc: "Deep green conveys trust & finance — perfect for property/legal",
+    bg: "linear-gradient(180deg, #022c22 0%, #064e3b 100%)",
+    accent: "#10b981", accentLight: "#34d399", accentGlow: "rgba(16,185,129,0.3)",
+    ctaBg: "linear-gradient(135deg, #10b981, #34d399)",
+    logoIcon: "linear-gradient(135deg, #10b981, #34d399)",
+    logoText: "#ffffff",
+    headerText: "#ffffff",
+    badgeBg: "rgba(255,255,255,0.06)", badgeBorder: "rgba(255,255,255,0.08)", badgeText: "#a7f3d0", badgeDot: "#34d399",
+    title: "#ffffff", highlight: "#34d399",
+    sub: "#6ee7b7", free: "#047857",
+    langBg: "rgba(255,255,255,0.08)", langBorder: "rgba(255,255,255,0.1)", langText: "#a7f3d0",
+    statBg: "rgba(255,255,255,0.03)", statBorder: "rgba(255,255,255,0.05)",
+    statNum: "#34d399", statLabel: "#047857",
+    featTitle: "#d1fae5",
+    cardBg: "rgba(255,255,255,0.04)", cardBorder: "rgba(255,255,255,0.06)",
+    cardTitle: "#d1fae5", cardDesc: "#047857",
+    probTitle: "#d1fae5",
+    chipBg: "rgba(255,255,255,0.05)", chipBorder: "rgba(255,255,255,0.08)", chipText: "#6ee7b7",
+    bottomBg: "rgba(16,185,129,0.08)", bottomBorder: "rgba(16,185,129,0.15)",
+    bottomText: "#6ee7b7", bottomCta: "linear-gradient(135deg, #10b981, #34d399)",
+    disclaimer: "#047857"
+  },
+  clean: {
+    name: "Clean White",
+    desc: "Light, modern, professional — Apple/Stripe inspired",
+    bg: "linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)",
+    accent: "#0f172a", accentLight: "#334155", accentGlow: "rgba(15,23,42,0.1)",
+    ctaBg: "linear-gradient(135deg, #0f172a, #1e293b)",
+    logoIcon: "linear-gradient(135deg, #0f172a, #334155)",
+    logoText: "#0f172a",
+    headerText: "#0f172a",
+    badgeBg: "#f1f5f9", badgeBorder: "#e2e8f0", badgeText: "#475569", badgeDot: "#3b82f6",
+    title: "#0f172a", highlight: "#3b82f6",
+    sub: "#64748b", free: "#94a3b8",
+    langBg: "#f1f5f9", langBorder: "#e2e8f0", langText: "#475569",
+    statBg: "#f8fafc", statBorder: "#e2e8f0",
+    statNum: "#0f172a", statLabel: "#94a3b8",
+    featTitle: "#0f172a",
+    cardBg: "#ffffff", cardBorder: "#e2e8f0",
+    cardTitle: "#0f172a", cardDesc: "#64748b",
+    probTitle: "#0f172a",
+    chipBg: "#f8fafc", chipBorder: "#e2e8f0", chipText: "#475569",
+    bottomBg: "#f1f5f9", bottomBorder: "#e2e8f0",
+    bottomText: "#334155", bottomCta: "linear-gradient(135deg, #0f172a, #1e293b)",
+    disclaimer: "#94a3b8"
+  },
+  warm: {
+    name: "Warm Gold",
+    desc: "Premium, luxury feel — gold accent on dark background",
+    bg: "linear-gradient(180deg, #1c1917 0%, #292524 100%)",
+    accent: "#f59e0b", accentLight: "#fbbf24", accentGlow: "rgba(245,158,11,0.3)",
+    ctaBg: "linear-gradient(135deg, #f59e0b, #fbbf24)",
+    logoIcon: "linear-gradient(135deg, #f59e0b, #fbbf24)",
+    logoText: "#ffffff",
+    headerText: "#ffffff",
+    badgeBg: "rgba(255,255,255,0.06)", badgeBorder: "rgba(255,255,255,0.08)", badgeText: "#fde68a", badgeDot: "#fbbf24",
+    title: "#ffffff", highlight: "#fbbf24",
+    sub: "#a8a29e", free: "#78716c",
+    langBg: "rgba(255,255,255,0.08)", langBorder: "rgba(255,255,255,0.1)", langText: "#fde68a",
+    statBg: "rgba(255,255,255,0.03)", statBorder: "rgba(255,255,255,0.05)",
+    statNum: "#fbbf24", statLabel: "#78716c",
+    featTitle: "#fef3c7",
+    cardBg: "rgba(255,255,255,0.04)", cardBorder: "rgba(255,255,255,0.06)",
+    cardTitle: "#fef3c7", cardDesc: "#78716c",
+    probTitle: "#fef3c7",
+    chipBg: "rgba(255,255,255,0.05)", chipBorder: "rgba(255,255,255,0.08)", chipText: "#a8a29e",
+    bottomBg: "rgba(245,158,11,0.06)", bottomBorder: "rgba(245,158,11,0.1)",
+    bottomText: "#fde68a", bottomCta: "linear-gradient(135deg, #f59e0b, #fbbf24)",
+    disclaimer: "#78716c"
+  },
+  royal: {
+    name: "Royal Purple",
+    desc: "Modern fintech/AI feel — used by Stripe, Framer, Notion",
+    bg: "linear-gradient(180deg, #1e1033 0%, #2d1b69 100%)",
+    accent: "#8b5cf6", accentLight: "#a78bfa", accentGlow: "rgba(139,92,246,0.3)",
+    ctaBg: "linear-gradient(135deg, #8b5cf6, #a78bfa)",
+    logoIcon: "linear-gradient(135deg, #8b5cf6, #a78bfa)",
+    logoText: "#ffffff",
+    headerText: "#ffffff",
+    badgeBg: "rgba(255,255,255,0.06)", badgeBorder: "rgba(255,255,255,0.08)", badgeText: "#c4b5fd", badgeDot: "#a78bfa",
+    title: "#ffffff", highlight: "#a78bfa",
+    sub: "#a78bfa80", free: "#6d28d9",
+    langBg: "rgba(255,255,255,0.08)", langBorder: "rgba(255,255,255,0.1)", langText: "#c4b5fd",
+    statBg: "rgba(255,255,255,0.03)", statBorder: "rgba(255,255,255,0.05)",
+    statNum: "#a78bfa", statLabel: "#6d28d9",
+    featTitle: "#ede9fe",
+    cardBg: "rgba(255,255,255,0.04)", cardBorder: "rgba(255,255,255,0.06)",
+    cardTitle: "#ede9fe", cardDesc: "#6d28d9",
+    probTitle: "#ede9fe",
+    chipBg: "rgba(255,255,255,0.05)", chipBorder: "rgba(255,255,255,0.08)", chipText: "#c4b5fd",
+    bottomBg: "rgba(139,92,246,0.08)", bottomBorder: "rgba(139,92,246,0.15)",
+    bottomText: "#c4b5fd", bottomCta: "linear-gradient(135deg, #8b5cf6, #a78bfa)",
+    disclaimer: "#6d28d9"
+  },
+  ocean: {
+    name: "Ocean Teal",
+    desc: "Fresh, trustworthy, calming — great for property/real estate",
+    bg: "linear-gradient(180deg, #042f2e 0%, #0f4c4d 100%)",
+    accent: "#14b8a6", accentLight: "#2dd4bf", accentGlow: "rgba(20,184,166,0.3)",
+    ctaBg: "linear-gradient(135deg, #14b8a6, #2dd4bf)",
+    logoIcon: "linear-gradient(135deg, #14b8a6, #2dd4bf)",
+    logoText: "#ffffff",
+    headerText: "#ffffff",
+    badgeBg: "rgba(255,255,255,0.06)", badgeBorder: "rgba(255,255,255,0.08)", badgeText: "#99f6e4", badgeDot: "#2dd4bf",
+    title: "#ffffff", highlight: "#2dd4bf",
+    sub: "#5eead4", free: "#0d9488",
+    langBg: "rgba(255,255,255,0.08)", langBorder: "rgba(255,255,255,0.1)", langText: "#99f6e4",
+    statBg: "rgba(255,255,255,0.03)", statBorder: "rgba(255,255,255,0.05)",
+    statNum: "#2dd4bf", statLabel: "#0d9488",
+    featTitle: "#ccfbf1",
+    cardBg: "rgba(255,255,255,0.04)", cardBorder: "rgba(255,255,255,0.06)",
+    cardTitle: "#ccfbf1", cardDesc: "#0d9488",
+    probTitle: "#ccfbf1",
+    chipBg: "rgba(255,255,255,0.05)", chipBorder: "rgba(255,255,255,0.08)", chipText: "#5eead4",
+    bottomBg: "rgba(20,184,166,0.08)", bottomBorder: "rgba(20,184,166,0.15)",
+    bottomText: "#5eead4", bottomCta: "linear-gradient(135deg, #14b8a6, #2dd4bf)",
+    disclaimer: "#0d9488"
+  }
+};
+
+function render(t) {
+  return `
+  <div class="landing" style="background:${t.bg}">
+    <div class="l-header">
+      <div class="l-logo">
+        <div class="l-logo-icon" style="background:${t.logoIcon};box-shadow:0 2px 8px ${t.accentGlow}">F</div>
+        <span class="l-logo-text" style="color:${t.logoText}">Find.ai</span>
+      </div>
+      <span class="l-lang" style="background:${t.langBg};border-color:${t.langBorder};color:${t.langText}">BM</span>
+    </div>
+    <div class="l-hero">
+      <div class="l-badge" style="background:${t.badgeBg};border-color:${t.badgeBorder};color:${t.badgeText}">
+        <span class="l-badge-dot" style="background:${t.badgeDot}"></span>
+        AI-Powered Property Advisor
+      </div>
+      <div class="l-title" style="color:${t.title}">
+        Your Malaysian Property Rights,<br>
+        <span style="color:${t.highlight}">Made Simple.</span>
+      </div>
+      <div class="l-sub" style="color:${t.sub}">Instant legal answers, ready-to-use agreement clauses, and practical steps — all based on Malaysian law.</div>
+      <div class="l-cta" style="background:${t.ctaBg};box-shadow:0 4px 20px ${t.accentGlow}">Ask Your First Question</div>
+      <div class="l-free" style="color:${t.free}">Free. No sign-up needed.</div>
+    </div>
+    <div class="l-stats" style="background:${t.statBg};border-top:1px solid ${t.statBorder}">
+      <div style="text-align:center"><div class="l-stat-num" style="color:${t.statNum}">50+</div><div class="l-stat-label" style="color:${t.statLabel}">Laws Covered</div></div>
+      <div style="text-align:center"><div class="l-stat-num" style="color:${t.statNum}">14</div><div class="l-stat-label" style="color:${t.statLabel}">States</div></div>
+      <div style="text-align:center"><div class="l-stat-num" style="color:${t.statNum}">24/7</div><div class="l-stat-label" style="color:${t.statLabel}">Available</div></div>
+    </div>
+    <div class="l-features">
+      <div class="l-features-title" style="color:${t.featTitle}">Every answer includes</div>
+      <div class="l-grid">
+        <div class="l-card" style="background:${t.cardBg};border-color:${t.cardBorder}">
+          <div class="l-card-icon">⚖️</div>
+          <div class="l-card-title" style="color:${t.cardTitle}">The Law</div>
+          <div class="l-card-desc" style="color:${t.cardDesc}">Exact Act & Section that applies</div>
+        </div>
+        <div class="l-card" style="background:${t.cardBg};border-color:${t.cardBorder}">
+          <div class="l-card-icon">✅</div>
+          <div class="l-card-title" style="color:${t.cardTitle}">Action Steps</div>
+          <div class="l-card-desc" style="color:${t.cardDesc}">Clear steps in the right order</div>
+        </div>
+        <div class="l-card" style="background:${t.cardBg};border-color:${t.cardBorder}">
+          <div class="l-card-icon">🚫</div>
+          <div class="l-card-title" style="color:${t.cardTitle}">What to Avoid</div>
+          <div class="l-card-desc" style="color:${t.cardDesc}">Mistakes that are actually illegal</div>
+        </div>
+        <div class="l-card" style="background:${t.cardBg};border-color:${t.cardBorder}">
+          <div class="l-card-icon">📋</div>
+          <div class="l-card-title" style="color:${t.cardTitle}">Agreement Clause</div>
+          <div class="l-card-desc" style="color:${t.cardDesc}">Copy-paste into your agreement</div>
+        </div>
+      </div>
+    </div>
+    <div class="l-problems">
+      <div class="l-problems-title" style="color:${t.probTitle}">Built for your real problems</div>
+      <div class="l-chips">
+        <span class="l-chip" style="background:${t.chipBg};border-color:${t.chipBorder};color:${t.chipText}">Tenant tak bayar sewa</span>
+        <span class="l-chip" style="background:${t.chipBg};border-color:${t.chipBorder};color:${t.chipText}">Deposit disputes</span>
+        <span class="l-chip" style="background:${t.chipBg};border-color:${t.chipBorder};color:${t.chipText}">Eviction process</span>
+        <span class="l-chip" style="background:${t.chipBg};border-color:${t.chipBorder};color:${t.chipText}">Who pays repairs?</span>
+        <span class="l-chip" style="background:${t.chipBg};border-color:${t.chipBorder};color:${t.chipText}">LHDN rental tax</span>
+        <span class="l-chip" style="background:${t.chipBg};border-color:${t.chipBorder};color:${t.chipText}">Subletting</span>
+      </div>
+    </div>
+    <div class="l-bottom" style="background:${t.bottomBg};border-color:${t.bottomBorder}">
+      <div class="l-bottom-text" style="color:${t.bottomText}">Protect yourself before problems happen.</div>
+      <div class="l-bottom-cta" style="background:${t.bottomCta};box-shadow:0 4px 20px ${t.accentGlow}">Start Now — Free</div>
+      <div class="l-disclaimer" style="color:${t.disclaimer}">AI guidance based on Malaysian law. Not a substitute for professional legal counsel.</div>
+    </div>
+  </div>`;
+}
+
+function show(id) {
+  document.querySelectorAll('.picker button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const t = themes[id];
+  document.getElementById('container').innerHTML = `
+    <div class="phone-frame">
+      <div class="phone-notch"><div></div></div>
+      ${render(t)}
+    </div>
+    <div class="theme-label">${t.name} — ${t.desc}</div>
+  `;
+}
+
+// Initial render
+show('midnight');
+// Fix the active button since we called show programmatically
+document.querySelector('.picker button').classList.add('active');
+</script>
+</body>
+</html>

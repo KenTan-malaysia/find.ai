@@ -75,6 +75,11 @@ const UI = {
     copied: 'Copied!',
     saved: 'Chat saved!',
     followUps: 'Related questions',
+    installTitle: 'Add to Home Screen',
+    installDesc: 'Get the full app experience',
+    installBtn: 'Install',
+    installDismiss: 'Not now',
+    feedbackThanks: 'Thanks for your feedback!',
   },
   bm: {
     title: 'Find.ai',
@@ -137,6 +142,11 @@ const UI = {
     copied: 'Disalin!',
     saved: 'Chat disimpan!',
     followUps: 'Soalan berkaitan',
+    installTitle: 'Tambah ke Skrin Utama',
+    installDesc: 'Pengalaman penuh aplikasi',
+    installBtn: 'Pasang',
+    installDismiss: 'Nanti',
+    feedbackThanks: 'Terima kasih atas maklum balas!',
   },
   zh: {
     title: 'Find.ai',
@@ -199,13 +209,18 @@ const UI = {
     copied: '已复制!',
     saved: '对话已保存!',
     followUps: '相关问题',
+    installTitle: '添加到主屏幕',
+    installDesc: '获得完整应用体验',
+    installBtn: '安装',
+    installDismiss: '以后再说',
+    feedbackThanks: '感谢您的反馈！',
   },
 };
 
-// Logo — navy/blue gradient
+// Logo — clean dark gradient
 const Logo = ({ size = 32 }) => (
   <div className="flex items-center justify-center flex-shrink-0"
-    style={{ width: size, height: size, minWidth: size, background: 'linear-gradient(135deg, #3b82f6, #60a5fa)', borderRadius: size * 0.32 }}>
+    style={{ width: size, height: size, minWidth: size, background: 'linear-gradient(135deg, #0f172a, #334155)', borderRadius: size * 0.32, boxShadow: '0 2px 8px rgba(15,23,42,0.12)' }}>
     <span className="text-white font-bold" style={{ fontSize: size * 0.38 }}>F</span>
   </div>
 );
@@ -221,7 +236,6 @@ const SendIcon = () => (
     <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
   </svg>
 );
-// ToolsIcon removed — Stage 1 uses direct scoring cards
 const ShareIcon = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -237,6 +251,16 @@ const NewChatIcon = () => (
     <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
   </svg>
 );
+const ThumbUpIcon = ({ filled }) => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/>
+  </svg>
+);
+const ThumbDownIcon = ({ filled }) => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z"/>
+  </svg>
+);
 
 // Format AI output icons into styled HTML cards
 const fmt = (text) => {
@@ -245,30 +269,29 @@ const fmt = (text) => {
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\n/g, '<br/>');
 
-  // Clean up raw markdown that leaks through
   h = h.replace(/<br\/>---<br\/>/g, '<hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0"/>');
   h = h.replace(/<br\/>-{3,}<br\/>/g, '<hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0"/>');
   h = h.replace(/##\s+(.*?)(?=<br\/>|$)/g, '<div style="font-size:14px;font-weight:700;color:#0f172a;margin:14px 0 6px">$1</div>');
 
-  // ⚡ Legal Bridge — red/blue split card
+  // ⚡ Legal Bridge
   h = h.replace(
     /⚡(.*?)(?=<br\/><br\/>|<br\/>⚖️|<br\/>✅|$)/gs,
     (match) => {
       const content = match.replace(/^⚡\s*/, '');
       return `<div style="margin:10px 0;padding:12px 14px;background:linear-gradient(135deg,#fef2f2,#eff6ff);border:1px solid #e2e8f0;border-left:3px solid #dc2626;border-right:3px solid #2563eb;border-radius:12px">
         <div style="font-size:10px;font-weight:700;letter-spacing:0.5px;color:#64748b;margin-bottom:6px">⚡ LEGAL BRIDGE</div>
-        <div style="font-size:12px;line-height:1.6;color:#334155">${content}</div></div>`;
+        <div style="font-size:12.5px;line-height:1.6;color:#334155">${content}</div></div>`;
     }
   );
 
-  // ⚖️ Law citation — subtle blue tag
+  // ⚖️ Law citation
   h = h.replace(
     /⚖️\s*(.*?)(?=<br\/>|$)/g,
-    (_, content) => `<div style="margin:8px 0;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px">
-      <span style="font-size:12px">⚖️</span><span style="font-size:12px;color:#1e40af;font-weight:500">${content}</span></div>`
+    (_, content) => `<div style="margin:8px 0;display:inline-flex;align-items:center;gap:6px;padding:7px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px">
+      <span style="font-size:12px">⚖️</span><span style="font-size:12.5px;color:#1e40af;font-weight:500">${content}</span></div>`
   );
 
-  // ✅ Action steps — with bold title
+  // ✅ Action steps with bold title
   h = h.replace(
     /✅\s*<strong>(.*?)<\/strong>(.*?)(?=<br\/><br\/>|<br\/>🚫|<br\/>💰|<br\/>📋|<br\/>⚠️|<br\/>🔒|<br\/>🔴|$)/gs,
     (_, title, steps) => {
@@ -280,12 +303,12 @@ const fmt = (text) => {
         else if (items.length > 0 && p.trim()) items[items.length - 1].text += ' ' + p.trim();
       }
       const stepsHtml = items.map(it =>
-        `<div style="display:flex;gap:8px;align-items:flex-start;margin-top:6px">
-          <span style="min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;background:#f0fdf4;color:#16a34a;font-size:10px;font-weight:700;border-radius:6px;border:1px solid #bbf7d0;flex-shrink:0">${it.num}</span>
-          <span style="font-size:12px;color:#334155;line-height:1.5">${it.text}</span></div>`
+        `<div style="display:flex;gap:8px;align-items:flex-start;margin-top:7px">
+          <span style="min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:#f0fdf4;color:#16a34a;font-size:10px;font-weight:700;border-radius:7px;border:1px solid #bbf7d0;flex-shrink:0">${it.num}</span>
+          <span style="font-size:12.5px;color:#334155;line-height:1.55">${it.text}</span></div>`
       ).join('');
-      return `<div style="margin:10px 0;padding:12px 14px;background:#f8fdf8;border:1px solid #dcfce7;border-radius:12px">
-        <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:4px">✅ ${title}</div>${stepsHtml}</div>`;
+      return `<div style="margin:10px 0;padding:14px;background:#f8fdf8;border:1px solid #dcfce7;border-radius:12px">
+        <div style="font-size:12.5px;font-weight:700;color:#166534;margin-bottom:4px">✅ ${title}</div>${stepsHtml}</div>`;
     }
   );
 
@@ -303,42 +326,42 @@ const fmt = (text) => {
         else if (items.length > 0 && p.trim()) items[items.length - 1].text += ' ' + p.trim();
         else if (!firstLine && p.trim()) firstLine = p.trim();
       }
-      const titleHtml = firstLine ? `<div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:4px">✅ ${firstLine}</div>` : '';
+      const titleHtml = firstLine ? `<div style="font-size:12.5px;font-weight:700;color:#166534;margin-bottom:4px">✅ ${firstLine}</div>` : '';
       const stepsHtml = items.map(it =>
-        `<div style="display:flex;gap:8px;align-items:flex-start;margin-top:6px">
-          <span style="min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;background:#f0fdf4;color:#16a34a;font-size:10px;font-weight:700;border-radius:6px;border:1px solid #bbf7d0;flex-shrink:0">${it.num}</span>
-          <span style="font-size:12px;color:#334155;line-height:1.5">${it.text}</span></div>`
+        `<div style="display:flex;gap:8px;align-items:flex-start;margin-top:7px">
+          <span style="min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:#f0fdf4;color:#16a34a;font-size:10px;font-weight:700;border-radius:7px;border:1px solid #bbf7d0;flex-shrink:0">${it.num}</span>
+          <span style="font-size:12.5px;color:#334155;line-height:1.55">${it.text}</span></div>`
       ).join('');
-      return `<div style="margin:10px 0;padding:12px 14px;background:#f8fdf8;border:1px solid #dcfce7;border-radius:12px">${titleHtml}${stepsHtml}</div>`;
+      return `<div style="margin:10px 0;padding:14px;background:#f8fdf8;border:1px solid #dcfce7;border-radius:12px">${titleHtml}${stepsHtml}</div>`;
     }
   );
 
-  // 🚫 Warning — red accent
+  // 🚫 Warning
   h = h.replace(
     /🚫\s*(.*?)(?=<br\/>|$)/g,
-    (_, content) => `<div style="margin:8px 0;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;display:flex;align-items:center;gap:6px">
-      <span style="font-size:12px">🚫</span><span style="font-size:12px;color:#991b1b;font-weight:500">${content}</span></div>`
+    (_, content) => `<div style="margin:8px 0;padding:9px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;display:flex;align-items:center;gap:6px">
+      <span style="font-size:12px">🚫</span><span style="font-size:12.5px;color:#991b1b;font-weight:500">${content}</span></div>`
   );
 
-  // 💰 Cost — amber tag (handle multiline)
+  // 💰 Cost multiline
   h = h.replace(
     /💰\s*<strong>(.*?)<\/strong>(.*?)(?=<br\/><br\/>|<br\/>🚫|<br\/>📋|<br\/>⚠️|<br\/>🔒|<br\/>🔴|<br\/>✅|$)/gs,
     (_, title, body) => {
       const lines = body.split(/<br\/>/).filter(l => l.trim()).map(l =>
-        `<div style="font-size:12px;color:#92400e;margin-top:3px">• ${l.replace(/^-\s*/, '').trim()}</div>`
+        `<div style="font-size:12.5px;color:#92400e;margin-top:3px">• ${l.replace(/^-\s*/, '').trim()}</div>`
       ).join('');
-      return `<div style="margin:8px 0;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px">
-        <div style="font-size:12px;font-weight:700;color:#92400e;margin-bottom:2px">💰 ${title}</div>${lines}</div>`;
+      return `<div style="margin:8px 0;padding:12px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px">
+        <div style="font-size:12.5px;font-weight:700;color:#92400e;margin-bottom:2px">💰 ${title}</div>${lines}</div>`;
     }
   );
-  // 💰 single line fallback
+  // 💰 single line
   h = h.replace(
     /💰\s*(.*?)(?=<br\/>|$)/g,
-    (_, content) => `<div style="margin:8px 0;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px">
-      <span style="font-size:12px">💰</span><span style="font-size:12px;color:#92400e;font-weight:500">${content}</span></div>`
+    (_, content) => `<div style="margin:8px 0;display:inline-flex;align-items:center;gap:6px;padding:7px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px">
+      <span style="font-size:12px">💰</span><span style="font-size:12.5px;color:#92400e;font-weight:500">${content}</span></div>`
   );
 
-  // 📋 Clause blocks — safe rendering without inline onclick
+  // 📋 Clause blocks
   h = h.replace(
     /📋\s*(?:<strong>)?(.*?)(?:<\/strong>)?:?\s*<br\/>(?:```)?<br\/>([\s\S]*?)(?:```|(?=<br\/><br\/>)|$)/gs,
     (_, title, clause) => {
@@ -347,11 +370,11 @@ const fmt = (text) => {
         <div style="display:flex;align-items:center;margin-bottom:8px">
           <span style="font-size:11px;font-weight:700;color:#1e293b">📋 ${title || 'Clause'}</span>
         </div>
-        <div class="clause-text" style="font-size:12px;color:#334155;line-height:1.7;padding:10px 12px;background:rgba(255,255,255,0.7);border-radius:8px">${displayClause}</div></div>`;
+        <div class="clause-text" style="font-size:12.5px;color:#334155;line-height:1.7;padding:10px 12px;background:rgba(255,255,255,0.7);border-radius:8px">${displayClause}</div></div>`;
     }
   );
 
-  // 📋 old-style with > quotes
+  // 📋 old-style
   h = h.replace(
     /📋\s*(?:<strong>)?(.*?)(?:<\/strong>)?.*?<br\/>(&gt;.*?)(?=<br\/><br\/>|$)/gs,
     (_, title, clause) => {
@@ -359,63 +382,66 @@ const fmt = (text) => {
         <div style="display:flex;align-items:center;margin-bottom:8px">
           <span style="font-size:11px;font-weight:700;color:#1e293b">📋 ${title || 'Clause'}</span>
         </div>
-        <div class="clause-text" style="font-size:12px;color:#334155;line-height:1.7;padding:10px 12px;background:rgba(255,255,255,0.7);border-radius:8px">${clause.replace(/&gt;\s?/g,'')}</div></div>`;
+        <div class="clause-text" style="font-size:12.5px;color:#334155;line-height:1.7;padding:10px 12px;background:rgba(255,255,255,0.7);border-radius:8px">${clause.replace(/&gt;\s?/g,'')}</div></div>`;
     }
   );
 
-  // 🔒 Verified — green confidence badge
+  // 🔒 Verified
   h = h.replace(
     /🔒\s*(.*?)(?=<br\/>|$)/g,
     (_, content) => `<div style="margin:10px 0;padding:10px 14px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #86efac;border-radius:12px;display:flex;align-items:center;gap:8px">
       <div style="width:28px;height:28px;border-radius:8px;background:#22c55e;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <span style="font-size:14px;color:white">🛡️</span></div>
-      <div><span style="font-size:11px;font-weight:700;color:#166534;letter-spacing:0.02em">VERIFIED</span>
-        <div style="font-size:12px;color:#15803d;margin-top:1px;font-weight:500">${content}</div></div></div>`
+        <span style="font-size:14px;color:white">✓</span></div>
+      <div><span style="font-size:10px;font-weight:700;color:#166534;letter-spacing:0.04em">VERIFIED</span>
+        <div style="font-size:12.5px;color:#15803d;margin-top:1px;font-weight:500">${content}</div></div></div>`
   );
 
-  // ⚠️ General guidance — yellow confidence badge
+  // ⚠️ General guidance
   h = h.replace(
     /⚠️\s*(.*?)(?=<br\/>|$)/g,
     (_, content) => `<div style="margin:10px 0;padding:10px 14px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-radius:12px;display:flex;align-items:center;gap:8px">
       <div style="width:28px;height:28px;border-radius:8px;background:#f59e0b;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <span style="font-size:14px;color:white">⚠️</span></div>
-      <div><span style="font-size:11px;font-weight:700;color:#92400e;letter-spacing:0.02em">GENERAL GUIDANCE</span>
-        <div style="font-size:12px;color:#b45309;margin-top:1px;font-weight:500">${content}</div></div></div>`
+        <span style="font-size:14px;color:white">!</span></div>
+      <div><span style="font-size:10px;font-weight:700;color:#92400e;letter-spacing:0.04em">GENERAL GUIDANCE</span>
+        <div style="font-size:12.5px;color:#b45309;margin-top:1px;font-weight:500">${content}</div></div></div>`
   );
 
-  // 🔴 Needs professional advice — red confidence badge
+  // 🔴 Consult lawyer
   h = h.replace(
     /🔴\s*(.*?)(?=<br\/>|$)/g,
     (_, content) => `<div style="margin:10px 0;padding:10px 14px;background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1px solid #fca5a5;border-radius:12px;display:flex;align-items:center;gap:8px">
       <div style="width:28px;height:28px;border-radius:8px;background:#ef4444;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <span style="font-size:14px;color:white">⚖️</span></div>
-      <div><span style="font-size:11px;font-weight:700;color:#991b1b;letter-spacing:0.02em">CONSULT A LAWYER</span>
-        <div style="font-size:12px;color:#dc2626;margin-top:1px;font-weight:500">${content}</div></div></div>`
+        <span style="font-size:14px;color:white">⚖</span></div>
+      <div><span style="font-size:10px;font-weight:700;color:#991b1b;letter-spacing:0.04em">CONSULT A LAWYER</span>
+        <div style="font-size:12.5px;color:#dc2626;margin-top:1px;font-weight:500">${content}</div></div></div>`
   );
 
-  // Clean up any remaining dash-only list items (- text)
   h = h.replace(/<br\/>\s*-\s+/g, '<br/>• ');
-
   return h;
 };
 
-// Memoized message bubble — only re-renders when its own content changes
-const MessageBubble = memo(function MessageBubble({ content, role, isStreaming, isError, streamRef: sRef, onCopy, onShare, onSave, onRetry }) {
+// Memoized message bubble with feedback
+const MessageBubble = memo(function MessageBubble({ id, content, role, isStreaming, isError, streamRef: sRef, onCopy, onShare, onSave, onRetry, onFeedback, feedback }) {
   const html = useMemo(() => fmt(content), [content]);
+  const timeStr = useMemo(() => {
+    const now = new Date();
+    return now.toLocaleTimeString('en-MY', { hour: '2-digit', minute: '2-digit', hour12: true });
+  }, []);
+
   return (
     <>
       <div
         ref={sRef || null}
         className={`text-[13.5px] leading-[1.65] ${
           role === 'user'
-            ? 'px-4 py-3 text-white rounded-[20px_20px_4px_20px]'
-            : `bot-msg bg-white px-4 py-3.5 rounded-[4px_20px_20px_20px]${isStreaming ? ' streaming' : ''}`
+            ? 'px-4 py-3 text-white rounded-[18px_18px_4px_18px]'
+            : `bot-msg bg-white px-4 py-3.5 rounded-[4px_18px_18px_18px]${isStreaming ? ' streaming' : ''}`
         }`}
         style={role === 'user'
-          ? { background: '#0f172a' }
+          ? { background: 'linear-gradient(135deg, #0f172a, #1e293b)', boxShadow: '0 2px 8px rgba(15,23,42,0.1)' }
           : isError
-            ? { boxShadow: '0 1px 4px rgba(15,23,42,0.03)', color: '#991b1b', background: '#fef2f2', border: '1px solid #fecaca' }
-            : { boxShadow: '0 1px 4px rgba(15,23,42,0.03)', color: '#334155', border: '1px solid #edf0f4' }
+            ? { boxShadow: '0 1px 6px rgba(15,23,42,0.04)', color: '#991b1b', background: '#fef2f2', border: '1px solid #fecaca' }
+            : { boxShadow: '0 1px 6px rgba(15,23,42,0.04)', color: '#334155', border: '1px solid #edf0f4' }
         }
         dangerouslySetInnerHTML={{ __html: html }}
       />
@@ -430,14 +456,28 @@ const MessageBubble = memo(function MessageBubble({ content, role, isStreaming, 
         </button>
       )}
       {role === 'assistant' && content && !isError && (
-        <div className="msg-actions flex items-center gap-0.5 mt-1.5 pl-0.5">
-          <button onClick={onCopy} className="flex items-center gap-1 text-[11px] min-h-[44px] px-3 py-2 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}><CopyIcon /> Copy</button>
-          <button onClick={onShare} className="flex items-center gap-1 text-[11px] min-h-[44px] px-3 py-2 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}><ShareIcon /> Share</button>
-          <button onClick={onSave} className="flex items-center gap-1 text-[11px] min-h-[44px] px-3 py-2 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}>
+        <div className="msg-actions flex items-center gap-0 mt-1.5 pl-0.5">
+          {/* Feedback buttons */}
+          <button onClick={() => onFeedback && onFeedback(id, 'up')}
+            className={`feedback-btn flex items-center gap-1 text-[11px] min-h-[44px] px-2.5 py-2 rounded-lg transition active:scale-95 ${feedback === 'up' ? 'active-up' : ''}`}
+            style={{ color: '#cbd5e1' }}>
+            <ThumbUpIcon filled={feedback === 'up'} />
+          </button>
+          <button onClick={() => onFeedback && onFeedback(id, 'down')}
+            className={`feedback-btn flex items-center gap-1 text-[11px] min-h-[44px] px-2.5 py-2 rounded-lg transition active:scale-95 ${feedback === 'down' ? 'active-down' : ''}`}
+            style={{ color: '#cbd5e1' }}>
+            <ThumbDownIcon filled={feedback === 'down'} />
+          </button>
+          <div style={{ width: 1, height: 14, background: '#e2e8f0', margin: '0 2px' }} />
+          <button onClick={onCopy} className="flex items-center gap-1 text-[11px] min-h-[44px] px-2.5 py-2 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}><CopyIcon /></button>
+          <button onClick={onShare} className="flex items-center gap-1 text-[11px] min-h-[44px] px-2.5 py-2 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}><ShareIcon /></button>
+          <button onClick={onSave} className="flex items-center gap-1 text-[11px] min-h-[44px] px-2.5 py-2 rounded-lg transition active:scale-95 hover:bg-slate-50" style={{ color: '#94a3b8' }}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-            Save</button>
+          </button>
         </div>
       )}
+      {/* Timestamp */}
+      {content && !isStreaming && <div className="msg-time">{timeStr}</div>}
     </>
   );
 });
@@ -452,43 +492,33 @@ const save = (key, v) => {
   try { localStorage.setItem(key, JSON.stringify(v)); } catch {}
 };
 
-// Conversation memory — compress older messages into a summary
-const MEMORY_THRESHOLD = 8; // Start compressing after 8 messages (4 exchanges)
-const RECENT_KEEP = 6;      // Keep last 6 messages in full (3 exchanges)
+// Conversation memory
+const MEMORY_THRESHOLD = 8;
+const RECENT_KEEP = 6;
 
 function buildConversationMemory(messages) {
   if (messages.length <= MEMORY_THRESHOLD) return { memory: null, recentMessages: messages };
-
   const older = messages.slice(0, messages.length - RECENT_KEEP);
   const recent = messages.slice(messages.length - RECENT_KEEP);
-
-  // Extract key info from older messages
   const topics = [];
   for (let i = 0; i < older.length; i++) {
     const msg = older[i];
     if (msg.role === 'user') {
-      // User's question — keep it short
       const q = msg.content.trim();
       const short = q.length > 100 ? q.substring(0, 100) + '...' : q;
       topics.push(`• User asked: "${short}"`);
     } else if (msg.role === 'assistant') {
-      // Extract key facts from AI answer — first line + any law citations
       const lines = msg.content.split('\n').filter(l => l.trim());
       const firstLine = lines[0]?.trim();
       if (firstLine) {
         const short = firstLine.length > 120 ? firstLine.substring(0, 120) + '...' : firstLine;
         topics.push(`  → Answer: ${short}`);
       }
-      // Extract law citations
       const laws = msg.content.match(/⚖️\s*(.+?)(?:\n|$)/g);
-      if (laws) {
-        laws.forEach(l => topics.push(`  → ${l.trim()}`));
-      }
+      if (laws) laws.forEach(l => topics.push(`  → ${l.trim()}`));
     }
   }
-
-  const memory = topics.join('\n');
-  return { memory, recentMessages: recent };
+  return { memory: topics.join('\n'), recentMessages: recent };
 }
 
 export default function Home() {
@@ -507,6 +537,10 @@ export default function Home() {
   const [suggestions, setSuggestions] = useState([]);
   const [copied, setCopied] = useState(false);
   const [lastFailedMsg, setLastFailedMsg] = useState(null);
+  const [feedbackMap, setFeedbackMap] = useState({});
+  const [showFeedbackToast, setShowFeedbackToast] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState(null);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
   const chatRef = useRef(null);
   const inputRef = useRef(null);
   const recRef = useRef(null);
@@ -514,9 +548,37 @@ export default function Home() {
   const streamContentRef = useRef('');
   const userScrolledRef = useRef(false);
 
+  // PWA install prompt
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+      const dismissed = load('fi_install_dismissed', false);
+      if (!dismissed) setShowInstallBanner(true);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstall = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setShowInstallBanner(false);
+      setInstallPrompt(null);
+    }
+  };
+
+  const dismissInstall = () => {
+    setShowInstallBanner(false);
+    save('fi_install_dismissed', true);
+  };
+
   useEffect(() => {
     setLang(load('fi_lang', 'en'));
     setProfile(load('fi_profile', { role: '', state: '', type: '', rent: '' }));
+    setFeedbackMap(load('fi_feedback', {}));
     if (load('fi_messages', []).length > 0) setHasSavedChat(true);
     setReady(true);
   }, []);
@@ -530,25 +592,18 @@ export default function Home() {
   }, [messages, ready]);
   useEffect(() => { if (ready) save('fi_profile', profile); }, [profile, ready]);
 
-  // Detect USER scroll (wheel/touch only — never fires from programmatic scroll)
+  // Scroll detection
   useEffect(() => {
     const el = chatRef.current;
     if (!el) return;
-
-    // User is actively scrolling — check if they moved away from bottom
     const onUserInteraction = () => {
       requestAnimationFrame(() => {
         if (!el) return;
         const { scrollTop, scrollHeight, clientHeight } = el;
         const distFromBottom = scrollHeight - scrollTop - clientHeight;
-        if (distFromBottom > 80) {
-          userScrolledRef.current = true;
-        } else {
-          userScrolledRef.current = false;
-        }
+        userScrolledRef.current = distFromBottom > 80;
       });
     };
-
     el.addEventListener('wheel', onUserInteraction, { passive: true });
     el.addEventListener('touchmove', onUserInteraction, { passive: true });
     el.addEventListener('mousedown', onUserInteraction, { passive: true });
@@ -559,7 +614,6 @@ export default function Home() {
     };
   }, [showChat]);
 
-  // Auto scroll on new messages — skip if user scrolled up
   useEffect(() => {
     if (chatRef.current && !userScrolledRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
@@ -603,16 +657,48 @@ export default function Home() {
     return c.trim();
   };
 
-  // Parse follow-up suggestions from Haiku's response
-  // Returns { cleanContent, followUps[] }
   const parseFollowUps = useCallback((content) => {
     const match = content.match(/\[FOLLOWUPS\]\n?([\s\S]*?)\[\/FOLLOWUPS\]/);
     if (!match) return { cleanContent: content, followUps: [] };
-
     const cleanContent = content.replace(/\[FOLLOWUPS\][\s\S]*?\[\/FOLLOWUPS\]/, '').trim();
     const followUps = match[1].split('\n').map(l => l.trim()).filter(l => l.length > 0).slice(0, 3);
     return { cleanContent, followUps };
   }, []);
+
+  // Feedback handler — self-improving
+  const handleFeedback = useCallback((msgId, type) => {
+    setFeedbackMap(prev => {
+      const next = { ...prev };
+      // Toggle: if already selected, remove it
+      if (next[msgId] === type) {
+        delete next[msgId];
+      } else {
+        next[msgId] = type;
+      }
+      save('fi_feedback', next);
+
+      // Track aggregate stats for self-improving
+      const stats = load('fi_feedback_stats', { up: 0, down: 0, topics: {} });
+      if (type === 'up') stats.up++;
+      else stats.down++;
+
+      // Track which topics get good/bad feedback
+      const msg = messages.find((m, i) => `msg-${i}` === msgId);
+      if (msg) {
+        const topicMatch = msg.content.match(/⚖️\s*(.*?)(?:\n|$)/);
+        if (topicMatch) {
+          const topic = topicMatch[1].trim().substring(0, 60);
+          if (!stats.topics[topic]) stats.topics[topic] = { up: 0, down: 0 };
+          stats.topics[topic][type]++;
+        }
+      }
+      save('fi_feedback_stats', stats);
+
+      return next;
+    });
+    setShowFeedbackToast(true);
+    setTimeout(() => setShowFeedbackToast(false), 1500);
+  }, [messages]);
 
   const sendMessage = useCallback(async (text) => {
     if (!text.trim() || loading) return;
@@ -623,8 +709,18 @@ export default function Home() {
     setLoading(true);
     setSuggestions([]);
 
-    // Compress older messages into memory if conversation is long
     const { memory, recentMessages } = buildConversationMemory(all);
+
+    // Include feedback context for self-improving answers
+    const stats = load('fi_feedback_stats', null);
+    let feedbackContext = '';
+    if (stats && (stats.up + stats.down) >= 3) {
+      const ratio = stats.up / (stats.up + stats.down);
+      if (ratio < 0.6) feedbackContext = 'User feedback suggests answers could be more practical and specific. Focus on actionable steps.';
+      // Add disliked topics
+      const badTopics = Object.entries(stats.topics || {}).filter(([_, v]) => v.down > v.up).map(([k]) => k);
+      if (badTopics.length > 0) feedbackContext += ` Topics that need improvement: ${badTopics.join(', ')}.`;
+    }
 
     let scrollInterval = null;
     try {
@@ -633,7 +729,7 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: recentMessages,
-          profileContext: profileCtx(),
+          profileContext: profileCtx() + (feedbackContext ? `\n${feedbackContext}` : ''),
           conversationMemory: memory,
         }),
       });
@@ -649,17 +745,11 @@ export default function Home() {
         return;
       }
 
-      // Add a placeholder assistant message ONCE, then update it via ref
       setMessages([...all, { role: 'assistant', content: '' }]);
       streamContentRef.current = '';
-
-      // Wait one frame so React renders the placeholder and streamRef attaches
       await new Promise(r => requestAnimationFrame(r));
-
-      // Reset scroll tracking for new response
       userScrolledRef.current = false;
 
-      // Auto-scroll during streaming — stops immediately if user scrolls up
       scrollInterval = setInterval(() => {
         if (chatRef.current && !userScrolledRef.current) {
           chatRef.current.scrollTop = chatRef.current.scrollHeight;
@@ -678,12 +768,10 @@ export default function Home() {
           if (line.startsWith('data: ') && line !== 'data: [DONE]') {
             try {
               streamContentRef.current += JSON.parse(line.slice(6)).text;
-              // Throttle DOM updates to once per animation frame
               if (!rafPending) {
                 rafPending = true;
                 requestAnimationFrame(() => {
                   if (streamRef.current) {
-                    // Hide [FOLLOWUPS] block during streaming
                     const display = streamContentRef.current.replace(/\[FOLLOWUPS\][\s\S]*?(\[\/FOLLOWUPS\]|$)/, '');
                     streamRef.current.innerHTML = fmt(display);
                   }
@@ -695,23 +783,15 @@ export default function Home() {
         }
       }
 
-      // Final DOM update to catch any tokens after last rAF
       if (streamRef.current) {
         streamRef.current.innerHTML = fmt(streamContentRef.current);
       }
 
-      // Parse follow-ups from response, strip them from displayed content
       const rawContent = streamContentRef.current;
       const { cleanContent, followUps } = parseFollowUps(rawContent);
-
-      // Commit clean content (without [FOLLOWUPS] block) to React state
       setMessages([...all, { role: 'assistant', content: cleanContent }]);
       streamContentRef.current = '';
-
-      // Show Haiku-generated follow-up suggestions
-      if (followUps.length > 0) {
-        setSuggestions(followUps);
-      }
+      if (followUps.length > 0) setSuggestions(followUps);
       setLastFailedMsg(null);
 
     } catch (err) {
@@ -730,17 +810,14 @@ export default function Home() {
     }
     setLoading(false);
     inputRef.current?.focus();
-  }, [messages, loading, profile, parseFollowUps]);
+  }, [messages, loading, profile, parseFollowUps, lang]);
 
   const handleRetry = useCallback(() => {
     if (!lastFailedMsg || loading) return;
-    // Remove the error message from chat
     const withoutError = messages.filter(m => !m.isError);
-    // Also remove the failed user message (last user msg)
     const withoutLastUser = withoutError.slice(0, -1);
     setMessages(withoutLastUser);
     setLastFailedMsg(null);
-    // Resend after state update
     setTimeout(() => sendMessage(lastFailedMsg), 50);
   }, [lastFailedMsg, loading, messages, sendMessage]);
 
@@ -783,34 +860,32 @@ export default function Home() {
     sp.role ? setShowChat(true) : setShowProfile(true);
   };
 
-  // fmt is now defined outside the component (above) for memoization
-
   if (!ready) return null;
 
   // Landing
   if (!showChat && !showProfile)
     return <Landing onStart={startChat} lang={lang} setLang={setLang} hasSavedChat={hasSavedChat} onContinueChat={loadChat} />;
 
-  // Profile — banking-app onboarding
+  // Profile — Clean White onboarding
   if (showProfile) {
     const t = UI[lang];
     const roleIcons = { landlord: '🏠', tenant: '🔑', buyer: '🛒' };
     const typeIcons = { condo: '🏢', landed: '🏡', shop: '🏪' };
     return (
-      <div className="flex flex-col min-h-screen" style={{ background: '#0f172a' }}>
-        {/* Top section — navy with branding */}
+      <div className="flex flex-col min-h-screen" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)' }}>
+        {/* Top section — clean with branding */}
         <div className="flex flex-col items-center pt-14 pb-8 px-6">
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style={{ background: 'linear-gradient(135deg, #0f172a, #334155)', boxShadow: '0 4px 16px rgba(15,23,42,0.15)' }}>
             <span className="text-white font-bold text-xl">F</span>
           </div>
-          <h2 className="text-[22px] font-bold mb-1.5 text-white" style={{ letterSpacing: '-0.02em' }}>{t.profileTitle}</h2>
-          <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>{t.profileDesc}</p>
+          <h2 className="text-[22px] font-bold mb-1.5" style={{ color: '#0f172a', letterSpacing: '-0.02em' }}>{t.profileTitle}</h2>
+          <p className="text-[13px]" style={{ color: '#94a3b8' }}>{t.profileDesc}</p>
         </div>
 
-        {/* Bottom card — white, rounded top */}
-        <div className="flex-1 bg-white px-6 pt-8 pb-6" style={{ borderRadius: '28px 28px 0 0' }}>
+        {/* Form card */}
+        <div className="flex-1 px-6 pt-2 pb-6">
           <div className="max-w-sm mx-auto space-y-6">
-            {/* Role — icon cards */}
+            {/* Role */}
             <div>
               <label className="text-[11px] font-bold uppercase tracking-widest mb-3 block" style={{ color: '#94a3b8' }}>{t.profileRole}</label>
               <div className="flex gap-2.5">
@@ -818,8 +893,8 @@ export default function Home() {
                   <button key={r} onClick={() => setProfile({...profile, role: r})}
                     className="flex-1 flex flex-col items-center gap-1.5 py-4 rounded-2xl text-[12px] font-semibold transition-all active:scale-95"
                     style={profile.role === r
-                      ? { background: '#0f172a', color: '#fff', boxShadow: '0 4px 16px rgba(15,23,42,0.25)' }
-                      : { background: '#f8fafc', color: '#64748b', border: '1px solid #edf0f4' }
+                      ? { background: '#0f172a', color: '#fff', boxShadow: '0 4px 16px rgba(15,23,42,0.2)' }
+                      : { background: '#ffffff', color: '#64748b', border: '1px solid #e2e8f0' }
                     }>
                     <span className="text-xl">{roleIcons[r]}</span>
                     {t.roles[r]}
@@ -828,18 +903,18 @@ export default function Home() {
               </div>
             </div>
 
-            {/* State — clean select */}
+            {/* State */}
             <div>
               <label className="text-[11px] font-bold uppercase tracking-widest mb-3 block" style={{ color: '#94a3b8' }}>{t.profileState}</label>
               <select value={profile.state} onChange={(e) => setProfile({...profile, state: e.target.value})}
                 className="w-full py-3.5 px-4 rounded-xl text-[16px] font-medium focus:outline-none transition appearance-none min-h-[48px]"
-                style={{ background: '#f8fafc', border: '1px solid #edf0f4', color: profile.state ? '#0f172a' : '#94a3b8' }}>
+                style={{ background: '#ffffff', border: '1px solid #e2e8f0', color: profile.state ? '#0f172a' : '#94a3b8' }}>
                 <option value="">—</option>
                 {STATES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
 
-            {/* Property type — icon cards */}
+            {/* Property type */}
             <div>
               <label className="text-[11px] font-bold uppercase tracking-widest mb-3 block" style={{ color: '#94a3b8' }}>{t.profileType}</label>
               <div className="flex gap-2.5">
@@ -847,8 +922,8 @@ export default function Home() {
                   <button key={tp} onClick={() => setProfile({...profile, type: tp})}
                     className="flex-1 flex flex-col items-center gap-1.5 py-4 rounded-2xl text-[12px] font-semibold transition-all active:scale-95"
                     style={profile.type === tp
-                      ? { background: '#0f172a', color: '#fff', boxShadow: '0 4px 16px rgba(15,23,42,0.25)' }
-                      : { background: '#f8fafc', color: '#64748b', border: '1px solid #edf0f4' }
+                      ? { background: '#0f172a', color: '#fff', boxShadow: '0 4px 16px rgba(15,23,42,0.2)' }
+                      : { background: '#ffffff', color: '#64748b', border: '1px solid #e2e8f0' }
                     }>
                     <span className="text-xl">{typeIcons[tp]}</span>
                     {t.types[tp]}
@@ -864,19 +939,19 @@ export default function Home() {
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[13px] font-bold" style={{ color: '#94a3b8' }}>RM</span>
                 <input type="number" value={profile.rent} onChange={(e) => setProfile({...profile, rent: e.target.value})}
                   placeholder="2,500" className="w-full py-3.5 pl-12 pr-4 rounded-xl text-[16px] font-medium focus:outline-none transition min-h-[48px]"
-                  style={{ background: '#f8fafc', border: '1px solid #edf0f4', color: '#0f172a' }} />
+                  style={{ background: '#ffffff', border: '1px solid #e2e8f0', color: '#0f172a' }} />
               </div>
             </div>
           </div>
 
-          {/* Actions — pinned to bottom */}
+          {/* Actions */}
           <div className="flex gap-3 mt-8 max-w-sm mx-auto">
             <button onClick={() => { setShowProfile(false); setShowChat(true); }}
               className="flex-1 py-4 rounded-xl text-[13px] font-semibold transition active:scale-[0.98]"
               style={{ color: '#94a3b8' }}>{t.profileSkip}</button>
             <button onClick={() => { save('fi_profile', profile); setShowProfile(false); setShowChat(true); }}
               className="flex-[2] py-4 rounded-xl text-[14px] font-bold text-white transition active:scale-[0.98]"
-              style={{ background: '#0f172a', boxShadow: '0 4px 16px rgba(15,23,42,0.3)' }}>{t.profileSave}</button>
+              style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)', boxShadow: '0 4px 16px rgba(15,23,42,0.2)' }}>{t.profileSave}</button>
           </div>
         </div>
       </div>
@@ -885,14 +960,14 @@ export default function Home() {
 
   // Chat
   const t = UI[lang];
-  const tl = L[lang]; // tool labels for card titles
+  const tl = L[lang];
   const has = messages.length > 0;
   const hasP = profile.role || profile.state;
 
   return (
-    <div className="flex flex-col h-screen max-w-lg mx-auto bg-white" style={{ background: '#ffffff' }}>
-      {/* Header — banking-app premium */}
-      <header className="no-print glass-header header-safe sticky top-0 z-10 flex items-center justify-between px-4 py-2.5" style={{ borderBottom: '1px solid rgba(226,232,240,0.8)' }}>
+    <div className="flex flex-col h-screen max-w-lg mx-auto" style={{ background: '#ffffff' }}>
+      {/* Header — frosted glass */}
+      <header className="no-print glass-header header-safe sticky top-0 z-10 flex items-center justify-between px-4 py-2.5" style={{ borderBottom: '1px solid rgba(226,232,240,0.6)' }}>
         <div className="flex items-center gap-3">
           <Logo size={32} />
           <div>
@@ -930,7 +1005,6 @@ export default function Home() {
       {/* Chat area */}
       <div ref={chatRef} className="chat-area flex-1 overflow-y-auto px-4 py-5" style={{ background: has ? '#f8fafc' : 'white' }}>
         {!has ? (
-          /* Empty state — Stage 1: Chat + Company Scoring */
           <div className="flex flex-col h-full">
             {/* Welcome */}
             <div className="mt-4 mb-6 card-up">
@@ -950,16 +1024,15 @@ export default function Home() {
               </div>
             </div>
 
-            {/* ===== COMPANY SCORING CARDS — Main Feature ===== */}
+            {/* Company Scoring Cards */}
             <div className="card-up delay-1 mb-5">
               <div className="text-[10px] font-bold uppercase tracking-widest mb-2.5 pl-1" style={{ color: '#cbd5e1' }}>
                 {lang === 'en' ? 'Company Verification' : lang === 'bm' ? 'Pengesahan Syarikat' : '公司验证'}
               </div>
               <div className="flex gap-2.5">
-                {/* MY Company Check */}
                 <button onClick={() => setShowMY(true)}
                   className="flex-1 flex flex-col items-center gap-2 py-5 px-3 rounded-2xl check-card"
-                  style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', boxShadow: '0 4px 20px rgba(15,23,42,0.25)' }}>
+                  style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', boxShadow: '0 4px 20px rgba(15,23,42,0.2)' }}>
                   <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <span className="text-xl">🇲🇾</span>
                   </div>
@@ -967,7 +1040,6 @@ export default function Home() {
                     <div className="text-[13px] font-bold text-white">{tl.myCardTitle}</div>
                     <div className="text-[10px] mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{tl.myCardDesc}</div>
                   </div>
-                  {/* Mini traffic light indicator */}
                   <div className="flex gap-1 mt-1">
                     <div className="w-2 h-2 rounded-full" style={{ background: '#dc2626' }} />
                     <div className="w-2 h-2 rounded-full" style={{ background: '#f59e0b' }} />
@@ -975,10 +1047,9 @@ export default function Home() {
                   </div>
                 </button>
 
-                {/* CN Company Check */}
                 <button onClick={() => setShowCN(true)}
                   className="flex-1 flex flex-col items-center gap-2 py-5 px-3 rounded-2xl check-card"
-                  style={{ background: 'linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%)', boxShadow: '0 4px 20px rgba(220,38,38,0.2)' }}>
+                  style={{ background: 'linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%)', boxShadow: '0 4px 20px rgba(220,38,38,0.15)' }}>
                   <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <span className="text-xl">🇨🇳</span>
                   </div>
@@ -995,7 +1066,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* ===== Q&A STARTER QUESTIONS ===== */}
+            {/* Starter Questions */}
             <div className="text-[10px] font-bold uppercase tracking-widest mb-2.5 pl-1 card-up delay-2" style={{ color: '#cbd5e1' }}>{t.commonSituations}</div>
             <div className="space-y-2">
               {(t.questions[profile.role] || t.questions.default).map((q, i) => (
@@ -1015,10 +1086,10 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          /* Messages — banking-clean spacing */
           <div className="space-y-4">
             {messages.map((msg, i) => {
               const isLastAssistant = loading && i === messages.length - 1 && msg.role === 'assistant';
+              const msgId = `msg-${i}`;
               return (
                 <div key={i} className={`msg-group flex ${msg.role === 'user' ? 'justify-end' : 'gap-2'} msg-in`}>
                   {msg.role === 'assistant' && (
@@ -1028,6 +1099,7 @@ export default function Home() {
                   )}
                   <div className={msg.role === 'assistant' ? 'max-w-[calc(100%-38px)]' : 'max-w-[82%]'}>
                     <MessageBubble
+                      id={msgId}
                       content={msg.content}
                       role={msg.role}
                       isStreaming={isLastAssistant}
@@ -1037,17 +1109,19 @@ export default function Home() {
                       onShare={() => shareWA(msg.content)}
                       onSave={handleSave}
                       onRetry={msg.isError ? handleRetry : null}
+                      onFeedback={handleFeedback}
+                      feedback={feedbackMap[msgId]}
                     />
                   </div>
                 </div>
               );
             })}
 
-            {/* Thinking indicator — shows before first token arrives */}
+            {/* Thinking indicator */}
             {loading && messages[messages.length - 1]?.content === '' && (
               <div className="flex gap-2 msg-in">
                 <div className="flex-shrink-0 mt-1"><Logo size={26} /></div>
-                <div className="bg-white px-4 py-3 rounded-[4px_20px_20px_20px] flex items-center gap-2.5" style={{ boxShadow: '0 1px 4px rgba(15,23,42,0.03)', border: '1px solid #edf0f4' }}>
+                <div className="bg-white px-4 py-3 rounded-[4px_18px_18px_18px] flex items-center gap-2.5" style={{ boxShadow: '0 1px 6px rgba(15,23,42,0.04)', border: '1px solid #edf0f4' }}>
                   <div className="flex space-x-1">
                     <div className="w-1.5 h-1.5 rounded-full typing-dot" style={{ background: '#3b82f6' }} />
                     <div className="w-1.5 h-1.5 rounded-full typing-dot" style={{ background: '#3b82f6' }} />
@@ -1060,15 +1134,15 @@ export default function Home() {
               </div>
             )}
 
-            {/* Smart follow-up suggestions */}
+            {/* Follow-up suggestions */}
             {!loading && suggestions.length > 0 && (
               <div className="fade-in mt-3 pl-[34px]">
                 <div className="text-[9px] font-bold uppercase tracking-widest mb-2" style={{ color: '#cbd5e1' }}>{t.followUps}</div>
                 <div className="flex flex-wrap gap-1.5">
                   {suggestions.map((s, i) => (
                     <button key={i} onClick={() => { setSuggestions([]); sendMessage(s); }}
-                      className="text-[11px] px-3 py-2 rounded-xl font-medium transition-all active:scale-95 hover:shadow-sm"
-                      style={{ background: 'white', color: '#475569', border: '1px solid #e2e8f0' }}>
+                      className="follow-chip text-[11px] px-3.5 py-2 rounded-xl font-medium transition-all active:scale-95"
+                      style={{ background: 'white', color: '#475569', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(15,23,42,0.03)' }}>
                       {s}
                     </button>
                   ))}
@@ -1079,8 +1153,8 @@ export default function Home() {
         )}
       </div>
 
-      {/* Input — banking-app elevated bar */}
-      <div className="no-print input-elevated px-4 pt-2.5 pb-2 input-safe" style={{ borderTop: '1px solid rgba(226,232,240,0.6)' }}>
+      {/* Input bar */}
+      <div className="no-print input-elevated px-4 pt-2.5 pb-2 input-safe" style={{ borderTop: '1px solid rgba(226,232,240,0.4)' }}>
         <div className="input-area flex items-end gap-1 rounded-2xl px-3.5 pr-1.5 py-1 bg-white transition"
           style={{ border: '1.5px solid #e2e8f0' }}>
           <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleKey}
@@ -1089,7 +1163,6 @@ export default function Home() {
             style={{ color: '#1e293b', maxHeight: '100px', lineHeight: '1.5' }}
             onInput={(e) => { e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'; }}
           />
-          {/* Company check shortcuts — visible when chatting */}
           {has && (
             <div className="flex gap-0.5">
               <button onClick={() => setShowMY(true)} className="touch-target rounded-lg flex items-center justify-center transition active:scale-90" title={tl.myCardTitle}>
@@ -1111,7 +1184,7 @@ export default function Home() {
           )}
           <button onClick={() => sendMessage(input)} disabled={!input.trim() || loading}
             className="touch-target rounded-xl flex items-center justify-center disabled:opacity-30 transition active:scale-90"
-            style={{ background: input.trim() ? '#0f172a' : '#e2e8f0' }}>
+            style={{ background: input.trim() ? 'linear-gradient(135deg, #0f172a, #1e293b)' : '#e2e8f0', borderRadius: '12px' }}>
             <SendIcon />
           </button>
         </div>
@@ -1123,13 +1196,41 @@ export default function Home() {
         </div>
       </div>
 
+      {/* PWA Install Banner */}
+      {showInstallBanner && (
+        <div className="install-banner fixed bottom-20 left-4 right-4 max-w-lg mx-auto z-50">
+          <div className="flex items-center gap-3 p-4 rounded-2xl bg-white" style={{ boxShadow: '0 8px 32px rgba(15,23,42,0.12), 0 0 0 1px rgba(226,232,240,0.5)' }}>
+            <Logo size={40} />
+            <div className="flex-1 min-w-0">
+              <div className="text-[13px] font-bold" style={{ color: '#0f172a' }}>{t.installTitle}</div>
+              <div className="text-[11px]" style={{ color: '#94a3b8' }}>{t.installDesc}</div>
+            </div>
+            <button onClick={handleInstall}
+              className="px-4 py-2 rounded-xl text-[12px] font-bold text-white transition active:scale-95"
+              style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)' }}>{t.installBtn}</button>
+            <button onClick={dismissInstall} className="text-[11px] font-medium px-2" style={{ color: '#94a3b8' }}>{t.installDismiss}</button>
+          </div>
+        </div>
+      )}
+
       {/* Copy toast */}
       {copied && (
-        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 fade-in">
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 toast-in">
           <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-semibold text-white shadow-lg"
             style={{ background: '#0f172a' }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
             {t.copied}
+          </div>
+        </div>
+      )}
+
+      {/* Feedback toast */}
+      {showFeedbackToast && (
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 toast-in">
+          <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-semibold text-white shadow-lg"
+            style={{ background: '#0f172a' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            {t.feedbackThanks}
           </div>
         </div>
       )}

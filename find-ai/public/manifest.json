@@ -1,0 +1,27 @@
+{
+  "name": "Find.ai — Malaysian Property Advisor",
+  "short_name": "Find.ai",
+  "description": "AI-powered property compliance and legal guidance for Malaysian landlords, tenants, and buyers",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "categories": ["business", "finance", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
