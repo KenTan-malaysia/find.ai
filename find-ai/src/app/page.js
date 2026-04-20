@@ -3,9 +3,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo, memo } from 'react';
 import Landing from './landing';
 import ErrorBoundary from '../components/ErrorBoundary';
-import CNMYTrustLink from '../components/tools/CNMYTrustLink';
-import MYCompanyCheck from '../components/tools/MYCompanyCheck';
-import { L } from '../components/tools/labels';
 
 const STATES = [
   'Johor', 'Kedah', 'Kelantan', 'Melaka', 'Negeri Sembilan',
@@ -644,8 +641,6 @@ export default function Home() {
   const [lang, setLang] = useState('en');
   const [showChat, setShowChat] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const [showCN, setShowCN] = useState(false);
-  const [showMY, setShowMY] = useState(false);
   const [profile, setProfile] = useState({ role: '', state: '', type: '', rent: '' });
   const [hasSavedChat, setHasSavedChat] = useState(false);
   const [ready, setReady] = useState(false);
@@ -1241,7 +1236,6 @@ export default function Home() {
 
   // Chat
   const t = UI[lang];
-  const tl = L[lang];
   const has = messages.length > 0;
   const hasP = profile.role || profile.state;
 
@@ -1416,48 +1410,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Company Scoring Cards */}
-            <div className="card-up delay-1 mb-5">
-              <div className="text-[10px] font-bold uppercase tracking-widest mb-2.5 pl-1" style={{ color: '#cbd5e1' }}>
-                {lang === 'en' ? 'Company Verification' : lang === 'bm' ? 'Pengesahan Syarikat' : '公司验证'}
-              </div>
-              <div className="flex gap-2.5">
-                <button onClick={() => setShowMY(true)}
-                  className="flex-1 flex flex-col items-center gap-2 py-5 px-3 rounded-2xl check-card"
-                  style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', boxShadow: '0 4px 20px rgba(15,23,42,0.2)' }}>
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                    <span className="text-xl">🇲🇾</span>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-[13px] font-bold text-white">{tl.myCardTitle}</div>
-                    <div className="text-[10px] mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{tl.myCardDesc}</div>
-                  </div>
-                  <div className="flex gap-1 mt-1">
-                    <div className="w-2 h-2 rounded-full" style={{ background: '#dc2626' }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: '#f59e0b' }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: '#16a34a' }} />
-                  </div>
-                </button>
-
-                <button onClick={() => setShowCN(true)}
-                  className="flex-1 flex flex-col items-center gap-2 py-5 px-3 rounded-2xl check-card"
-                  style={{ background: 'linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%)', boxShadow: '0 4px 20px rgba(220,38,38,0.15)' }}>
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                    <span className="text-xl">🇨🇳</span>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-[13px] font-bold text-white">{tl.cnCardTitle}</div>
-                    <div className="text-[10px] mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{tl.cnCardDesc}</div>
-                  </div>
-                  <div className="flex gap-1 mt-1">
-                    <div className="w-2 h-2 rounded-full" style={{ background: '#fca5a5' }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: '#fde68a' }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: '#86efac' }} />
-                  </div>
-                </button>
-              </div>
-            </div>
-
             {/* Starter Questions */}
             <div className="text-[10px] font-bold uppercase tracking-widest mb-2.5 pl-1 card-up delay-2" style={{ color: '#cbd5e1' }}>{t.commonSituations}</div>
             <div className="space-y-2">
@@ -1569,16 +1521,6 @@ export default function Home() {
             style={{ color: '#1e293b', maxHeight: '100px', lineHeight: '1.5' }}
             onInput={(e) => { e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'; }}
           />
-          {has && (
-            <div className="flex gap-0.5">
-              <button onClick={() => setShowMY(true)} className="touch-target rounded-lg flex items-center justify-center transition active:scale-90" title={tl.myCardTitle}>
-                <span className="text-[14px]">🇲🇾</span>
-              </button>
-              <button onClick={() => setShowCN(true)} className="touch-target rounded-lg flex items-center justify-center transition active:scale-90" title={tl.cnCardTitle}>
-                <span className="text-[14px]">🇨🇳</span>
-              </button>
-            </div>
-          )}
           {recRef.current !== undefined && (
             <button onClick={toggleVoice} disabled={loading}
               className={`touch-target rounded-xl flex items-center justify-center transition active:scale-90 ${
@@ -1641,8 +1583,6 @@ export default function Home() {
         </div>
       )}
 
-      {showMY && <ErrorBoundary fallbackMessage="Tool crashed. Tap Try Again."><MYCompanyCheck lang={lang} onClose={() => setShowMY(false)} /></ErrorBoundary>}
-      {showCN && <ErrorBoundary fallbackMessage="Tool crashed. Tap Try Again."><CNMYTrustLink lang={lang} onClose={() => setShowCN(false)} /></ErrorBoundary>}
     </div>
   );
 }
