@@ -1404,7 +1404,7 @@ export default function Home() {
                 {/* Powered by badge */}
                 <div className="flex justify-center mt-3 fade-in delay-2">
                   <span className="text-[9px] px-3 py-1 rounded-full font-medium" style={{ background: '#f8fafc', color: '#94a3b8', border: '1px solid #e2e8f0' }}>
-                    Powered by Claude Sonnet
+                    Powered by Claude Haiku 4.5
                   </span>
                 </div>
               </div>
