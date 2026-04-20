@@ -4,7 +4,7 @@
 const TOPICS = {
 
   deposit: {
-    keywords: ['deposit', 'wang cagaran', 'sekuriti', '押金', '保证金', 'refund', 'return deposit', 'keep deposit', 'deduct', 'potong', 'tolak', '扣', 'wear and tear', 'haus dan lusuh', '磨损', '2+1', '3+1'],
+    keywords: ['deposit', 'wang cagaran', 'sekuriti', '押金', '保证金', 'refund', 'return deposit', 'keep deposit', 'deduct', 'potong', 'tolak', '扣', 'wear and tear', 'haus dan lusuh', '磨损', '2+1', '3+1', '定金', 'dingjin', 'earnest deposit', 'back out', 'backed out of deal', 'backed out of the deal', 'pulled out of deal', 'buyer backed out', 'seller backed out', 'keep earnest', 'forfeit earnest', 'forfeit deposit', 'rampas deposit', 'lose deposit', 'deposit dispute', 'pertikaian deposit', '押金纠纷', '双倍返还', 'double refund', 'double return'],
     content: `TENANCY & DEPOSITS:
 - Standard deposit structure: 2+1+½ = 2 months security deposit + 1 month advance rental + ½ month utility deposit.
 - Some landlords charge 3+1+½ for higher-value properties or foreign tenants.
@@ -138,7 +138,16 @@ REAL CASES — STAMP DUTY + STAMPS PORTAL:
       'holdover eviction', 'overstayed',
       'restraining order', 'protection order', 'dva', 'domestic violence act', 'remove from lease', 'remove from agreement', 'remove co-tenant', 'remove cotenant', 'abusive husband', 'abusive wife', 'abusive spouse', 'abusive partner',
       'industrial eviction', 'factory tenant eviction', 'warehouse eviction', 'commercial eviction',
-      'self-help eviction', 'penyingkiran sendiri', 'forcibly evict'
+      'self-help eviction', 'penyingkiran sendiri', 'forcibly evict',
+      'claims tenancy', 'claims to be tenant', 'claims legal possession', 'legal possession',
+      'implicit tenancy', 'implied tenancy', 'accidental tenancy',
+      'claim to be my tenant', 'says she is a tenant', 'says he is a tenant',
+      'storing for me', 'storing furniture', 'store her furniture', 'store his furniture',
+      'friend storing', 'friend now claims', 'friend claims tenancy',
+      'pay me to store', 'monthly to store', 'rm500 a month to store', 'rm500/month to store',
+      'saya duduk dulu', 'duduk dulu', 'duduk sini dulu', 'tinggal dulu', 'stay first', 'stay until',
+      'sampai bina balik', 'sampai saya bina', 'until i rebuild', 'until i find',
+      'refuse to move', 'enggan berpindah'
     ],
     content: `EVICTION (deep reference — residential, commercial, squatters, co-tenants):
 
@@ -338,7 +347,7 @@ You are hereby required to vacate the property within SEVEN (7) DAYS of this not
   },
 
   rent_default: {
-    keywords: ['tak bayar', 'not pay', 'arrears', 'tunggakan', '欠租', '拖欠', 'default', 'late rent', 'lewat sewa', 'demand letter', 'surat tuntutan', '催款', 'LOD', 'distress', 'Form 198', 'mco', 'mco rent', 'mco reduced', 'mco-reduced', 'covid rent', 'covid-19 rent', 'moratorium rent', 'rental relief covid', 'covid reduced rent', 'sewa covid', 'pengurangan sewa covid', '疫情减租', '冠病减租', 'pkp rent', 'pkp sewa', 'temporary measures act', 'akta langkah-langkah sementara', 'covid-19 act 2020', 'pandemic rent reduction', 'reset rent', 'resume full rent', 'rent reduction expired'],
+    keywords: ['tak bayar', 'not pay', 'arrears', 'tunggakan', '欠租', '拖欠', 'default', 'late rent', 'lewat sewa', 'demand letter', 'surat tuntutan', '催款', 'LOD', 'Form 198', 'mco', 'mco rent', 'mco reduced', 'mco-reduced', 'covid rent', 'covid-19 rent', 'moratorium rent', 'rental relief covid', 'covid reduced rent', 'sewa covid', 'pengurangan sewa covid', '疫情减租', '冠病减租', 'pkp rent', 'pkp sewa', 'temporary measures act', 'akta langkah-langkah sementara', 'covid-19 act 2020', 'pandemic rent reduction', 'reset rent', 'resume full rent', 'rent reduction expired', 'distress warrant', 'distress act', 'warrant of distress', 'waran distres', 'form d distress', 'seize goods for rent', 'rampas barang untuk sewa', 'still paying rent', 'tenant still paying', 'tenant paying rent', 'lessee still paying', 'bayar sewa lagi', 'masih bayar sewa', 'tak bayar 3 bulan', 'tak bayar 2 bulan', 'tak bayar sewa bulan'],
     content: `RENT DEFAULT & RECOVERY:
 - Step 1: Written reminder (WhatsApp + formal letter).
 - Step 2: Letter of Demand (LOD) — give 14 days.
@@ -638,7 +647,11 @@ REAL CASES — TAX:
   },
 
   foreign: {
-    keywords: ['foreign', 'asing', '外国', 'foreigner', 'warga asing', '外国人', 'expat', 'MM2H', 'minimum price', 'harga minimum', '最低价格', 'state consent', 'kebenaran negeri', 'non-citizen', 'bukan warganegara'],
+    keywords: ['foreign', 'asing', '外国', 'foreigner', 'warga asing', '外国人', 'expat', 'MM2H', 'minimum price', 'harga minimum', '最低价格', 'state consent', 'kebenaran negeri', 'non-citizen', 'bukan warganegara',
+      'nominee', 'nominee buyer', 'local nominee', 'malaysian nominee', 'spv structure', 'offshore spv', 'cayman', 'cayman islands', 'bvi', 'british virgin', 'offshore company', 'offshore structure', 'offshore entity', 'shell structure',
+      'guangzhou', 'shanghai', 'shenzhen', 'beijing buyer', '广州', '上海', '深圳', '北京买家',
+      'buy factory', 'buy a factory', 'buy property malaysia', 'buy house malaysia', 'buy land malaysia', 'foreign threshold', 'rm1m threshold', 'rm2m threshold', 'rm3m threshold', 'avoid threshold', 'threshold workaround', 'below threshold',
+      'right of first refusal', 'first refusal', 'preemptive right', 'pre-emptive right', '优先购买权', '买下', '买下厂房', '厂房', '购买房产', 'hak beli dahulu'],
     content: `FOREIGN BUYERS:
 - NLC 1965 s.433B — State Authority consent required for ALL foreign purchases.
 - Minimum thresholds: KL RM1M, Selangor RM2M landed/RM1.5M strata, Penang Island RM1M/Mainland RM500K, Johor RM1M, Others RM300K-500K.
@@ -799,7 +812,7 @@ STRATEGIC ADVICE FOR LANDLORDS:
   },
 
   subsale: {
-    keywords: ['buy', 'beli', '买', 'purchase', 'pembelian', 'subsale', 'sub-sale', 'OTP', 'SPA', 'earnest', 'deposit beli', 'loan', 'pinjaman', '贷款', 'financing', 'pembiayaan', 'conveyancing', 'lawyer', 'peguam'],
+    keywords: ['subsale', 'sub-sale', 'sub sale property', 'buying subsale', 'buy subsale', 'buying a house', 'beli rumah', '买房', '买二手', 'purchase subsale', 'pembelian hartanah', 'sign otp', 'otp signed', 'sign spa', 'spa signed', 'sale purchase agreement', 'sale and purchase agreement', 'perjanjian jual beli', 'earnest deposit', 'deposit beli', 'loan stamp duty', 'pinjaman perumahan', 'housing loan approval', '房屋贷款', 'financing approval', 'pembiayaan perumahan', 'conveyancing', 'conveyancing lawyer', 'peguam conveyancing', 'peguam pindahmilik', 'mot memorandum', 'title transfer'],
     content: `SUB-SALE (BUYING FROM EXISTING OWNER):
 - Step 1: Sign OTP + pay earnest deposit (2-3%). Held by agent/lawyer as stakeholder.
 - Step 2: Apply for bank loan (2-4 weeks).
@@ -857,7 +870,7 @@ REAL CASES — DEVELOPER:
   },
 
   joint_ownership: {
-    keywords: ['joint owner', 'joint tenancy', 'bersama', '共同', 'co-owner', 'co-owns', 'coowner', 'pemilik bersama', 'survivorship', 'partition', 'pembahagian', 'inheritance', 'warisan', '继承', 'death', 'kematian', '死亡', 'will', 'wasiat', '遗嘱', 'tenancy in common', 'co-owner refuse', 'pemilik bersama enggan', 'sister refuse sign', 'brother refuse sign', 'one owner block', 'pemilik halang', 'single owner let', 'seorang pemilik sewa', 'partition action', 'tindakan pembahagian', 'nlc 145', 'nlc 140', 'deadlock co-owner', 'pemilik tidak setuju', 'sister own', 'brother own', 'sibling own', 'my share', 'share ownership', '50% share', 'half owner', 'jointly own'],
+    keywords: ['joint owner', 'joint tenancy', 'bersama', '共同', 'co-owner', 'co-owns', 'coowner', 'pemilik bersama', 'survivorship', 'partition', 'pembahagian', 'inheritance', 'warisan', '继承', 'death', 'kematian', '死亡', 'will', 'wasiat', '遗嘱', 'tenancy in common', 'co-owner refuse', 'pemilik bersama enggan', 'sister refuse sign', 'brother refuse sign', 'one owner block', 'pemilik halang', 'single owner let', 'seorang pemilik sewa', 'partition action', 'tindakan pembahagian', 'nlc 145', 'nlc 140', 'deadlock co-owner', 'pemilik tidak setuju', 'sister own', 'brother own', 'sibling own', 'my share', 'share ownership', '50% share', 'half owner', 'jointly own', 'jta', 'joint title', 'jta title', 'spouse consent', 'wife never agreed', 'husband never agreed', 'wife did not sign', 'husband did not sign', 'spouse refuse sign', 'spouse blocks sale', 'spouse refuse sale', 'spouse block sale', 'wife never consented', 'husband never consented', 'without wife consent', 'without husband consent'],
     content: `JOINT OWNERSHIP:
 - Joint tenancy: equal shares, right of survivorship. Owner dies → share auto-goes to surviving owner(s).
 - Tenancy in common: distinct shares (can be unequal). Owner dies → share per will / Distribution Act 1958.
@@ -1043,7 +1056,8 @@ REAL CASES — NOISE:
   },
 
   commercial: {
-    keywords: ['commercial', 'komersial', '商业', 'shop', 'kedai', '店铺', 'office', 'pejabat', '办公室', 'factory', 'kilang', '工厂', 'industrial', 'perindustrian', 'warehouse', 'gudang'],
+    keywords: ['commercial', 'komersial', '商业', 'shop', 'kedai', '店铺', 'office', 'pejabat', '办公室', 'factory', 'kilang', '工厂', 'industrial', 'perindustrian', 'warehouse', 'gudang',
+      'ssm struck off', 'ssm strike off', 'struck off ssm', 'company struck off', 'syarikat dibatal', 'syarikat dibubar', 'company dissolved', 'company wound up', 'corporate tenant', 'corporate lessee', 'lessee dissolved', 'lessee no longer exists', 'tenant company dissolved', 'tenant ssm', 'section 549', 'section 550', 'ca 2016 s.549', 'ca 2016 s.550', '公司被注销', '公司解散'],
     content: `COMMERCIAL LEASES:
 - No specific Commercial Tenancy Act — Contracts Act + lease terms govern.
 - Register lease at land office if >3 years (NLC s.213). Unregistered = not protected if sold.
@@ -1341,7 +1355,7 @@ VERIFY HERE:
   short_term_rental: {
     keywords: [
       'short term', 'jangka pendek', '短期', 'airbnb', 'homestay', 'booking.com', 'agoda', 'vrbo',
-      'short term rental', 'str', 'penyewaan jangka pendek', '短期出租',
+      'short term rental', 'penyewaan jangka pendek', '短期出租', 'str 30 days', 'str licence', 'str license', 'nightly rental', 'weekly rental',
       'digital nomad', 'nomad', 'de rantau', 'remote worker', 'pekerja jarak jauh',
       'corporate lease', 'expat rental', 'relocation', 'executive stay', 'serviced apartment', 'apartmen perkhidmatan',
       'pbt license', 'lesen pbt', 'pihak berkuasa tempatan', 'council license',
@@ -2356,7 +2370,15 @@ APPLY / VERIFY HERE:
       'next of kin', 'waris', '亲属', 'estate claim', 'tuntutan pusaka',
       'amanah raya', 'arb', 'harta pusaka kecil', 'small estate',
       'probate tenant', 'death cert tenant', 'sijil kematian penyewa',
-      'suicide in rental', 'unattended death', 'kematian tanpa saksi'
+      'suicide in rental', 'unattended death', 'kematian tanpa saksi',
+      'drowned', 'drowning', 'lemas', '溺水', 'drowned in kolam', 'drowned in pool',
+      'coroner', 'koroner', 'coroners report', "coroner's report", 'forensic report', 'laporan forensik',
+      'no foul play', 'bukan jenayah', 'not a crime', 'accidental death', 'kematian tidak disengajakan',
+      'fell from balcony', 'jatuh dari balkoni', '从阳台坠落',
+      'electrocuted in unit', 'kena renjatan elektrik', 'electrocution tenant',
+      'fire death', 'kematian kebakaran', 'burned to death',
+      'foreign worker died', 'pekerja asing mati', 'pekerja asing meninggal',
+      'funeral costs', 'kos pengebumian'
     ],
     content: `TENANT DEATH IN PROPERTY (life event — high legal + emotional stakes):
 
@@ -2438,7 +2460,9 @@ APPLY / VERIFY HERE:
       'ddа', 'dangerous drugs', 'akta dadah berbahaya', 'forfeiture', 'rampasan harta',
       'section 39b', 's.39b', 's39b', 'seksyen 39b',
       'criminal tenant', 'tenant arrested', 'penyewa ditahan', '租客被捕',
-      'crime scene', 'tempat kejadian', '犯罪现场', 'unlawful activity'
+      'crime scene', 'tempat kejadian', '犯罪现场', 'unlawful activity',
+      'counterfeit', 'fake goods', 'replica watch', 'fake watch', 'fake product', '假货', '假表', '做假', '假冒', 'knockoff', 'barang tiruan', 'jenama palsu', 'trademark infringement', 'pelanggaran tanda dagangan',
+      'police seized', 'police seized factory', 'serbu polis', 'polis serbu', '警察查封', '查封', 'dawn raid', 'customs raid', 'serbuan kastam', 'factory raided', 'kilang diserbu'
     ],
     content: `CRIMINAL ACTIVITY IN YOUR RENTAL (drugs, illegal business, police raid):
 
@@ -2875,7 +2899,13 @@ APPLY / VERIFY HERE:
       'flood insurance', 'insurans banjir', '洪水保险',
       'piam', 'persatuan insurans', 'insurance ombudsman',
       'ofs', 'ombudsman financial services', 'ombudsmen perkhidmatan kewangan',
-      'loss of rent', 'kerugian sewa', '租金损失保险'
+      'loss of rent', 'kerugian sewa', '租金损失保险',
+      'funeral cost', 'funeral costs', 'kos pengebumian', '丧葬费',
+      'employer compensation', 'workmen compensation', 'wca', 'workmens compensation act', "workmen's compensation act",
+      'employers liability', 'liabiliti majikan',
+      'family compensation', 'tuntutan keluarga', 'family claim',
+      'death in rental', 'tenant family claim', 'tenant company demands compensation',
+      'foreign worker insurance', 'foreign worker comp', 'fwcs', 'skhpa'
     ],
     content: `LANDLORD INSURANCE — BUILDING, CONTENTS, PUBLIC LIABILITY, CLAIMS:
 
@@ -3147,6 +3177,9 @@ APPLY / VERIFY HERE:
       'matrimonial', 'perkahwinan', 'pernikahan',
       'ex-wife', 'ex-husband', 'bekas isteri', 'bekas suami', '前妻', '前夫',
       'spouse block', 'pasangan halang', '配偶阻止',
+      'wife never agreed', 'husband never agreed', 'wife did not sign', 'husband did not sign',
+      'spouse refuse sale', 'spouse refuse sign', 'spouse blocks sale', 'spouse block sale',
+      'without wife consent', 'without husband consent', 'wife never consented', 'husband never consented',
       'joint name divorce', 'nama bersama cerai',
       'lra 1976', 'law reform marriage', 'akta membaharui undang-undang',
       'matrimonial asset', 'harta sepencarian', '婚姻财产',
@@ -3349,7 +3382,12 @@ APPLY / VERIFY HERE:
       'distress act', 'akta distres', 'akta menyita',
       're-let', 'sewa semula', '重新出租',
       'tenant no contact', 'penyewa tiada kontak',
-      'empty unit tenant gone', 'unit kosong'
+      'empty unit tenant gone', 'unit kosong',
+      'lelong barang', 'lelong harta', 'lelong belongings',
+      'auction belongings', 'auction abandoned goods', 'auction tenant belongings',
+      'left durian', 'rotting in kitchen', 'rotting inside unit',
+      'dog faeces everywhere', 'dog poop everywhere', 'filthy unit', 'unit filthy',
+      'cleanup after abandonment', 'fumigate abandoned unit', 'clean abandoned unit'
     ],
     content: `TENANT ABANDONMENT (disappeared, left belongings, re-letting):
 
@@ -3699,7 +3737,7 @@ APPLY / VERIFY HERE:
     keywords: [
       'amla', 'amlatfpua', 'anti money laundering', 'pencegahan pengubahan wang haram', '反洗钱',
       'cash deposit', 'large cash', 'rm50,000 cash', 'rm50000 cash', 'cash rent', 'prepaid rent', 'bulk rent', 'lump sum rent', '大额现金', 'prepay rent', 'rent prepay',
-      'suspicious transaction', 'laporan urus niaga mencurigakan', 'str', 'ctr', 'cash threshold report',
+      'suspicious transaction', 'laporan urus niaga mencurigakan', 'str filing', 'file str', 'str report', 'ctr filing', 'cash threshold report', 'nominee structure', 'shell company', 'syarikat kulit', 'layered payment', 'layered transaction', 'cayman spv', 'bvi spv', 'offshore spv',
       'bank flagged', 'bank compliance', 'aml flag', 'kyc check', 'edd', 'enhanced due diligence',
       'bnm aml', 'bnm guideline', 'bnm compliance',
       'source of funds', 'sumber dana', 'sumber kewangan', 'source of wealth', '资金来源',
@@ -3793,7 +3831,13 @@ APPLY / VERIFY HERE:
       'arbitration clause', 'klausa timbang tara', 'aiac', 'ciac', 'cietac', 'international arbitration', 'icc arbitration', 'singapore arbitration',
       'new york convention', 'convention foreign arbitral',
       'customs seized', 'customs seizure', 'kastam rampas', 'customs raid', 'smuggling tenant', 'tenant smuggling', 'seludup', '走私', 'kastam warehouse', 'customs warehouse',
-      'landlord liable customs', 'tenant smuggled'
+      'landlord liable customs', 'tenant smuggled',
+      'china tenant', 'chinese tenant', 'china buyer', 'chinese buyer',
+      'guangzhou buyer', 'shanghai buyer', 'shenzhen buyer', 'beijing buyer',
+      'like in china', 'as in china', 'china law', 'china contract', 'chinese law',
+      'double return', 'double-return', 'double refund', '双倍返还',
+      'offshore spv', 'cayman spv', 'bvi spv', 'offshore structure',
+      'foreign buyer nominee', 'cayman company', 'bvi company'
     ],
     content: `CROSS-BORDER ENFORCEMENT — suing foreign tenants, SOE immunity, customs exposure:
 
@@ -3999,6 +4043,708 @@ APPLY / VERIFY HERE:
 - DBKL rooming licence: dbkl.gov.my
 - Other PBTs: check respective council website
 - UBBL text: agc.gov.my (Attorney General's Chambers)`
+  },
+
+  crypto_rent: {
+    keywords: [
+      'crypto', 'cryptocurrency', 'kripto', 'mata wang kripto', '加密货币',
+      'bitcoin', 'btc', 'ethereum', 'eth', 'usdt', 'usdc', 'tether', 'stablecoin', 'stable coin',
+      'digital asset', 'aset digital', '数字资产',
+      'digital token', 'token digital', '数字代币',
+      'digital currency', 'mata wang digital', '数字货币',
+      'metamask', 'meta mask', 'self-custody', 'self custody', 'cold wallet', 'hardware wallet', 'wallet address', 'alamat dompet', '钱包地址',
+      'web3', 'web 3', 'defi', 'nft rent', 'blockchain rent',
+      'bnm fine crypto', 'bnm crypto', 'bnm digital asset', 'bnm digital currency', 'bnm denda kripto',
+      'sc crypto', 'sc guideline', 'securities commission crypto', 'suruhanjaya sekuriti',
+      'recognised market operator', 'rmo', 'recognised market operator crypto', 'luno', 'tokenize xchange', 'mx global', 'sinegy', 'hata',
+      'crypto rent', 'rent in crypto', 'rent in bitcoin', 'rent in usdt', 'sewa kripto', 'usdt rent', 'bayar sewa kripto', '加密支付租金',
+      'unlicensed crypto', 'unlicensed digital asset', 'unlicensed dealing',
+      'prescription of securities', 'cmsa 2007', 'capital markets and services act', 'prescription order 2019',
+      'travel rule', 'fatf travel rule', 'crypto aml', 'crypto amla',
+      'lhdn crypto', 'cukai kripto', 'crypto tax', 'lhdn digital asset',
+      'off-ramp', 'on-ramp', 'fiat ramp', 'cash out crypto', 'convert crypto to myr',
+      'seize crypto', 'freeze wallet', 'bnm seized',
+      'smart contract rent', 'escrow smart contract'
+    ],
+    content: `CRYPTO / DIGITAL ASSET RENT — BNM, SC, AMLA, TAX (2026):
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 1 — IS CRYPTO "MONEY" IN MALAYSIA?
+═══════════════════════════════════════════════════════════════════════════════
+No. Cryptocurrency is NOT legal tender in Malaysia. Only Ringgit Malaysia notes and coins issued by Bank Negara Malaysia (BNM) are legal tender under the Central Bank of Malaysia Act 2009 s.24.
+
+Cryptocurrency (BTC, ETH, USDT, USDC, etc.) is legally classified as a SECURITY, not a currency.
+
+LEGAL FRAMEWORK:
+- Capital Markets and Services Act 2007 (CMSA).
+- Capital Markets and Services (Prescription of Securities) (Digital Currency and Digital Token) Order 2019 — SPECIFICALLY prescribes digital currencies AND digital tokens as "securities" within CMSA's scope.
+- Securities Commission (SC) = primary regulator for all digital-asset trading, custody, and fund-raising.
+- SC Guidelines on Digital Assets (last major revision 2024, further tightening expected 2026).
+- BNM regulates PAYMENT use-cases (Money Services Business Act 2011, Financial Services Act 2013) — crypto used for payment on a commercial scale may also fall under BNM oversight.
+- AMLA 2001 — BNM AML/CFT Policy Document for Digital Asset Service Providers (DASPs) applies.
+- FATF Travel Rule adopted by Malaysia — applicable to DASPs for transfers ≥ USD1,000 / RM5,000.
+
+KEY TAKEAWAY: You CAN contract for rent payable in crypto (Contracts Act does not prohibit), BUT the OPERATIONAL flow of receiving, converting, and declaring crypto rent is heavily regulated.
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 2 — WHO CAN LEGALLY DEAL IN CRYPTO IN MALAYSIA?
+═══════════════════════════════════════════════════════════════════════════════
+LICENSED: Only SC-registered Recognised Market Operators (RMOs) may operate digital asset exchanges for retail users in Malaysia. As of 2026 the approved list (verify at sc.com.my) typically includes:
+- Luno Malaysia
+- Tokenize Xchange
+- MX Global
+- SINEGY DAX
+- Hata
+(List changes — always verify.)
+
+Offshore exchanges (Binance.com, Coinbase, OKX, Bybit, etc.) are NOT licensed in Malaysia — SC has repeatedly issued investor alerts naming them. Using them is a GREY ZONE for individuals (generally not prosecuted) but becomes clearly illegal when:
+- You actively solicit / advertise crypto deals in MY.
+- You operate as an intermediary (accept crypto on behalf of others).
+- You act as a DASP without SC registration.
+
+ILLEGAL: Running an exchange / OTC desk / "crypto rent collection service" without SC registration. Penalty under CMSA s.7: up to 10 years jail AND fine up to RM10 million.
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 3 — "BNM FINED ME FOR UNLICENSED CRYPTO DEALING" — WHAT HAPPENED?
+═══════════════════════════════════════════════════════════════════════════════
+Typical scenarios a landlord triggers:
+(a) Accepted large USDT transfers to self-custody wallet (MetaMask, Trust Wallet, Ledger) directly from tenant's offshore wallet.
+(b) Converted USDT → MYR via peer-to-peer / informal dealer (unlicensed money-changer offence under MSBA 2011).
+(c) Advertised "crypto-friendly landlord" or marketed the rental to attract crypto payers.
+(d) Acted as intermediary — collected crypto from multiple tenants and converted in bulk.
+(e) Structured transactions to avoid Cash Threshold Reports (see AMLA topic).
+
+LIKELY OFFENCES BNM / SC CITES:
+- CMSA s.7 (unregistered operating of capital market business).
+- Money Services Business Act 2011 s.30 (unlicensed money-changing / remittance) — even for self-dealing if done commercially.
+- AMLATFPUAA 2001 s.4 / s.29 (no CDD, no STR).
+- FSA 2013 s.137 (unlicensed payment system).
+
+PENALTIES:
+- Compound / administrative fine RM10,000-RM5,000,000 depending on severity.
+- Criminal prosecution risk: up to 10 years jail.
+- Seizure of digital assets possible via AMLA procedures.
+- Reputation + bank account closure (banks offboard you immediately on BNM notice).
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 4 — RESPONSE PLAYBOOK WHEN YOU RECEIVE A BNM / SC NOTICE
+═══════════════════════════════════════════════════════════════════════════════
+First 72 hours:
+1. Do NOT move any crypto from the flagged wallet — movement = additional obstruction offence.
+2. Preserve ALL records: transaction hashes, wallet addresses, on-chain flow, WhatsApp/email with tenant, lease.
+3. Engage a lawyer with CMSA / AMLA experience (not a generic conveyancing firm).
+4. Do NOT self-declare / interview without counsel present.
+5. Notify your bank proactively if the notice will trigger your account closure — offer voluntary information so they don't reflex-freeze.
+6. Do NOT delete any MetaMask history / clear any cache — digital forensics recoverable, destruction is separate offence.
+
+Within 2 weeks:
+7. File a written representation via counsel explaining: (i) you were not in the business; (ii) you were a passive recipient of rent per a signed lease; (iii) no advertising or intermediary role; (iv) willingness to unwind to a compliant structure going forward.
+8. Offer settlement / undertaking: convert remaining holdings via SC-licensed RMO only, commit to MYR rent henceforth, complete crypto AML training.
+9. If SC/BNM persists: negotiate compound. Most first-offence cases settle RM10,000-RM200,000 without criminal referral.
+10. If criminal referral happens: prepare defence around "no dishonest intent" (mens rea) + absence of commercial operation.
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 5 — COMPLIANT WAY TO ACCEPT CRYPTO-LINKED RENT (if tenant insists)
+═══════════════════════════════════════════════════════════════════════════════
+Option A — RMO-to-RMO to MYR (recommended, cleanest):
+1. Tenant deposits USDT / BTC into their own account at a MALAYSIAN RMO (Luno, Tokenize, etc.).
+2. Tenant converts to MYR within the RMO.
+3. RMO pays out MYR to tenant's MY bank account.
+4. Tenant pays rent to landlord's MY bank account in MYR.
+Outcome: Landlord never touches crypto → no BNM exposure. Full KYC trail. Tax clean. This is the gold standard.
+
+Option B — Landlord opens RMO account (legal but you inherit crypto-tax exposure):
+1. Landlord opens Luno / Tokenize / MX Global account with KYC.
+2. Tenant sends crypto to that RMO address.
+3. Landlord converts to MYR on the same RMO + withdraws.
+4. Landlord declares both the ACCEPTANCE value (at market rate on receipt date) as rental income AND the CONVERSION gain/loss as capital gain (LHDN PR on digital assets applies).
+Outcome: Compliant but adds tax + record-keeping layers.
+
+Option C — Stablecoin-only lease with fiat top-up (niche corporate tenants):
+1. Lease clause: rent denominated in USDT equivalent, settled in MYR via the RMO conversion on rent due date.
+2. Removes FX volatility risk for foreign tenant.
+3. Landlord still receives fiat only.
+
+DO NOT:
+- Accept crypto directly into personal self-custody wallet from offshore tenant.
+- Convert to MYR through P2P WhatsApp / Telegram "agents" — virtually always unlicensed MSBs.
+- Accept structured payments just below reporting thresholds.
+- Use mixers / privacy coins — automatic FIU / law enforcement red-flag.
+- Advertise "crypto rent accepted" without RMO-based process.
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 6 — TAX TREATMENT (LHDN 2026 POSITION)
+═══════════════════════════════════════════════════════════════════════════════
+LHDN has published Public Rulings + position papers (PR 12/2023 onward) treating digital assets as follows:
+
+RECEIPT OF RENT IN CRYPTO:
+- Assessed as rental income at the MYR-equivalent MARKET VALUE on date of receipt.
+- Report in Form BE / Form B (individual) / Form C (company) under rental income section.
+- Document: exchange rate screenshot (from SC RMO preferably), on-chain timestamp, wallet address.
+
+CONVERSION GAIN / LOSS:
+- If landlord holds the crypto and later sells at different price: gain/loss is assessable if LHDN deems you to be "trading" (badges of trade test).
+- Passive one-off holder: conversion usually NOT taxed as capital gain (no CGT on non-real-property assets in MY).
+- Active / frequent conversions: LHDN treats you as a trader → all gains assessable at marginal rate.
+
+STAMP DUTY:
+- Tenancy stampable on MYR-equivalent rent at execution date.
+- If rent is denominated purely in crypto with no MYR reference, LHDN will value at market rate on execution.
+- SDSAS 2026 calculation uses the MYR-equivalent annual rent.
+
+SST / INDIRECT TAX:
+- Commercial rent subject to 6% SST (from 1 March 2024). SST calculated on MYR equivalent.
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 7 — AMLA + FATF TRAVEL RULE (foreign tenant sending crypto cross-border)
+═══════════════════════════════════════════════════════════════════════════════
+- BNM AML/CFT Policy Document for DASPs mandates: KYC on both originator AND beneficiary for any transfer ≥ USD1,000 / RM5,000.
+- When tenant sends USDT from an offshore exchange to a MY RMO account: the RMO must obtain sender info. If unclear, RMO may reject / freeze.
+- Landlord as beneficiary receives the "Travel Rule" disclosure about sender. Keep this record for 6 years.
+- Unexplained / high-risk jurisdictions (FATF grey/black) = enhanced due diligence (EDD) triggered. Transfers may be declined.
+- STR (Suspicious Transaction Report): the RMO files; landlord will not be notified.
+
+CROSS-REFERENCE: See money_laundering_amla topic for broader AMLA + cash-deposit scenarios.
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 8 — SPECIFIC RED FLAGS LANDLORDS OFTEN HIT
+═══════════════════════════════════════════════════════════════════════════════
+1. Foreign tenant offers 2 years rent in USDT upfront → heavy AMLA + BNM exposure. Walk away OR insist on MYR via tenant's RMO.
+2. Tenant says "I only use Binance, can you give me your MetaMask?" → do NOT accept. Direct landlord to a MY RMO for onboarding.
+3. Tenant offers crypto rent at a DISCOUNT ("5% off if paid in USDT") → classic structuring indicator; likely BNM-flagged.
+4. Tenant asks to pay rent via NFT or wrapped asset → reject; no compliant path exists today.
+5. Tenant wants rent escrowed in smart contract (multi-sig) → possible but still requires SC-licensed custodian for compliance.
+6. Informal "OTC broker" in a Telegram group offers MYR at a better rate for your crypto → unlicensed MSB. Using them = offence.
+7. Tenant's wallet has mixer / Tornado Cash history → do NOT accept; automatic AMLA flag.
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 9 — METAMASK / SELF-CUSTODY SPECIFIC RISKS
+═══════════════════════════════════════════════════════════════════════════════
+MetaMask, Trust Wallet, Ledger, Trezor = SELF-CUSTODY. You control the private keys; there is NO regulated intermediary.
+
+Why this is risky for a landlord:
+- No KYC on sender → full AMLA burden falls on YOU as the payee.
+- No Travel Rule data → cannot prove sender is who they say.
+- No recourse if sent to wrong address or compromised.
+- Enforcement authorities view large USDT inflows into self-custody wallets from offshore addresses as a high-risk pattern.
+- Tax audit: without RMO statement, you face burden of proving MYR market value on receipt date for every payment.
+
+Better practice: even if you hold a MetaMask wallet for personal investing, do NOT use it as a rent-collection channel. Keep rent flows through RMO-custodied accounts.
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 10 — LEASE CLAUSES TO USE (AND TO AVOID)
+═══════════════════════════════════════════════════════════════════════════════
+SAFE CLAUSE (crypto-tolerant but compliant):
+"Rent is payable in Ringgit Malaysia at RM[amount] per month. Tenant may at its discretion convert from digital assets to Ringgit through a Securities Commission Malaysia-licensed Recognised Market Operator (RMO) and remit the resulting Ringgit amount to Landlord's designated bank account. Landlord shall not be obliged to receive, hold, or convert digital assets. Any FX or conversion gains/losses arising from Tenant's conversion are borne by Tenant."
+
+AVOID CLAUSE (crypto-native but legally risky):
+"Rent is payable in USDT to Landlord's wallet address 0x..." — this exposes the landlord to every regulatory axis discussed above.
+
+═══════════════════════════════════════════════════════════════════════════════
+PART 11 — QUICK DECISION FLOW
+═══════════════════════════════════════════════════════════════════════════════
+Tenant wants to pay rent in crypto?
+  ↓
+Can tenant route via MY RMO → MYR → landlord's bank? ─── YES ─→ Accept. Standard MYR rent. No special steps. ✓
+  ↓ NO
+Are you set up as a MY RMO account holder with tax plan? ─── YES ─→ Option B workflow. Compliant but more tax work. ✓
+  ↓ NO
+Decline. Offer MYR-only with alternative payment channels (SWIFT, DuitNow Cross-Border QR, TT via tenant's home bank).
+
+═══════════════════════════════════════════════════════════════════════════════
+APPLY / VERIFY HERE:
+═══════════════════════════════════════════════════════════════════════════════
+- SC licensed RMO list: sc.com.my → Digital Assets
+- BNM AML Policy (DASP): bnm.gov.my
+- SC Digital Asset Guidelines: sc.com.my
+- LHDN crypto Public Rulings: hasil.gov.my → Public Rulings
+- Investor alert list (unlicensed platforms): sc.com.my → Investor Alerts
+- FATF Travel Rule guidance: fatf-gafi.org
+
+RED-FLAG CONTACT NUMBERS:
+- SC Investor Affairs: 03-6204 8999
+- BNM Contact Centre (BNMTELELINK): 1-300-88-5465
+- MyAiFSD (Ombudsman): financialombudsman.my`
+  },
+
+  industrial_landlord: {
+    keywords: [
+      'factory', 'factories', 'kilang', '工厂', '厂房',
+      'warehouse', 'gudang', '仓库',
+      'industrial tenant', 'industrial landlord', 'industrial lease', 'industrial rent', 'industrial property', 'industrial lot', 'industrial land', 'industrial conversion', 'tanah perindustrian', 'industrial park', '工业园', '工业地',
+      'light industrial', 'medium industrial', 'heavy industrial', 'lmw', 'licensed manufacturing warehouse',
+      'manufacturer', 'manufacturing', 'pengilang', 'pembuatan', '制造商', '制造业',
+      'agricultural land', 'agri land', 'pertanian', 'tanah pertanian', '农业地', 'plantation land', 'ladang',
+      'land use conversion', 'land use change', 'ubah syarat tanah', 'tukar syarat', 'change of use', 'change of land use', 'convert use', 'convert to industrial', 'conversion premium', 'premium tukar syarat', '土地用途转换', '改用途',
+      'nlc s.124', 'nlc section 124', 'section 124', 'seksyen 124 kta', 'kta s.124',
+      'build factory', 'build a factory', 'build warehouse', 'set up factory', 'set up a factory', 'setup factory', '建厂',
+      'dosh', 'department of occupational safety', 'jkkp', 'jabatan keselamatan kesihatan pekerjaan',
+      'osha', 'osha 1994', 'occupational safety and health', 'akta keselamatan pekerjaan', '职业安全法',
+      'worker injured', 'worker lost arm', 'worker accident', 'workplace accident', 'pekerja cedera', 'kemalangan kerja', 'kemalangan kilang', '工伤', '工人受伤',
+      'doe malaysia', 'jabatan alam sekitar', 'department of environment', 'doe notice', 'doe order', 'doe fine',
+      'eqa', 'eqa 1974', 'environmental quality act', 'akta kualiti alam sekitar', '环境素质法',
+      'chemical waste', 'sisa kimia', 'scheduled waste', 'buangan terjadual', '化学废料',
+      'polluter pays', 'polluter-pays', 'restoration order', 'clean up order', 'pollution', 'pencemaran',
+      'chemical runoff', 'groundwater contamination', 'tanah tercemar', 'air tercemar',
+      'mida', 'malaysian investment development authority', 'pioneer status', 'pioneer manufacturer', 'ita', 'investment tax allowance', 'reinvestment allowance', 'mida license', 'mida licence', 'mida approval', 'mida incentive',
+      'industrial coordination act', 'manufacturing licence', 'manufacturing license', 'lesen kilang',
+      'ftz', 'free trade zone', 'zon perdagangan bebas', 'free industrial zone', 'fiz',
+      'immigration act', 'akta imigresen', 's.55b', 'section 55b', 'harbouring', 'harboring', 'menyembunyikan',
+      'undocumented worker', 'undocumented workers', 'illegal workers', 'pati worker', 'pendatang asing tanpa izin', '非法工人', '非法劳工',
+      'bangladeshi workers', 'nepalese workers', 'indonesian workers', 'foreign workers', 'pekerja asing',
+      'customs raid factory', 'custom raid', 'imigresen raid', 'immigration raid', 'serbuan imigresen'
+    ],
+    content: `INDUSTRIAL LANDLORD — factory/warehouse leasing, NLC s.124 land use conversion, OSHA/DOE/MIDA compliance, foreign-worker exposure:
+
+═══════════════════════════════════════════════════════════════════════════════
+LAND USE CONVERSION — AGRI → INDUSTRIAL (NLC s.124)
+═══════════════════════════════════════════════════════════════════════════════
+- A title's "syarat nyata" (express condition) on the geran governs what the land can be used for: "pertanian" (agri), "bangunan" (building/residential), or "perusahaan" (industry). Building a factory on agri-titled land without conversion is a breach → state can impose penalty + forfeiture under NLC s.127.
+- Process to convert (NLC s.124):
+  1. Apply to State Land Office (Pejabat Tanah dan Galian – PTG) using Form 7D.
+  2. Planning approval: local PBT confirms zoning allows industrial use (structure plan / local plan).
+  3. State Authority approves conversion → pays "premium tukar syarat" (conversion premium) — calculated on market value uplift (industrial vs agri). Can be 5-30% of new market value depending on state.
+  4. Additional fees: survey (JUPEM), document fee, quit rent reassessment (industrial rate is higher).
+  5. New geran issued with amended syarat nyata.
+- Timeline: 6-18 months, depending on state and whether EIA is triggered.
+- Alternative quick path: Temporary Occupation Licence (TOL) for <3-year use — not suitable for factory capex.
+- CN-MY corridor tip: Chinese manufacturer wanting your agri land — do NOT let them start construction before conversion is gazetted. Build lease clause: rent abatement until conversion completes; right to terminate if rejected.
+
+═══════════════════════════════════════════════════════════════════════════════
+OSHA 1994 + DOSH — LANDLORD LIABILITY FOR TENANT WORKPLACE ACCIDENTS
+═══════════════════════════════════════════════════════════════════════════════
+Key question: can the landlord be liable when the tenant's worker is injured?
+- OSHA 1994 places PRIMARY duty on the "employer" (tenant/operator) to provide a safe workplace (s.15).
+- Landlord exposure arises under s.17 (duty to non-employees) ONLY if the landlord retains control over the premises (e.g., shared maintenance, central plant, structural items).
+- Factories and Machinery Act 1967 (FMA) — landlord liable for UNSAFE BUILDING STRUCTURE used as factory (collapsed mezzanine, faulty lift, electrical panel).
+- DOSH ("JKKP") may issue a notice to landlord if the BUILDING (roof, beams, flooring, ventilation) is the cause — tenant liability otherwise.
+- Practical test: "who could have prevented the hazard?"
+  - Worker lost arm in a stamping machine the tenant installed → tenant's duty, not landlord's.
+  - Worker fell because balcony railing collapsed (part of building) → landlord's exposure if aware and failed to repair.
+- Criminal exposure: directors of a body corporate occupier can be prosecuted under OSHA s.52. Landlord rarely, unless they were "person in control of plant" (s.18).
+
+LANDLORD DEFENCE PLAYBOOK:
+1. Request accident report, DOSH notice (Form JKKP 6), and investigation number.
+2. Photograph premises immediately for s.90A evidence.
+3. Engage a safety consultant to review whether the cause is TENANT fit-out or LANDLORD structure.
+4. Reply to DOSH notice within the deadline (usually 14 days) — admit nothing; set out separation of responsibilities.
+5. Check lease: is there an indemnity from tenant for OSHA/EHS breaches? Enforce it.
+6. Notify insurer (public liability policy).
+
+LEASE CLAUSES TO INSERT (prevention):
+- Tenant warrants compliance with OSHA, FMA, EQA, fire and immigration laws.
+- Tenant indemnifies landlord against regulatory fines arising from tenant's operations.
+- Tenant maintains public liability insurance ≥ RM5m and workmen's compensation for all workers.
+- Landlord right of inspection with 48-hour notice.
+
+═══════════════════════════════════════════════════════════════════════════════
+EQA 1974 + DOE — ENVIRONMENTAL "POLLUTER PAYS" AND THE LANDLORD
+═══════════════════════════════════════════════════════════════════════════════
+- Environmental Quality Act 1974 (EQA) is the core statute. Enforcer: Department of Environment (DOE / JAS).
+- "Polluter-pays" principle: EQA s.25-29 (water), s.22 (air), s.24A (scheduled waste) — fines RM100,000-RM500,000 and/or prison up to 5 years per offence.
+- DOE can serve a RESTORATION ORDER / CLEAN-UP ORDER on the "person responsible". Under EQA s.46A and s.47, this can include the OCCUPIER AND the OWNER — the landlord is not automatically off the hook.
+- Landlord's real exposure:
+  (a) KNOWING CONSENT — allowed tenant to dump → treated as accessory.
+  (b) POST-TENANCY CONTAMINATION — once tenant vacates, the contamination is on your land → DOE will chase you.
+  (c) Scheduled Waste Regulations 2005 — every "waste generator" must register with DOE (eSWIS). Landlord should confirm tenant's registration before handover.
+
+LANDLORD RESPONSE TO A DOE RESTORATION ORDER:
+1. Serve written objection within 14 days under EQA s.31A / Administrative Law.
+2. Commission an independent site investigation (ESA Phase 1 + 2).
+3. Sue/indemnify via tenant — EQA liability runs with the polluter, but DOE can still act against owner; contractual recovery is your recourse.
+4. Negotiate a Voluntary Remediation Agreement with DOE (common in factory zones).
+5. Judicial review if the order is unreasonable or targets the wrong party (High Court, 3 months from order).
+
+PREVENTION CLAUSE TEMPLATE:
+"Tenant shall comply with all environmental legislation (including EQA 1974 and the Scheduled Wastes Regulations 2005), maintain all DOE permits/licences, register with eSWIS, and indemnify Landlord against all fines, clean-up costs and third-party claims arising from Tenant's operations. Tenant shall deliver the Premises free of contamination on surrender, supported by a Phase 2 ESA at Tenant's cost."
+
+═══════════════════════════════════════════════════════════════════════════════
+MIDA PIONEER STATUS / TENANT INCENTIVES — WATCH THE SUBLEASE
+═══════════════════════════════════════════════════════════════════════════════
+- MIDA (Malaysian Investment Development Authority) grants Pioneer Status / ITA / Reinvestment Allowance under Promotion of Investments Act 1986.
+- These incentives attach to the MIDA-licensed COMPANY and the manufacturing activity at the approved premises.
+- Tenant wants to sublease the factory to another MIDA company? Two distinct issues:
+  1. Landlord's lease: does the head-lease allow subleasing? If silent → assume not permitted for industrial. Consent clause must be invoked.
+  2. MIDA's file: sub-tenant would need its OWN Pioneer/ITA approval for the same premises — or MIDA may treat original tenant as still the operator (contract manufacturing arrangement).
+- Risks to landlord:
+  - Unauthorised sub-lease breaches head-lease → landlord can terminate but must balance: factory fit-out is tenant's capex, may trigger damages counterclaim.
+  - If sub-tenant pollutes, defaults, or hires illegal workers, DOE / Immigration may still chase landlord under strict-liability principles.
+  - Tax: stamp duty on sub-lease under SDSAS 2026. If rent is "token" to shift profit, LHDN may reconstruct under transfer pricing rules.
+- Best practice: require landlord WRITTEN CONSENT for any subletting of industrial premises, plus tripartite deed assigning covenants.
+
+═══════════════════════════════════════════════════════════════════════════════
+IMMIGRATION ACT + EMPLOYMENT — UNDOCUMENTED WORKER EXPOSURE (s.55B "HARBOURING")
+═══════════════════════════════════════════════════════════════════════════════
+- Immigration Act 1959/63 s.55B — it is an offence to "harbour" (menyembunyikan) any person known or reasonably suspected to be an illegal immigrant.
+- Penalty: fine RM10,000-RM50,000 per harboured person, OR imprisonment up to 12 months, OR both. Whipping possible where >5 persons are harboured.
+- Landlord exposure: "harbouring" is narrower than "renting". Mere tenancy is not automatically harbouring. BUT — if landlord knew (or ought to have known) tenant was housing illegal workers in dormitories on your premises, or received notice and did nothing, landlord can be charged as accessory.
+- Employment (Restriction) Act 1968 — only the EMPLOYER can be charged for hiring illegals. That's the tenant.
+- Anti-Trafficking in Persons Act (ATIPSOM) 2007 — if dormitories cramped / passports confiscated / wages withheld, this escalates to TIP — much more serious; landlord's building can be seized.
+
+LANDLORD DEFENCE CHECKLIST ON AN IMMIGRATION RAID:
+1. Do NOT sign any cautioned statement without a criminal lawyer.
+2. Produce: tenancy agreement, tenant's SSM, MIDA licence, fire certificate, and any written warnings you sent tenant about worker quarters.
+3. Show that tenancy = commercial manufacturing only, NOT dormitory, if that was the lease.
+4. Terminate tenancy immediately for illegal use if lease allows.
+5. File a police report distancing yourself + preserve CCTV + entry logs.
+6. Cooperate with Immigration, but through counsel.
+
+PREVENTION:
+- Lease clause: "Premises are for manufacturing only; no residential use. Tenant shall employ only workers with valid work permits; provide monthly work-permit list on request."
+- Require tenant to maintain a "Sistem MyIMMs" employer profile; allow landlord audit right.
+- Screen tenant's SSM + MIDA + foreign-worker quota letter at lease-signing.
+
+═══════════════════════════════════════════════════════════════════════════════
+CUSTOMS RAID ON TENANT'S GOODS — LANDLORD'S POSITION
+═══════════════════════════════════════════════════════════════════════════════
+- Customs Act 1967 s.127 — Customs can seize any goods believed to be smuggled. Landlord's building is not the target, but Customs may question landlord for records.
+- Landlord duties:
+  - Provide tenancy agreement, invoices, CCTV if requested (subpoena/warrant).
+  - You are NOT required to testify beyond producing documents unless served a s.116 notice.
+- Exposure to landlord: almost nil unless landlord KNEW goods were smuggled or shared in profits. If true, accessory liability under s.137.
+
+═══════════════════════════════════════════════════════════════════════════════
+QUICK CROSS-REFERENCE TABLE
+═══════════════════════════════════════════════════════════════════════════════
++-------------------------------------+----------------------+------------------------+
+| Scenario                            | Tenant's agency      | Landlord's default     |
++-------------------------------------+----------------------+------------------------+
+| Worker lost limb in tenant machine  | DOSH → tenant        | Only if structure fault|
+| Tenant's chemical spill             | DOE → tenant         | As OWNER of land       |
+| Tenant hires 40 undocumented        | Immigration → tenant | Only if harboured      |
+| Tenant smuggling                    | Customs → tenant     | Usually no             |
+| Tenant MIDA sublease to 3rd party   | MIDA → tenants       | Needs head-lease consent|
+| Building agri, tenant wants factory | None                 | Needs NLC s.124 convert|
++-------------------------------------+----------------------+------------------------+
+
+APPLY / VERIFY HERE:
+- State PTG for land use conversion
+- MIDA: mida.gov.my
+- DOSH: dosh.gov.my
+- DOE: doe.gov.my (eSWIS for scheduled waste)
+- Immigration: imi.gov.my (MyIMMs employer portal)
+- Customs: customs.gov.my`
+  },
+
+  land_title: {
+    keywords: [
+      'forged', 'forgery', 'forged mot', 'memorandum of transfer', 'forged transfer', 'fake transfer', 'fake signature', 'pemalsuan', 'penipuan tanah', '伪造', '伪造产权转让', '地契伪造',
+      'land fraud', 'title fraud', 'land scam', 'penipuan hartanah', 'hartanah dicuri', '土地诈骗',
+      'indefeasibility', 'tidak boleh disangkal', 'tak boleh disangkal', '不可推翻', 'adorna properties', 'adorna vs', 'tan ying hong', 'tan ying hong vs',
+      'nlc s.340', 'nlc section 340', 'section 340 nlc', 'seksyen 340 kta', 'kta s.340', 'register forged', 'registered in another name', 'registered into their name',
+      'deferred indefeasibility', 'immediate indefeasibility', 'bona fide purchaser',
+      'caveat', 'kaveat', 'private caveat', 'lodge caveat', 'remove caveat', 'caveat removal', 'angkat kaveat', '地契保留', '警告', 'caveatable interest',
+      'nlc s.322', 'nlc s.323', 'nlc s.324', 'nlc s.325', 'nlc s.326', 'nlc s.327', 'section 323', 'section 326', 'seksyen 323', 'form 19b', 'form 19c', 'form 19d',
+      'quit rent', 'cukai tanah', 'cukai pintu', '地税',
+      'forfeiture of land', 'forfeit land', 'rampas tanah', 'lucuthak tanah', '没收土地',
+      'non-payment quit rent', 'tunggakan cukai tanah', 'forfeiture notice', 'notis lucut', 'form 6a', 'form 8a',
+      'nlc s.97', 'nlc s.98', 'nlc s.99', 'nlc s.100', 'section 100 nlc', 'seksyen 100 kta',
+      'land title search', 'carian tanah', 'land search', 'geran search', 'land office search', 'ptg search',
+      'registrars caveat', "registrar's caveat", 'lien-holder caveat', 'lienholder caveat', 'private caveat', 'trust caveat',
+      'nlc s.124', 's.124 conversion', 'section 124 nlc', 'seksyen 124 kta', 'nlc 124',
+      'conversion approval', 'land use conversion', 'tukar syarat tanah', 'tukar syarat', 'pertukaran syarat tanah',
+      'conversion lapsed', 'conversion expired', 'consent lapsed', 'consent expired', 'approval lapsed', 'approval expired',
+      're-apply conversion', 'reapply conversion', 'mohon semula tukar syarat', 'conversion fee', 'fi tukar syarat',
+      'land office says', 'ptg says', 'do says', 'district officer says', 'pegawai daerah kata',
+      'state authority consent', 'kelulusan pihak berkuasa negeri', 'pbn consent', 'land conversion fee'
+    ],
+    content: `LAND TITLE — FORGERY, CAVEATS, QUIT RENT FORFEITURE (NLC 1965 peninsular):
+
+═══════════════════════════════════════════════════════════════════════════════
+FORGED MEMORANDUM OF TRANSFER (MOT) — CLAW BACK YOUR LAND
+═══════════════════════════════════════════════════════════════════════════════
+Legal basis: National Land Code 1965 s.340.
+- s.340(1): registered title is INDEFEASIBLE (cannot be challenged).
+- s.340(2): INDEFEASIBILITY IS DEFEATED if registration was obtained by:
+  (a) FRAUD / MISREPRESENTATION to which the registered proprietor or their agent was a party;
+  (b) FORGERY; or
+  (c) void / insufficient instrument.
+
+LANDMARK CASES:
+- Adorna Properties Sdn Bhd v Boonsom Boonyanit [2001] — the "Adorna error" — said a forged MOT could still give indefeasibility to an innocent purchaser (IMMEDIATE indefeasibility). Widely criticised.
+- Tan Ying Hong v Tan Sian San [2010] FC — CORRECTED Adorna. Reinstated DEFERRED indefeasibility: a forged MOT is VOID. Innocent purchaser's title is defeasible UNTIL they transfer to a further bona fide purchaser for value (then it becomes good). This is current law.
+- Practical takeaway: if YOUR title was forged straight to the fraudster, you usually WIN it back under Tan Ying Hong. If the fraudster already flipped to a bona fide third party, the third party wins; you claim damages from the fraudster + any negligent solicitor/land officer.
+
+STEP-BY-STEP RECOVERY:
+1. IMMEDIATELY lodge a PRIVATE CAVEAT (NLC s.323) on the forged title to freeze further transfer. Form 19B + RM50. Land Office will register within days.
+2. File a police report — forgery (Penal Code s.465-471) and cheating (s.420).
+3. File a High Court writ for:
+   (a) Declaration that the MOT is void for forgery.
+   (b) Order under NLC s.340(2)(b) that the Registrar rectify the register and restore you as proprietor.
+   (c) Injunction restraining the fraudster from dealing with the land.
+4. Join as defendants: the fraudster, any onward purchaser, and (if negligence alleged) the solicitor or Land Registrar.
+5. Timeline: 1-3 years to trial. Caveat extends 6 years but must be renewed or converted to a lis pendens caveat.
+
+COST: RM30k-RM150k legal fees; can claim against fraudster + solicitor's professional indemnity policy.
+
+PREVENTION:
+- Enrol for e-Tanah SMS alerts in your state (PTG sends SMS whenever a search or dealing is lodged on your title).
+- Lodge a "REGISTRAR'S CAVEAT" under s.319 if you suspect a scam — free, 5-year protection, hard to remove without your consent.
+- Keep original geran safe; never hand over except to your appointed solicitor on SPA execution.
+
+═══════════════════════════════════════════════════════════════════════════════
+CAVEAT ON YOUR TITLE — LODGEMENT AND REMOVAL (NLC s.322-330)
+═══════════════════════════════════════════════════════════════════════════════
+What a caveat does: prevents registration of any dealing (transfer, charge, lease) on the title until removed. It's a STATUTORY FREEZE, not a proprietary interest.
+
+Types:
+- PRIVATE caveat (s.323) — lodged by any person claiming a "caveatable interest" (buyer under SPA, beneficiary of trust, equitable chargee). Form 19B, RM50.
+- REGISTRAR'S caveat (s.319) — lodged by Registrar to protect government / minor / incapacity. Form 19A.
+- LIEN-HOLDER's caveat (s.330) — by holder of title-deed as security for loan.
+- TRUST caveat (s.332) — by trustee.
+
+CAVEAT YOU DID NOT AUTHORISE — HOW TO REMOVE:
+Two routes.
+(a) Registrar's removal under s.326 — caveator must substantiate within 2 months of notice; otherwise lapses.
+(b) Court application under s.327 — you (proprietor) file notice under Form 19C requiring caveator to show cause in court. Hearing in 2-4 weeks.
+
+PROCEDURE IF SOMEONE YOU DON'T KNOW LODGED A CAVEAT:
+1. Do a Land Search immediately at PTG (RM50) — get the caveator's details and Form 19B particulars.
+2. Send a Form 19C "Notice of Intended Removal" via PTG (fee RM30) — caveator must file in court within 2 months.
+3. Concurrently, file an originating summons in the High Court under s.327(1) seeking an order for removal.
+4. Remedies: (a) removal of caveat, (b) damages under NLC s.329 if caveat was lodged "without reasonable cause".
+
+TIMELINE: 2-4 months to remove a baseless caveat. Cost: RM3k-RM10k.
+
+COMMON SCENARIOS:
+- Ex-spouse / family member lodges caveat during divorce → usually caveatable if they claim matrimonial asset; resolve in matrimonial proceedings not caveat proceedings.
+- Stranger lodges caveat claiming "oral SPA" → usually weak; the court will require documentary evidence; you likely win + costs + damages.
+- Rogue agent / broker claiming commission → not a caveatable interest; you win removal + damages under s.329.
+
+═══════════════════════════════════════════════════════════════════════════════
+QUIT RENT FORFEITURE — STATE CAN TAKE THE LAND (NLC s.97-100)
+═══════════════════════════════════════════════════════════════════════════════
+Quit rent (cukai tanah) is the annual land tax to the State Authority. Due dates vary by state (usually 31 March or 31 May). Non-payment accrues penalty at 1-6% per month.
+
+Enforcement sequence (NLC s.97-100):
+1. NOTICE OF DEMAND (Form 6A) — after default, Land Office sends demand. 3 months to pay.
+2. NOTICE TO SHOW CAUSE (Form 7A) — if still unpaid. States intention to forfeit.
+3. FORFEITURE ORDER — State Authority declares the land forfeited. Land reverts to the State.
+4. Once gazetted, title is extinguished; land becomes State Land; the State can resell.
+
+CAN THEY REALLY FORFEIT? YES. Courts consistently uphold forfeiture where statutory notice is given. However:
+- Owner can pay full arrears + penalty + administrative fee at ANY STAGE up to forfeiture order; State must accept.
+- Owner can apply for INSTALMENT payment under NLC s.98 before forfeiture.
+- Even post-forfeiture, s.100 allows application for "revocation of forfeiture" within 3 YEARS, with payment of arrears + 50% surcharge. State has discretion — usually grants for genuine hardship.
+
+STEP-BY-STEP — 5 YEARS UNPAID QUIT RENT:
+1. Go to PTG with IC + geran + any notices received.
+2. Ask for a "Penyata Tunggakan Cukai Tanah" (statement of arrears).
+3. Compute: 5 × (annual rate) + cumulative penalty. Expect 30-100% uplift.
+4. Pay in full — forfeiture proceedings STOP immediately on payment (s.98).
+5. If cannot pay: file instalment application (Form K) + hardship letter.
+6. If forfeited already: file s.100 revocation within 3 years + pay arrears + 50% surcharge.
+7. If State refuses revocation unreasonably: judicial review, High Court, 3 months from decision.
+
+PREVENTION:
+- Enrol for state e-tax auto-reminder (Selangor, Penang, Johor, WP have e-Hasil Tanah SMS).
+- Pay via bank standing order.
+- Confirm your billing address is current on the title register.
+
+═══════════════════════════════════════════════════════════════════════════════
+RELATED — DISPUTES DURING CONVEYANCING
+═══════════════════════════════════════════════════════════════════════════════
+- "Adverse possession" does NOT apply in Malaysia (NLC expressly excludes it) — squatter for 20 years still has no title.
+- Lost geran: apply for duplicate (NLC s.168) by statutory declaration + newspaper gazette + 3-month wait.
+- Registrar's caveat is your cheapest fortress against scams.
+
+APPLY / VERIFY HERE:
+- State PTG / e-Tanah for land search, caveat lodgement, quit rent
+- Bar Council complaints for solicitor negligence
+- PDRM Commercial Crime Investigation Dept for fraud report
+- High Court (Kuala Lumpur/Shah Alam/Penang) for s.327 / s.340 actions`
+  },
+
+  assessment_rates: {
+    keywords: [
+      'assessment rates', 'assessment rate', 'cukai taksiran', 'cukai pintu', 'kadar cukai taksiran', '地方税', '物业税', 'property rates',
+      'annual value', 'nilai tahunan', 'nilai taksiran', 'improved value', 'nilai sebenar', '年值',
+      'pbt assessment', 'majlis assessment', 'dbkl assessment', 'mpsj assessment', 'mbpp assessment',
+      'valuation tribunal', 'tribunal penilaian',
+      'local government act', 'akta kerajaan tempatan', 'lga 1976', 'lga s.142', 'section 142', 'seksyen 142', 'section 144', 'seksyen 144',
+      'assessment objection', 'bantahan cukai taksiran', 'objection to assessment', 'appeal assessment', 'rayuan cukai taksiran',
+      'rating act', 'local government (rating) act',
+      'over-assessed', 'over assessed', 'assessment too high', 'cukai taksiran tinggi',
+      'rating reassessment', 'penilaian semula', 'reassessment', 'form e rates', 'form f rates'
+    ],
+    content: `ASSESSMENT RATES (CUKAI TAKSIRAN) — PBT ANNUAL VALUE OBJECTION AND APPEAL:
+
+═══════════════════════════════════════════════════════════════════════════════
+LEGAL FRAMEWORK
+═══════════════════════════════════════════════════════════════════════════════
+- Local Government Act 1976 (Act 171), Part XV — Rating. Assessment rate = % × Annual Value ("nilai tahunan", NT).
+- Annual Value (s.2) = reasonable gross rent the holding would fetch annually if let from year to year, tenant paying rates, landlord paying repairs. Based on MARKET rent, not necessarily your actual rent.
+- PBT (pihak berkuasa tempatan) sets the rate % yearly — typically 4-10% of NT for residential, 8-15% for commercial.
+- Each PBT has own by-laws (DBKL, MBPJ, MPSJ, MBPP, MBSA, etc.). Rates differ materially between councils.
+
+═══════════════════════════════════════════════════════════════════════════════
+REASSESSMENT AND OBJECTION PROCESS (LGA s.141, s.142, s.144)
+═══════════════════════════════════════════════════════════════════════════════
+Step 1 — NOTICE OF PROPOSED VALUATION (Form E / Form F, LGA s.141).
+ - PBT serves notice of proposed NT + rate. You have 42 DAYS to object.
+ - Notice is usually published in newspaper AND delivered to rating address. Watch both channels.
+
+Step 2 — OBJECTION (LGA s.142).
+ - File written objection to PBT (Borang Bantahan). Must state grounds.
+ - Valid grounds include:
+   (a) NT is excessive compared to comparable properties.
+   (b) Property is wrongly described (e.g., assessed as 3-storey when 2-storey).
+   (c) Exemption applies (place of worship, government use, charitable).
+   (d) Not rateable (land only, no building).
+ - Evidence: actual rental receipts; rental comparables from similar properties in same street; valuation report by a registered Valuer (MIV / BOVAEA).
+ - Hearing: PBT's Rating Review Committee within ~3 months. You or your valuer attends.
+
+Step 3 — APPEAL (LGA s.145).
+ - If dissatisfied with s.142 decision, appeal to the HIGH COURT within 14 DAYS. Originating summons + grounds + statutory declaration.
+ - Burden on ratepayer to show NT is excessive.
+
+Step 4 — VALUATION TRIBUNAL (in states that have established one, e.g., WP KL under DBKL (Amendment) Act 2017).
+ - Quicker and cheaper than High Court. Panel includes a Valuer.
+ - Decision appealable to High Court on questions of law.
+
+═══════════════════════════════════════════════════════════════════════════════
+STRATEGY WHEN NT IS CLEARLY INFLATED
+═══════════════════════════════════════════════════════════════════════════════
+Example: PBT says NT RM84,000 (≈ RM7,000/month rent); actual rent is RM3,000/month (RM36,000 pa).
+
+The test is MARKET rent for a willing landlord/tenant, not your actual below-market rent. So:
+1. Gather 3-5 comparables: asking rents and signed leases in same street, similar size, same usage. From property portals (Find.ai, PropertyGuru), signed SDSAS stamped tenancies, valuation-department reports.
+2. Engage a Registered Valuer for a short-form valuation report (RM1,500-RM4,000). This is your strongest evidence.
+3. File Form Bantahan with evidence + valuation report.
+4. Negotiate with PBT at Committee — most PBTs settle in the 10-25% reduction range if comps are credible.
+5. If rejected, escalate to High Court / Valuation Tribunal.
+
+TIME-BAR: miss the 42-day objection window and you're stuck for that rating cycle (usually 5 years until the next general revision).
+
+═══════════════════════════════════════════════════════════════════════════════
+INTERIM — DO YOU STILL PAY?
+═══════════════════════════════════════════════════════════════════════════════
+YES. LGA s.147 — you must pay first, argue later. Non-payment accrues 1% per month + legal action under s.148. Refund is given if objection succeeds.
+
+═══════════════════════════════════════════════════════════════════════════════
+SPECIAL CIRCUMSTANCES
+═══════════════════════════════════════════════════════════════════════════════
+- Partial demolition / rebuilding: apply for proportionate reduction.
+- Long-term vacant property: some PBTs give 50% rebate (need application + vacancy proof — utility bills zeroed, etc.).
+- Heritage building (George Town, Melaka UNESCO): separate rebate schemes.
+- Property newly completed: ensure CCC date is correctly recorded; if PBT dates NT from earlier than CCC, challenge.
+
+═══════════════════════════════════════════════════════════════════════════════
+CHECKLIST — ASSESSMENT OBJECTION
+═══════════════════════════════════════════════════════════════════════════════
+☐ Note date of Form E/F notice. Diarise 42-day deadline.
+☐ Request PBT valuation computation (summary sheet).
+☐ Collect 3-5 rental comparables + signed leases.
+☐ Commission valuer's short-form report.
+☐ File Form Bantahan with evidence bundle.
+☐ Attend Rating Review Committee hearing.
+☐ Prepare High Court / Tribunal escalation if needed.
+☐ Keep paying rates in the meantime to avoid penalty.
+
+APPLY / VERIFY HERE:
+- DBKL: dbkl.gov.my | MBPJ: mbpj.gov.my | MBPP: mbpp.gov.my | MPSJ: mpsj.gov.my (and other PBTs)
+- Valuation & Property Services Department (JPPH): jpph.gov.my
+- Board of Valuers, Appraisers, Estate Agents & Property Managers: lppeh.gov.my`
+  },
+
+  land_acquisition: {
+    keywords: [
+      'land acquisition', 'pengambilan tanah', '征地', '土地征收',
+      'land acquisition act', 'laa 1960', 'akta pengambilan tanah', 'akta pengambilan tanah 1960',
+      'jkr acquisition', 'highway acquisition', 'highway widening', 'rail acquisition', 'mrt acquisition', 'lrt acquisition', 'pl acquisition', 'public purpose acquisition',
+      'form k', 'borang k', 'form k notice', 'form h acquisition', 'form d acquisition', 'form e acquisition', 'land reference', 'land reference court', 'mahkamah rujukan tanah',
+      'land acquired for public purpose', 'compulsory acquisition', 'compulsory purchase', 'pengambilan paksa',
+      'compensation land', 'pampasan tanah', 'inadequate compensation', 'lowball offer land', 'tawaran rendah', 'bantahan pengambilan tanah',
+      'partial acquisition', 'pengambilan sebahagian', 'severance', 'injurious affection'
+    ],
+    content: `LAND ACQUISITION — STATE OR FEDERAL AGENCY TAKING YOUR LAND (LAA 1960):
+
+═══════════════════════════════════════════════════════════════════════════════
+LEGAL FRAMEWORK
+═══════════════════════════════════════════════════════════════════════════════
+- Land Acquisition Act 1960 (LAA 1960) — governs compulsory acquisition in Peninsular Malaysia. Equivalent statutes in Sabah (Land Acquisition Ordinance Cap. 69) and Sarawak (Land Code Part IV).
+- Article 13 Federal Constitution: no deprivation of property save in accordance with law + adequate compensation.
+- "Public purpose" under s.3 LAA:
+  (a) Purpose useful to the public in general (roads, MRT, schools).
+  (b) By a corporation for a public utility.
+  (c) For economic development by an entity approved by State Authority.
+- Acquiring authority can be JKR (highway), MRT Corp, SPNB, State EXCO, or any gazetted public body.
+
+═══════════════════════════════════════════════════════════════════════════════
+THE FORMAL SEQUENCE (KNOW YOUR FORMS)
+═══════════════════════════════════════════════════════════════════════════════
+Form A (s.4) — "Preliminary notification". Acquiring authority advertises intent. Gazette + newspaper. No compensation yet. You may submit OBJECTIONS within TIME SPECIFIED (usually 21 days).
+Form D (s.8) — "Declaration of Intended Acquisition". Binding gazette. Title is now "earmarked"; dealings freeze.
+Form E (s.10) — "Notice to Persons Interested to Attend Inquiry". You must attend the Land Administrator's INQUIRY. Bring title, rental receipts, valuer's report.
+Form G (s.12) — "Notice of Inquiry" to witnesses and valuers.
+Form H (s.14) — The Land Administrator's AWARD of compensation. You have 6 WEEKS to object.
+Form K (s.38) — "Notice of Reference to the Court". If you object to the Form H award, you file Form N within 6 weeks; Land Administrator refers the dispute to the Land Reference Court (High Court) via Form K.
+Form L / Form M — taking possession / vesting.
+
+═══════════════════════════════════════════════════════════════════════════════
+COMPENSATION HEADS (FIRST SCHEDULE LAA 1960)
+═══════════════════════════════════════════════════════════════════════════════
+Paragraph 1 — Market value at date of Form D (NOT the date you bought).
+Paragraph 2 — Increased value of OTHER land you own due to the scheme (added to your compensation).
+Paragraph 3 — Damage due to SEVERANCE (where acquisition splits your plot in two).
+Paragraph 4 — Damage due to INJURIOUS AFFECTION (reduction in value of the retained land).
+Paragraph 5 — Reasonable expenses of moving (relocation, business disruption, moving machinery).
+Paragraph 6 — Not less than RM250.
+Paragraph 2A — SOLATIUM: 25% uplift on market value (NOT on severance/injurious). This was a 2016 amendment — most lowball offers forget solatium.
+Interest: 8% per annum from date of possession until payment.
+
+LOWBALL OFFER? COMMON UNDER-VALUATIONS:
+- Using outdated or generic per-square-foot rate instead of transacted comparables.
+- Ignoring severance / injurious affection (e.g., if remaining plot becomes an irregular strip unusable for development).
+- Omitting solatium (25% — demand it expressly).
+- Using building's "depreciated replacement cost" instead of market value for improvements.
+- Missing business disturbance head (stock, goodwill, staff relocation).
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP-BY-STEP DEFENCE PLAYBOOK
+═══════════════════════════════════════════════════════════════════════════════
+1. Check gazette notice (Form A / D) carefully — date, extent, agency, purpose. Note deadlines.
+2. Engage a REGISTERED VALUER immediately. Their report is your Exhibit A. Cost: RM5k-RM20k for typical parcel.
+3. Attend the Form E Inquiry. State all compensation heads, not just market value. Raise severance + injurious + disturbance + solatium.
+4. Receive Form H (Award). Review arithmetic.
+5. Within 6 weeks, file Form N "Notice of Objection" — specify amount you accept and amount disputed.
+6. Land Administrator refers via Form K to Land Reference Court.
+7. Trial: two assessors (one chosen by you, one by Government) + judge. Burden on you to prove inadequacy.
+8. Possible outcomes: increased award + interest + costs; or affirmed; or further appeal to Court of Appeal.
+
+Timeline: 12-36 months from Form H to Land Reference Court decision.
+
+═══════════════════════════════════════════════════════════════════════════════
+PARTIAL ACQUISITION (MOST COMMON IN HIGHWAY WIDENING)
+═══════════════════════════════════════════════════════════════════════════════
+When only a strip is taken:
+- Demand SEPARATE heads for severance and injurious affection.
+- Example: frontage of shoplot taken for road widening → loss of display frontage → diminution of whole shop's value → this is INJURIOUS AFFECTION and compensable.
+- If the remaining land is below minimum lot size under local plan → may be unbuildable → argue FULL taking, not partial. Sometimes the State accepts and buys whole lot.
+
+═══════════════════════════════════════════════════════════════════════════════
+TENANTS / SUB-INTERESTS
+═══════════════════════════════════════════════════════════════════════════════
+- Tenant with >3-year registered lease (NLC s.221) is a "person interested" and entitled to separate compensation for loss of leasehold interest + disturbance.
+- Short unregistered tenancy: generally no separate compensation; tenant's remedy is against landlord if lease frustrated.
+- Chargee bank: paid first from compensation up to secured amount.
+
+═══════════════════════════════════════════════════════════════════════════════
+CHECKLIST — LANDOWNER REACTION TO JKR NOTICE
+═══════════════════════════════════════════════════════════════════════════════
+☐ Save Form A / D / E immediately; diarise deadlines.
+☐ Engage Registered Valuer.
+☐ Engage conveyancing or acquisition lawyer.
+☐ Attend Inquiry; submit FULL compensation claim, not just market value.
+☐ Object within 6 weeks of Form H via Form N.
+☐ Prepare for Land Reference Court — gather comparables, business loss evidence.
+☐ Negotiate in parallel — Government often settles at Land Administrator level for 15-30% uplift to avoid litigation.
+
+APPLY / VERIFY HERE:
+- Land Administrator (Pentadbir Tanah) of the district
+- State Land & Mines Office (PTG)
+- Valuation & Property Services Dept (JPPH)
+- Bar Council Land Law Committee for lawyer referrals`
   },
 
   general: {
