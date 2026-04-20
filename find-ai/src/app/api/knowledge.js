@@ -31,7 +31,7 @@ Failure to return the deposit with an itemized statement of any lawful deduction
   },
 
   stamp_duty: {
-    keywords: ['stamp', 'duti setem', '印花税', 'setem', 'stamping', 'unstamped', 'tak stamp', '没盖章', 'SDSAS', 'MyTax', 'late stamp', 'penalty stamp'],
+    keywords: ['stamp', 'duti setem', '印花税', 'setem', 'stamping', 'unstamped', 'tak stamp', '没盖章', 'SDSAS', 'MyTax', 'late stamp', 'penalty stamp', 'e-duti', 'e-duti setem', 'eDuti', 'eDuti Setem', 'duti elektronik', 'electronic stamp', 'digital stamp', '电子印花', 'stamps portal', 'self-assessment stamp'],
     content: `STAMP DUTY ON TENANCY (SDSAS 2026):
 - Stamp Act 1949, First Schedule, Item 32(a).
 - 2026 SDSAS system: self-assessment via MyTax portal.
@@ -54,8 +54,14 @@ STAMP DUTY ON PROPERTY PURCHASE (MOT):
 - First-time homebuyer exemption: 100% exemption on MOT + loan stamp duty for homes ≤RM500,000 (until 31 Dec 2027).
 - Stamp duty on loan agreement: flat 0.5% of total loan amount.
 
-STAMPS PORTAL — STEP-BY-STEP E-STAMPING (LHDN DIGITAL SYSTEM):
-From 2026, ALL tenancy stamping goes through the LHDN STAMPS portal (stamps.hasil.gov.my). No more walk-in counter for standard tenancies.
+STAMPS PORTAL / e-Duti Setem — STEP-BY-STEP E-STAMPING (LHDN DIGITAL SYSTEM):
+From 2026, ALL tenancy stamping goes through the LHDN e-Duti Setem (STAMPS) portal (stamps.hasil.gov.my). No more walk-in counter for standard tenancies. "e-Duti Setem" and "STAMPS portal" are the same system — LHDN uses both names.
+
+SDSAS PENALTY EXPOSURE — READ THIS BEFORE FILING:
+- Under-declaration / wilful incorrect self-assessment: RM10,000 fine (Stamp Act 1949 s.62 as amended 2024-2026) PLUS shortfall duty PLUS up to 100% penalty (s.36A).
+- Genuine good-faith calculation error during 2026 transition year: LHDN Public Ruling 2026/01 grants NO PENALTY concession (see below).
+- Late stamping (missed 30-day window): tiered penalties (see CURE section below).
+- The RM10,000 fine is the BIGGEST risk — it's per agreement, not per error. A landlord with 5 incorrectly assessed tenancies could face RM50,000 in fines.
 
 WALKTHROUGH — FIRST-TIME LANDLORD:
 1. Register at mytax.hasil.gov.my → get TIN (Tax Identification Number). All landlords collecting rent need a TIN from 2026.
@@ -319,7 +325,7 @@ REAL CASES — SUBLETTING:
 - Filing: Form BE or Form B. Due April 30 (no business income) or June 30 (with). Via MyTax at mytax.hasil.gov.my.
 - Penalty: failure to declare = 45% penalty on underreported tax + possible criminal prosecution.
 - Co-owners: each declares their share based on ownership proportion.
-- Residential rental EXEMPT from service tax (commercial = 8% from July 2025).
+- Residential rental EXEMPT from service tax. Commercial/non-residential rental = 8% from July 2025, REDUCED TO 6% under Budget 2026 effective 1 Jan 2026.
 
 LHDN AUDIT:
 - Triggers: income/bank deposit mismatch, high deduction claims, lifestyle inconsistencies, third-party reports.
@@ -594,7 +600,16 @@ REAL CASES — NOISE:
 - No specific Commercial Tenancy Act — Contracts Act + lease terms govern.
 - Register lease at land office if >3 years (NLC s.213). Unregistered = not protected if sold.
 - Should include: permitted use, renovation terms, reinstatement clause, option to renew, rent review mechanism.
-- Service tax 8% applies on commercial rental from July 2025.
+- Service tax on commercial/non-residential rental: 8% from July 2025, REDUCED TO 6% from 1 Jan 2026 under Budget 2026. Applies to offices, retail, warehouses, factories, industrial premises. Residential rental remains EXEMPT.
+
+SST TRANSITIONAL INVOICES (Budget 2026 rate change):
+- Invoice issued BEFORE 1 Jan 2026 at 8%, payment received AFTER 1 Jan 2026 → still 8% (rate locked to invoice date under SST Regulations 2018).
+- Invoice issued AFTER 1 Jan 2026 → 6% regardless of service period.
+- Rental billed in ADVANCE for multiple months spanning the rate change: issue credit note for the post-Jan-2026 portion at 8% and reissue at 6%. Net refund = 2% × post-change rent.
+- Example: Annual rent RM120,000 billed Dec 2025 at 8% = RM9,600 SST. 11 months fall in 2026 (RM110,000 @ 2% diff = RM2,200 credit note to tenant).
+- Tenants on full-year prepaid leases are OWED the 2% refund. Landlord who pockets it = non-compliance with Royal Malaysian Customs (RMCD) risk.
+- Fix procedure: (1) issue credit note citing "Rate adjustment — Budget 2026 s.11 Service Tax Act 2018", (2) refund to tenant OR offset next invoice, (3) amend SST-02 return for the affected period, (4) keep paper trail (tenant's signed acknowledgment of rate change).
+- RMCD grace period: 3 months from 1 Jan 2026 to reissue corrected invoices without penalty. After 31 Mar 2026, mis-application of rate = RM500-RM50,000 fine per invoice.
 
 INDUSTRIAL & FACTORY:
 - NLC s.124 — must convert land use before operating. Criminal offense if not.
@@ -891,7 +906,7 @@ LICENSES REQUIRED (typical stack):
 1. PBT STR License / Premises License (RM200-500/year, depending on council).
 2. MOTAC Tourism Accommodation Premises License (if operating as tourism rental) — motac.gov.my.
 3. Business registration (SSM) if operating multiple units — can register sole prop or sdn bhd.
-4. Service Tax registration (LHDN) if gross receipts exceed RM500K/year — 8% service tax on accommodation since 2024.
+4. Service Tax registration (LHDN) if gross receipts exceed RM500K/year — 8% service tax on accommodation since 2024 (Group A, Service Tax Act 2018). Note: Budget 2026's 8%→6% cut applies to Group I NON-RESIDENTIAL LEASING (offices, warehouses). Accommodation/STR stays at 8% unless further RMCD notice — verify before pricing.
 5. Tourism Tax collection (RM10/room/night for non-Malaysians) — remit to LHDN.
 
 HYBRID RENTAL MODELS (the 2026 landlord sweet spot):
@@ -933,7 +948,7 @@ MC (MANAGEMENT CORPORATION) CONSENT:
 TAX TREATMENT 2026:
 - Rental income taxed as Section 4(d) under Income Tax Act 1967 if passive; Section 4(a) if active business (multiple units + services) — rate up to 30% individual.
 - Sdn Bhd structure: flat 24% corporate tax (17% for SME first RM150K profit).
-- Service tax 8% on accommodation — must register if gross ≥RM500K/year.
+- Service tax 8% on accommodation (Group A) — must register if gross ≥RM500K/year. Budget 2026's rate cut to 6% does NOT apply to accommodation; only non-residential leasing (Group I).
 - Tourism tax RM10/night for foreign guests — remit monthly.
 - Capital allowance on furniture/fittings: 20% initial + 10% annual.
 - Airbnb fees are deductible. So are utilities, cleaning, linen, platform commissions.
@@ -950,7 +965,7 @@ REAL CASES:
 • Mont Kiara condo owner ran Airbnb without MC consent. MC fined RM1,000/incident × 12 incidents (RM12,000). DBKL also compounded RM8,000. Total: RM20,000 — wiped out the year's Airbnb profit.
 • Penang Georgetown landlord applied for MBPP STR license properly. Listed on Airbnb + Booking.com. 68% occupancy first year. Net RM45K on a RM550K apartment (8.2% yield) — clean and legal.
 • KL landlord pivoted from long-term to De Rantau digital nomad rental. Raised rent from RM3,200 to RM5,800/month furnished. Occupancy 10/12 months. Gross uplift: RM31,000/year. No PBT issues because each nomad stayed 3-6 months on residential tenancy basis.
-• Shah Alam landlord signed 6-month corporate lease with MNC HR for Chinese manufacturing consultant. Rent RM6,500/month vs RM3,800 normal long-term. Company paid via invoice, deducted 8% service tax. Landlord registered as sole prop with SSM to claim deductions → saved ~RM4,500 in net tax.
+• Shah Alam landlord signed 6-month corporate lease with MNC HR for Chinese manufacturing consultant. Rent RM6,500/month vs RM3,800 normal long-term. Company paid via invoice with 6% service tax (Budget 2026 rate, Group I leasing). Landlord registered as sole prop with SSM to claim deductions → saved ~RM4,500 in net tax.
 • JB landlord listed Airbnb + MC hadn't banned it. 3 parties disturbed neighbors → MC AGM amended by-laws to ban STR. Landlord forced to pivot to long-term within 60 days.
 
 VERIFY HERE:
@@ -1371,6 +1386,195 @@ SHOPPING LIST (reliable sources in Malaysia):
 
 MISTAKE TO AVOID:
 Over-personalizing for the CURRENT tenant. Your unit will house multiple tenants over 10 years — stick to broadly neutral, broadly liked aesthetics. Muji/Japandi/Scandinavian = safest. Avoid anything very dark, very pink, or very themed.`
+  },
+
+  einvoice: {
+    keywords: [
+      'e-invoice', 'einvoice', 'e invoice', 'e-invoicing', 'einvoicing',
+      'myinvois', 'my invois', 'invois', 'lhdn invoice', 'validated invoice',
+      'e-invois', 'e invois', 'invois elektronik',
+      '电子发票', '发票系统', '税务发票', 'lhdn e-invoice',
+      'consolidated invoice', 'self-billed', 'self billed', 'tin invoice',
+      'peppol', 'api invoice', 'rental invoice', 'invoice tenant', 'invoice penyewa',
+      'tax invoice', 'cukai invois', 'invoice deduction', 'tenant tax deduction',
+      'july 2026', 'july 1 2026', '1 july 2026', 'mandatory e-invoice'
+    ],
+    content: `E-INVOICING (LHDN MyInvois) — LANDLORD COMPLIANCE 2026:
+Malaysia's mandatory e-invoicing rollout under Income Tax Act 1967 s.82C. All rental income invoices must eventually be submitted through MyInvois for LHDN validation.
+
+PHASED ROLLOUT TIMELINE:
+- Phase 1 (1 Aug 2024): Businesses turnover >RM100M/year
+- Phase 2 (1 Jan 2025): Turnover RM25M–RM100M
+- Phase 3 (1 Jul 2025): Turnover RM500K–RM25M
+- Phase 4 (1 Jul 2026): ALL remaining businesses including turnover <RM1M ← LANDLORDS LAND HERE
+- Micro-businesses <RM150K annual rental may get temporary exemption (confirm with LHDN public ruling; not final as of drafting).
+
+WHEN RENTAL INCOME TRIGGERS E-INVOICE OBLIGATION:
+- S4(a) business income (active management of multiple units, services provided): FULL e-invoice obligation from 1 Jul 2026.
+- S4(d) passive rental (1-2 units, arms-length tenancy): still required to issue e-invoice when tenant demands it (e.g., corporate tenant needing tax deduction).
+- Sdn Bhd structure: e-invoicing already applies based on turnover tier — not postponable.
+- Sole proprietor landlord with SSM registration: follows turnover tier same as any business.
+- Accidental landlords (individual owns 1 residential unit, no SSM): tenant can submit a SELF-BILLED e-invoice on landlord's behalf if landlord refuses/unable. Landlord still needs a TIN.
+
+WHAT'S IN A VALID E-INVOICE (key fields, ~55 total):
+1. Supplier (landlord): Name, TIN, SSM/IC No, Address, Contact, SST No (if registered)
+2. Buyer (tenant): Name, TIN, IC/SSM, Address
+3. Invoice: Unique Invoice No, Date, Reference Period
+4. Line Item: "Rental of [property address], period [MM/YYYY]", Classification Code (023 = Rental Services), Unit Price, Quantity, Subtotal
+5. Tax: SST rate (0% residential, 6% non-residential from Jan 2026), Tax Amount, Total Payable (with/without tax)
+6. Currency: MYR (default) or foreign if cross-border
+7. Digital signature: generated on LHDN validation → Unique Identifier Number (UIN) + QR Code returned
+8. PDF or XML output: both acceptable; XML required for API submission
+
+3 WAYS TO SUBMIT:
+A. MyInvois Portal (manual): login to mytax.hasil.gov.my → MyInvois tab → fill form → validate → download. Free. Suitable for <20 invoices/month.
+B. API Integration: direct integration to MyInvois API. Requires middleware (Peppol AP, SAP, Xero, QuickBooks with MyInvois plugin). Suitable for landlords with accounting software.
+C. Third-party e-invoice provider: Bukku, Financio, AutoCount, etc. Monthly fee ~RM30-150. Handles validation + archiving.
+
+CONSOLIDATED vs INDIVIDUAL E-INVOICES:
+- For B2C (tenant = individual, not demanding invoice): landlord may issue ONE consolidated e-invoice per month summarizing all B2C rentals. Submitted by 7th of following month.
+- For B2B (tenant = company needing tax deduction): MUST issue individual e-invoice per transaction, within 72 hours of payment received.
+- Corporate tenants will REFUSE to pay until valid e-invoice received — it's the only way they claim the rent as a business expense.
+
+TENANT PRESSURE IS REAL:
+- MNCs, factories, offices: their auditors reject any non-e-invoice expense claim from 1 Jul 2026.
+- Landlord who can't issue e-invoice = tenant loses tax deduction = tenant demands rent reduction OR switches to compliant landlord.
+- Chinese tenants especially: Chinese companies with MY branches need Malaysian-side e-invoice to reconcile with PRC transfer pricing rules.
+
+SELF-BILLED E-INVOICE (tenant-issued, landlord lazy):
+- If landlord has TIN but won't set up MyInvois: tenant can issue e-invoice ON BEHALF OF landlord, flagged as "Self-Billed."
+- LHDN still treats it as landlord's income — landlord reports in annual tax filing.
+- Landlord loses control over invoice content. Usually tenant dictates SST rate, description, amount.
+- Risk: tenant may misclassify or under-report — landlord legally responsible either way.
+
+PENALTIES (Income Tax Act s.120(1)(g) + MyInvois Guidelines):
+- Failure to issue e-invoice on time: RM200–RM20,000 fine OR imprisonment up to 6 months OR both.
+- Per invoice violation. A landlord with 20 non-compliant monthly rent invoices = 20 separate offenses.
+- LHDN has discretion to compound — typically RM500-RM2,000 first offense if voluntary disclosure.
+- Soft-landing grace period for Phase 4: 6 months from 1 Jul 2026 to 31 Dec 2026 — late/missing invoices logged but not penalized if corrected.
+
+SST + E-INVOICE INTEGRATION:
+- Non-residential commercial lease invoices: SST line item at 6% (Budget 2026) must appear on the e-invoice with correct Tax Type Code (01 for Service Tax).
+- Residential: SST line shows "0% — Exempt Services (Residential Accommodation)".
+- Mis-declaring SST on e-invoice = double hit (SST penalty + e-invoice violation).
+
+REAL CASES — MyInvois:
+• KL office landlord with 6 tenants (all B2B) migrated to AutoCount + MyInvois plug-in in April 2026 ahead of July deadline. RM90/month subscription. Now issues e-invoice in 30 seconds per tenant. Tenants all renewed leases — landlord is "audit-ready," major selling point.
+• Individual landlord in Penang refused to set up MyInvois for her one commercial shophouse (RM3,500/month rent). Corporate tenant (a logistics SME) switched to a compliant landlord next door at lease expiry. Vacancy: 4 months. Lost rent: RM14,000.
+• SME landlord missed July 2026 deadline entirely. LHDN audit Q3 2026 found 9 non-compliant invoices. Compounded RM1,200/invoice = RM10,800. Had to back-issue via MyInvois + pay fines.
+• Shah Alam factory landlord had tenant auto-generate self-billed e-invoices. Tenant under-reported SST (declared residential rate by error). LHDN back-assessed landlord RM18,000 in under-collected SST + 100% penalty. Landlord's appeal failed — you own the reporting either way.
+
+QUICK-START CHECKLIST (landlords, 2026):
+□ 1. Get TIN from LHDN (mytax.hasil.gov.my) if you don't have one
+□ 2. Decide submission method: Portal (free, manual) or API/3rd-party (paid, automated)
+□ 3. Collect tenant TINs — tenants MUST provide (corporate tenants have theirs; individuals register via MyTax)
+□ 4. Template your invoice: property address, SST rate, classification code (023 rental services)
+□ 5. Test one invoice through MyInvois before go-live — validation takes 2-72 hours
+□ 6. Archive all validated e-invoices for 7 years (LHDN audit requirement)
+□ 7. If multiple properties: label each with Unique Property Reference — easier for tax filing
+
+VERIFY HERE:
+- MyInvois portal: mytax.hasil.gov.my → MyInvois
+- e-invoice guidelines: hasil.gov.my/en/e-invoice/
+- Classification codes: LHDN e-invoice classification list (023 Rental Services)
+- Service provider directory: myinvois.hasil.gov.my/resources`
+  },
+
+  adaptive_reuse: {
+    keywords: [
+      'adaptive reuse', 'adaptive-reuse', 'reuse tax', 'renovation tax deduction', 'renovation incentive',
+      'guna semula', 'penyesuaian semula', 'pengubahsuaian',
+      '适应性改造', '旧楼改造', '改造税务减免', '翻新税收优惠',
+      'budget 2026 renovation', 'belanjawan renovation', 'tax break renovation',
+      'warehouse conversion', 'office conversion', 'factory conversion', 'data centre conversion',
+      'mixed use conversion', 'tech hub', 'logistics hub', 'co-living conversion',
+      'capital allowance renovation', 'capital allowance 10%', 'rm10 million cap',
+      'underutilized space', 'ruang tidak digunakan', 'empty floor', 'dead floor'
+    ],
+    content: `ADAPTIVE REUSE TAX INCENTIVE (Budget 2026):
+
+THE INCENTIVE:
+- 10% tax deduction on qualifying adaptive reuse expenditure, capped at RM10 million per project.
+- Claimed against rental/business income derived from the redeveloped space.
+- Introduced in Budget 2026 to unlock dead commercial/industrial stock.
+- Legal basis: Budget 2026 Finance Act amendments (gazette pending — verify exact section before claim).
+- Available for qualifying spend between 1 Jan 2026 and 31 Dec 2030 (5-year window).
+
+QUALIFYING CATEGORIES (per Budget 2026 announcement):
+1. Warehouse → tech hub / data centre / co-working
+2. Office floor → co-living / serviced apartment / education centre
+3. Retail floor → F&B incubator / community space
+4. Factory → logistics hub / cold chain / fulfilment centre
+5. Heritage shophouse → boutique hotel / retail + residential mixed-use
+6. Abandoned mall / strata retail → mixed-use residential conversion
+(Pure like-for-like refurbishment = NOT eligible. Must change use class or significantly upgrade utility.)
+
+QUALIFYING EXPENDITURE:
+- Structural alteration (wall removal, load-bearing changes, floor reinforcement)
+- M&E upgrade (HVAC for cold storage, power density increase for data centre, added sanitary capacity for co-living)
+- Fire safety + Bomba compliance upgrade required by new use
+- Accessibility (ramps, lifts, universal design)
+- Architect + QS professional fees (up to 5% of construction value)
+- NOT qualifying: land purchase, refinancing costs, standard maintenance, furniture, branding/marketing, soft furnishings.
+
+HOW TO CLAIM:
+1. Project planning phase:
+   - Engage architect to certify project as "adaptive reuse" (change of use class per Uniform Building By-Laws 1984 or equivalent state-level by-laws)
+   - Obtain PBT approval for change of use (plans submission, CFO amendment)
+   - Get pre-claim ruling from LHDN if project >RM5M — reduces audit risk later
+2. During construction:
+   - Maintain separate cost code for qualifying vs non-qualifying spend
+   - Keep all contractor invoices, bank transfers, QS progress certificates
+   - Quarterly QS cost report — LHDN expects contemporaneous documentation
+3. Year of claim:
+   - File via Form C (Sdn Bhd) or Form B (individual with business income)
+   - Attach: architect's adaptive-reuse certification, QS final account, PBT change-of-use approval, itemized expenditure schedule
+   - 10% deduction applied against taxable income from the redeveloped property
+   - Unused deduction can be carried forward to subsequent YAs (subject to standard carry-forward rules under ITA s.44(5))
+
+STACKING WITH OTHER INCENTIVES:
+- Capital allowance (20% initial + 10% annual on plant/machinery): CAN stack — apply CA on qualifying equipment, adaptive-reuse deduction on the building works. Do not double-claim the same cost.
+- Industrial Building Allowance (IBA, 10% initial + 3% annual): CAN stack for IBA-qualifying buildings.
+- MIDA pioneer status / investment tax allowance: if project qualifies for MIDA incentive, adaptive-reuse deduction may be ADDITIONAL — claim both. MIDA application should be made BEFORE construction starts.
+- Green Building Index (GBI) / LEED: if project achieves GBI certification, additional Green Investment Tax Allowance may apply.
+
+EXAMPLE MATH:
+Landlord converts RM8M industrial warehouse in Shah Alam to mini data-centre / logistics hub. Qualifying spend: RM6M (structural + M&E + QS fees).
+- Adaptive-reuse deduction: 10% × RM6M = RM600,000 deduction against YA2027 rental income.
+- Rental uplift: RM25K/month → RM55K/month (RM360K/year uplift).
+- Additional tax saving (at 24% corporate rate): RM600,000 × 24% = RM144,000.
+- Payback on the deduction alone: RM144K tax saved against the deduction structure. Plus the rent uplift compounds.
+
+WARNINGS (TAX TOPIC CORRECTION):
+- Our standard 'tax' topic rule that "capital improvements = NOT deductible" applies to PURE CAPITAL IMPROVEMENT on standing assets.
+- Adaptive reuse projects from 2026 onward get a SPECIAL 10% deduction — this is ADDITIONAL to and does NOT replace capital allowances on qualifying plant/equipment.
+- Don't tell a client "not deductible" if their spend might fall within adaptive reuse — ALWAYS check the use-class change test first.
+
+COMMON TRAPS:
+- Calling "cosmetic renovation" adaptive reuse. LHDN + PBT require genuine change of use class (e.g., B1 industrial → B3 data centre). Refurbishing the same office = not eligible.
+- Claiming on land or purchase cost. The incentive is on construction/alteration expenditure only.
+- Missing the PBT change-of-use approval. Without it, LHDN disallows the deduction as "unapproved conversion."
+- Not keeping QS progress certificates. LHDN audit = you produce contemporaneous evidence or lose the claim.
+- Exceeding RM10M cap on one project. Split into phases — each phase with own approval + certification — may unlock multiple caps (technical, verify with tax advisor).
+
+REAL CASES:
+• Klang warehouse owner converted 12,000 sqft warehouse to mini data centre for a Singapore tech tenant. Qualifying spend RM4.2M. Claimed 10% = RM420K deduction. Rental up from RM38K to RM92K/month.
+• Ipoh shophouse landlord converted upper floors to boutique stay (6 rooms). Total spend RM950K. Claimed 10% = RM95K deduction plus accommodation SST registration. Occupancy 70% in year 1.
+• PJ landlord tried to claim "painting + new pantry" as adaptive reuse. LHDN rejected — no use-class change. Claim reversed, paid back RM15K in over-claimed deductions.
+• Penang heritage owner restored 3 pre-war shophouses into mixed retail + loft-residential. Qualifying spend RM3.2M across 3 units. Got GBI silver + state heritage grant STACKED with adaptive-reuse deduction. Total tax+grant benefit: RM760K+.
+
+STRATEGIC QUESTIONS TO ASK:
+- Is my property currently UNDERUTILIZED (occupancy <60%, rental below area benchmark)?
+- Would change of use unlock higher-yielding tenants (data centre, co-living, cold storage)?
+- Do I have capital (or access to financing) to fund RM500K–RM10M project?
+- Can I get PBT change-of-use approval (zoning, density, parking)?
+- Is the 5-year window enough time for payback? (Usually yes if rental uplift >40%.)
+
+VERIFY HERE:
+- Budget 2026 gazette: mof.gov.my (look for Finance Act 2026, Capital Allowance / Special Deduction sections)
+- LHDN public ruling on adaptive reuse: hasil.gov.my (check for 2026/2027 PR series)
+- MIDA incentive overlay: mida.gov.my (for pioneer status / ITA application)
+- PBT change-of-use process: your local council's planning department`
   },
 
   rta_2026: {
