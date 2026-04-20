@@ -661,7 +661,6 @@ export default function Home() {
   const recRef = useRef(null);
   const streamRef = useRef(null);
   const streamContentRef = useRef('');
-  const userScrolledRef = useRef(false);
 
   // PWA install prompt
   useEffect(() => {
@@ -722,31 +721,15 @@ export default function Home() {
   }, [messages, ready, activeChatId]);
   useEffect(() => { if (ready) save('fi_profile', profile); }, [profile, ready]);
 
-  // Scroll detection
+  // Sticky-to-bottom: only auto-scroll when user is already near the bottom.
+  // No flag, no event listeners — we check live position each time.
   useEffect(() => {
     const el = chatRef.current;
     if (!el) return;
-    const onUserInteraction = () => {
-      requestAnimationFrame(() => {
-        if (!el) return;
-        const { scrollTop, scrollHeight, clientHeight } = el;
-        const distFromBottom = scrollHeight - scrollTop - clientHeight;
-        userScrolledRef.current = distFromBottom > 80;
-      });
-    };
-    el.addEventListener('wheel', onUserInteraction, { passive: true });
-    el.addEventListener('touchmove', onUserInteraction, { passive: true });
-    el.addEventListener('mousedown', onUserInteraction, { passive: true });
-    return () => {
-      el.removeEventListener('wheel', onUserInteraction);
-      el.removeEventListener('touchmove', onUserInteraction);
-      el.removeEventListener('mousedown', onUserInteraction);
-    };
-  }, [showChat]);
-
-  useEffect(() => {
-    if (chatRef.current && !userScrolledRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    const dist = el.scrollHeight - el.scrollTop - el.clientHeight;
+    // Within 200px of bottom = "at bottom, stick". Otherwise leave user where they are.
+    if (dist < 200) {
+      el.scrollTop = el.scrollHeight;
     }
   }, [messages, loading]);
 
@@ -947,11 +930,15 @@ export default function Home() {
       setMessages([...all, { role: 'assistant', content: '' }]);
       streamContentRef.current = '';
       await new Promise(r => requestAnimationFrame(r));
-      userScrolledRef.current = false;
 
+      // Sticky-to-bottom during streaming: only scroll if user is near the bottom.
+      // If user scrolls up to read, we stop following — resumes when they scroll back down.
       scrollInterval = setInterval(() => {
-        if (chatRef.current && !userScrolledRef.current) {
-          chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        const el = chatRef.current;
+        if (!el) return;
+        const dist = el.scrollHeight - el.scrollTop - el.clientHeight;
+        if (dist < 200) {
+          el.scrollTop = el.scrollHeight;
         }
       }, 250);
 
