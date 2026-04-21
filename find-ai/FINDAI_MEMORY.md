@@ -31,23 +31,39 @@ Three of the four tools exist as dormant components in `src/components/tools/` b
 6. **Rewrite `landing.js`** — lead with 3 pre-signing tool tiles (Screen/Audit/Stamp), chat as supporting 4th tile. Hero copy: "Don't sign blind." Sub-hero: "Screen your tenant. Audit the agreement. Stamp it right. In 10 minutes, for free."
 7. **Wire Case Memory hand-off** — Screen tool's output auto-populates Audit tool's tenant field; Audit tool's rent field auto-populates Stamp tool. Use `fi_chat_history[activeId].memory` as shared case store.
 
-### 🔁 Five uncommitted changes still waiting on Ken to push:
+### ✅ v3.3 SHIPPED TO PRODUCTION (2026-04-21 EOD)
 
-1. **src/lib/pdfExport.js** (NEW) — shared PDF export module for all 4 Phase 1 tools. Zero npm dependencies (uses browser-native print-to-PDF). Branded Find.ai letterhead + QR viral loop (find.ai/r/:caseRef) + PDPA footer + tri-lingual (EN/BM/中文). Exports `exportReport()` + 4 convenience builders (`buildScreenReport`, `buildAuditReport`, `buildStampReport`, `buildChatReport`). Smoke test 14/14 PASS.
-2. **knowledge.js v3.2** — all R5-R100 patches PLUS new `digital_evidence` topic (Module 48). Full Section 90A Evidence Act 1950 workflow, Certificate of Authenticity template, SHA-256 hashing, NTP timestamps, WhatsApp/SMS admissibility, CCTV consent rules, check-in/check-out photography workflow. Scored **25/25 (100%)** on dedicated stress test; R100 still 100/100 (zero regressions). Topic count now 48.
-3. **page.js chat-memory fix** — activeChatId now persists to `fi_active_chat_id` localStorage key + loadChat resumes latest history entry instead of forking a new ID.
-4. **page.js mobile voice recording hardening** — five fixes for iOS Safari + Android Chrome (en-US lang, isIOS single-utterance, onend restart skip on iOS, amplitude silence timer with lang-aware thresholds, 45s hard watchdog).
-5. **Rent Default Toolkit coverage audit** — 7/8 priorities now fully covered; gap = #5 Agreement Scanner (will be satisfied by TOOL 2 Agreement Health Check resurrection above).
+Pushed to GitHub → Vercel auto-deployed. Five files in that commit:
 
-**Deploy command (Windows PowerShell):**
+1. **src/lib/pdfExport.js** (NEW) — shared PDF export module. Zero npm deps (browser-native print-to-PDF). Branded Find.ai letterhead + QR viral loop (find.ai/r/:caseRef) + PDPA footer + tri-lingual (EN/BM/中文). Exports `exportReport()` + 4 builders: `buildScreenReport`, `buildAuditReport`, `buildStampReport`, `buildChatReport`. Smoke test 14/14 PASS.
+2. **src/app/api/knowledge.js v3.2** — 48 topics (new `digital_evidence` — Section 90A Evidence Act workflow). R100 stress test 100%.
+3. **src/app/page.js** — chat-memory persistence fix (`fi_active_chat_id`) + 5 mobile voice fixes (iOS Safari + Android Chrome hardening).
+4. **CLAUDE.md** — rewritten for Phase 1 doctrine ("Don't sign blind" toolkit).
+5. **FINDAI_MEMORY.md** — this file (v3.3).
+
+**Smoke tests to run on https://find-ai-lovat.vercel.app:**
+- Chat still answers normally
+- Create chat → fill Case File → refresh → case memory block survives
+- iPhone Safari voice: speak with mid-sentence pause → waits ~2s after final stop → auto-sends full text
+- Android Chrome voice: same test, recovers if engine drops
+
+### 🎯 NEXT SESSION — Start Here
+
+Three tool resurrections unblocked (PDF module is in place). Recommended order:
+
+1. **#78 StampDuty** (fastest — formula already correct, just wire PDF export + Case Memory read). Good first wire-up to prove the tool → pdfExport flow end-to-end in production.
+2. **#76 TenantScreen** (dormant in `src/components/tools/TenantScreen.js` — needs PDPA consent modal + trust score UI polish + `buildScreenReport` wiring).
+3. **#81 agreement_clauses knowledge topic** (unblocks #77 AgreementHealth — build 12 clause red-flag patterns for the Audit tool).
+4. **#77 AgreementHealth** (after #81).
+5. **#79 tools hub + landing rewrite** — 3 bento tiles (Screen/Audit/Stamp) + chat as supporting 4th tile.
+6. **#80 Case Memory hand-off** — Screen → Audit → Stamp auto-populate.
+
+### 🗂️ Local-only preview files (not committed, safe to delete)
+
+`pdf-preview-stamp.html`, `pdf-preview-screen.html`, `pdf-preview-zh.html` — sample branded reports for visual inspection. Open in browser + Ctrl+P to preview the PDF output. Delete anytime:
 ```powershell
-cd "C:\Users\Tan Ken Yap\Documents\data collection\OneDrive\Desktop\Claude\find-ai"
-git add src/lib/pdfExport.js src/app/page.js src/app/api/knowledge.js CLAUDE.md FINDAI_MEMORY.md
-git commit -m "Phase 1 v3.3: 'Don't sign blind' doctrine + shared pdfExport.js + v3.2 knowledge/chat-memory/voice fixes"
-git push
+Remove-Item pdf-preview-stamp.html, pdf-preview-screen.html, pdf-preview-zh.html
 ```
-
-> **Note on pdf-preview-*.html files:** three sample reports were dropped into the repo root for visual inspection. Open them in a browser + hit Ctrl+P to preview the PDF output. **Do NOT commit these** — they're temporary previews. Either delete them before the push or leave them and `.gitignore` will ignore them (they're not added to the git add line above).
 
 **Then smoke-test:**
 - **Chat memory:** create a chat → fill Case File modal → refresh → send a message. Devtools → Application → Local Storage → `fi_active_chat_id` should be set; the case memory block should appear in the system prompt.
