@@ -73,6 +73,14 @@
 //
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Psychology labels — kept in a single source of truth so chat UI and PDF
+// match exactly. See src/lib/screeningPsychology.js for the research spine.
+import {
+  PATTERN_LABELS,
+  INSIGHT_LABELS,
+  CONFIDENCE_LABELS,
+} from './screeningPsychology';
+
 const BRAND = {
   navy: '#0f172a',
   navy2: '#1e293b',
@@ -612,7 +620,188 @@ function renderHTML(p) {
 // Keeps tool files thin: build a plain object, pass to buildXReport, export.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function buildScreenReport({ tenant, score, flags, lang = 'en', caseRef, property }) {
+// ── Tenant-screening specific i18n (Payment Discipline Scan) ─────────────────
+const SCREEN_I18N = {
+  en: {
+    indexHeading: 'Payment Discipline Index',
+    indexLabel: 'Behaviour score',
+    coverage: 'Based on {n} of 4 signals',
+    tenantHeading: 'Tenant at the viewing',
+    tenantName: 'Full name (per MyKad)',
+    tenantIC: 'IC last 4',
+    tenantPhone: 'Mobile',
+    signalsHeading: 'Payment behaviour captured',
+    colSignal: 'Signal',
+    colVendor: 'App / Vendor',
+    colAccount: 'Name on account',
+    colOnTime: 'On-time (of 12 mo)',
+    colTenure: 'Tenure',
+    colArrears: 'Arrears now?',
+    findingsHeading: 'Findings',
+    notesHeading: 'Notes',
+    noVerdict: 'This report is NOT a credit score and NOT a recommendation. The Payment Discipline Index describes observed behaviour only — the decision to enter into a tenancy rests entirely with the landlord.',
+    subDna: 'Find.ai surfaces payment behaviour captured at the viewing. Signals shown were displayed on the tenant\'s own device under their verbal consent. No data was pulled from CCRIS, CTOS or any credit bureau.',
+    signalElectricity: 'Electricity',
+    signalMobile: 'Mobile postpaid',
+    signalInternet: 'Home internet',
+    signalWildcard: 'Voluntary subscription',
+    yes: 'Yes', no: 'No', dash: '—',
+    behaviourHeading: 'Behavioural observations',
+    confidenceLabel: 'Confidence',
+    adjustBonus: '+{n} consistency bonus applied to the index',
+    adjustPenalty: '{n} priority-misalignment penalty applied to the index',
+  },
+  bm: {
+    indexHeading: 'Indeks Disiplin Pembayaran',
+    indexLabel: 'Skor tingkah laku',
+    coverage: 'Berdasarkan {n} daripada 4 isyarat',
+    tenantHeading: 'Penyewa semasa tinjauan',
+    tenantName: 'Nama penuh (ikut MyKad)',
+    tenantIC: '4 digit akhir IC',
+    tenantPhone: 'Mudah alih',
+    signalsHeading: 'Tingkah laku pembayaran direkod',
+    colSignal: 'Isyarat',
+    colVendor: 'Aplikasi / Vendor',
+    colAccount: 'Nama pada akaun',
+    colOnTime: 'Tepat masa (12 bln)',
+    colTenure: 'Tempoh',
+    colArrears: 'Tunggakan sekarang?',
+    findingsHeading: 'Penemuan',
+    notesHeading: 'Nota',
+    noVerdict: 'Laporan ini BUKAN skor kredit dan BUKAN cadangan. Indeks Disiplin Pembayaran hanya menggambarkan tingkah laku yang diperhatikan — keputusan untuk meneruskan sewaan sepenuhnya di tangan tuan rumah.',
+    subDna: 'Find.ai hanya memaparkan tingkah laku bayaran yang direkod semasa tinjauan. Isyarat ditunjukkan pada peranti penyewa sendiri dengan kebenaran lisan. Tiada data diambil daripada CCRIS, CTOS atau mana-mana biro kredit.',
+    signalElectricity: 'Elektrik',
+    signalMobile: 'Pascabayar mudah alih',
+    signalInternet: 'Internet rumah',
+    signalWildcard: 'Langganan sukarela',
+    yes: 'Ya', no: 'Tidak', dash: '—',
+    behaviourHeading: 'Pemerhatian tingkah laku',
+    confidenceLabel: 'Keyakinan',
+    adjustBonus: 'Bonus konsistensi +{n} ditambah pada indeks',
+    adjustPenalty: 'Penalti misalignment keutamaan {n} ditolak daripada indeks',
+  },
+  zh: {
+    indexHeading: '付款纪律指数',
+    indexLabel: '行为评分',
+    coverage: '基于4项信号中的{n}项',
+    tenantHeading: '看房当天的租客',
+    tenantName: '全名（按身份证）',
+    tenantIC: '身份证后4位',
+    tenantPhone: '手机',
+    signalsHeading: '已记录的付款行为',
+    colSignal: '信号',
+    colVendor: '应用 / 服务商',
+    colAccount: '账户姓名',
+    colOnTime: '按时（12个月）',
+    colTenure: '账户时长',
+    colArrears: '当前欠款？',
+    findingsHeading: '发现事项',
+    notesHeading: '说明',
+    noVerdict: '本报告并非信用评分，也不是推荐建议。付款纪律指数仅描述观察到的行为——是否签约完全由房东自行决定。',
+    subDna: 'Find.ai 仅展示看房时记录的付款行为。所有信号均在租客本人设备上、经其口头同意后展示。未从 CCRIS、CTOS 或任何征信机构拉取数据。',
+    signalElectricity: '电费',
+    signalMobile: '手机后付',
+    signalInternet: '家庭宽带',
+    signalWildcard: '自愿订阅',
+    yes: '是', no: '否', dash: '—',
+    behaviourHeading: '行为观察',
+    confidenceLabel: '置信度',
+    adjustBonus: '一致性加分 +{n} 已计入指数',
+    adjustPenalty: '优先级错位扣分 {n} 已计入指数',
+  },
+};
+
+function indexTone(n) {
+  const v = Number(n);
+  if (Number.isNaN(v)) return 'navy';
+  if (v >= 80) return 'green';
+  if (v >= 60) return 'blue';
+  if (v >= 40) return 'yellow';
+  return 'red';
+}
+
+function signalLabel(t, key) {
+  return ({
+    electricity: t.signalElectricity,
+    mobile: t.signalMobile,
+    internet: t.signalInternet,
+    wildcard: t.signalWildcard,
+  })[key] || key;
+}
+
+/**
+ * Build the Tenant Screening report (Payment Discipline Scan — Bloomberg-not-FICO).
+ *
+ * Expected payload shape:
+ *   tenant: { name, icLast4, phone, landlord }
+ *   index:  { score: 0-100, coverage: 0-4 }
+ *   signals: Array<{
+ *     key: 'electricity'|'mobile'|'internet'|'wildcard',
+ *     vendor?, accountName?, onTimeMonths?, tenure?, hasArrears?, wildcardCategory?
+ *   }>
+ *   flags: Array<{ severity:'red'|'amber'|'green', title, detail? }>
+ */
+export function buildScreenReport({ tenant, index, signals, flags, behaviour, lang = 'en', caseRef, property }) {
+  const t = SCREEN_I18N[lang] || SCREEN_I18N.en;
+  const pl = PATTERN_LABELS[lang] || PATTERN_LABELS.en;
+  const il = INSIGHT_LABELS[lang] || INSIGHT_LABELS.en;
+  const cl = CONFIDENCE_LABELS[lang] || CONFIDENCE_LABELS.en;
+
+  const tenantKV = tenant && {
+    heading: t.tenantHeading,
+    kind: 'kv',
+    data: [
+      [t.tenantName, tenant.name || t.dash],
+      [t.tenantIC,   tenant.icLast4 || t.dash],
+      [t.tenantPhone, tenant.phone || t.dash],
+    ],
+  };
+
+  const sigTable = Array.isArray(signals) && signals.length ? {
+    heading: t.signalsHeading,
+    kind: 'table',
+    data: {
+      headers: [t.colSignal, t.colVendor, t.colAccount, t.colOnTime, t.colTenure, t.colArrears],
+      rows: signals.map(s => [
+        signalLabel(t, s.key),
+        s.vendor || t.dash,
+        s.accountName || t.dash,
+        (s.onTimeMonths || s.onTimeMonths === 0) ? `${s.onTimeMonths} / 12` : t.dash,
+        s.tenure || t.dash,
+        s.hasArrears === true ? t.yes : (s.hasArrears === false ? t.no : t.dash),
+      ]),
+    },
+  } : null;
+
+  const indexBadge = index != null ? {
+    heading: t.indexHeading,
+    kind: 'badge',
+    data: {
+      label: t.indexLabel,
+      value: `${Number(index.score ?? 0)}/100`,
+      tone: indexTone(index.score),
+      sub: t.coverage.replace('{n}', String(index.coverage ?? 0)),
+    },
+  } : null;
+
+  // Behavioural Observations — psychology layer. Explains the SHAPE of the
+  // score (priorities, tenure, voluntary commitment, ownership match) so the
+  // landlord reads behaviour, not a verdict.
+  const behaviourSection = (behaviour && behaviour.pattern) ? {
+    heading: t.behaviourHeading,
+    kind: 'text',
+    data: [
+      `${pl[behaviour.pattern]?.title || behaviour.pattern} — ${pl[behaviour.pattern]?.sub || ''}`,
+      `${t.confidenceLabel}: ${cl[behaviour.confidence] || behaviour.confidence || ''}`,
+      ...((behaviour.insights || []).map(k => `• ${il[k] || k}`)),
+      behaviour.adjust > 0
+        ? t.adjustBonus.replace('{n}', String(behaviour.adjust))
+        : behaviour.adjust < 0
+          ? t.adjustPenalty.replace('{n}', String(behaviour.adjust))
+          : '',
+    ].filter(Boolean),
+  } : null;
+
   return {
     kind: 'screen',
     lang,
@@ -620,28 +809,16 @@ export function buildScreenReport({ tenant, score, flags, lang = 'en', caseRef, 
     title: KIND_LABELS.screen[lang] || KIND_LABELS.screen.en,
     meta: { preparedFor: tenant?.landlord || '', property },
     sections: [
-      score != null && {
-        heading: 'Trust score',
-        kind: 'score',
-        data: {
-          grade: score.grade,
-          label: score.label || 'Overall trust grade',
-          sub: score.sub,
-        },
+      indexBadge,
+      behaviourSection,
+      tenantKV,
+      sigTable,
+      flags?.length && { heading: t.findingsHeading, kind: 'flags', data: flags },
+      {
+        heading: t.notesHeading,
+        kind: 'text',
+        data: [t.noVerdict, t.subDna],
       },
-      tenant && {
-        heading: 'Tenant',
-        kind: 'kv',
-        data: [
-          ['Name', tenant.name || '—'],
-          ['IC / Passport', tenant.ic || '—'],
-          ['Employer', tenant.employer || '—'],
-          ['Monthly income (RM)', tenant.income || '—'],
-          ['References', tenant.references || '—'],
-          ['CTOS / CCRIS consent', tenant.bureauConsent ? 'Yes' : 'No'],
-        ],
-      },
-      flags?.length && { heading: 'Findings', kind: 'flags', data: flags },
     ].filter(Boolean),
   };
 }

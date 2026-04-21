@@ -5,6 +5,7 @@ import Landing from './landing';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { CaseMemoryModal, buildCaseMemoryContext, emptyMemory, hasPdpaConsent } from './caseMemory';
 import StampDutyCalc from '../components/tools/StampDutyCalc';
+import TenantScreen from '../components/tools/TenantScreen';
 import { L as toolLabels } from '../components/tools/labels';
 
 const STATES = [
@@ -686,8 +687,9 @@ export default function Home() {
   const [historySearch, setHistorySearch] = useState('');
   // Case-file memory (per-chat; extends chatHistory item shape)
   const [showCaseMemory, setShowCaseMemory] = useState(false);
-  // Phase 1 tools (stamp duty is wired; screen + audit to follow)
+  // Phase 1 tools (stamp duty + screen wired; audit to follow)
   const [showStampTool, setShowStampTool] = useState(false);
+  const [showScreenTool, setShowScreenTool] = useState(false);
   // Voice state (Option C)
   const [voiceSupported, setVoiceSupported] = useState(false);
   const [voiceError, setVoiceError] = useState(null);        // 'denied' | 'nohardware' | null
@@ -1720,6 +1722,18 @@ export default function Home() {
         />
       )}
 
+      {/* Phase 1 — Payment Discipline Scan (TOOL 1) */}
+      {showScreenTool && (
+        <TenantScreen
+          lang={lang}
+          onClose={() => setShowScreenTool(false)}
+          activeMemory={activeMemory}
+          onSaveMemory={(nextMemory) => saveCaseMemory(nextMemory, activeCaseType)}
+          profileLandlord={profile.role === 'landlord' ? t.roles.landlord : ''}
+          property={activeMemory?.property?.nickname || activeMemory?.property?.address || ''}
+        />
+      )}
+
       {/* Sidebar overlay */}
       {showSidebar && (
         <div className="fixed inset-0 z-50 flex" style={{ maxWidth: '32rem', margin: '0 auto' }}>
@@ -1945,12 +1959,14 @@ export default function Home() {
                 <span className="text-[8px] font-bold px-2 py-0.5 rounded-md" style={{ background: '#0f172a', color: '#fff', letterSpacing: '0.06em' }}>BETA</span>
               </div>
               <div className="grid grid-cols-3 gap-2.5">
-                {/* Screen — coming soon */}
-                <div className="rounded-2xl p-3 text-left opacity-60 cursor-not-allowed" style={{ background: '#f8fafc', border: '1px dashed #e2e8f0' }}>
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-2 text-base" style={{ background: '#fff' }}>🛡️</div>
-                  <div className="text-[11px] font-bold leading-tight" style={{ color: '#64748b' }}>{toolLabels[lang].toolScreenTile}</div>
-                  <div className="text-[9px] mt-0.5 leading-snug" style={{ color: '#94a3b8' }}>{toolLabels[lang].toolScreenTileSub}</div>
-                </div>
+                {/* Screen — LIVE (Payment Discipline Scan) */}
+                <button onClick={() => setShowScreenTool(true)}
+                  className="rounded-2xl p-3 text-left transition active:scale-[0.97] hover:shadow-md"
+                  style={{ background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)', border: '1px solid #93c5fd' }}>
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-2 text-base" style={{ background: '#1e40af', color: '#fff' }}>🛡️</div>
+                  <div className="text-[11px] font-bold leading-tight" style={{ color: '#1e3a8a' }}>{toolLabels[lang].toolScreenTile}</div>
+                  <div className="text-[9px] mt-0.5 leading-snug" style={{ color: '#1e40af' }}>{toolLabels[lang].toolScreenTileSub}</div>
+                </button>
                 {/* Audit — coming soon */}
                 <div className="rounded-2xl p-3 text-left opacity-60 cursor-not-allowed" style={{ background: '#f8fafc', border: '1px dashed #e2e8f0' }}>
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-2 text-base" style={{ background: '#fff' }}>📑</div>
