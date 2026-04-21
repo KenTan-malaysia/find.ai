@@ -147,7 +147,19 @@ REAL CASES — STAMP DUTY + STAMPS PORTAL:
       'pay me to store', 'monthly to store', 'rm500 a month to store', 'rm500/month to store',
       'saya duduk dulu', 'duduk dulu', 'duduk sini dulu', 'tinggal dulu', 'stay first', 'stay until',
       'sampai bina balik', 'sampai saya bina', 'until i rebuild', 'until i find',
-      'refuse to move', 'enggan berpindah'
+      'refuse to move', 'enggan berpindah',
+      'retaliatory', 'retaliation', 'balasan', 'revenge eviction',
+      'smart lock revoked', 'smart lock disabled', 'smart lock deleted', 'akses dipadamkan', 'akses dibatalkan',
+      'digital lockout', 'digitally locked out',
+      'landlord locked me out', 'locked me out', 'locked out by landlord',
+      'moral ground eviction', 'tidur dengan lelaki lain', 'tidur dengan perempuan lain',
+      'syariah violation tenant', 'moral eviction', 'immoral activity eviction',
+      'tak boleh masuk rumah', 'tidak boleh masuk rumah', 'cannot enter my own', 'cannot enter my house',
+      'akses terhad', 'akses disekat', 'landlord cut my access',
+      'mm2h revoked', 'mm2h cancelled', 'visa revoked', 'visa cancelled', 'landlord wants to terminate', 'terminate mid-lease', 'wants to terminate my lease',
+      'sublessee', 'illegal sublessee', 'unauthorised sublessee', 'unauthorized sublessee',
+      'rtt ruled', 'rtt appeal', 'rtt against me', 'tribunal appeal to high court', 'rayuan rtt', 'appeal rtt decision',
+      'tukar mangga', 'tukar mangga pintu', 'change the padlock', 'changed padlock', 'specific relief act eviction', 'senior citizen protection', 'senior citizen tenant', 'mak cik tenant', 'elderly tenant', 'aged persons act', 'evict elderly', 'evict mak cik', 'evict senior', 'can\'t afford rent'
     ],
     content: `EVICTION (deep reference — residential, commercial, squatters, co-tenants):
 
@@ -347,7 +359,12 @@ You are hereby required to vacate the property within SEVEN (7) DAYS of this not
   },
 
   rent_default: {
-    keywords: ['tak bayar', 'not pay', 'arrears', 'tunggakan', '欠租', '拖欠', 'default', 'late rent', 'lewat sewa', 'demand letter', 'surat tuntutan', '催款', 'LOD', 'Form 198', 'mco', 'mco rent', 'mco reduced', 'mco-reduced', 'covid rent', 'covid-19 rent', 'moratorium rent', 'rental relief covid', 'covid reduced rent', 'sewa covid', 'pengurangan sewa covid', '疫情减租', '冠病减租', 'pkp rent', 'pkp sewa', 'temporary measures act', 'akta langkah-langkah sementara', 'covid-19 act 2020', 'pandemic rent reduction', 'reset rent', 'resume full rent', 'rent reduction expired', 'distress warrant', 'distress act', 'warrant of distress', 'waran distres', 'form d distress', 'seize goods for rent', 'rampas barang untuk sewa', 'still paying rent', 'tenant still paying', 'tenant paying rent', 'lessee still paying', 'bayar sewa lagi', 'masih bayar sewa', 'tak bayar 3 bulan', 'tak bayar 2 bulan', 'tak bayar sewa bulan'],
+    keywords: ['tak bayar', 'not pay', 'arrears', 'tunggakan', '欠租', '拖欠', 'default', 'late rent', 'lewat sewa', 'demand letter', 'surat tuntutan', '催款', 'LOD', 'Form 198', 'mco', 'mco rent', 'mco reduced', 'mco-reduced', 'covid rent', 'covid-19 rent', 'moratorium rent', 'rental relief covid', 'covid reduced rent', 'sewa covid', 'pengurangan sewa covid', '疫情减租', '冠病减租', 'pkp rent', 'pkp sewa', 'temporary measures act', 'akta langkah-langkah sementara', 'covid-19 act 2020', 'pandemic rent reduction', 'reset rent', 'resume full rent', 'rent reduction expired', 'distress warrant', 'distress act', 'warrant of distress', 'waran distres', 'form d distress', 'seize goods for rent', 'rampas barang untuk sewa', 'still paying rent', 'tenant still paying', 'tenant paying rent', 'lessee still paying', 'bayar sewa lagi', 'masih bayar sewa', 'tak bayar 3 bulan', 'tak bayar 2 bulan', 'tak bayar sewa bulan', 'sue for unpaid rent', 'sue unpaid rent', 'claim unpaid rent', 'saman sewa tertunggak', 'tuntut sewa tertunggak', 'recover unpaid rent', '8 months unpaid', '6 months unpaid', 'months unpaid rent', 'tenant bankrupt unpaid', 'official assignee rent', 'official assignee claim',
+      'late fee', 'late payment fee', 'penalty clause', 'penalty fee clause', 'liquidated damages', 'ganti rugi ditentukan', 'tribunal reduced', 'reduced to rm', 'daily late fee', 'daily late charge', 'rm50/day late', 'rm a day late',
+      'scheme of arrangement', 'ca2016 scheme', 'tenant filed scheme', 'sdn bhd tenant filed', 'unsecured creditor for rent', '6 months rent', '6 bulan sewa',
+      'rtt ruled', 'rtt appeal', 'rtt decision', 'tribunal appeal', 'appeal to high court', 'rayuan tribunal', 'rayuan ke mahkamah tinggi', 'rtt ruled against', 'bond requirement appeal',
+      'stopped paying rent', 'stopped paying', 'berhenti bayar sewa', 'berhenti bayar', 'ceased paying rent', 'no longer pay rent', 'tidak bayar sewa', '停付租金',
+      'ghosted', 'ghosted for', 'tenant ghosted', 'disappeared without paying', 'no pay rent', 'never pay rent', 'hasn\'t paid rent', 'havent paid rent', 'no pay for', 'not pay for', 'months no pay', 'bulan tak bayar', 'still owes rent', 'still owe rent', 'still owes me rent', 'owes me rent', 'owes rent', 'bankrupt still owes', 'bankrupt owes rent', 'declared bankrupt owes', 'kick out legally', 'kick him out', 'kick them out', 'how to kick out'],
     content: `RENT DEFAULT & RECOVERY:
 - Step 1: Written reminder (WhatsApp + formal letter).
 - Step 2: Letter of Demand (LOD) — give 14 days.
@@ -439,7 +456,13 @@ REAL CASES — HOLDOVER:
       'who pays injury', 'tenant installed without telling', 'tenant installed aircon',
       'common area injury', 'ground floor slip', 'stairs fall', 'jatuh tangga',
       'landlord liability injury', 'landlord sued', 'personal injury tenant',
-      'contractor injured', 'pekerja cedera'
+      'contractor injured', 'pekerja cedera',
+      'maintenance worker', 'pekerja penyelenggaraan', 'repair worker', 'repairman', 'tukang',
+      'contractor sent', 'worker i sent', 'sent a contractor', 'sent a worker',
+      'flooded unit', 'unit flooded', 'unit banjir', 'water damage tenant unit',
+      'leaking ceiling', 'siling bocor', 'roof leak', 'leak third floor', 'leak upstairs',
+      'water ingress', 'water seepage', 'rembesan air',
+      'unsafe lift', 'unsafe lifts', 'faulty lift', 'faulty lifts', 'lift broken', 'lif rosak', 'lif tak selamat', 'lift repair', 'lif tidak selamat', 'elevator unsafe', 'elevator broken', 'class action lifts', 'joint suit mc'
     ],
     content: `REPAIRS & HABITABILITY:
 - No specific "habitability" statute. Governed by tenancy agreement + implied terms under Contracts Act.
@@ -553,7 +576,9 @@ BEST-PRACTICE ACTION CHECKLIST AFTER AN INJURY INCIDENT:
   },
 
   rent_increase: {
-    keywords: ['increase', 'naik', '涨', 'raise rent', 'naikkan sewa', '加租', 'rent review', 'escalation', 'mid-lease', 'mid-term', 'tengah kontrak'],
+    keywords: ['increase', 'naik', '涨', 'raise rent', 'naikkan sewa', '加租', 'rent review', 'escalation', 'mid-lease', 'mid-term', 'tengah kontrak',
+      'raising rent now', 'raising rent mid-lease', 'raising rent mid lease', 'raises rent', 'raise rent now', 'speculative rent', 'speculative increase', 'gst coming back', 'gst return 2027', 'gst 2027', 'gst revival', 'gst balik semula', 'fixed-term rent hike', '3 years fixed',
+      'raised rent', 'raised my rent', 'raised rent for', 'raised rent 40', 'rent hike', 'rent cap', 'rent increase cap', 'naikkan sewa rm', 'naikkan sewa ketika', 'landlord naikkan', 'tuan rumah naikkan'],
     content: `RENT INCREASES & LEASE VARIATION:
 - During fixed-term lease: landlord CANNOT increase rent unless agreement has a rent review clause.
 - No rent review clause = rent stays fixed for entire term. Refusing mid-term increase is your right.
@@ -569,7 +594,9 @@ REAL CASES — RENT INCREASE:
   },
 
   subletting: {
-    keywords: ['sublet', 'subletting', 'sewa semula', '转租', 'airbnb', 'short-term', 'jangka pendek', '短租', 'room rent', 'sewa bilik', 'unauthorized occupant', 'penghuni tanpa izin', 'subletter', 'third party', 'boyfriend moved in', 'girlfriend moved in', 'partner moved in', 'moved in without', 'extra occupant', 'penghuni tambahan', 'extra people in unit', 'more people', 'overcrowding', 'lebih penghuni', 'unauthorized guest', 'tetamu tanpa izin', 'permanent guest', 'guest stays', 'stayed too long', 'co-habiting', 'cohabit'],
+    keywords: ['sublet', 'subletting', 'sewa semula', '转租', 'airbnb', 'short-term', 'jangka pendek', '短租', 'room rent', 'sewa bilik', 'unauthorized occupant', 'penghuni tanpa izin', 'subletter', 'third party', 'boyfriend moved in', 'girlfriend moved in', 'partner moved in', 'moved in without', 'extra occupant', 'penghuni tambahan', 'extra people in unit', 'more people', 'overcrowding', 'lebih penghuni', 'unauthorized guest', 'tetamu tanpa izin', 'permanent guest', 'guest stays', 'stayed too long', 'co-habiting', 'cohabit', 'rent out 1 room', 'rent out 1 bedroom', 'rent out one room', 'rent out one bedroom', 'rent out room', 'rent out bedroom', 'rent room', 'rent a bedroom', 'rent 1 bedroom', 'sewakan bilik', 'sewa satu bilik', '出租一间', '出租房间', 'room to grab driver', 'room to tenant',
+      'sub-sub-tenancy', 'sub sub tenancy', 'sublessee', 'sublessee took', 'sublessee claim', 'illegal sublessee', 'sublessee without consent', 'sub-tenant adverse', 'sub tenant adverse', 'sublet without my consent', 'unauthorized sublessee',
+      '分租', '分租合法', '合法吗 分租', '主卧租出', '主卧出租', 'sublet legal', 'sublet allowed', 'rent out master bedroom', 'master bedroom sublet'],
     content: `SUBLETTING & SHORT-TERM RENTAL (AIRBNB):
 - ALWAYS requires written landlord consent — without consent = breach + grounds for termination.
 - Landlord can include NO SUBLETTING clause. If breached → terminate + forfeit deposit.
@@ -602,7 +629,8 @@ REAL CASES — SUBLETTING:
   },
 
   tax: {
-    keywords: ['tax', 'cukai', '税', 'LHDN', 'Hasil', 'income tax', 'cukai pendapatan', '所得税', 'declare', 'filing', 'audit', 'deduct', 'potongan', 'Form BE', 'Form B', 'rental income', 'pendapatan sewa', '租金收入', 'RPGT', 'CKHT', '产业盈利税'],
+    keywords: ['tax', 'cukai', '税', 'LHDN', 'Hasil', 'income tax', 'cukai pendapatan', '所得税', 'declare', 'filing', 'audit', 'deduct', 'potongan', 'Form BE', 'Form B', 'rental income', 'pendapatan sewa', '租金收入', 'RPGT', 'CKHT', '产业盈利税', 'myinvois', 'e-invoice', 'e-invoicing', 'einvoice deadline', 'missed einvoice', 'missed e-invoice', 'myinvois deadline', 'myinvois penalty', 'backdate einvoice', 'backdate e-invoice', 'e-invois', 'einvois',
+      'gst return', 'gst coming back', 'gst 2027', 'gst 6%', 'gst revival', 'gst balik', 'rpgt 30%', 'rpgt 30', 'rpgt 5%', 'nft property', 'nft real estate', 'tokenized real estate', 'nft买', 'nft 买', 'lhdn crs', 'aeoi reporting', 'crs reporting'],
     content: `RENTAL INCOME TAX (LHDN):
 - ALL rental income must be declared under Section 4(d), Income Tax Act 1967.
 - Tax residents: progressive 0%–30% on chargeable income (after deductions).
@@ -682,7 +710,9 @@ REAL CASES — FOREIGN BUYERS:
   },
 
   strata: {
-    keywords: ['strata', 'condo', 'apartment', 'pangsapuri', '公寓', 'MC', 'JMB', 'management', 'pengurusan', '管理', 'by-law', 'undang-undang kecil', 'sinking fund', 'maintenance', 'penyelenggaraan', '维护费', 'AGM', 'SMT', 'common property', 'harta bersama', 'special levy', 'levi khas', 'en-bloc', 'en bloc', 'enbloc', 'urban renewal', 'URA', 'pembangunan semula', '旧楼重建', 'collective sale', 'jualan kolektif', 'demolish', 'redevelopment', 'bangunan lama', 'new by-law', 'undang-undang kecil baru', '新公寓条例', 'retrospective by-law', 'mid-lease by-law', 'by-law change', 'change by-law', 'sma s.32', 'sta s.70', 'mc ban rental', 'mc banned rental', 'mc larang sewa', '管委会禁止出租', 'smt appeal', 'smt tribunal', 'tribunal strata'],
+    keywords: ['strata', 'condo', 'apartment', 'pangsapuri', '公寓', 'MC', 'JMB', 'management', 'pengurusan', '管理', 'by-law', 'undang-undang kecil', 'sinking fund', 'maintenance', 'penyelenggaraan', '维护费', 'AGM', 'SMT', 'common property', 'harta bersama', 'special levy', 'levi khas', 'en-bloc', 'en bloc', 'enbloc', 'urban renewal', 'URA', 'pembangunan semula', '旧楼重建', 'collective sale', 'jualan kolektif', 'demolish', 'redevelopment', 'bangunan lama', 'new by-law', 'undang-undang kecil baru', '新公寓条例', 'retrospective by-law', 'mid-lease by-law', 'by-law change', 'change by-law', 'sma s.32', 'sta s.70', 'mc ban rental', 'mc banned rental', 'mc larang sewa', '管委会禁止出租', 'smt appeal', 'smt tribunal', 'tribunal strata', 'upper unit leak', 'leaking from above', 'leak from upstairs', 'upstairs unit leak', 'third-floor unit', 'third floor unit', 'upstairs neighbor leak', 'ground-floor unit', 'ground floor unit', 'inter-unit water damage', 'unit atas bocor', 'unit bawah banjir', '楼上漏水', 'proxy form', 'borang proksi', 'proxy fraud', 'blank proxy', 'collected proxy', 'agm proxy', 'access card revoked', 'access card locked', 'kad akses dipadamkan', 'mc locked access', 'mc abdication', 'mc refuses to help', 'mc says cant help', 'mc cannot help', 'mc tak boleh', 'mc say cant help',
+      'building bans str', 'whole building bans', 'bylaw bans str', 'bylaw no airbnb', 'condo bans airbnb', 'mc bans airbnb', 'mc bans str', 'building ban airbnb',
+      'climate risk repricing', 'insurance repricing', 'mc pass to owners', 'insurance passed to owners', 'premium jumped', 'mc premium hike', 'special levy insurance'],
     content: `STRATA (STA 1985 + SMA 2013):
 - MC manages common property after strata titles issued. JMB manages before MC formed.
 - Sinking fund: mandatory 10% of maintenance fee.
@@ -812,7 +842,8 @@ STRATEGIC ADVICE FOR LANDLORDS:
   },
 
   subsale: {
-    keywords: ['subsale', 'sub-sale', 'sub sale property', 'buying subsale', 'buy subsale', 'buying a house', 'beli rumah', '买房', '买二手', 'purchase subsale', 'pembelian hartanah', 'sign otp', 'otp signed', 'sign spa', 'spa signed', 'sale purchase agreement', 'sale and purchase agreement', 'perjanjian jual beli', 'earnest deposit', 'deposit beli', 'loan stamp duty', 'pinjaman perumahan', 'housing loan approval', '房屋贷款', 'financing approval', 'pembiayaan perumahan', 'conveyancing', 'conveyancing lawyer', 'peguam conveyancing', 'peguam pindahmilik', 'mot memorandum', 'title transfer'],
+    keywords: ['subsale', 'sub-sale', 'sub sale property', 'buying subsale', 'buy subsale', 'buying a house', 'beli rumah', '买房', '买二手', 'purchase subsale', 'pembelian hartanah', 'sign otp', 'otp signed', 'sign spa', 'spa signed', 'sale purchase agreement', 'sale and purchase agreement', 'perjanjian jual beli', 'earnest deposit', 'deposit beli', 'loan stamp duty', 'pinjaman perumahan', 'housing loan approval', '房屋贷款', 'financing approval', 'pembiayaan perumahan', 'conveyancing', 'conveyancing lawyer', 'peguam conveyancing', 'peguam pindahmilik', 'mot memorandum', 'title transfer', 'bought land', 'beli tanah', '买地', 'bought a house', 'bought condo', 'bought subsale', 'bought from sub-sale', 'beli daripada', 'seller', 'penjual', 'seller is', 'seller says', 'deal is collapsing', 'deal collapse', 'pulled out of deal', 'seller pulled out',
+      'ijarah', 'islamic financing', 'islamic loan', 'islamic mortgage', '伊斯兰贷款', '伊斯兰房贷', 'sell to non-muslim', 'non-muslim buyer', '卖给非穆斯林', 'sell islamic property', 'mrta islamic'],
     content: `SUB-SALE (BUYING FROM EXISTING OWNER):
 - Step 1: Sign OTP + pay earnest deposit (2-3%). Held by agent/lawyer as stakeholder.
 - Step 2: Apply for bank loan (2-4 weeks).
@@ -870,7 +901,9 @@ REAL CASES — DEVELOPER:
   },
 
   joint_ownership: {
-    keywords: ['joint owner', 'joint tenancy', 'bersama', '共同', 'co-owner', 'co-owns', 'coowner', 'pemilik bersama', 'survivorship', 'partition', 'pembahagian', 'inheritance', 'warisan', '继承', 'death', 'kematian', '死亡', 'will', 'wasiat', '遗嘱', 'tenancy in common', 'co-owner refuse', 'pemilik bersama enggan', 'sister refuse sign', 'brother refuse sign', 'one owner block', 'pemilik halang', 'single owner let', 'seorang pemilik sewa', 'partition action', 'tindakan pembahagian', 'nlc 145', 'nlc 140', 'deadlock co-owner', 'pemilik tidak setuju', 'sister own', 'brother own', 'sibling own', 'my share', 'share ownership', '50% share', 'half owner', 'jointly own', 'jta', 'joint title', 'jta title', 'spouse consent', 'wife never agreed', 'husband never agreed', 'wife did not sign', 'husband did not sign', 'spouse refuse sign', 'spouse blocks sale', 'spouse refuse sale', 'spouse block sale', 'wife never consented', 'husband never consented', 'without wife consent', 'without husband consent'],
+    keywords: ['joint owner', 'joint tenancy', 'bersama', '共同', 'co-owner', 'co-owns', 'coowner', 'pemilik bersama', 'survivorship', 'partition', 'pembahagian', 'inheritance', 'warisan', '继承', 'death', 'kematian', '死亡', 'will', 'wasiat', '遗嘱', 'tenancy in common', 'co-owner refuse', 'pemilik bersama enggan', 'sister refuse sign', 'brother refuse sign', 'one owner block', 'pemilik halang', 'single owner let', 'seorang pemilik sewa', 'partition action', 'tindakan pembahagian', 'nlc 145', 'nlc 140', 'deadlock co-owner', 'pemilik tidak setuju', 'sister own', 'brother own', 'sibling own', 'my share', 'share ownership', '50% share', 'half owner', 'jointly own', 'jta', 'joint title', 'jta title', 'spouse consent', 'wife never agreed', 'husband never agreed', 'wife did not sign', 'husband did not sign', 'spouse refuse sign', 'spouse blocks sale', 'spouse refuse sale', 'spouse block sale', 'wife never consented', 'husband never consented', 'without wife consent', 'without husband consent',
+      'joint-owned', 'jointly-owned house', 'jointly owned house', 'joint owned house', 'our joint-owned', 'our jointly owned', 'share of joint', 'share of our joint', 'transfer his share', 'transfer her share', 'ex-husband share', 'ex-wife share', 'shariah court ordered transfer', 'syariah court ordered transfer',
+      'still on title', 'ex-husband still on title', 'ex-wife still on title', 'still on the title', 'co-owner on title', 'both names on title', 'force transfer', 'force transfer title', 'shariah court', 'syariah court', 'shariah court ordered', 'syariah court ordered', 'shariah ordered', 'syariah ordered', 'mahkamah syariah'],
     content: `JOINT OWNERSHIP:
 - Joint tenancy: equal shares, right of survivorship. Owner dies → share auto-goes to surviving owner(s).
 - Tenancy in common: distinct shares (can be unequal). Owner dies → share per will / Distribution Act 1958.
@@ -1057,7 +1090,10 @@ REAL CASES — NOISE:
 
   commercial: {
     keywords: ['commercial', 'komersial', '商业', 'shop', 'kedai', '店铺', 'office', 'pejabat', '办公室', 'factory', 'kilang', '工厂', 'industrial', 'perindustrian', 'warehouse', 'gudang',
-      'ssm struck off', 'ssm strike off', 'struck off ssm', 'company struck off', 'syarikat dibatal', 'syarikat dibubar', 'company dissolved', 'company wound up', 'corporate tenant', 'corporate lessee', 'lessee dissolved', 'lessee no longer exists', 'tenant company dissolved', 'tenant ssm', 'section 549', 'section 550', 'ca 2016 s.549', 'ca 2016 s.550', '公司被注销', '公司解散'],
+      'ssm struck off', 'ssm strike off', 'struck off ssm', 'company struck off', 'syarikat dibatal', 'syarikat dibubar', 'company dissolved', 'company wound up', 'corporate tenant', 'corporate lessee', 'lessee dissolved', 'lessee no longer exists', 'tenant company dissolved', 'tenant ssm', 'section 549', 'section 550', 'ca 2016 s.549', 'ca 2016 s.550', '公司被注销', '公司解散',
+      'scheme of arrangement', 'ca2016 scheme', 'sdn bhd tenant', 'tenant is a german', 'tenant is a corporate', 'gmbh tenant', 'tenant gmbh', 'unsecured creditor', 'creditor priority', 'condos under one company', 'under one company', 'reit', 'real estate investment trust', 'sc approval', 'bursa listing', 'klcc tower', 'kl tower', 'i lease for my office', 'tower i lease', 'office tower lease', 'aeoi', 'crs report', 'reported under crs', 'lhdn crs',
+      'maqis', 'biosecurity quarantine', 'customs quarantine', 'import for business', 'short-term rental business', 'imported for his business', 'imported for his short-term',
+      'register company at', 'register company at rented', 'register business at rented', 'register business address', 'use rented condo as office', 'use rental as office', 'company registration at rented', 'register sdn bhd at rented', 'work permit office address', 'company address for visa', 'register at my condo'],
     content: `COMMERCIAL LEASES:
 - No specific Commercial Tenancy Act — Contracts Act + lease terms govern.
 - Register lease at land office if >3 years (NLC s.213). Unregistered = not protected if sold.
@@ -1083,7 +1119,9 @@ REAL CASES — COMMERCIAL:
   },
 
   bankruptcy: {
-    keywords: ['bankrupt', 'muflis', '破产', 'foreclosure', 'rampasan', '拍卖', 'default', 'gagal bayar', 'mortgage', 'gadai janji', '按揭', 'loan default', 'bank auction', 'DGI', 'insolvency'],
+    keywords: ['bankrupt', 'muflis', '破产', 'foreclosure', 'rampasan', '拍卖', 'default', 'gagal bayar', 'mortgage', 'gadai janji', '按揭', 'loan default', 'bank auction', 'DGI', 'insolvency',
+      'auctioning my', 'auctioning my condo', 'auctioning my property', 'auctioning my tenanted', 'tenanted condo auction', 'successful bidder', 'highest bidder evict', 'bidder says he can evict', 'bidder can evict', 'bidder takeover', 'bank selling my property', 'bank lelong', 'lelong bank', 'judicial sale',
+      'struck off', 'roc struck off', 'struck off still occupying', 'company struck off tenant', 'declared bankrupt', 'tenant declared bankrupt', 'tenant bankrupt', 'landlord bankrupt', 'going bankrupt', 'bankrupt owes', 'saya bankrupt', 'saya muflis'],
     content: `BANKRUPTCY & MORTGAGE DEFAULT:
 - Default timeline: miss 1 → reminder → miss 2-3 months → LOD (14 days) → 4+ months → foreclosure.
 - Foreclosure: individual title = judicial sale (court). Master title = private treaty/auction.
@@ -1110,7 +1148,8 @@ REAL CASES — BANKRUPTCY:
       'bad tenant', 'penyewa bermasalah', '问题租客', 'midnight flit', 'flit', 'skip rent', 'ponteng sewa',
       'discrimination', 'diskriminasi', '歧视', 'race preference', 'pilihan kaum', '种族偏好',
       'inclusive listing', 'chinese only', 'malay only', 'indian only', 'bumi only', 'no indian', 'no chinese',
-      'bank statement', 'penyata bank', '银行对账单', 'payslip', 'slip gaji', '工资单', 'employment letter', 'surat pengesahan majikan'
+      'bank statement', 'penyata bank', '银行对账单', 'payslip', 'slip gaji', '工资单', 'employment letter', 'surat pengesahan majikan',
+      'landlord disclose', 'landlord disclosure', 'criminal conviction', 'criminal record', 'rekod jenayah', 'fraud by omission', 'duty to disclose', 'duty of disclosure', 'sabitan jenayah', 'prior conviction', 'googled my name'
     ],
     content: `TENANT SCREENING & LAWFUL VETTING (2026):
 
@@ -1220,7 +1259,14 @@ VERIFY HERE:
       'visa expiry', 'visa tamat', '签证过期', 'overstay', 'lebih tempoh',
       'foreign worker', 'pekerja asing', '外劳', 'bangladeshi', 'indonesian worker', 'nepali', 'myanmar',
       'employment pass', 'professional visit pass', 'student pass', 'dependant pass',
-      'unhcr', 'refugee', 'pelarian', '难民', 'rohingya', 'asylum', 'asylum seeker', 'pencari suaka', 'stateless', 'tanpa kewarganegaraan', 'refugee card', 'kad unhcr'
+      'unhcr', 'refugee', 'pelarian', '难民', 'rohingya', 'asylum', 'asylum seeker', 'pencari suaka', 'stateless', 'tanpa kewarganegaraan', 'refugee card', 'kad unhcr',
+      'china unionpay', 'foreign card', 'foreign credit card', 'foreign debit card',
+      'foreign payment', 'foreign payment method', 'pay from overseas', 'bayar dari luar',
+      'tenant from china paying', 'wechat pay tenant', 'alipay tenant',
+      'grab driver tenant', 'foodpanda rider tenant', 'gig worker tenant',
+      'chinese tenant', 'rent to chinese tenant', 'rented to chinese', 'tenanted by chinese', 'malay reserve rental',
+      'embassy', 'embassy tenant', 'chinese embassy', 'embassy rented', 'diplomatic tenant', 'diplomatic immunity', 'diplomatic premises', 'state immunity', 'sovereign immunity', 'consulate tenant', 'consulate rented', 'foreign embassy',
+      'immigration act', 'akta imigresen', 's.55e', 's 55e', 's.55', '55e', 'china tenant', 'japanese expat', 'korean expat', 'singaporean tenant', 'vietnam tenant', '中国公司租', '中国公司租我', 'china company tenant', 'foreigners in kl', 'for foreigners', 'foreign 2+1', 'foreign 3+1', 'usc', '18位', '18-digit usc', 'uscc verification', 'verify uscc'
     ],
     content: `FOREIGN TENANT COMPLIANCE — IMMIGRATION ACT 1959/63:
 
@@ -1366,7 +1412,9 @@ VERIFY HERE:
       'mco airbnb', 'pkp airbnb', 'lockdown airbnb', 'mco str', 'pkp str',
       'airbnb fine', 'pbt fine airbnb', 'pbt compound airbnb', 'kompaun airbnb', 'airbnb denda', '爱彼迎罚款',
       'airbnb retrospective', 'appeal airbnb fine', 'rayuan kompaun', 'appeal compound', 'old airbnb fine',
-      'hosting during mco', 'hosted during mco', 'mco 2021 fine', 'airbnb 2021 fine'
+      'hosting during mco', 'hosted during mco', 'mco 2021 fine', 'airbnb 2021 fine',
+      'tourist accommodation', 'tourist accommodation register', 'register airbnb', 'dbkl register airbnb', 'building bans str', 'whole building bans', 'bylaw bans str', 'bylaw no airbnb', 'mc bans str', 'condo bans airbnb', 'str ban bylaw',
+      'maqis', 'maqis quarantine', 'biosecurity', 'quarantine furniture', 'imported furniture', 'vietnam furniture', 'imported goods tenant', 'tenant imported', 'furniture quarantine'
     ],
     content: `SHORT-TERM RENTAL & HYBRID MODELS (Airbnb / Digital Nomad / Corporate):
 
@@ -1624,7 +1672,12 @@ VERIFY HERE:
       'access log', 'log akses', '访问记录',
       'duplicate key', 'duplikat kunci', '复制钥匙',
       'passcode', 'kod laluan', '密码',
-      'airbnb lock', 'remote lock'
+      'airbnb lock', 'remote lock',
+      'cctv', 'closed circuit', 'surveillance camera', 'security camera', 'kamera pengawasan', '监控摄像头', '监视器',
+      'films me', 'filmed me', 'records me', 'recording me', 'camera facing my', 'camera pointed at my',
+      'privacy intrusion', 'privacy violation', 'privacy breach', 'pelanggaran privasi', '隐私侵犯',
+      'tenant surveillance', 'tenant camera', 'tenant recording',
+      'docusign', 'e-signature', 'electronic signature', 'digital signature', 'e-sign lease', 'e-signed', 'eca 2006', 'electronic commerce act', 'akta perdagangan elektronik', 'blockchain timestamp', 'blockchain-timestamp', 'blockchain signed', 'ethereum hash', 'digital lease', 'e-sign admissibility', 'denied signing', 'denies ever signing'
     ],
     content: `SMART LOCK & DIGITAL ACCESS MANAGEMENT (LANDLORD GUIDE 2026):
 
@@ -2292,7 +2345,8 @@ APPLY HERE (2026):
       '100% financing', 'pembiayaan penuh', '全额贷款', 'zero down', 'tanpa deposit',
       'developer exemption', 'pengecualian pemaju',
       'ewpg', 'bumiputera lot release', 'pelepasan lot bumi',
-      'rumah mesra rakyat', 'skim bantuan', 'subsidi kerajaan', 'government subsidy'
+      'rumah mesra rakyat', 'skim bantuan', 'subsidi kerajaan', 'government subsidy',
+      'rumah selangorku', 'selangorku', 'selling after 10 years mco', 'moratorium selangorku', 'moratorium affordable', 'affordable moratorium', 'mco period', '10 years mco', '10 years moratorium', 'sell after moratorium', 'state approval selling', 'state authority approval affordable'
     ],
     content: `GOVERNMENT HOUSING SCHEMES & INCENTIVES (2026):
 
@@ -2371,6 +2425,8 @@ APPLY / VERIFY HERE:
       'amanah raya', 'arb', 'harta pusaka kecil', 'small estate',
       'probate tenant', 'death cert tenant', 'sijil kematian penyewa',
       'suicide in rental', 'unattended death', 'kematian tanpa saksi',
+      'tenant just died', 'tenant died suddenly', 'sole-prop died', 'sole prop died', 'sole proprietor died', 'sole-prop passed away', 'husband died tenancy', 'wife died tenancy', 'landlord tenant just died',
+      'just died', 'baru meninggal', 'recently died', 'died last week', 'died last month', 'who just died', 'who just passed away', 'yang baru meninggal',
       'drowned', 'drowning', 'lemas', '溺水', 'drowned in kolam', 'drowned in pool',
       'coroner', 'koroner', 'coroners report', "coroner's report", 'forensic report', 'laporan forensik',
       'no foul play', 'bukan jenayah', 'not a crime', 'accidental death', 'kematian tidak disengajakan',
@@ -2462,7 +2518,18 @@ APPLY / VERIFY HERE:
       'criminal tenant', 'tenant arrested', 'penyewa ditahan', '租客被捕',
       'crime scene', 'tempat kejadian', '犯罪现场', 'unlawful activity',
       'counterfeit', 'fake goods', 'replica watch', 'fake watch', 'fake product', '假货', '假表', '做假', '假冒', 'knockoff', 'barang tiruan', 'jenama palsu', 'trademark infringement', 'pelanggaran tanda dagangan',
-      'police seized', 'police seized factory', 'serbu polis', 'polis serbu', '警察查封', '查封', 'dawn raid', 'customs raid', 'serbuan kastam', 'factory raided', 'kilang diserbu'
+      'police seized', 'police seized factory', 'serbu polis', 'polis serbu', '警察查封', '查封', 'dawn raid', 'customs raid', 'serbuan kastam', 'factory raided', 'kilang diserbu',
+      'molested', 'molest', 'sexual assault', 'sexual harassment', 'cabul', 'pencabulan', '性骚扰', '性侵',
+      'rape', 'rogol', '强奸',
+      'contractor assault', 'contractor attacked', 'maintenance worker assault', 'maintenance worker attacked',
+      'vicarious liability', 'vicariously liable', 'liabiliti vikarius',
+      'voyeurism', 'peeping', 'mengintai', 'secretly filmed', 'secretly recorded', 'hidden camera', 'kamera tersembunyi', '偷拍',
+      'films me', 'filming me', 'records me', 'recording me', 'filmed me', 'recorded me',
+      'camera pointed at', 'camera facing my', 'camera on my', 'pointed camera at me',
+      'bec fraud', 'business email compromise', 'email spoof', 'spoofed email', 'wired deposit to scammer', 'wired to scammer', 'scammer pretending', 'pretending to be me', 'impersonation scam', 'fraud scam deposit', 'wire fraud deposit',
+      'criminal conviction', 'prior conviction', 'rekod jenayah', 'sabitan jenayah', 'fraud by omission', 'landlord criminal record', 'conviction from 2010', 'my criminal record', 'old conviction',
+      'extortion', 'blackmail', 'ugut', 'mengugut', 'threat to leak', 'threaten to leak', 'threat to expose', 'threat to post', 'threaten to post', 'leak cctv', 'leak video', 'bocor video', 'bocor cctv', 'expose online threat', 'whatsapp threat', '勒索', '敲诈',
+      'criminal record', 'googled my criminal', 'googled my name', 'fake agent', 'impersonated me', 'impersonation', 'impersonated', 'fb marketplace scam', 'marketplace scam', 'took deposits from', 'illegal online betting', 'online betting', 'betting site', 'illegal betting', 'overstayed visa', 'tenant overstayed', 'harbouring offense', 'harbouring offence', 'for illegal', 'for drugs', 'for betting', 'for prostitution'
     ],
     content: `CRIMINAL ACTIVITY IN YOUR RENTAL (drugs, illegal business, police raid):
 
@@ -2680,7 +2747,18 @@ APPLY / VERIFY HERE:
       'scam agent', 'scammer agent', 'scammer called', 'fake agent', 'impersonation', 'impersonating agent', 'ejen tipu', 'ejen palsu', 'agent pretending', 'someone pretending to be agent', 'fraudster agent', '冒充中介', '假中介',
       'phishing', 'fake account', 'fake bank account', 'deposit transferred to scammer', 'scam deposit', 'scam rm8000', 'scam transferred', 'pemalsuan', 'akaun palsu',
       'agent refused to show', 'refused to show unit', 'agent refused tenant', 'discrimination by agent', 'discrimination tenancy', 'transgender tenant', 'lgbt tenant', 'gender discrimination', 'racial discrimination', 'religious discrimination', 'agama diskriminasi', '歧视租客',
-      'agent negligence', 'agent liability', 'vicarious liability agent'
+      'agent negligence', 'agent liability', 'vicarious liability agent',
+      'ex-agent', 'former agent', 'past agent', 'ejen lama', '前任中介',
+      'unauthorized listing', 'unauthorised listing', 'listing without permission', 'listing without my permission',
+      'agent still listing', 'agent listing my property', 'agent listed without consent',
+      'facebook marketplace property', 'fb marketplace property', 'mudah.my unauthorised',
+      'propertyguru unauthorised listing', 'iproperty unauthorised listing',
+      'agent says pay extra', 'agent says sign', 'agent advised', 'agent asked me sign poa',
+      'agent poa', 'power of attorney agent',
+      'agent says', 'agent asked', 'agent told me', 'agent tells me', 'agent advised me',
+      'ejen kata', 'ejen suruh', 'ejen cadang', '中介说', '中介告诉',
+      'power of attorney', 'surat kuasa', '授权书',
+      'agent took', 'agent ambil', 'ex-agent took', 'my agent took', 'agent took deposit', 'agent took rm', 'agent never pass', 'never pass to me', 'agent kept deposit', 'agent keep commission', 'says it\'s his commission', 'says its his commission', 'stakeholder account', 'stakeholder breach', 'stakeholder rules', 'boveaea stakeholder', 'agent misappropriat'
     ],
     content: `AGENT DISPUTES — MIEA, BOVEAEA, COMMISSION, MISCONDUCT:
 
@@ -2905,7 +2983,13 @@ APPLY / VERIFY HERE:
       'employers liability', 'liabiliti majikan',
       'family compensation', 'tuntutan keluarga', 'family claim',
       'death in rental', 'tenant family claim', 'tenant company demands compensation',
-      'foreign worker insurance', 'foreign worker comp', 'fwcs', 'skhpa'
+      'foreign worker insurance', 'foreign worker comp', 'fwcs', 'skhpa',
+      'family sues me', 'family sues landlord', 'being sued', 'keluarga saman', 'keluarga saman saya',
+      'flood claim', 'tuntutan banjir', 'water damage claim', 'tuntutan kerosakan air',
+      'storm damage', 'kerosakan ribut', 'storm flooded', 'ribut banjir',
+      'flooded my unit', 'flooded my tenant', 'flood from upstairs', 'leak from unit above',
+      'pl insurance', 'public liability claim', 'contractor injury', 'contractor liability',
+      'occupiers liability', 'liabiliti penghuni'
     ],
     content: `LANDLORD INSURANCE — BUILDING, CONTENTS, PUBLIC LIABILITY, CLAIMS:
 
@@ -3057,7 +3141,14 @@ APPLY / VERIFY HERE:
       'faraid', 'islamic estate', 'pusaka islam', '回教遗产',
       'inherited property', 'harta warisan', 'inherited', 'inherit', 'mewarisi',
       'executor', 'wasi', 'pemegang amanah',
-      'estate administrator', 'estate claim', 'tuntutan harta'
+      'estate administrator', 'estate claim', 'tuntutan harta',
+      'wife wants to continue', 'wife continue', 'spouse wants to continue', 'heirs want to continue',
+      'assumption of tenancy', 'tenancy assumption', 'assign tenancy on death', 'novate tenancy',
+      'continue paying rent', 'continue the business', 'continue the tenancy',
+      'heir continue', 'next of kin continue', 'waris sambung', 'waris teruskan',
+      'gift the family home', 'gift the home', 'gift property', 'hibah', 'parents want to gift', 'parents gift', 'gift home to me', 'gift house to me', 'gift to child', 'gift to son', 'gift to daughter', 'transfer as gift', 'pemberian keluarga', 'intra-family transfer', 'family transfer',
+      'rumah pusaka 80 tahun', 'rumah pusaka', 'heritage home ancestral', 'ancestral home', 'kampung inheritance',
+      'kampung saya', 'kampung pusaka', 'kampung 80 tahun', 'kampung lama', 'generational home', 'family home', 'multi-generational', 'pusaka', 'my ancestral', 'rumah nenek', 'rumah datuk'
     ],
     content: `INHERITED / PROBATE OF TENANTED PROPERTY:
 
@@ -3194,7 +3285,8 @@ APPLY / VERIFY HERE:
       'abusive husband', 'abusive wife', 'abusive spouse', 'abusive partner', 'suami ganas', 'isteri ganas', '施暴丈夫',
       'remove from lease', 'remove spouse from lease', 'keluarkan dari kontrak', 'buang nama suami dari kontrak',
       'co-tenant removal', 'remove cotenant', 'remove co-tenant',
-      'exclusive occupation', 'penghunian eksklusif', 'occupation order'
+      'exclusive occupation', 'penghunian eksklusif', 'occupation order',
+      'shariah court', 'shariah court ordered', 'ordered my ex-husband', 'ordered my ex-wife', 'ordered ex-husband to transfer', 'ordered ex-wife to transfer', 'ordered husband transfer', 'ordered wife transfer', 'transfer his share civil court', 'civil court order shariah', 'shariah vs civil', 'syariah vs civil', 'shariah jurisdiction', 'shariah versus civil'
     ],
     content: `DIVORCE + TENANTED / MATRIMONIAL PROPERTY:
 
@@ -3387,7 +3479,8 @@ APPLY / VERIFY HERE:
       'auction belongings', 'auction abandoned goods', 'auction tenant belongings',
       'left durian', 'rotting in kitchen', 'rotting inside unit',
       'dog faeces everywhere', 'dog poop everywhere', 'filthy unit', 'unit filthy',
-      'cleanup after abandonment', 'fumigate abandoned unit', 'clean abandoned unit'
+      'cleanup after abandonment', 'fumigate abandoned unit', 'clean abandoned unit',
+      'throw his stuff', 'throw her stuff', 'throw stuff out', 'throw their stuff', 'throw out his belongings', 'throw out her belongings', 'ghosted for', 'ghosted me', 'tenant ghosted', 'paid first month then', 'paid first month only', 'vanished', 'tenant vanished', 'dispose of belongings', 'dispose of his things', 'dispose of her things', 'sell his stuff', 'sell her stuff', 'buang barang penyewa'
     ],
     content: `TENANT ABANDONMENT (disappeared, left belongings, re-letting):
 
@@ -3646,7 +3739,13 @@ APPLY / VERIFY HERE:
       'malay reserve', 'reserved to malays', 'non-malay cannot buy', 'non-malay buyer', 'non malay buyer', 'chinese buyer reserved',
       'nlc s.17', 'nlc section 17', 'malay reservation enactment', 'sabah land ordinance', 'sarawak land code',
       'void transaction', 'transaksi batal', '交易无效',
-      'state authority consent', 'kebenaran pihak berkuasa negeri', 'epcn', 'bumi discount', 'bumi release'
+      'state authority consent', 'kebenaran pihak berkuasa negeri', 'epcn', 'bumi discount', 'bumi release',
+      'nominee purchase', 'nominee arrangement', 'nominee structure', 'nominee agreement',
+      'used my name', 'used my ic', 'used my name to buy', 'pakai nama saya',
+      '用我的名字买', '用我名字', '用我名义', 'my name but his money',
+      'bought under my name', 'bought in my name', 'title under my name but',
+      'iban seller', 'dayak seller', 'bidayuh seller', 'kadazan seller', 'dusun seller',
+      'poa for ncr', 'poa ncr', 'power of attorney ncr', 'poa native land'
     ],
     content: `MALAY RESERVED LAND, NATIVE CUSTOMARY RIGHTS, BUMI LOTS — ownership and transfer restrictions:
 
@@ -3837,7 +3936,13 @@ APPLY / VERIFY HERE:
       'like in china', 'as in china', 'china law', 'china contract', 'chinese law',
       'double return', 'double-return', 'double refund', '双倍返还',
       'offshore spv', 'cayman spv', 'bvi spv', 'offshore structure',
-      'foreign buyer nominee', 'cayman company', 'bvi company'
+      'foreign buyer nominee', 'cayman company', 'bvi company',
+      'cross-border remittance', 'cross border remittance', 'remittance from overseas',
+      '汇给我', '汇款', 'kirim dari luar negara', 'singapore rent remit', 'remit rental from',
+      'foreign rental income remit', 'offshore family fund transfer',
+      'unionpay', 'union pay', 'china unionpay', 'wechat pay', 'alipay rent',
+      'letters rogatory', 'letter of request', 'mutual legal assistance', 'mla request', 'china court wants', 'china court request', 'foreign court request', 'cross-border evidence', 'cross border evidence', 'discovery abroad',
+      'chinese embassy', 'foreign embassy', 'embassy tenant', 'embassy rented', 'diplomatic immunity', 'diplomatic premises', 'consulate tenant', 'vienna convention', 'diplomatic relations act'
     ],
     content: `CROSS-BORDER ENFORCEMENT — suing foreign tenants, SOE immunity, customs exposure:
 
@@ -4054,6 +4159,7 @@ APPLY / VERIFY HERE:
       'digital currency', 'mata wang digital', '数字货币',
       'metamask', 'meta mask', 'self-custody', 'self custody', 'cold wallet', 'hardware wallet', 'wallet address', 'alamat dompet', '钱包地址',
       'web3', 'web 3', 'defi', 'nft rent', 'blockchain rent',
+      'nft', 'nft买', 'nft 买', 'tokenized real estate', 'tokenized property', 'property nft', 'nft property', 'nft condo', 'nft unit', 'real estate token', 'security token offering',
       'bnm fine crypto', 'bnm crypto', 'bnm digital asset', 'bnm digital currency', 'bnm denda kripto',
       'sc crypto', 'sc guideline', 'securities commission crypto', 'suruhanjaya sekuriti',
       'recognised market operator', 'rmo', 'recognised market operator crypto', 'luno', 'tokenize xchange', 'mx global', 'sinegy', 'hata',
@@ -4064,7 +4170,11 @@ APPLY / VERIFY HERE:
       'lhdn crypto', 'cukai kripto', 'crypto tax', 'lhdn digital asset',
       'off-ramp', 'on-ramp', 'fiat ramp', 'cash out crypto', 'convert crypto to myr',
       'seize crypto', 'freeze wallet', 'bnm seized',
-      'smart contract rent', 'escrow smart contract'
+      'smart contract rent', 'escrow smart contract',
+      'unionpay', 'union pay', 'china unionpay', 'foreign card rejected', 'foreign credit card rent',
+      'bnm payment system', 'payment systems act', 'psa 2003', 'foreign currency rent',
+      'legal tender', 'tender sah', 'currency act', 'acceptable payment method', 'bank rejected payment',
+      'wechat pay rent', 'alipay rent', 'cross-border rent payment'
     ],
     content: `CRYPTO / DIGITAL ASSET RENT — BNM, SC, AMLA, TAX (2026):
 
@@ -4292,7 +4402,8 @@ RED-FLAG CONTACT NUMBERS:
       'immigration act', 'akta imigresen', 's.55b', 'section 55b', 'harbouring', 'harboring', 'menyembunyikan',
       'undocumented worker', 'undocumented workers', 'illegal workers', 'pati worker', 'pendatang asing tanpa izin', '非法工人', '非法劳工',
       'bangladeshi workers', 'nepalese workers', 'indonesian workers', 'foreign workers', 'pekerja asing',
-      'customs raid factory', 'custom raid', 'imigresen raid', 'immigration raid', 'serbuan imigresen'
+      'customs raid factory', 'custom raid', 'imigresen raid', 'immigration raid', 'serbuan imigresen',
+      'clq', 'centralised labour quarters', 'centralized labour quarters', 'akta 446', 'act 446', 'workers housing act', 'workers minimum standards act', 'worker dormitory', 'workers dormitory', 'dorm', 'pekerja asing dormitori', 'dormitory compliance', 'factory tenant', 'rent my factory', 'rent factory', 'factory tenant chinese', 'china tenant factory', 'chinese factory tenant', 'china company factory', '公司租我工厂', '中国公司租我工厂'
     ],
     content: `INDUSTRIAL LANDLORD — factory/warehouse leasing, NLC s.124 land use conversion, OSHA/DOE/MIDA compliance, foreign-worker exposure:
 
@@ -4446,7 +4557,11 @@ APPLY / VERIFY HERE:
       'conversion lapsed', 'conversion expired', 'consent lapsed', 'consent expired', 'approval lapsed', 'approval expired',
       're-apply conversion', 'reapply conversion', 'mohon semula tukar syarat', 'conversion fee', 'fi tukar syarat',
       'land office says', 'ptg says', 'do says', 'district officer says', 'pegawai daerah kata',
-      'state authority consent', 'kelulusan pihak berkuasa negeri', 'pbn consent', 'land conversion fee'
+      'state authority consent', 'kelulusan pihak berkuasa negeri', 'pbn consent', 'land conversion fee',
+      'refinance valuation', 'bank valuer', 'private valuer', 'valuation dispute', 'valuation gap', 'valuer kata', 'nilaian bank', 'challenge bank valuation', 'valuation RM', 'valuation rm',
+      'adverse possession', 'possession claim', 'possession 12 years', 'possession 15 years', 'sublessee possession', 'took possession',
+      'zoning downgrade', 'city plan', 'kl city plan', 'sensitive area zoning', 'sensitive area notice', 'zoning notice', 'inverse condemnation', 'regulatory taking', 'no compensation offered', 'ground floor only restriction', "can't build beyond",
+      'shariah court ordered', 'syariah court ordered', 'ordered transfer', 'share of our joint', 'share of joint', 'transfer his share', 'transfer her share'
     ],
     content: `LAND TITLE — FORGERY, CAVEATS, QUIT RENT FORFEITURE (NLC 1965 peninsular):
 
@@ -4655,7 +4770,9 @@ APPLY / VERIFY HERE:
       'form k', 'borang k', 'form k notice', 'form h acquisition', 'form d acquisition', 'form e acquisition', 'land reference', 'land reference court', 'mahkamah rujukan tanah',
       'land acquired for public purpose', 'compulsory acquisition', 'compulsory purchase', 'pengambilan paksa',
       'compensation land', 'pampasan tanah', 'inadequate compensation', 'lowball offer land', 'tawaran rendah', 'bantahan pengambilan tanah',
-      'partial acquisition', 'pengambilan sebahagian', 'severance', 'injurious affection'
+      'partial acquisition', 'pengambilan sebahagian', 'severance', 'injurious affection',
+      'urban renewal', 'pemulihan bandar', 'projek pemulihan bandar', 'pemulihan bandar project', 'urban renewal act', 'akta pemulihan bandar', 'rumah pusaka diganti', 'rumah diganti', 'diganti bawah projek', 'digantikan', 'dirgantikan', 'kampung diganti', 'en-bloc sale',
+      'zoning downgrade', 'city plan', 'kl city plan 2040', 'kl city plan', 'sensitive area', 'sensitive zone', 'inverse condemnation', 'regulatory taking', 'no compensation offered', 'build beyond ground floor'
     ],
     content: `LAND ACQUISITION — STATE OR FEDERAL AGENCY TAKING YOUR LAND (LAA 1960):
 
