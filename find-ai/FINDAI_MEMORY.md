@@ -1,11 +1,11 @@
 # FIND.AI — COMPRESSED MEMORY
-> Single-file project snapshot. Upload this to any new session for instant full context. Last updated: 2026-04-21 (v3.1 — R100 100% knowledge.js + chat memory persistence fix + mobile voice recording hardening).
+> Single-file project snapshot. Upload this to any new session for instant full context. Last updated: 2026-04-21 (v3.2 — digital_evidence topic added + v3.1 fixes).
 
 ## 🔴 PICK UP HERE (2026-04-21 EOD)
 
-**Three uncommitted changes waiting on Ken to push:**
+**Four uncommitted changes waiting on Ken to push:**
 
-1. **knowledge.js v3.1** — Rounds 5-8 + Round 100 patches. Final scores: R5 85%, R6 95%, R7 95%, R8 100%, **R100 100/100 FULL every section (21 sections all 100%)**. Zero regressions. Test harnesses live at `/tmp/stress-round{5..8,100}.mjs` (session-local, rebuild if needed).
+1. **knowledge.js v3.2** — all R5-R100 patches PLUS new `digital_evidence` topic (Module 48). Full Section 90A Evidence Act 1950 workflow, Certificate of Authenticity template, SHA-256 hashing, NTP timestamps, WhatsApp/SMS admissibility, CCTV consent rules, check-in/check-out photography workflow, Evidence Vault teaser. Scored **25/25 (100%)** on dedicated stress test; R100 still 100/100 (zero regressions). Covers Rent Default Toolkit priority #2 (Deposit Shield / Evidence). Topic count now 48.
 2. **page.js chat-memory fix** — activeChatId now persists to `fi_active_chat_id` localStorage key + loadChat resumes latest history entry instead of forking a new ID. Fixes the "case memory doesn't work after refresh" bug Ken reported.
 3. **page.js mobile voice recording hardening** — five fixes for iOS Safari + Android Chrome:
    - `en-MY` → `en-US` (Web Speech doesn't accept en-MY; Safari was rejecting it silently).
@@ -13,12 +13,13 @@
    - `onend` skips auto-restart on iOS (prevents freeze loops).
    - Amplitude-driven silence timer: `VOICE_THRESHOLD = 0.08` + `SILENCE_MS_BY_LANG = {en:2000, bm:2500, zh:2500}` — natural mid-sentence pauses no longer trigger premature auto-send.
    - 45s hard watchdog in `startVoice` that force-stops + sends captured text if the engine hangs. Silence timer is also armed on start so totally-silent sessions auto-stop.
+4. **Rent Default Toolkit coverage audit** — mapped 8 priority features to knowledge.js. 7/8 now fully covered; remaining gap is #5 Agreement Scanner (add `agreement_clauses` topic next session — distributed clause-red-flag library).
 
 **To deploy tomorrow:**
 ```powershell
 cd "C:\Users\Tan Ken Yap\Documents\data collection\OneDrive\Desktop\Claude\find-ai"
-git add src/app/page.js src/app/api/knowledge.js
-git commit -m "fix(page): persist activeChatId + harden mobile voice recording (iOS/Android); knowledge.js v3.1 (R100 100% full)"
+git add src/app/page.js src/app/api/knowledge.js FINDAI_MEMORY.md
+git commit -m "feat(knowledge): add digital_evidence topic (Section 90A) + fix chat memory + harden mobile voice; v3.2"
 git push
 ```
 

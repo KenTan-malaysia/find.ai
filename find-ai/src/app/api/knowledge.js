@@ -4864,13 +4864,177 @@ APPLY / VERIFY HERE:
 - Bar Council Land Law Committee for lawyer referrals`
   },
 
+  digital_evidence: {
+    keywords: [
+      // EN — Evidence Act + doctrine
+      'section 90a', 'section 90 a', 's.90a', 'evidence act', 'evidence act 1950', 'digital evidence', 'electronic evidence',
+      'certificate of authenticity', 'coa certificate', 'authenticity certificate', 'cga certificate',
+      'computer-generated document', 'computer generated document', 'computer output',
+      'chain of custody', 'tamper proof', 'tamper-proof', 'authenticate photo', 'authenticate evidence',
+      // EN — artefacts
+      'court-ready photo', 'court ready photo', 'court admissible photo', 'court admissible evidence',
+      'move-in photo', 'move in photo', 'move-out photo', 'move out photo', 'check-in photo', 'check-out photo',
+      'handover photo', 'handover evidence', 'inventory photo', 'condition report photo',
+      'evidence vault', 'evidence bundle', 'evidence package',
+      'whatsapp screenshot', 'whatsapp evidence', 'whatsapp as evidence', 'whatsapp admissible',
+      'whatsapp message', 'whatsapp chat', 'whatsapp proof', 'whatsapp export', 'whatsapp as proof',
+      'sms evidence', 'sms screenshot', 'email evidence', 'email screenshot',
+      'video evidence', 'cctv evidence', 'cctv recording', 'cctv in rented', 'cctv as evidence',
+      'audio recording evidence', 'record phone call', 'record conversation', 'record a call', 'record a phone call', 'record the call', 'call recording', 'recording the tenant',
+      'admissible in court', 'admissible in tribunal', 'admissible evidence', 'not admissible', 'inadmissible',
+      'photos as evidence', 'photo evidence', 'photos evidence', 'condition photo', 'condition report photos',
+      'take as evidence', 'take photos as', 'what evidence', 'as evidence', 'for evidence',
+      'evidence for rtt', 'evidence at rtt', 'evidence for tribunal', 'evidence at tribunal', 'file with rtt', 'file at rtt',
+      'deny sending', 'denied sending', 'deny the message', 'tenant denies',
+      // EN — technical
+      'sha-256', 'sha256', 'hash', 'hash photo', 'image hash', 'file hash', 'hash value', 'ntp timestamp', 'ntp server', 'trusted timestamp',
+      'exif data', 'exif metadata', 'gps metadata', 'geotag evidence',
+      'blockchain evidence', 'immutable log',
+      // BM
+      'bukti digital', 'keterangan digital', 'sijil ketulenan', 'sijil keaslian', 'seksyen 90a', 'akta keterangan',
+      'gambar mahkamah', 'gambar check-in', 'gambar check-out', 'gambar serah kunci',
+      'bukti whatsapp', 'tangkap skrin whatsapp', 'bukti sms', 'bukti video', 'rakaman cctv',
+      'rantai jagaan', 'bukti diterima mahkamah',
+      // 中文
+      '数字证据', '电子证据', '证据法', '真实性证书', '第90a条', '90a条', '90A 证明书',
+      '法庭照片', '入住照片', '退房照片', '交接照片', '验收照片',
+      '证据库', '证据包', '时间戳', '哈希值', '文件哈希',
+      'whatsapp 截图', '微信截图', '微信证据', '短信证据', 'sms 证据', '录音证据', '录像证据',
+      '证据链', '防篡改'
+    ],
+    content: `DIGITAL EVIDENCE — SECTION 90A OF THE EVIDENCE ACT 1950:
+
+WHY THIS MATTERS FOR LANDLORDS:
+- Photos of check-in / check-out condition, WhatsApp chats with tenants, CCTV clips, and scanned handover forms are HEARSAY and INADMISSIBLE in Malaysian courts — UNLESS they satisfy Section 90A of the Evidence Act 1950.
+- Tribunals (RTT under RTA 2026, Tribunal Tuntutan Pengguna, Magistrate's Court) all follow the same rule: no authentication → no weight → you lose the deposit dispute even if the damage is obvious in the photo.
+- Well-prepared digital evidence is the single biggest reason why documented landlords win Tribunal claims and undocumented landlords lose them.
+
+SECTION 90A — WHAT THE STATUTE REQUIRES:
+- Section 90A applies to any "document produced by a computer" — this covers digital photos, smartphone videos, WhatsApp chat exports, SMS logs, email printouts, cloud-stored inventory PDFs, CCTV clips, audio recordings, and any file created, edited, or transmitted by a computer.
+- Two routes to admissibility:
+  (a) Section 90A(2): a CERTIFICATE OF AUTHENTICITY (also called "CoA" or "Section 90A Certificate") signed by a person responsible for the management/operation of the device, OR
+  (b) Section 90A(6)-(7): oral evidence from that person describing how the document was produced.
+- Route (a) is faster and preferred — the certificate is sworn or affirmed BEFORE filing, and the opposing party must object if they want to challenge authenticity.
+- Section 90B and 90C extend the regime to microfilm / statement of facts — less relevant for tenancy matters.
+
+WHAT A CERTIFICATE OF AUTHENTICITY MUST STATE (minimum content):
+1. Identity of the computer/device that produced the file (phone model, laptop, CCTV DVR serial).
+2. That the device was operating properly at the material time (or if malfunctioning, it did not affect accuracy).
+3. That the file was produced in the ordinary course of activities (not fabricated for litigation).
+4. The exact file name, creation date/time, and where applicable the SHA-256 hash.
+5. Signature + IC of the certifier + date.
+- The certifier must be "a person responsible for the management/operation" of the device — the landlord is usually eligible for their own phone/CCTV.
+
+FIVE PILLARS OF COURT-READY DIGITAL EVIDENCE (what makes a photo stick):
+
+1. TIMESTAMP — prove WHEN it was taken:
+   - EXIF metadata carries the capture time; keep the original file, never edit or re-save.
+   - For tamper-resistant timestamps, use an NTP (Network Time Protocol) reference (time.google.com, time.windows.com) and log the offset at capture.
+   - A "trusted timestamp" from a third party (e.g., a notary, an e-notarisation service like DocuSign with timestamp, or a blockchain-anchored tool) is strongest but optional.
+
+2. LOCATION — prove WHERE:
+   - GPS geotag in EXIF (phone camera must have Location permission ON).
+   - For units without GPS (indoor), include a wide-angle shot that captures fixed identifying features (unit number plate, intercom panel, view from a specific window).
+
+3. HASH — prove the FILE HASN'T BEEN EDITED:
+   - Generate a SHA-256 hash of the original file at the moment of capture. A single-character edit produces a completely different hash — making tampering instantly detectable.
+   - On a phone/desktop you can hash with: \`shasum -a 256 photo.jpg\` (macOS/Linux) or \`certutil -hashfile photo.jpg SHA256\` (Windows). Save the hash string into your CoA.
+
+4. CHAIN OF CUSTODY — prove NO ONE ELSE TOUCHED IT:
+   - From capture → storage → export for court, every transfer should be logged (who, when, where-to).
+   - Keep the original file on the device that captured it (or a write-once backup). NEVER edit the original. Work on a copy.
+   - Cloud auto-backups (iCloud, Google Photos) count as transfers — note them in the log.
+
+5. CERTIFICATE OF AUTHENTICITY — tie it all together:
+   - One Section 90A CoA can cover a batch (e.g., all 47 check-in photos taken on 12 January 2026). Attach a file-list index with name + hash + timestamp per file.
+
+WHATSAPP / SMS / EMAIL — SPECIAL RULES:
+- WhatsApp chat exports (.txt or .zip) are admissible under s.90A IF accompanied by a CoA + device evidence. Courts have accepted "Export Chat" files where the landlord certifies the phone and the chat came from the counterparty's known number.
+- Screenshot-only evidence is weaker — the opposing party can claim fabrication. Always pair screenshots with: (a) the underlying .txt export, (b) the phone's storage path, (c) CoA.
+- Deleted messages: iOS/Android backups (iCloud, Google Drive) sometimes recover; WhatsApp Business retains 90 days of "info" logs. Preserve the phone — do not factory reset.
+- "OK lah, renew" informal consent via WhatsApp: may amount to contract variation (Contracts Act s.63) but courts look at context. Formal notices (eviction, rent increase, LOD) should ALWAYS be sent via registered post or AR-Registered, not just WhatsApp.
+
+PHONE / VIDEO RECORDING — CONSENT & PRIVACY:
+- Malaysia follows ONE-PARTY CONSENT for audio recording your own conversation (Penang Bar and Federal Court dicta support this) — you can record a call you're on without telling the tenant.
+- BUT recording a conversation you're NOT a party to (e.g., leaving a voice recorder in the tenant's bedroom) violates PDPA 2010 + potentially Communications & Multimedia Act s.231. Evidence may be excluded + you face criminal exposure.
+- CCTV covering common areas (corridor, car park) is lawful if notified by signage; cameras pointed into the tenant's private space are unlawful.
+- Covert CCTV in rented units = serious breach of the covenant of quiet enjoyment + potential criminal trespass-by-surveillance claim.
+
+CHECK-IN / CHECK-OUT PHOTOGRAPHY — THE LANDLORD'S WORKFLOW:
+
+AT CHECK-IN (day of handover, before keys):
+☐ 1. Turn phone Location permission ON. Set camera to max resolution, EXIF on.
+☐ 2. Walk the unit room-by-room in a consistent order (living → kitchen → bedrooms → bathrooms → balcony).
+☐ 3. For each fixture take 3 shots: wide context, medium, close-up of any defect.
+☐ 4. Film a single 3-5 min walk-through video — narrate each room.
+☐ 5. Get the tenant to countersign a printed inventory checklist AT THE UNIT.
+☐ 6. Transfer files to a dedicated folder named \`checkin-[unit]-[YYYYMMDD]\`. Generate SHA-256 of each file; save the list as \`hashes.txt\`.
+☐ 7. Complete the Section 90A CoA (template below). Sign and keep with the hash list.
+☐ 8. Email the folder (or cloud link) + hashes.txt to yourself so there's an independent ISP-level timestamp.
+
+AT CHECK-OUT (day of handover, after tenant vacates):
+☐ Repeat steps 1-7 with folder \`checkout-[unit]-[YYYYMMDD]\`.
+☐ Side-by-side comparison sheet: pick 5-10 "before vs after" shots showing the disputed damage.
+☐ Keep BOTH check-in and check-out folders intact until deposit refund is settled and any appeal window has closed (typically 90 days post-RTT).
+
+IF YOU GO TO RTT / TRIBUNAL:
+- File a bundle: (1) CoA, (2) hashes.txt, (3) printed photos with date/time stamp visible, (4) the raw digital files on a USB.
+- Bring the phone that took the photos — if authenticity is challenged, the Tribunal may want to see the original file on the original device.
+- If the tenant contests, offer to have both parties' devices inspected together — this often triggers settlement.
+
+COMMON COURT/TRIBUNAL REJECTIONS (avoid these):
+- Photos with visible date-stamp overlay added by a third-party app → rejected as "potentially edited."
+- Screenshots of WhatsApp forwarded through another device → broken chain of custody.
+- Files stored only on cloud (no local original) → cannot verify origin device.
+- Editing a photo to "brighten" it → creates a new file with different hash → treated as tampered.
+- No CoA filed → Magistrate may exclude under s.90A.
+
+REAL CASES / TRIBUNAL OUTCOMES:
+• Kepong landlord produced 42 check-in photos with CoA + hashes. Tenant disputed RM1,800 kitchen cabinet damage deduction. Tribunal accepted photos in full → landlord won.
+• Penang landlord had only screenshot of WhatsApp "ok lah, I bayar next week" — no .txt export, no CoA. Tenant denied sending it. Tribunal: screenshot inadmissible, landlord's LOD claim partially dismissed.
+• Shah Alam tenant installed hidden camera in landlord's visit area claiming harassment. Landlord filed PDPA complaint. Department of Personal Data Protection opened investigation; recording excluded from tenant's counter-claim.
+• JB industrial landlord used NTP-stamped photos + blockchain-anchored hashes at RTT. Opposing party did not contest authenticity — case settled pre-hearing for full claim.
+
+TEMPLATE — SECTION 90A CERTIFICATE OF AUTHENTICITY (file on RTT as Exhibit):
+"CERTIFICATE UNDER SECTION 90A OF THE EVIDENCE ACT 1950
+
+I, [Name], IC No [IC], of [Address], being the owner and person responsible for the management and operation of the device described below, HEREBY CERTIFY that:
+
+1. DEVICE: [e.g., Apple iPhone 15 Pro, serial F2LXXXXXXXXXX], used by me to produce the documents listed in the Annex hereto.
+2. The said device was in proper working order at all material times, and any malfunction (if any) did not affect the accuracy of the documents produced.
+3. The documents listed in the Annex were produced by the device in the ordinary course of my management of the property at [Unit Address] and were not produced in contemplation of or for the purpose of these proceedings, save as part of my regular record-keeping.
+4. Each document is identified by the file name, capture date/time and SHA-256 hash set out in the Annex. The hash values were computed at the time of production and have not changed.
+5. I have not altered any document. Any copy tendered to the Tribunal is an exact duplicate of the original.
+
+Dated this [Day] of [Month] 2026.
+____________________________
+[Name]
+IC: [IC]
+
+ANNEX — FILE MANIFEST:
+| No | File name | Capture date/time | SHA-256 hash |
+|---|---|---|---|
+| 1 | checkin-living-wide-001.jpg | 2026-01-12 09:14:22 MYT | 4a7c... (full 64-char) |
+| 2 | ... | ... | ... |"
+
+EVIDENCE VAULT — PRO TIP (Find.ai roadmap, not yet live):
+- Find.ai's upcoming Digital Evidence Vault will automate steps 6-7 of the check-in workflow: auto-hash every photo, pull NTP timestamps, generate a Section 90A CoA as a one-click PDF.
+- Until the Vault ships, run the manual workflow above — it is already defensible if each pillar is executed.
+
+APPLY / VERIFY HERE:
+- Evidence Act 1950, Sections 90A, 90B, 90C — free at lom.agc.gov.my.
+- Residential Tenancy Tribunal (RTT, under RTA 2026) — filing & evidence rules.
+- Small Estates & Commercial Magistrate's Court — for disputes above RTT cap.
+- Department of Personal Data Protection (JPDP) — for covert recording / CCTV complaints.
+- Bar Council IP & Cyberlaw Committee — for complex evidence challenges.`
+  },
+
   general: {
     keywords: [],
     content: `GENERAL REFERENCE:
 
 DIGITAL EVIDENCE:
-- Evidence Act 1950 s.90A — digital photos/screenshots need "Certificate of Authenticity" for court.
-- WhatsApp messages can be evidence if properly authenticated.
+- Evidence Act 1950 s.90A governs digital photos/WhatsApp/CCTV — see the dedicated "Digital Evidence" topic for the full Section 90A workflow and Certificate of Authenticity template.
 
 PDPA 2010:
 - Landlords collecting tenant IC/passport copies must comply with data protection.
