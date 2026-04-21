@@ -1,5 +1,31 @@
 # FIND.AI — COMPRESSED MEMORY
-> Single-file project snapshot. Upload this to any new session for instant full context. Last updated: 2026-04-20 (v2.3 — Bento redesign + Budget 2026 knowledge base + landlord v1 positioning).
+> Single-file project snapshot. Upload this to any new session for instant full context. Last updated: 2026-04-21 (v3.1 — R100 100% knowledge.js + chat memory persistence fix + mobile voice recording hardening).
+
+## 🔴 PICK UP HERE (2026-04-21 EOD)
+
+**Three uncommitted changes waiting on Ken to push:**
+
+1. **knowledge.js v3.1** — Rounds 5-8 + Round 100 patches. Final scores: R5 85%, R6 95%, R7 95%, R8 100%, **R100 100/100 FULL every section (21 sections all 100%)**. Zero regressions. Test harnesses live at `/tmp/stress-round{5..8,100}.mjs` (session-local, rebuild if needed).
+2. **page.js chat-memory fix** — activeChatId now persists to `fi_active_chat_id` localStorage key + loadChat resumes latest history entry instead of forking a new ID. Fixes the "case memory doesn't work after refresh" bug Ken reported.
+3. **page.js mobile voice recording hardening** — five fixes for iOS Safari + Android Chrome:
+   - `en-MY` → `en-US` (Web Speech doesn't accept en-MY; Safari was rejecting it silently).
+   - `isIOSRef` detection + `r.continuous = !isIOS` so iOS uses single-utterance mode.
+   - `onend` skips auto-restart on iOS (prevents freeze loops).
+   - Amplitude-driven silence timer: `VOICE_THRESHOLD = 0.08` + `SILENCE_MS_BY_LANG = {en:2000, bm:2500, zh:2500}` — natural mid-sentence pauses no longer trigger premature auto-send.
+   - 45s hard watchdog in `startVoice` that force-stops + sends captured text if the engine hangs. Silence timer is also armed on start so totally-silent sessions auto-stop.
+
+**To deploy tomorrow:**
+```powershell
+cd "C:\Users\Tan Ken Yap\Documents\data collection\OneDrive\Desktop\Claude\find-ai"
+git add src/app/page.js src/app/api/knowledge.js
+git commit -m "fix(page): persist activeChatId + harden mobile voice recording (iOS/Android); knowledge.js v3.1 (R100 100% full)"
+git push
+```
+
+**Then smoke-test:**
+- **Chat memory:** create a chat → fill Case File modal → refresh → send a message. Devtools → Application → Local Storage → `fi_active_chat_id` should be set; the case memory block should appear in the system prompt.
+- **Voice on iPhone Safari:** tap mic, speak a sentence with a 1-second pause mid-way, stop talking. It should wait ~2s after you finish, then auto-send the full sentence (no mid-sentence cut-offs). Try all three languages.
+- **Voice on Android Chrome:** same test — should also auto-restart if Chrome drops the session, but stop cleanly at 45s max even if the engine hangs.
 
 ---
 
