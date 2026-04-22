@@ -1506,11 +1506,18 @@ export default function Home() {
     }
   };
 
+  // v8: Chat (tile 04) skips the profile gate — it's pure Q&A, no landlord-identified PDF.
+  // Screen/Audit/Stamp (tiles 01-03) still route through startChat because their PDFs need a role.
+  const openChatDirect = () => {
+    if (!activeChatId) setActiveChatId(generateChatId());
+    setShowChat(true);
+  };
+
   if (!ready) return null;
 
   // Landing
   if (!showChat && !showProfile)
-    return <Landing onStart={startChat} lang={lang} setLang={setLang} hasSavedChat={hasSavedChat} onContinueChat={loadChat} />;
+    return <Landing onStart={startChat} onOpenChat={openChatDirect} lang={lang} setLang={setLang} hasSavedChat={hasSavedChat} onContinueChat={loadChat} />;
 
   // Profile — Bento onboarding (v1: landlord-first)
   if (showProfile) {
