@@ -125,17 +125,97 @@ export function fmt(text) {
   );
 
   // 🚫 Warning — pulsing alert card
-  h = h.replace(
-    /🚫\s*(.*?)(?=<br\/>|$)/g,
-    (_, content) => `<div class="rich-card" style="margin:10px 0;padding:11px 14px;background:linear-gradient(135deg,#fef2f2,#fff5f5);border:1px solid #fecaca;border-radius:12px;display:flex;align-items:center;gap:10px;position:relative;overflow:hidden">
-      <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#ef4444,#f87171)"></div>
-      <div style="width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#ef4444,#f87171);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 6px rgba(239,68,68,0.2)">
-        <span style="font-size:12px;color:white;font-weight:700">!</span>
+  // T16 (2026-04-23) — same list-tolerance as ✅ and 💰. Previously the
+  // regex terminated at the first <br/>, so a multi-bullet warning
+  // (🚫 **title**\n- item1\n- item2) rendered with ONLY the title inside
+  // the red pill while the items spilled below as plain bullet text.
+  // Now: if the body contains list items we render a larger card with
+  // title + bulleted items all inside the red container; if it's a
+  // single-line warning we keep the original compact pill design.
+  const renderWarning = (title, body) => {
+    const items = [];
+    const parts = (body || '').split(/<br\/>/);
+    let displayTitle = (title || '').trim();
+    for (const p of parts) {
+      const m = p.match(/^\s*[-•]\s*(.+)/);
+      if (m) {
+        items.push(m[1].trim());
+      } else if (!displayTitle && p.trim()) {
+        displayTitle = p.trim();
+      } else if (items.length > 0 && p.trim() && !/^\s*[-•\d]/.test(p)) {
+        // Continuation of the previous bullet (wrapped line)
+        items[items.length - 1] += ' ' + p.trim();
+      }
+    }
+
+    if (items.length === 0) {
+      // Original compact horizontal pill (backwards compat for single-line).
+      // T16 fix: preserve both title AND trailing body text. When a caller
+      // supplies `title="不要这样做"` + `body=" 千万不要口头约定租金。"` we used
+      // to drop the body; now we render `<strong>title</strong> body` so the
+      // sentence survives. Collapse any stray <br/> in the single-line body.
+      const bodyText = (body || '').replace(/<br\/>/g, ' ').trim();
+      const text = displayTitle
+        ? (bodyText ? `<strong>${displayTitle}</strong> ${bodyText}` : `<strong>${displayTitle}</strong>`)
+        : bodyText;
+      return `<div class="rich-card" style="margin:10px 0;padding:11px 14px;background:linear-gradient(135deg,#fef2f2,#fff5f5);border:1px solid #fecaca;border-radius:12px;display:flex;align-items:center;gap:10px;position:relative;overflow:hidden">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#ef4444,#f87171)"></div>
+        <div style="width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#ef4444,#f87171);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 6px rgba(239,68,68,0.2)">
+          <span style="font-size:12px;color:white;font-weight:700">!</span>
+        </div>
+        <div>
+          <div style="font-size:9px;font-weight:700;color:#fca5a5;letter-spacing:0.5px;text-transform:uppercase">Warning</div>
+          <div style="font-size:12.5px;color:#991b1b;font-weight:500;line-height:1.45;margin-top:1px">${text}</div>
+        </div></div>`;
+    }
+
+    // Multi-item variant: header + bulleted list, all inside one red card.
+    const itemsHtml = items.map(it =>
+      `<div style="display:flex;gap:10px;align-items:flex-start;padding:5px 0;font-size:12.5px;color:#991b1b;line-height:1.55">
+        <span style="color:#ef4444;flex-shrink:0;font-weight:700;line-height:1.55">•</span>
+        <span style="flex:1">${it}</span>
+      </div>`
+    ).join('');
+
+    return `<div class="rich-card warning-card" style="margin:12px 0;padding:14px 16px;background:linear-gradient(135deg,#fef2f2,#fff5f5);border:1px solid #fecaca;border-left:3px solid #ef4444;border-radius:14px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:-15px;right:-15px;width:60px;height:60px;background:radial-gradient(circle,rgba(239,68,68,0.06),transparent);border-radius:50%"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:${displayTitle ? '10px' : '6px'}">
+        <div style="width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#ef4444,#f87171);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 6px rgba(239,68,68,0.2)">
+          <span style="font-size:12px;color:white;font-weight:700">!</span>
+        </div>
+        <div style="min-width:0">
+          <div style="font-size:9px;font-weight:700;color:#fca5a5;letter-spacing:0.5px;text-transform:uppercase">Warning</div>
+          ${displayTitle ? `<div style="font-size:12.5px;color:#991b1b;font-weight:700;line-height:1.3;margin-top:2px">${displayTitle}</div>` : ''}
+        </div>
+        <span style="margin-left:auto;font-size:9px;padding:3px 8px;background:#fecaca;color:#991b1b;border-radius:6px;font-weight:600;flex-shrink:0">${items.length} flags</span>
       </div>
-      <div>
-        <div style="font-size:9px;font-weight:700;color:#fca5a5;letter-spacing:0.5px;text-transform:uppercase">Warning</div>
-        <div style="font-size:12.5px;color:#991b1b;font-weight:500;line-height:1.45;margin-top:1px">${content}</div>
-      </div></div>`
+      <div style="padding:2px 2px 0 4px">${itemsHtml}</div>
+    </div>`;
+  };
+
+  // Strong-title variant first (greedier context)
+  h = h.replace(
+    /🚫\s*<strong>(.*?)<\/strong>(.*?)(?=<br\/><br\/>(?!(?:\s|<br\/>)*[-•\d])|<br\/>⚖️|<br\/>✅|<br\/>💰|<br\/>📋|<br\/>🔒|<br\/>🔴|<br\/>⚠️|$)/gs,
+    (_, title, body) => renderWarning(title, body)
+  );
+  // No-strong variant
+  h = h.replace(
+    /🚫\s*(?!<strong>)(.*?)(?=<br\/><br\/>(?!(?:\s|<br\/>)*[-•\d])|<br\/>⚖️|<br\/>✅|<br\/>💰|<br\/>📋|<br\/>🔒|<br\/>🔴|<br\/>⚠️|$)/gs,
+    (_, body) => {
+      // Split a leading non-bullet line off as title when body has bullets
+      const parts = body.split(/<br\/>/);
+      let title = '';
+      let rest = body;
+      if (parts[0] && parts[0].trim() && !/^\s*[-•\d]/.test(parts[0])) {
+        // Only promote first line to title if there's list content after it
+        const hasList = parts.slice(1).some(p => /^\s*[-•]/.test(p));
+        if (hasList) {
+          title = parts[0].trim();
+          rest = parts.slice(1).join('<br/>');
+        }
+      }
+      return renderWarning(title, rest);
+    }
   );
 
   // 💰 Cost — card with amount highlight
