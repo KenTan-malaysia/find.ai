@@ -12,7 +12,7 @@
 //     by page.js. Landing no longer owns a chat button/FAB itself.
 // Palette: Cream #FAF8F3 · Navy #0F1E3F · Gold #B8893A · Slate #3F4E6B · Tea #F3EFE4 · Border #E7E1D2
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp, lang, setLang, hasSavedChat, onContinueChat }) {
   const [step, setStep] = useState('welcome'); // 'welcome' | 'pick'
@@ -43,9 +43,16 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       p2: 'Review an agreement',  p2q: '"Is this contract fair?"',
       p3: 'Calculate stamp duty', p3q: '"How much do I owe LHDN?"',
       p4: 'Ask a question',       p4q: '"I have a specific situation…"',
-      // Audit teaser
+      // Audit teaser + notify-me (v9.6 T6)
       auditComingLabel: 'Coming next',
       auditComingDesc:  'Agreement Audit — catch dangerous clauses before you sign.',
+      auditNotifyCta:       'Notify me',
+      auditNotifyPlaceholder: 'your@email.com',
+      auditNotifySubmit:    'Submit',
+      auditNotifyThanks:    "You're on the list",
+      auditNotifyThanksSub: "We'll email you the day it ships.",
+      auditNotifyPrivacy:   'Email only · no spam · unsubscribe anytime',
+      auditNotifyError:     "Couldn't save — try again",
       back: 'Back',
       langBtn: 'BM',
     },
@@ -71,6 +78,13 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       p4: 'Tanya soalan',           p4q: '"Saya ada situasi khusus…"',
       auditComingLabel: 'Akan datang',
       auditComingDesc:  'Periksa Perjanjian — kesan klausa berbahaya sebelum tandatangan.',
+      auditNotifyCta:       'Beritahu saya',
+      auditNotifyPlaceholder: 'emel@anda.com',
+      auditNotifySubmit:    'Hantar',
+      auditNotifyThanks:    'Anda dalam senarai',
+      auditNotifyThanksSub: 'Kami akan emel bila ia dilancarkan.',
+      auditNotifyPrivacy:   'Emel sahaja · tiada spam · henti bila-bila',
+      auditNotifyError:     'Tidak berjaya — cuba lagi',
       back: 'Kembali',
       langBtn: '中',
     },
@@ -96,6 +110,13 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       p4: '问问题',           p4q: '"我有特殊情况……"',
       auditComingLabel: '即将推出',
       auditComingDesc:  '合同审核 — 签约前识别危险条款。',
+      auditNotifyCta:       '通知我',
+      auditNotifyPlaceholder: 'your@email.com',
+      auditNotifySubmit:    '提交',
+      auditNotifyThanks:    '已加入等候名单',
+      auditNotifyThanksSub: '上线时我们会发邮件通知您。',
+      auditNotifyPrivacy:   '仅用作通知 · 绝不发垃圾邮件 · 随时退订',
+      auditNotifyError:     '提交失败 — 请重试',
       back: '返回',
       langBtn: 'EN',
     },
@@ -122,6 +143,60 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
     if (id === 'screen' && onOpenScreen) { onOpenScreen(); return; }
     if (id === 'stamp'  && onOpenStamp)  { onOpenStamp();  return; }
     onStart && onStart();
+  };
+
+  // v9.6 T6 — Audit teaser → notify-me capture.
+  // The Audit tile can't ship yet (TOOL 2 AgreementHealth is still dormant),
+  // but the interest is real — U12 Priya and U24 Jon in the v9.5 30-user
+  // simulation explicitly wanted a way to be told when Audit launches.
+  // Capture it now → Day-1 launch list for when AgreementHealth ships.
+  //
+  // States: 'rest' (strip + chip) → 'form' (email input) → 'submitting' → 'done' | 'error'.
+  // Returning users with localStorage['fi_audit_notify_v1'] boot straight to 'done'.
+  const NOTIFY_KEY = 'fi_audit_notify_v1';
+  const [notifyStage, setNotifyStage] = useState('rest'); // 'rest' | 'form' | 'submitting' | 'done' | 'error'
+  const [notifyEmail, setNotifyEmail] = useState('');
+
+  // On mount — if the user already signed up in a prior session, skip the form.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const raw = window.localStorage.getItem(NOTIFY_KEY);
+      if (raw) setNotifyStage('done');
+    } catch (e) { /* localStorage blocked — stay in rest */ }
+  }, []);
+
+  const openNotifyForm = () => { haptic(10); setNotifyStage('form'); };
+  const closeNotifyForm = () => { haptic(6); setNotifyStage('rest'); };
+
+  const submitNotify = async () => {
+    // Double-tap / keyboard-mash guard — a pending fetch is already doing its thing.
+    if (notifyStage === 'submitting') return;
+    const email = (notifyEmail || '').trim();
+    // Basic format gate — server validates again. Don't bother the API with obvious garbage.
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!valid) { setNotifyStage('error'); return; }
+    haptic(12);
+    setNotifyStage('submitting');
+    try {
+      const res = await fetch('/api/notify-me', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, tool: 'audit', lang }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data && data.ok) {
+        try {
+          window.localStorage.setItem(NOTIFY_KEY, JSON.stringify({ email, ts: Date.now(), lang, tool: 'audit' }));
+        } catch (e) { /* ignore quota / private mode */ }
+        setNotifyStage('done');
+        haptic([15, 30, 15]);
+      } else {
+        setNotifyStage('error');
+      }
+    } catch (e) {
+      setNotifyStage('error');
+    }
   };
 
   const styles = `
@@ -154,6 +229,75 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       display: flex; align-items: center; gap: 12px;
       margin-top: 14px;
     }
+    /* v9.6 T6 — notify-me capture on the Audit teaser. Resting = chip.
+       Form = inline email + submit. Done = soft-green confirmation card. */
+    .v9-notify-cta {
+      flex-shrink: 0; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px; font-weight: 700;
+      color: #0F1E3F; background: #F3EFE4;
+      padding: 8px 14px; border-radius: 999px;
+      transition: background .15s ease, transform .1s ease;
+      min-height: 36px;
+    }
+    .v9-notify-cta:hover { background: #E7E1D2; }
+    .v9-notify-cta:active { transform: scale(0.97); }
+    .v9-notify-form {
+      margin-top: 14px;
+      background: #FAF8F3; border: 1px solid #E7E1D2;
+      border-radius: 18px; padding: 14px;
+      display: flex; flex-direction: column; gap: 10px;
+      animation: v9Fade .25s cubic-bezier(0.2,0.7,0.2,1) both;
+    }
+    .v9-notify-row {
+      display: flex; align-items: stretch; gap: 8px;
+    }
+    .v9-notify-input {
+      flex: 1; min-width: 0;
+      font-family: 'Inter', sans-serif; font-size: 15px; color: #0F1E3F;
+      background: #FFFFFF; border: 1.5px solid #E7E1D2;
+      border-radius: 12px; padding: 12px 14px;
+      transition: border-color .15s ease;
+      min-height: 44px;
+    }
+    .v9-notify-input:focus { outline: none; border-color: #0F1E3F; }
+    .v9-notify-input::placeholder { color: #9A9484; }
+    .v9-notify-submit {
+      flex-shrink: 0; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700;
+      color: #FFFFFF; background: #0F1E3F;
+      padding: 0 18px; border-radius: 12px;
+      min-height: 44px; min-width: 88px;
+      transition: transform .1s ease, opacity .15s ease;
+    }
+    .v9-notify-submit:active { transform: scale(0.97); }
+    .v9-notify-submit[disabled] { opacity: 0.6; cursor: wait; }
+    .v9-notify-foot {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      font-size: 10.5px; color: #9A9484; letter-spacing: 0.02em;
+    }
+    .v9-notify-err { color: #A04040; font-weight: 600; }
+    .v9-notify-close {
+      background: none; border: none; cursor: pointer;
+      font-size: 11px; color: #9A9484; text-decoration: underline;
+      font-family: 'Inter', sans-serif; padding: 0;
+    }
+    .v9-notify-done {
+      margin-top: 14px;
+      background: #F1F6EF; border: 1px solid #CFE1C7;
+      border-radius: 18px; padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+      animation: v9Fade .3s cubic-bezier(0.2,0.7,0.2,1) both;
+    }
+    .v9-notify-done-ico {
+      width: 32px; height: 32px; border-radius: 999px;
+      background: #2F6B3E; color: #FFFFFF;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .v9-notify-done-body { flex: 1; min-width: 0; }
+    .v9-notify-done-title { font-size: 13px; font-weight: 800; color: #1E3A29; letter-spacing: -0.01em; }
+    .v9-notify-done-sub { font-size: 11.5px; color: #3F4E6B; margin-top: 2px; line-height: 1.4; }
     .v9-btn-primary {
       width: 100%; padding: 18px; border-radius: 16px; font-size: 16px; font-weight: 700;
       color: white; background: #0F1E3F; border: none; cursor: pointer;
@@ -350,16 +494,85 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
           </div>
 
           {/* Audit teaser — was tile 02, now a "Coming next" strip. Keeps the
-              promise alive without leaving a dead tile in the grid. */}
-          <div className="v9-teaser">
-            <div style={{ fontSize: 22 }}>📄</div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div className="v9-mono" style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#B8893A', marginBottom: 2 }}>
-                {c.auditComingLabel}
+              promise alive without leaving a dead tile in the grid.
+              v9.6 T6 — now interactive: 'Notify me' chip → inline email capture
+              → 'You're on the list' confirmation. Addresses U12 + U24 from the
+              v9.5 30-user re-test. localStorage['fi_audit_notify_v1'] suppresses
+              the form on returning visits. */}
+          {notifyStage === 'rest' && (
+            <div className="v9-teaser">
+              <div style={{ fontSize: 22 }}>📄</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="v9-mono" style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#B8893A', marginBottom: 2 }}>
+                  {c.auditComingLabel}
+                </div>
+                <div style={{ fontSize: 12.5, color: '#3F4E6B', lineHeight: 1.4 }}>{c.auditComingDesc}</div>
+              </div>
+              <button
+                type="button"
+                className="v9-notify-cta"
+                onClick={openNotifyForm}
+                aria-label={c.auditNotifyCta}
+              >
+                {c.auditNotifyCta}
+              </button>
+            </div>
+          )}
+
+          {(notifyStage === 'form' || notifyStage === 'submitting' || notifyStage === 'error') && (
+            <div className="v9-notify-form" role="group" aria-label={c.auditComingDesc}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ fontSize: 18 }}>📄</div>
+                <div className="v9-mono" style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#B8893A' }}>
+                  {c.auditComingLabel}
+                </div>
               </div>
               <div style={{ fontSize: 12.5, color: '#3F4E6B', lineHeight: 1.4 }}>{c.auditComingDesc}</div>
+              <div className="v9-notify-row">
+                <input
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  spellCheck={false}
+                  className="v9-notify-input"
+                  placeholder={c.auditNotifyPlaceholder}
+                  value={notifyEmail}
+                  onChange={(e) => { setNotifyEmail(e.target.value); if (notifyStage === 'error') setNotifyStage('form'); }}
+                  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); submitNotify(); } }}
+                  disabled={notifyStage === 'submitting'}
+                  aria-label={c.auditNotifyPlaceholder}
+                />
+                <button
+                  type="button"
+                  className="v9-notify-submit"
+                  onClick={submitNotify}
+                  disabled={notifyStage === 'submitting'}
+                >
+                  {c.auditNotifySubmit}
+                </button>
+              </div>
+              <div className="v9-notify-foot">
+                <span className={notifyStage === 'error' ? 'v9-notify-err' : ''}>
+                  {notifyStage === 'error' ? c.auditNotifyError : c.auditNotifyPrivacy}
+                </span>
+                <button type="button" className="v9-notify-close" onClick={closeNotifyForm}>
+                  {c.back}
+                </button>
+              </div>
             </div>
-          </div>
+          )}
+
+          {notifyStage === 'done' && (
+            <div className="v9-notify-done" role="status" aria-live="polite">
+              <div className="v9-notify-done-ico" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div className="v9-notify-done-body">
+                <div className="v9-notify-done-title">{c.auditNotifyThanks}</div>
+                <div className="v9-notify-done-sub">{c.auditNotifyThanksSub}</div>
+              </div>
+            </div>
+          )}
 
           <div style={{ flex: 1 }}></div>
 

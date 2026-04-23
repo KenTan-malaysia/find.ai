@@ -1,5 +1,5 @@
 # FIND.AI — COMPRESSED MEMORY
-> Single-file project snapshot. Upload this to any new session for instant full context. Last updated: 2026-04-23 (v3.3.2 — UI v9.3 Persistent PeekChat Dock lock + Cakap 2.0 naming + DNA filter: TRUST BEFORE SIGNING).
+> Single-file project snapshot. Upload this to any new session for instant full context. Last updated: 2026-04-23 (v3.3.3 — UI v9.4 + v9.5 polish pass shipped · ship build · 👍 26/30 · Cakap 2.0 · DNA: TRUST BEFORE SIGNING).
 
 ## 🔴 PICK UP HERE (2026-04-21 EOD)
 
@@ -69,7 +69,56 @@ Pushed to GitHub → Vercel auto-deployed. Five files in that commit:
 - iPhone Safari voice: speak with mid-sentence pause → waits ~2s after final stop → auto-sends full text
 - Android Chrome voice: same test, recovers if engine drops
 
-### 🟢 v3.3.2 IN-FLIGHT — UI v9.3 Persistent PeekChat Dock (2026-04-23, awaiting push)
+### 🟢 v3.3.3 SHIPPED — UI v9.4 + v9.5 polish pass (2026-04-23, LIVE on production)
+
+**Ken's verdict: "its working" — v9.5 confirmed live on https://find-ai-lovat.vercel.app.**
+
+**What happened:** Ran two 30-user UX simulations against v9.3 (landlords + agents + SME tenants across EN/BM/ZH — e.g. U4 Jeremy / U11 Mr. Chen / U12 Priya / U13 David Tan / U15 Denise / U20 Kelvin / U22 Mei / U23 Tuan Hasan / U27 Amanda / U28 Alvin). Shipped **11 polish tickets** over two iterations.
+
+**v9.4 — five P1 tickets (T1–T5):**
+- **T1** Empty peek → three tappable example pills seeded from EN/BM/ZH `examplePrompts` (*"Can I trust this tenant?"* / *"Is this agreement fair?"* / *"How much stamp duty do I owe?"*). Turns the empty dock from a dead-end into a menu.
+- **T2** *"DON'T SIGN BLIND"* motto rendered under the Brand on Welcome (JetBrains Mono, 10.5px, 0.22em, #B8893A gold) in EN/BM/ZH.
+- **T3** Privacy chip readability bump (9px→11px, lock SVG 11×11→14×14, letter-spacing 0.18em→0.16em). LangBtn 11px→13px, padding 4px 10px→6px 14px, minHeight 32px, minWidth 44px (thumb-zone target).
+- **T4** One-time dock hint balloon — *"Stuck? Ask Find.ai anything."* / *"Tersekat? Ketuk untuk bertanya."* / *"卡住了？点击向 Find.ai 提问。"* — suppressed forever after first dismiss via `localStorage['fi_peek_hint_v1']`.
+- **T5** Tile eyebrows signaling commercial/company coverage — Screen tile *"LANDLORD + AGENT"*, Stamp tile gets sub-eyebrow for SDSAS 2026 era (see T11).
+
+**v9.5 — six micro-polish tickets (N1–N5 + T11):**
+- **N1** Hero 👋 shrunk 56px → 26px, moved inline beside the *"Hi there."* heading (was stealing the spotlight from the gold motto).
+- **N2** Dock hint delay 900ms → 1600ms, visible window 4.0s → 4.2s. Surfaces *after* the user has parsed the primary CTA, not during.
+- **N3** Pill numeric badges (1·2·3) → identical neutral speech-bubble SVG icon on every pill. Pills now read as three independent options, not three sequential steps.
+- **N4** Tile eyebrow dialed down — 0.14em → 0.10em, 9.5px → 9px. Cleaner three-line tile rhythm.
+- **N5** Hint tail rotated-square (1px hairline on Android Chrome) → crisp 12×7 SVG triangle path.
+- **T11** Stamp tile eyebrow now reads *"RESIDENTIAL + COMMERCIAL · SDSAS 2026"* in EN/BM/ZH — answers *"is this the new framework?"* at first scan for cross-border landlords (U11) and HMO investors (U12).
+
+**Aggregate score v9.3 → v9.5 (30 personas):**
+
+| Metric | v9.3 | v9.4 | v9.5 | Δ |
+|---|---|---|---|---|
+| Understood Find.ai in ≤5s | 19/30 | 26/30 | **28/30** | +9 |
+| Reached tool without stuck | 22/30 | 27/30 | **29/30** | +7 |
+| Rated UI trustworthy | 25/30 | 28/30 | **29/30** | +4 |
+| 🤔 frustration verdicts | 17/30 | 7/30 | **4/30** | −13 |
+| 👍 positive verdicts | 13/30 | 23/30 | **26/30** | +13 |
+
+Remaining 4 🤔 all map to **P2 feature work, not first-run trust gaps:** U10 Kumar (Tamil — policy decision, T16), U12 Priya + U24 Jon (Audit teaser → notify-me capture, T6), U21 Ros (Welcome → share-to-WhatsApp, T9).
+
+**Files touched:**
+1. **src/app/landing.js** (381 lines) — motto + tile eyebrows + sub-eyebrow + privacy chip + LangBtn sizing + inline 👋 heading. CSS adds: `.v9-motto`, `.v9-tile-eye`, `.v9-tile-eye-sep`, `.v9-tile-eye-sub`.
+2. **src/components/PeekChat.js** (677 lines) — `examplePrompts` + `emptyTry` + `dockHint` in 3 langs; `showHint` state + `fi_peek_hint_v1` suppression; `dismissHint` wired into `onDockTap`; `.pc-hint` / `.pc-hint-dot` / `.pc-hint-tail` (SVG triangle) / `.pc-try-head` / `.pc-try-list` / `.pc-pill` / `.pc-pill-ico` CSS.
+3. **UX_REVIEW_v9.4.md** (NEW) — 30-persona re-test after T1–T5.
+4. **UX_REVIEW_v9.5.md** (NEW) — focused re-test after N1–N5 + T11. Ship verdict.
+
+**Git workflow note (for next session):** When pushing from Windows PowerShell, always run `git commit` between `git add` and `git push` — Ken had a false "Everything up-to-date" moment this session because the commit step was skipped. The canonical sequence is:
+
+```powershell
+cd "C:\Users\Tan Ken Yap\Documents\data collection\OneDrive\Desktop\Claude\find-ai"
+git status
+git add <files>
+git commit -m "message"
+git push origin main
+```
+
+### 🟡 v3.3.2 SHIPPED — UI v9.3 Persistent PeekChat Dock (2026-04-23, on main)
 
 **Ken's verdict: "this version is great, save everything." Locked as a stable UI pattern.**
 
@@ -360,7 +409,8 @@ Stamp Act 1949 (incl. s.52, s.36A, s.62 as amended), Finance Act 2025 (SDSAS), B
 - **v3.2 (2026-04-21)** — `digital_evidence` topic added (Module 48). Section 90A Evidence Act 1950 full workflow. 25/25 stress test. R100 still 100%. Topic count = 48.
 - **v3.3 (2026-04-21)** — **Phase 1 doctrine lock.** Find.ai reframed as a toolkit (Screen/Audit/Stamp/Chat), not a chatbot. Tagline "Don't sign blind." CLAUDE.md rewritten to define 4 Phase 1 tools + 4-Phase internal roadmap (Phases 2-4 never mentioned publicly). Each tool produces a branded PDF with QR viral loop. 90-day pre-signing wedge focus.
 - **v3.3.1 (2026-04-21)** — StampDuty (TOOL 3) wired into live app. Shared `buildStampReport` + `exportReport` ship the first end-to-end branded PDF. "Pre-signing toolkit" bento launcher row added to chat empty state.
-- **v3.3.2 (2026-04-23 — THIS SAVE POINT)** — **UI v9.3 Persistent PeekChat Dock locked.** ChatDrawer modal retired. New `src/components/PeekChat.js` ships a 56px bottom-anchored dock → peek preview (last 3 messages) → full chat escalation. Mounted on every top-level branch (Landing / Profile / Chat). `closeToolSmart` + `landingToTool` flag fix the "tool close returns me to chat, not Landing" bug. Landing FAB removed; `.v9-screen-peek-safe` reserves 96px bottom padding. Chat feels ambient, not destination. Ken's verdict: *"this version is great."*
+- **v3.3.2 (2026-04-23)** — **UI v9.3 Persistent PeekChat Dock locked.** ChatDrawer modal retired. New `src/components/PeekChat.js` ships a 56px bottom-anchored dock → peek preview (last 3 messages) → full chat escalation. Mounted on every top-level branch (Landing / Profile / Chat). `closeToolSmart` + `landingToTool` flag fix the "tool close returns me to chat, not Landing" bug. Landing FAB removed; `.v9-screen-peek-safe` reserves 96px bottom padding. Chat feels ambient, not destination. Ken's verdict: *"this version is great."*
+- **v3.3.3 (2026-04-23 — THIS SAVE POINT · SHIP BUILD)** — **UI v9.4 + v9.5 polish pass locked and live on production.** Ran two 30-user simulations against v9.3 across EN/BM/ZH. Shipped 11 polish tickets. v9.4 (T1–T5): 3-pill empty peek, *"Don't sign blind"* motto on Welcome, privacy chip + lang toggle readability bump, one-time dock hint with localStorage suppression, tile eyebrows. v9.5 micro-polish (N1–N5 + T11): inline 👋 heading, 1600ms hint timing, neutral speech-bubble pill icons, quieter tile eyebrow (0.10em/9px), SVG triangle hint tail, *"SDSAS 2026"* sub-eyebrow on Stamp tile. **Aggregate: 🤔 17/30 → 4/30, 👍 13/30 → 26/30.** Four remaining 🤔 all map to P2 feature work, not first-run trust blockers. Files: `src/app/landing.js` 381 lines · `src/components/PeekChat.js` 677 lines. See `UX_REVIEW_v9.4.md` + `UX_REVIEW_v9.5.md`.
 
 ---
 
