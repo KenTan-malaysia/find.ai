@@ -5,6 +5,13 @@ import { Modal, ToolHeader, RMInput, ActionBtn } from './shared';
 import { L } from './labels';
 import { exportReport, buildStampReport, makeCaseRef } from '../../lib/pdfExport';
 
+// DEMO_MODE — Ken's quick-test switch. When true, prefills rent + years
+// with plausible sample data so the Calculate button works in one tap.
+// Flip to false before shipping to real landlords.
+const DEMO_MODE = true;
+const DEMO_RENT = '2500';
+const DEMO_YEARS = 2;
+
 // ───────────────────────────────────────────────────────────────────────
 // Phase 1 TOOL 3 — SDSAS 2026 Stamp Duty Calculator
 //
@@ -42,8 +49,8 @@ export default function StampDutyCalc({
   const memRent = activeMemory?.property?.monthlyRent;
   const memNickname = activeMemory?.property?.nickname || activeMemory?.property?.address;
 
-  const [rent, setRent] = useState(memRent ? String(memRent) : '');
-  const [years, setYears] = useState(1);
+  const [rent, setRent] = useState(memRent ? String(memRent) : (DEMO_MODE ? DEMO_RENT : ''));
+  const [years, setYears] = useState(DEMO_MODE ? DEMO_YEARS : 1);
   const [result, setResult] = useState(null);
   const [savedToCase, setSavedToCase] = useState(false);
 
@@ -129,6 +136,18 @@ export default function StampDutyCalc({
   return (
     <Modal>
       <ToolHeader icon="📄" title={t.stampTitle} desc={t.stampDesc} onClose={onClose} onAsk={onAsk} askLabel={askLabel} />
+
+      {DEMO_MODE && (
+        <div className="mb-3 px-3 py-2 rounded-lg flex items-center gap-2"
+          style={{ background: '#FEF3C7', border: '1px solid #FDE68A' }}>
+          <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded"
+            style={{ background: '#92400E', color: '#fff' }}>DEMO</span>
+          <span className="text-[11px] font-semibold" style={{ color: '#92400E' }}>
+            Sample rent + term prefilled · tap Calculate
+          </span>
+        </div>
+      )}
+
       <div className="space-y-5">
         <RMInput
           value={rent}

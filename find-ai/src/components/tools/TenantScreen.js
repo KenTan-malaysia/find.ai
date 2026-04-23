@@ -42,6 +42,35 @@ import {
 //   property        — property label for the PDF letterhead (optional)
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────────────────────
+// DEMO_MODE — Ken's quick-test switch. When true:
+//   • Phase 0 tenant name + IC + phone + consent prefilled
+//   • Start Scan gate is unlocked (consent checkbox optional)
+//   • A "Jump to review (demo)" shortcut on Phase 0 populates all 4 signals
+//     with plausible sample data and fast-forwards to Phase 5
+//   • A small DEMO pill appears in the header so there's no confusion
+//     about which mode is live
+// Flip to `false` before shipping to real landlords — production gating
+// returns (strict name + consent required, no autofill).
+// ─────────────────────────────────────────────────────────────────────────────
+const DEMO_MODE = true;
+
+const DEMO_TENANT = {
+  name: 'MUHAMMAD BIN ABDULLAH',
+  icLast4: '1234',
+  phone: '012-345 6789',
+};
+
+// Plausible 4-signal sample that lights up every code path (coverage 4/4,
+// strong on-time ratios, one amber — internet partial name match — so
+// flags + behaviour psychology render non-trivially on the review screen).
+const DEMO_SIGNALS = [
+  { key: 'electricity', vendor: 'myTNB',     accountName: 'MUHAMMAD BIN ABDULLAH', onTimeMonths: 12, tenure: 'twoTo5y', hasArrears: false, wildcardCategory: '', skipped: false },
+  { key: 'mobile',      vendor: 'CelcomDigi', accountName: 'MUHAMMAD BIN ABDULLAH', onTimeMonths: 11, tenure: 'twoTo5y', hasArrears: false, wildcardCategory: '', skipped: false },
+  { key: 'internet',    vendor: 'unifi',     accountName: 'MOHD ABDULLAH',         onTimeMonths: 10, tenure: 'oneTo2y', hasArrears: false, wildcardCategory: '', skipped: false },
+  { key: 'wildcard',    vendor: 'Netflix',   accountName: 'MUHAMMAD BIN ABDULLAH', onTimeMonths: 12, tenure: 'oneTo2y', hasArrears: false, wildcardCategory: 'entertainment', skipped: false },
+];
+
 const SIGNAL_KEYS = ['electricity', 'mobile', 'internet', 'wildcard'];
 const SIGNAL_WEIGHTS = { electricity: 35, mobile: 30, internet: 25, wildcard: 10 };
 
@@ -342,10 +371,13 @@ export default function TenantScreen({
   const memTenant = activeMemory?.tenant;
   const memNickname = activeMemory?.property?.nickname || activeMemory?.property?.address;
 
-  const [tenantName, setTenantName] = useState(memTenant?.name || '');
-  const [icLast4, setIcLast4] = useState(memTenant?.icLast4 || '');
-  const [phone, setPhone] = useState(memTenant?.phone || '');
-  const [consented, setConsented] = useState(!!memTenant?.consented);
+  // DEMO_MODE: prefill tenant fields with sample data so Ken can tap
+  // straight through to the review screen. When case memory carries real
+  // tenant data (he switched cases), that always wins over demo defaults.
+  const [tenantName, setTenantName] = useState(memTenant?.name || (DEMO_MODE ? DEMO_TENANT.name : ''));
+  const [icLast4, setIcLast4] = useState(memTenant?.icLast4 || (DEMO_MODE ? DEMO_TENANT.icLast4 : ''));
+  const [phone, setPhone] = useState(memTenant?.phone || (DEMO_MODE ? DEMO_TENANT.phone : ''));
+  const [consented, setConsented] = useState(!!memTenant?.consented || DEMO_MODE);
 
   // Prefill from case memory if it arrives later.
   useEffect(() => {
@@ -380,7 +412,22 @@ export default function TenantScreen({
   const [phase, setPhase] = useState(0);
   const [savedToCase, setSavedToCase] = useState(false);
 
-  const canStart = tenantName.trim().length > 1 && consented;
+  // Production: strict gate (name + consent). DEMO: always unlocked.
+  const canStart = DEMO_MODE || (tenantName.trim().length > 1 && consented);
+
+  // Fast-path for demo testing: fills all 4 signals with plausible data
+  // and jumps straight to the review screen so the full downstream
+  // pipeline (index, flags, behaviour psychology, PDF export, save-to-case,
+  // scans history) renders with real-looking output on every tap.
+  const jumpToReviewDemo = () => {
+    if (!DEMO_MODE) return;
+    if (!tenantName) setTenantName(DEMO_TENANT.name);
+    if (!icLast4) setIcLast4(DEMO_TENANT.icLast4);
+    if (!phone) setPhone(DEMO_TENANT.phone);
+    setConsented(true);
+    setSignals(DEMO_SIGNALS.map(s => ({ ...s })));
+    setPhase(5);
+  };
 
   const rawIndex = useMemo(() => computeIndex(signals, tenantName), [signals, tenantName]);
   const behaviour = useMemo(() => analyseBehaviour(signals, tenantName), [signals, tenantName]);
@@ -534,6 +581,24 @@ export default function TenantScreen({
     <Modal>
       <ToolHeader icon="🔍" title={t.screenTitleV2} desc={t.screenDescV2} onClose={onClose} onAsk={onAsk} askLabel={askLabel} />
 
+      {/* DEMO MODE badge — visible signpost so there's no confusion about
+          which gating is live. Flip DEMO_MODE at the top of this file to
+          remove it before shipping to real landlords. */}
+      {DEMO_MODE && (
+        <div className="mb-3 px-3 py-2 rounded-lg flex items-center justify-between"
+          style={{ background: '#FEF3C7', border: '1px solid #FDE68A' }}>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded"
+              style={{ background: '#92400E', color: '#fff' }}>
+              DEMO
+            </span>
+            <span className="text-[11px] font-semibold" style={{ color: '#92400E' }}>
+              Fields prefilled · gates unlocked for testing
+            </span>
+          </div>
+        </div>
+      )}
+
       {phase > 0 && phase < 5 && <StepDots step={phase - 1} total={4} />}
 
       {/* ── PHASE 0 — Intro + Consent ───────────────────────────────── */}
@@ -581,6 +646,21 @@ export default function TenantScreen({
             disabled={!canStart}
             label={t.screenStartScan}
           />
+
+          {/* DEMO fast-path — skip all 4 capture steps and land on the
+              review screen with a fully populated sample so Ken can test
+              the index + flags + behaviour + PDF + save-to-case pipeline
+              in one tap. Hidden entirely when DEMO_MODE is false. */}
+          {DEMO_MODE && (
+            <button
+              type="button"
+              onClick={jumpToReviewDemo}
+              className="w-full py-3 rounded-xl text-[13px] font-bold"
+              style={{ background: '#fff', color: '#92400E', border: '1.5px dashed #D19845' }}
+            >
+              ▶ Jump to review (demo) — autofills all 4 signals
+            </button>
+          )}
         </div>
       )}
 
