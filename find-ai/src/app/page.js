@@ -7,6 +7,7 @@ import { CaseMemoryModal, buildCaseMemoryContext, emptyMemory, hasPdpaConsent } 
 import StampDutyCalc from '../components/tools/StampDutyCalc';
 import TenantScreen from '../components/tools/TenantScreen';
 import TenantRegister from '../components/tools/TenantRegister';
+import ScansHistory, { collectScans } from '../components/ScansHistory';
 import { L as toolLabels } from '../components/tools/labels';
 import PeekChat from '../components/PeekChat';
 
@@ -693,6 +694,10 @@ export default function Home() {
   const [showStampTool, setShowStampTool] = useState(false);
   const [showScreenTool, setShowScreenTool] = useState(false);
   const [showTenantRegister, setShowTenantRegister] = useState(false);
+  // v9.6 T12 — "Your scans" history view. Surfaces every saved Payment
+  // Discipline Scan across all cases so the landlord can compare prospects
+  // before signing + re-export any scan's PDF.
+  const [showScansHistory, setShowScansHistory] = useState(false);
   // v9.3 — track whether the user opened the current tool FROM Landing.
   // If yes, closing the tool should return them to Landing (not the chat
   // page that we had to briefly flip on so the modal could mount).
@@ -1550,6 +1555,11 @@ export default function Home() {
     setShowStampTool(true);
   };
 
+  // v9.6 T12 — open the "Your scans" history view. Unlike the tool modals,
+  // this one stays on Landing (doesn't flip showChat) because it's not a
+  // tool — it's a meta view of all prior scans.
+  const openScansDirect = () => { setShowScansHistory(true); };
+
   // Close tool + return to wherever the user came from.
   // If they launched the tool from Landing, they go back to Landing.
   // If they launched it from inside chat, they stay in chat.
@@ -1620,7 +1630,11 @@ export default function Home() {
   );
 
   // Landing
-  if (!showChat && !showProfile)
+  if (!showChat && !showProfile) {
+    // v9.6 T12 — count of saved Payment Discipline Scans, used to gate the
+    // "Your scans" chip on Landing. Zero = no chip (keeps first-run Welcome
+    // clean; no dead button for users who haven't scanned anyone yet).
+    const scansCount = collectScans(chatHistory).length;
     return (
       <>
         <Landing
@@ -1628,14 +1642,25 @@ export default function Home() {
           onOpenChat={openChatDirect}
           onOpenScreen={openScreenDirect}
           onOpenStamp={openStampDirect}
+          onOpenScans={openScansDirect}
+          scansCount={scansCount}
           lang={lang}
           setLang={setLang}
           hasSavedChat={hasSavedChat}
           onContinueChat={loadChat}
         />
         {peekChatNode}
+        {showScansHistory && (
+          <ScansHistory
+            open={showScansHistory}
+            lang={lang}
+            chatHistory={chatHistory}
+            onClose={() => setShowScansHistory(false)}
+          />
+        )}
       </>
     );
+  }
 
   // Profile — Bento onboarding (v1: landlord-first)
   if (showProfile) {

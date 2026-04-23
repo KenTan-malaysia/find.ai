@@ -14,7 +14,7 @@
 
 import { useState, useEffect } from 'react';
 
-export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp, lang, setLang, hasSavedChat, onContinueChat }) {
+export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp, onOpenScans, scansCount = 0, lang, setLang, hasSavedChat, onContinueChat }) {
   const [step, setStep] = useState('welcome'); // 'welcome' | 'pick'
 
   const t = {
@@ -29,6 +29,9 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       welcomeFine: 'Takes 2 minutes · Free · No sign-up',
       letsGo: 'Let\'s go →',
       continueCase: 'Continue last case',
+      // v9.6 T12 — "Your scans" history chip (only surfaces when scansCount > 0)
+      yourScansOne:  'View your scan',
+      yourScansMany: 'View your scans · {n}',
       // Pick
       pickTitle: 'What do you need?',
       pickSub: 'Pick one. Goes straight in — no extra step.',
@@ -66,6 +69,8 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       welcomeFine: 'Ambil 2 minit · Percuma · Tiada pendaftaran',
       letsGo: 'Jom mula →',
       continueCase: 'Sambung kes terakhir',
+      yourScansOne:  'Lihat saringan anda',
+      yourScansMany: 'Lihat saringan anda · {n}',
       pickTitle: 'Apa yang anda perlukan?',
       pickSub: 'Pilih satu. Terus mula — tiada langkah tambahan.',
       pickPrivacy: 'Maklumat anda kekal privasi',
@@ -98,6 +103,8 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       welcomeFine: '2 分钟 · 免费 · 无需注册',
       letsGo: '开始 →',
       continueCase: '继续上次案件',
+      yourScansOne:  '查看您的筛查',
+      yourScansMany: '查看您的筛查 · {n}',
       pickTitle: '您需要什么?',
       pickSub: '选一个。直接进入 — 无需多一步。',
       pickPrivacy: '您的信息保持私密',
@@ -313,6 +320,21 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       width: 40px; height: 40px; border-radius: 999px; background: #F3EFE4;
       display: flex; align-items: center; justify-content: center; cursor: pointer; border: none;
     }
+    /* v9.6 T12 — "Your scans · N" chip sits under Let's go / Continue buttons.
+       Lightweight link-style row so it never out-weights the primary CTA.
+       Only renders when scansCount > 0 (first-run users never see it). */
+    .v9-scans-link {
+      width: 100%; padding: 12px 14px; margin-top: 10px;
+      border: 1px solid #E7E1D2; background: transparent; cursor: pointer;
+      border-radius: 14px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+      color: #3F4E6B; letter-spacing: -0.005em;
+      transition: background .15s ease, border-color .15s ease, transform .1s ease;
+    }
+    .v9-scans-link:hover { background: #F3EFE4; border-color: #0F1E3F; color: #0F1E3F; }
+    .v9-scans-link:active { transform: scale(0.98); }
+    .v9-scans-link svg { flex: 0 0 auto; }
     .v9-fade { animation: v9Fade .4s cubic-bezier(0.2,0.7,0.2,1) both; }
     @keyframes v9Fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce) { .v9-fade { animation: none; } }
@@ -431,6 +453,25 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
             <button className="v9-btn-primary" onClick={handleLetsGo}>{c.letsGo}</button>
             {hasSavedChat && (
               <button className="v9-btn-ghost" onClick={handleContinue}>{c.continueCase}</button>
+            )}
+            {/* v9.6 T12 — "Your scans · N" — only when the user has ≥1 saved scan.
+                Keeps first-run Welcome clean; landlords with a history get a quiet
+                entry point back into their previous Payment Discipline reports. */}
+            {scansCount > 0 && onOpenScans && (
+              <button
+                type="button"
+                className="v9-scans-link"
+                onClick={() => { haptic(10); onOpenScans(); }}
+                aria-label={(scansCount === 1 ? c.yourScansOne : c.yourScansMany).replace('{n}', String(scansCount))}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+                  <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                  <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+                  <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+                </svg>
+                <span>{(scansCount === 1 ? c.yourScansOne : c.yourScansMany).replace('{n}', String(scansCount))}</span>
+              </button>
             )}
           </div>
         </div>
