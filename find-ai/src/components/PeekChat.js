@@ -276,10 +276,16 @@ export default function PeekChat({
         buffer = lines.pop() || '';
         for (const line of lines) {
           if (!line.startsWith('data: ')) continue;
+          const payload = line.slice(6);
+          if (payload === '[DONE]') continue;
           try {
-            const data = JSON.parse(line.slice(6));
-            if (data.delta) {
-              streamBufferRef.current += data.delta;
+            const data = JSON.parse(payload);
+            // Server streams { text: "…" } per /api/chat/route.js — NOT `delta`.
+            // Accept `delta` as a fallback so older server shapes don't silently
+            // drop content.
+            const chunk = data.text ?? data.delta;
+            if (chunk) {
+              streamBufferRef.current += chunk;
               setLocalMessages((m) => {
                 const copy = [...m];
                 copy[copy.length - 1] = { role: 'assistant', content: streamBufferRef.current };

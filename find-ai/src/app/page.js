@@ -12,6 +12,15 @@ import { L as toolLabels } from '../components/tools/labels';
 import PeekChat from '../components/PeekChat';
 import { fmt } from '../lib/chatFormat';
 
+// Defense-in-depth: escape raw `<` `>` `&` `"` `'` before fmt() so any literal
+// HTML in the model's stream can't execute. fmt() only introduces safe tags
+// via its own regex templates, and this runs against already-escaped text.
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+  );
+}
+
 const STATES = [
   'Johor', 'Kedah', 'Kelantan', 'Melaka', 'Negeri Sembilan',
   'Pahang', 'Perak', 'Perlis', 'Penang', 'Sabah',
@@ -299,7 +308,7 @@ const ThumbDownIcon = ({ filled }) => (
 
 // Memoized message bubble with feedback
 const MessageBubble = memo(function MessageBubble({ id, content, role, isStreaming, isError, streamRef: sRef, onCopy, onShare, onSave, onRetry, onFeedback, feedback }) {
-  const html = useMemo(() => fmt(content), [content]);
+  const html = useMemo(() => fmt(escapeHtml(content)), [content]);
   const timeStr = useMemo(() => {
     const now = new Date();
     return now.toLocaleTimeString('en-MY', { hour: '2-digit', minute: '2-digit', hour12: true });
@@ -1097,13 +1106,16 @@ export default function Home() {
         for (const line of chunk.split('\n')) {
           if (line.startsWith('data: ') && line !== 'data: [DONE]') {
             try {
-              streamContentRef.current += JSON.parse(line.slice(6)).text;
+              const parsed = JSON.parse(line.slice(6));
+              const chunk = parsed.text ?? parsed.delta;
+              if (!chunk) continue;
+              streamContentRef.current += chunk;
               if (!rafPending) {
                 rafPending = true;
                 requestAnimationFrame(() => {
                   if (streamRef.current) {
                     const display = streamContentRef.current.replace(/\[FOLLOWUPS\][\s\S]*?(\[\/FOLLOWUPS\]|$)/, '');
-                    streamRef.current.innerHTML = fmt(display);
+                    streamRef.current.innerHTML = fmt(escapeHtml(display));
                     // Stick-to-bottom on the SAME frame as the paint — no jitter.
                     const el = chatRef.current;
                     if (el) {
