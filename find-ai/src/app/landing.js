@@ -1,11 +1,15 @@
 'use client';
 
-// Find.ai Landing — v9.1 Direct Flow · Warm Navy Trust palette
+// Find.ai Landing — v9.2 Floating Chat · Warm Navy Trust palette
 // Previous versions preserved:
 //   src/app/landing-v9-guided.js       (v9 3-screen: Welcome → Pick → Ready → Tool)
 //   src/app/landing-v8-four-equals.js  (v8 Four Equals, chat co-equal)
 //   src/app/landing-v2-warm.js         (v2 Warm Editorial, cream/navy/gold)
-// This version: 2-screen wizard — Welcome → Pick → Tool (straight in, no Ready screen).
+// v9.2 cut:
+//   • Pick screen has TWO primary tiles only — Screen + Stamp (tools that produce a PDF).
+//   • Agreement Audit = teaser strip below tiles (coming next, not a dead tile).
+//   • Chat = floating action button bottom-right, follows users into the tools
+//     (doctrine: chat is support, tools are the product).
 // Palette: Cream #FAF8F3 · Navy #0F1E3F · Gold #B8893A · Slate #3F4E6B · Tea #F3EFE4 · Border #E7E1D2
 
 import { useState } from 'react';
@@ -31,8 +35,12 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       p1: 'Check a tenant',       p1q: '"Can I trust this person?"',
       p2: 'Review an agreement',  p2q: '"Is this contract fair?"',
       p3: 'Calculate stamp duty', p3q: '"How much do I owe LHDN?"',
-      p4: 'Just ask a question',  p4q: '"I have a specific situation…"',
-      soon: 'Soon',
+      p4: 'Ask a question',       p4q: '"I have a specific situation…"',
+      // Audit teaser + FAB
+      auditComingLabel: 'Coming next',
+      auditComingDesc:  'Agreement Audit — catch dangerous clauses before you sign.',
+      fabLabel: 'Ask',
+      fabHint: 'Got a question? Tap Ask →',
       back: 'Back',
       langBtn: 'BM',
     },
@@ -51,8 +59,11 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       p1: 'Semak penyewa',          p1q: '"Boleh saya percaya dia?"',
       p2: 'Periksa perjanjian',     p2q: '"Adakah kontrak ini adil?"',
       p3: 'Kira duti setem',        p3q: '"Berapa saya patut bayar LHDN?"',
-      p4: 'Tanya soalan sahaja',    p4q: '"Saya ada situasi khusus…"',
-      soon: 'Tidak lama',
+      p4: 'Tanya soalan',           p4q: '"Saya ada situasi khusus…"',
+      auditComingLabel: 'Akan datang',
+      auditComingDesc:  'Periksa Perjanjian — kesan klausa berbahaya sebelum tandatangan.',
+      fabLabel: 'Tanya',
+      fabHint: 'Ada soalan? Tekan Tanya →',
       back: 'Kembali',
       langBtn: '中',
     },
@@ -71,8 +82,11 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       p1: '查租客',           p1q: '"这个人可信吗?"',
       p2: '看合同',           p2q: '"这份合同公平吗?"',
       p3: '算印花税',         p3q: '"我该交多少给 LHDN?"',
-      p4: '随便问问题',       p4q: '"我有特殊情况……"',
-      soon: '即将',
+      p4: '问问题',           p4q: '"我有特殊情况……"',
+      auditComingLabel: '即将推出',
+      auditComingDesc:  '合同审核 — 签约前识别危险条款。',
+      fabLabel: '问',
+      fabHint: '有问题? 点"问" →',
       back: '返回',
       langBtn: 'EN',
     },
@@ -94,13 +108,11 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
   const handleLetsGo   = () => { haptic(12); setStep('pick'); };
   const handleContinue = () => { haptic(12); onContinueChat && onContinueChat(); };
   const handleBack     = () => { haptic(8); setStep('welcome'); };
+  const handleFab      = () => { haptic([12, 30, 12]); onOpenChat ? onOpenChat() : (onStart && onStart()); };
   const handlePick = (id) => {
-    if (id === 'audit') return; // soon — no-op for now
     haptic([20, 40, 20]); // confirm-tap buzz, matches launching-the-tool feel
-    // Each tile routes to its own tool. Fallback to onStart so nothing breaks if a handler is missing.
     if (id === 'screen' && onOpenScreen) { onOpenScreen(); return; }
     if (id === 'stamp'  && onOpenStamp)  { onOpenStamp();  return; }
-    if (id === 'chat'   && onOpenChat)   { onOpenChat();   return; }
     onStart && onStart();
   };
 
@@ -111,6 +123,7 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
     .v9-tight { letter-spacing: -0.03em; }
     .v9-tighter { letter-spacing: -0.045em; }
     .v9-screen {
+      position: relative;
       min-height: 100vh; min-height: 100svh; min-height: 100dvh;
       max-width: 512px; margin: 0 auto; padding: 20px;
       display: flex; flex-direction: column;
@@ -119,7 +132,7 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
     .v9-dot { width: 8px; height: 8px; border-radius: 999px; background: #E7E1D2; transition: width .3s ease, background .3s ease; }
     .v9-dot.on { background: #0F1E3F; width: 24px; }
     .v9-tile {
-      background: #FFFFFF; border-radius: 24px; padding: 20px;
+      background: #FFFFFF; border-radius: 24px; padding: 24px 22px;
       border: 2px solid #F3EFE4;
       transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease;
       cursor: pointer; text-align: left; width: 100%;
@@ -127,8 +140,12 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
     }
     .v9-tile:hover { border-color: #0F1E3F; transform: translateY(-2px); box-shadow: 0 10px 30px -10px rgba(15,30,63,0.18); }
     .v9-tile:active { transform: scale(0.98); }
-    .v9-tile.disabled { opacity: 0.55; cursor: not-allowed; }
-    .v9-tile.disabled:hover { border-color: #F3EFE4; transform: none; box-shadow: none; }
+    .v9-teaser {
+      background: #FAF8F3; border-radius: 18px; padding: 14px 16px;
+      border: 1px dashed #E7E1D2;
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 14px;
+    }
     .v9-btn-primary {
       width: 100%; padding: 18px; border-radius: 16px; font-size: 16px; font-weight: 700;
       color: white; background: #0F1E3F; border: none; cursor: pointer;
@@ -147,6 +164,33 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
     .v9-fade { animation: v9Fade .4s cubic-bezier(0.2,0.7,0.2,1) both; }
     @keyframes v9Fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce) { .v9-fade { animation: none; } }
+
+    /* Chat FAB — bottom-right on Welcome + Pick. Absolute to screen container
+       so it stays inside the 512px centered column. */
+    .v9-fab {
+      position: absolute; right: 20px; bottom: 24px; z-index: 40;
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 52px; padding: 0 18px 0 16px; border-radius: 999px;
+      background: #0F1E3F; color: #FFFFFF; border: none; cursor: pointer;
+      box-shadow: 0 14px 28px -10px rgba(15,30,63,0.42);
+      transition: transform .15s ease, box-shadow .2s ease;
+      font-weight: 700;
+    }
+    .v9-fab:hover { transform: translateY(-2px); box-shadow: 0 18px 34px -10px rgba(15,30,63,0.5); }
+    .v9-fab:active { transform: scale(0.96); }
+    .v9-fab-label { font-size: 13px; letter-spacing: -0.01em; }
+    .v9-fab-pulse::after {
+      content: ''; position: absolute; inset: 0; border-radius: 999px;
+      box-shadow: 0 0 0 0 rgba(184,137,58,0.55);
+      animation: v9FabPulse 2.4s cubic-bezier(0.4,0,0.6,1) infinite;
+      pointer-events: none;
+    }
+    @keyframes v9FabPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(184,137,58,0.45); }
+      70%  { box-shadow: 0 0 0 14px rgba(184,137,58,0); }
+      100% { box-shadow: 0 0 0 0 rgba(184,137,58,0); }
+    }
+    @media (prefers-reduced-motion: reduce) { .v9-fab-pulse::after { animation: none; } }
   `;
 
   const ProgressDots = ({ active }) => (
@@ -168,6 +212,17 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
 
   const LangBtn = () => (
     <button onClick={nextLang} style={{ fontSize: 11, padding: '4px 10px', borderRadius: 999, fontWeight: 600, background: '#F3EFE4', color: '#3F4E6B', border: 'none', cursor: 'pointer' }}>{c.langBtn}</button>
+  );
+
+  // Floating Ask button — chat as ambient support, not a competing tile.
+  // Gold-pulse ring draws the eye to tell first-time users "chat lives here."
+  const ChatFab = () => (
+    <button className="v9-fab v9-fab-pulse" onClick={handleFab} aria-label={c.fabLabel}>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <span className="v9-fab-label">{c.fabLabel}</span>
+    </button>
   );
 
   // --------- SCREEN 1 — WELCOME ---------
@@ -204,6 +259,8 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
               <button className="v9-btn-ghost" onClick={handleContinue}>{c.continueCase}</button>
             )}
           </div>
+
+          <ChatFab />
         </div>
       </div>
     );
@@ -211,11 +268,10 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
 
   // --------- SCREEN 2 — PICK SITUATION ---------
   if (step === 'pick') {
+    // v9.2 — only tools that produce a PDF live in the tile grid. Chat = FAB.
     const picks = [
       { id: 'screen', emoji: '👤', name: c.p1, q: c.p1q },
-      { id: 'audit',  emoji: '📄', name: c.p2, q: c.p2q, soon: true },
       { id: 'stamp',  emoji: '💰', name: c.p3, q: c.p3q },
-      { id: 'chat',   emoji: '💬', name: c.p4, q: c.p4q },
     ];
 
     return (
@@ -230,42 +286,52 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
             <LangBtn />
           </div>
 
-          <div style={{ marginBottom: 28 }}>
+          <div style={{ marginBottom: 24 }}>
             <h2 className="v9-tighter" style={{ fontSize: 32, fontWeight: 900, lineHeight: 1.05, color: '#0F1E3F', marginBottom: 6 }}>{c.pickTitle}</h2>
             <p style={{ fontSize: 14, color: '#5A6780' }}>{c.pickSub}</p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
+          {/* Two primary tiles — the PDF-producing tools */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {picks.map(p => (
               <button
                 key={p.id}
-                className={`v9-tile ${p.soon ? 'disabled' : ''}`}
-                onClick={() => !p.soon && handlePick(p.id)}
-                disabled={p.soon}
+                className="v9-tile"
+                onClick={() => handlePick(p.id)}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                  <div style={{ fontSize: 36, lineHeight: 1 }}>{p.emoji}</div>
+                  <div style={{ fontSize: 42, lineHeight: 1 }}>{p.emoji}</div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                      <span className="v9-tight" style={{ fontSize: 17, fontWeight: 900, color: '#0F1E3F' }}>{p.name}</span>
-                      {p.soon && (
-                        <span className="v9-mono" style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', padding: '2px 8px', borderRadius: 999, background: '#F3EFE4', color: '#5A6780' }}>{c.soon}</span>
-                      )}
-                    </div>
-                    <div style={{ fontSize: 13, color: '#5A6780', marginTop: 2 }}>{p.q}</div>
+                    <span className="v9-tight" style={{ fontSize: 19, fontWeight: 900, color: '#0F1E3F', display: 'block' }}>{p.name}</span>
+                    <div style={{ fontSize: 13.5, color: '#5A6780', marginTop: 3 }}>{p.q}</div>
                   </div>
-                  {!p.soon && (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F1E3F" strokeWidth="2" strokeLinecap="round"><path d="m9 18 6-6-6-6"/></svg>
-                  )}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F1E3F" strokeWidth="2" strokeLinecap="round"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
               </button>
             ))}
           </div>
 
-          <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+          {/* Audit teaser — was tile 02, now a "Coming next" strip. Keeps the
+              promise alive without leaving a dead tile in the grid. */}
+          <div className="v9-teaser">
+            <div style={{ fontSize: 22 }}>📄</div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div className="v9-mono" style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#B8893A', marginBottom: 2 }}>
+                {c.auditComingLabel}
+              </div>
+              <div style={{ fontSize: 12.5, color: '#3F4E6B', lineHeight: 1.4 }}>{c.auditComingDesc}</div>
+            </div>
+          </div>
+
+          <div style={{ flex: 1 }}></div>
+
+          <div style={{ marginTop: 20, marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9A9484" strokeWidth="2.5" strokeLinecap="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             <span className="v9-mono" style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.18em', color: '#9A9484' }}>{c.pickPrivacy}</span>
           </div>
+
+          {/* Chat-anywhere FAB */}
+          <ChatFab />
         </div>
       </div>
     );

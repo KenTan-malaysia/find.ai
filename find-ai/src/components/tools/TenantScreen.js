@@ -325,6 +325,8 @@ function SignalStep({ t, lang, stepKey, stepTitle, apps, sig, setSig, showWildca
 export default function TenantScreen({
   lang = 'en',
   onClose,
+  onAsk,        // v9.2 — open chat mid-tool for side-questions
+  askLabel,
   activeMemory,
   onSaveMemory,
   caseRef,
@@ -493,7 +495,7 @@ export default function TenantScreen({
 
   return (
     <Modal>
-      <ToolHeader icon="🔍" title={t.screenTitleV2} desc={t.screenDescV2} onClose={onClose} />
+      <ToolHeader icon="🔍" title={t.screenTitleV2} desc={t.screenDescV2} onClose={onClose} onAsk={onAsk} askLabel={askLabel} />
 
       {phase > 0 && phase < 5 && <StepDots step={phase - 1} total={4} />}
 

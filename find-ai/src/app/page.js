@@ -1757,11 +1757,16 @@ export default function Home() {
         onClear={clearCaseMemory}
       />
 
-      {/* Phase 1 — SDSAS 2026 Stamp Duty Calculator (TOOL 3) */}
+      {/* Phase 1 — SDSAS 2026 Stamp Duty Calculator (TOOL 3)
+          v9.2: onAsk closes the tool + opens chat so side-questions don't
+          strand the user mid-flow. Case memory is persisted, so reopening
+          the tool later resumes where they left off. */}
       {showStampTool && (
         <StampDutyCalc
           lang={lang}
           onClose={() => setShowStampTool(false)}
+          onAsk={() => { setShowStampTool(false); openChatDirect(); }}
+          askLabel={lang === 'en' ? 'Ask' : lang === 'bm' ? 'Tanya' : '问'}
           activeMemory={activeMemory}
           onSaveMemory={(nextMemory) => saveCaseMemory(nextMemory, activeCaseType)}
           profileLandlord={profile.role === 'landlord' ? t.roles.landlord : ''}
@@ -1774,6 +1779,8 @@ export default function Home() {
         <TenantScreen
           lang={lang}
           onClose={() => setShowScreenTool(false)}
+          onAsk={() => { setShowScreenTool(false); openChatDirect(); }}
+          askLabel={lang === 'en' ? 'Ask' : lang === 'bm' ? 'Tanya' : '问'}
           activeMemory={activeMemory}
           onSaveMemory={(nextMemory) => saveCaseMemory(nextMemory, activeCaseType)}
           profileLandlord={profile.role === 'landlord' ? t.roles.landlord : ''}

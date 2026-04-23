@@ -7,16 +7,33 @@ export const CloseBtn = ({ onClick }) => (
   </button>
 );
 
-export const ToolHeader = ({ icon, title, desc, onClose }) => (
+// v9.2 Floating Chat — optional `onAsk` renders an inline chat-anywhere button.
+// When a tool is open mid-flow and the user has a side question (Sabah? PRC tenant?),
+// tapping Ask jumps to chat WITHOUT closing the tool's state underneath.
+export const AskBtn = ({ onClick, label = 'Ask' }) => (
+  <button onClick={onClick} aria-label={label}
+    className="flex items-center gap-1.5 h-10 px-3 rounded-xl transition active:scale-95"
+    style={{ background: '#F3EFE4', color: '#0F1E3F', border: '1px solid #E7E1D2' }}>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <span className="text-[11px] font-bold tracking-tight">{label}</span>
+  </button>
+);
+
+export const ToolHeader = ({ icon, title, desc, onClose, onAsk, askLabel }) => (
   <div className="flex items-center justify-between mb-6 pb-4" style={{ borderBottom: '1px solid #f1f5f9' }}>
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 flex-1 min-w-0">
       <span className="text-2xl">{icon}</span>
-      <div>
-        <h3 className="text-[16px] font-bold" style={{ color: '#0f172a', letterSpacing: '-0.01em' }}>{title}</h3>
-        <p className="text-[11px] mt-0.5" style={{ color: '#94a3b8' }}>{desc}</p>
+      <div className="min-w-0">
+        <h3 className="text-[16px] font-bold truncate" style={{ color: '#0f172a', letterSpacing: '-0.01em' }}>{title}</h3>
+        <p className="text-[11px] mt-0.5 truncate" style={{ color: '#94a3b8' }}>{desc}</p>
       </div>
     </div>
-    <CloseBtn onClick={onClose} />
+    <div className="flex items-center gap-1.5 flex-shrink-0">
+      {onAsk && <AskBtn onClick={onAsk} label={askLabel} />}
+      <CloseBtn onClick={onClose} />
+    </div>
   </div>
 );
 

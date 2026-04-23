@@ -27,6 +27,8 @@ import { exportReport, buildStampReport, makeCaseRef } from '../../lib/pdfExport
 export default function StampDutyCalc({
   lang = 'en',
   onClose,
+  onAsk,        // v9.2 — jump to chat mid-tool without losing context
+  askLabel,
   activeMemory,
   onSaveMemory,
   caseRef,
@@ -126,7 +128,7 @@ export default function StampDutyCalc({
 
   return (
     <Modal>
-      <ToolHeader icon="📄" title={t.stampTitle} desc={t.stampDesc} onClose={onClose} />
+      <ToolHeader icon="📄" title={t.stampTitle} desc={t.stampDesc} onClose={onClose} onAsk={onAsk} askLabel={askLabel} />
       <div className="space-y-5">
         <RMInput
           value={rent}
