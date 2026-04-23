@@ -46,6 +46,13 @@ const T = {
     thinking: 'Finding the law…',
     emptyTitle: 'Ask Find.ai',
     emptySub: 'Sabah to Sarawak · deposits · stamp duty · strata · edge cases.',
+    emptyTry: 'Try one of these',
+    examplePrompts: [
+      'Can I trust this tenant?',
+      'Is this agreement fair?',
+      'How much stamp duty do I owe?',
+    ],
+    dockHint: 'Stuck? Ask Find.ai anything.',
     errorGeneric: 'Something went wrong. Tap retry.',
     retry: 'Retry',
     previewHead: 'Recent',
@@ -61,6 +68,13 @@ const T = {
     thinking: 'Mencari undang-undang…',
     emptyTitle: 'Tanya Find.ai',
     emptySub: 'Sabah ke Sarawak · deposit · duti setem · strata · kes khas.',
+    emptyTry: 'Cuba salah satu',
+    examplePrompts: [
+      'Boleh saya percaya penyewa ini?',
+      'Adakah perjanjian ini adil?',
+      'Berapa duti setem saya?',
+    ],
+    dockHint: 'Tersekat? Ketuk untuk bertanya.',
     errorGeneric: 'Ralat. Tekan cuba semula.',
     retry: 'Cuba semula',
     previewHead: 'Terkini',
@@ -76,6 +90,13 @@ const T = {
     thinking: '查找法律依据……',
     emptyTitle: '问 Find.ai',
     emptySub: '沙巴到砂拉越 · 押金 · 印花税 · 分层 · 特殊情况。',
+    emptyTry: '试试这些',
+    examplePrompts: [
+      '这个租客可信吗？',
+      '这份合同公平吗？',
+      '我该交多少印花税？',
+    ],
+    dockHint: '卡住了？点击向 Find.ai 提问。',
     errorGeneric: '出错了。点击重试。',
     retry: '重试',
     previewHead: '最近',
@@ -116,6 +137,10 @@ export default function PeekChat({
   const [localMessages, setLocalMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  // v9.4 — one-time dock hint ("Stuck? Ask Find.ai anything.") shown for 4s on
+  // first mount per device, then suppressed forever via localStorage. Fixes the
+  // 30-user feedback that first-timers didn't notice the persistent dock.
+  const [showHint, setShowHint] = useState(false);
 
   const inputRef = useRef(null);
   const scrollRef = useRef(null);
@@ -154,6 +179,31 @@ export default function PeekChat({
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [localMessages, loading, open]);
+
+  // v9.5 — one-time dock hint. v9.4 fired at 900ms which caught users still
+  // scanning the Welcome hero ("Let's go →"), so 2/30 dismissed without
+  // reading. Delayed to 1600ms so the hint lands after the user's eye has
+  // processed the primary CTA and is ready to notice peripheral UI.
+  // Dismisses after 4.2s total visible, or on any dock interaction.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const seen = window.localStorage.getItem('fi_peek_hint_v1');
+      if (seen) return;
+      const showId = setTimeout(() => setShowHint(true), 1600);
+      const hideId = setTimeout(() => {
+        setShowHint(false);
+        try { window.localStorage.setItem('fi_peek_hint_v1', '1'); } catch (_) {}
+      }, 1600 + 4200);
+      return () => { clearTimeout(showId); clearTimeout(hideId); };
+    } catch (_) { /* localStorage blocked — just skip the hint */ }
+  }, []);
+
+  const dismissHint = useCallback(() => {
+    if (!showHint) return;
+    setShowHint(false);
+    try { window.localStorage.setItem('fi_peek_hint_v1', '1'); } catch (_) {}
+  }, [showHint]);
 
   const buildProfileContext = useCallback(() => {
     if (!profile) return '';
@@ -252,6 +302,7 @@ export default function PeekChat({
   };
 
   const onDockTap = () => {
+    dismissHint();
     setOpen(true);
   };
 
@@ -394,6 +445,66 @@ export default function PeekChat({
       outline: none; transition: border-color .15s ease;
     }
     .pc-peek-input:focus { border-color: #0F1E3F; }
+
+    /* v9.4 — one-time dock hint balloon. Sits centered above the 56px dock,
+       fades in after a short delay, auto-dismisses after 4s or on first tap. */
+    .pc-hint-wrap {
+      position: absolute; left: 0; right: 0; bottom: 68px;
+      display: flex; justify-content: center; pointer-events: none;
+      animation: pcHintIn .35s cubic-bezier(0.2,0.7,0.2,1) both;
+    }
+    @keyframes pcHintIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .pc-hint {
+      background: #0F1E3F; color: #FFFFFF;
+      font-size: 12.5px; font-weight: 700;
+      padding: 8px 14px; border-radius: 999px;
+      box-shadow: 0 10px 30px -10px rgba(15,30,63,0.45);
+      display: inline-flex; align-items: center; gap: 8px;
+      max-width: calc(100% - 32px);
+    }
+    .pc-hint .pc-hint-dot {
+      width: 6px; height: 6px; border-radius: 999px;
+      background: #B8893A;
+      animation: pcHintPulse 1.4s infinite ease-in-out;
+    }
+    @keyframes pcHintPulse { 0%, 100% { opacity: 0.55; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1.15); } }
+    /* v9.5 — SVG triangle tail instead of a rotated square. Android Chrome
+       showed a 1px hairline on the rotated-square version due to the 2px
+       border-radius on the bottom corner. SVG triangle renders crisp at
+       any DPR. */
+    .pc-hint-tail {
+      position: absolute; left: 50%; bottom: -6px;
+      transform: translateX(-50%);
+      line-height: 0;
+    }
+    .pc-hint-tail svg { display: block; }
+
+    /* v9.4 — empty-state example prompts. Three tappable pills shown the
+       first time a user opens peek with no prior history. Fixes the "what
+       can I even ask?" hesitation seen in 12/30 simulated users. */
+    .pc-try-head {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em;
+      color: #9A9484; text-align: center; margin: 4px 0 10px;
+    }
+    .pc-try-list { display: flex; flex-direction: column; gap: 8px; padding: 0 4px 4px; }
+    .pc-pill {
+      background: #FFFFFF; border: 1px solid #E7E1D2; color: #0F1E3F;
+      border-radius: 14px; padding: 10px 14px;
+      font-size: 13.5px; font-weight: 600; font-family: inherit;
+      text-align: left; cursor: pointer; width: 100%;
+      display: flex; align-items: center; gap: 10px;
+      transition: border-color .15s ease, transform .1s ease, background .15s ease;
+    }
+    .pc-pill:hover { border-color: #0F1E3F; background: #FAF8F3; }
+    .pc-pill:active { transform: scale(0.99); }
+    .pc-pill-ico {
+      width: 24px; height: 24px; border-radius: 999px;
+      background: #F3EFE4; color: #B8893A;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .pc-pill-ico svg { display: block; }
   `;
 
   // Preview is shown inside peek ONLY before the user sends anything in peek.
@@ -435,7 +546,33 @@ export default function PeekChat({
                 {showEmpty && (
                   <div className="pc-empty">
                     <h4>{t.emptyTitle}</h4>
-                    <p>{t.emptySub}</p>
+                    <p style={{ marginBottom: 14 }}>{t.emptySub}</p>
+                    <div className="pc-try-head">{t.emptyTry}</div>
+                    <div className="pc-try-list">
+                      {/* v9.5 — identical speech-bubble icon on every pill.
+                          Dropped the 1·2·3 mono badges because one re-test
+                          user (U28 Alvin) read them as "3 sequential steps"
+                          instead of 3 independent options. Uniform icon
+                          signals "any of these will work." */}
+                      {(t.examplePrompts || []).map((p, i) => (
+                        <button
+                          key={`ex-${i}`}
+                          type="button"
+                          className="pc-pill"
+                          onClick={() => send(p)}
+                        >
+                          <span className="pc-pill-ico" aria-hidden="true">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                          </span>
+                          <span style={{ flex: 1 }}>{p}</span>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9A9484" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="m9 18 6-6-6-6"/>
+                          </svg>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
                 {showPreview && (
@@ -496,24 +633,40 @@ export default function PeekChat({
 
           {/* Dock — always visible (unless hidden) */}
           {!open && (
-            <div className="pc-dock">
-              <button
-                className="pc-dock-input"
-                onClick={onDockTap}
-                aria-label={t.dockPlaceholder}
-              >
-                {t.dockPlaceholder}
-              </button>
-              <button className="pc-dock-ico ghost" onClick={onDockTap} aria-label={t.mic}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect width="6" height="11" x="9" y="3" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" x2="12" y1="17" y2="21"/>
-                </svg>
-              </button>
-              <button className="pc-dock-ico" onClick={onDockTap} aria-label={t.send}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-                </svg>
-              </button>
+            <div style={{ position: 'relative' }}>
+              {/* v9.4 one-time hint balloon (T4). Shows once per device. */}
+              {showHint && (
+                <div className="pc-hint-wrap" onClick={dismissHint}>
+                  <div className="pc-hint">
+                    <span className="pc-hint-dot" aria-hidden="true" />
+                    <span>{t.dockHint}</span>
+                    <div className="pc-hint-tail" aria-hidden="true">
+                      <svg width="12" height="7" viewBox="0 0 12 7" fill="#0F1E3F">
+                        <path d="M0 0 L12 0 L6 7 Z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="pc-dock">
+                <button
+                  className="pc-dock-input"
+                  onClick={onDockTap}
+                  aria-label={t.dockPlaceholder}
+                >
+                  {t.dockPlaceholder}
+                </button>
+                <button className="pc-dock-ico ghost" onClick={onDockTap} aria-label={t.mic}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="6" height="11" x="9" y="3" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" x2="12" y1="17" y2="21"/>
+                  </svg>
+                </button>
+                <button className="pc-dock-ico" onClick={onDockTap} aria-label={t.send}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                  </svg>
+                </button>
+              </div>
             </div>
           )}
         </div>

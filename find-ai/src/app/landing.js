@@ -20,6 +20,7 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
   const t = {
     en: {
       brandSub: 'Pre-signing toolkit',
+      motto: "Don't sign blind.",
       // Welcome
       hi: 'Hi there.',
       welcomeBefore: 'Before you sign anything — ',
@@ -32,6 +33,12 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       pickTitle: 'What do you need?',
       pickSub: 'Pick one. Goes straight in — no extra step.',
       pickPrivacy: 'Your info stays private',
+      // Tile eyebrows (v9.4 polish — tells commercial / company / foreign tenants they're covered)
+      p1eye: 'Individuals + companies',
+      p3eye: 'Residential + commercial',
+      // v9.5 — secondary reassurance on the Stamp tile that this uses the
+      // new 2026 self-assessment framework (3 users asked during v9.3 re-test).
+      p3eyeSub: 'SDSAS 2026',
       p1: 'Check a tenant',       p1q: '"Can I trust this person?"',
       p2: 'Review an agreement',  p2q: '"Is this contract fair?"',
       p3: 'Calculate stamp duty', p3q: '"How much do I owe LHDN?"',
@@ -44,6 +51,7 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
     },
     bm: {
       brandSub: 'Kit pra-tandatangan',
+      motto: 'Jangan tandatangan buta.',
       hi: 'Hai.',
       welcomeBefore: 'Sebelum anda tandatangan apa-apa — ',
       welcomeStrong: 'mari pastikan ia selamat',
@@ -54,6 +62,9 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       pickTitle: 'Apa yang anda perlukan?',
       pickSub: 'Pilih satu. Terus mula — tiada langkah tambahan.',
       pickPrivacy: 'Maklumat anda kekal privasi',
+      p1eye: 'Individu + syarikat',
+      p3eye: 'Kediaman + komersial',
+      p3eyeSub: 'SDSAS 2026',
       p1: 'Semak penyewa',          p1q: '"Boleh saya percaya dia?"',
       p2: 'Periksa perjanjian',     p2q: '"Adakah kontrak ini adil?"',
       p3: 'Kira duti setem',        p3q: '"Berapa saya patut bayar LHDN?"',
@@ -65,6 +76,7 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
     },
     zh: {
       brandSub: '签约前工具',
+      motto: '签约前先查清。',
       hi: '你好。',
       welcomeBefore: '签任何东西之前——',
       welcomeStrong: '让我们确保安全',
@@ -75,6 +87,9 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
       pickTitle: '您需要什么?',
       pickSub: '选一个。直接进入 — 无需多一步。',
       pickPrivacy: '您的信息保持私密',
+      p1eye: '个人 + 公司',
+      p3eye: '住宅 + 商业',
+      p3eyeSub: 'SDSAS 2026',
       p1: '查租客',           p1q: '"这个人可信吗?"',
       p2: '看合同',           p2q: '"这份合同公平吗?"',
       p3: '算印花税',         p3q: '"我该交多少给 LHDN?"',
@@ -162,6 +177,39 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
        (mounted by page.js, ~56-64px tall) never covers the primary CTA or
        progress dots. The dock sits at position:fixed bottom:0. */
     .v9-screen-peek-safe { padding-bottom: 96px; }
+
+    /* v9.4 — the motto "Don't sign blind." sits under the Brand wordmark on
+       Welcome. Gold, all-caps, tight mono so it reads as a tagline stamp
+       rather than body copy. Answers the 30-user feedback that first-run
+       users couldn't tell what Find.ai *does* from the 👋 + "Hi there" alone. */
+    .v9-motto {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: #B8893A;
+      margin-top: 6px;
+    }
+
+    /* v9.5 — tile eyebrow ("Individuals + companies" / "Residential + commercial")
+       sits above each tile's name. v9.4 shipped with 0.14em letter-spacing which
+       two re-test users felt competed with the bold tile name. Tightened to
+       0.10em + 9px so the eyebrow reads as a quiet coverage strip, not a
+       third loud type layer. A faint bullet joins the second sub-eyebrow
+       (SDSAS 2026 on Stamp) so both fit on one line. */
+    .v9-tile-eye {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: #B8893A;
+      margin-bottom: 3px;
+      display: block;
+    }
+    .v9-tile-eye .v9-tile-eye-sep {
+      color: #D8C8A5; margin: 0 6px; font-weight: 600;
+    }
+    .v9-tile-eye .v9-tile-eye-sub {
+      color: #9C7A3A; /* slightly muted from the primary eyebrow */
+    }
   `;
 
   const ProgressDots = ({ active }) => (
@@ -181,8 +229,19 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
     </div>
   );
 
+  // v9.4 — bumped from 11px/4-10 padding to 13px/6-14 padding for ≥32px tap target
+  // (fixes "lang toggle too small to see" feedback from older users).
   const LangBtn = () => (
-    <button onClick={nextLang} style={{ fontSize: 11, padding: '4px 10px', borderRadius: 999, fontWeight: 600, background: '#F3EFE4', color: '#3F4E6B', border: 'none', cursor: 'pointer' }}>{c.langBtn}</button>
+    <button
+      onClick={nextLang}
+      style={{
+        fontSize: 13, padding: '6px 14px', borderRadius: 999, fontWeight: 700,
+        background: '#F3EFE4', color: '#3F4E6B', border: 'none', cursor: 'pointer',
+        minHeight: 32, minWidth: 44,
+      }}
+    >
+      {c.langBtn}
+    </button>
   );
 
   // v9.3 — no FAB. Chat lives as a persistent PeekChat dock mounted by page.js
@@ -195,7 +254,10 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
         <style dangerouslySetInnerHTML={{ __html: styles }} />
         <div className="v9-screen v9-screen-peek-safe v9-fade">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Brand />
+            <div>
+              <Brand />
+              <div className="v9-motto">{c.motto}</div>
+            </div>
             <LangBtn />
           </div>
 
@@ -204,9 +266,14 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
           </div>
 
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center', padding: '32px 0' }}>
-            <div style={{ fontSize: 56, marginBottom: 16 }}>👋</div>
-            <h1 className="v9-tighter" style={{ fontSize: 42, fontWeight: 900, lineHeight: 0.95, color: '#0F1E3F', marginBottom: 20 }}>
-              {c.hi}
+            {/* v9.5 — 👋 shrunk from 56px to an inline 26px accent so the gold
+                "DON'T SIGN BLIND." motto + "Hi there." heading carry the page.
+                Two re-test users said the giant wave emoji clashed with the
+                compliance-serious motto; making the wave an inline accent
+                beside the greeting keeps the friendliness without competing. */}
+            <h1 className="v9-tighter" style={{ fontSize: 42, fontWeight: 900, lineHeight: 0.95, color: '#0F1E3F', marginBottom: 20, display: 'inline-flex', alignItems: 'center', gap: 10, justifyContent: 'center' }}>
+              <span>{c.hi}</span>
+              <span aria-hidden="true" style={{ fontSize: 26, lineHeight: 1, transform: 'translateY(-2px)' }}>👋</span>
             </h1>
             <p style={{ fontSize: 17, lineHeight: 1.55, color: '#3F4E6B', maxWidth: 320, margin: '0 auto' }}>
               {c.welcomeBefore}<span style={{ color: '#0F1E3F', fontWeight: 700, borderBottom: '2px solid #B8893A', paddingBottom: '2px' }}>{c.welcomeStrong}</span>{c.welcomeEnd}
@@ -232,8 +299,8 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
     // v9.3 — only tools that produce a PDF live in the tile grid.
     // Chat = persistent PeekChat dock at the bottom of the viewport (mounted by page.js).
     const picks = [
-      { id: 'screen', emoji: '👤', name: c.p1, q: c.p1q },
-      { id: 'stamp',  emoji: '💰', name: c.p3, q: c.p3q },
+      { id: 'screen', emoji: '👤', name: c.p1, q: c.p1q, eyebrow: c.p1eye },
+      { id: 'stamp',  emoji: '💰', name: c.p3, q: c.p3q, eyebrow: c.p3eye, eyebrowSub: c.p3eyeSub },
     ];
 
     return (
@@ -264,6 +331,15 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                   <div style={{ fontSize: 42, lineHeight: 1 }}>{p.emoji}</div>
                   <div style={{ flex: 1 }}>
+                    <span className="v9-tile-eye">
+                      {p.eyebrow}
+                      {p.eyebrowSub && (
+                        <>
+                          <span className="v9-tile-eye-sep">·</span>
+                          <span className="v9-tile-eye-sub">{p.eyebrowSub}</span>
+                        </>
+                      )}
+                    </span>
                     <span className="v9-tight" style={{ fontSize: 19, fontWeight: 900, color: '#0F1E3F', display: 'block' }}>{p.name}</span>
                     <div style={{ fontSize: 13.5, color: '#5A6780', marginTop: 3 }}>{p.q}</div>
                   </div>
@@ -287,9 +363,12 @@ export default function Landing({ onStart, onOpenChat, onOpenScreen, onOpenStamp
 
           <div style={{ flex: 1 }}></div>
 
-          <div style={{ marginTop: 20, marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9A9484" strokeWidth="2.5" strokeLinecap="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span className="v9-mono" style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.18em', color: '#9A9484' }}>{c.pickPrivacy}</span>
+          {/* v9.4 — privacy chip bumped 9px → 11px and 11x11 icon → 14x14. Fixes the
+              30-user feedback that older landlords couldn't read it at arm's length.
+              Still subtle (warm mono #9A9484) so it doesn't compete with the CTA. */}
+          <div style={{ marginTop: 20, marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9A9484" strokeWidth="2.5" strokeLinecap="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span className="v9-mono" style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#9A9484' }}>{c.pickPrivacy}</span>
           </div>
         </div>
       </div>
