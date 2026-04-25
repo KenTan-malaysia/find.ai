@@ -8,27 +8,29 @@ import { makeCaseRef } from '../../lib/pdfExport';
 // TOOL 1 — Tenant Credit Score (v0 MOCK DEMO)
 //
 // Spec lock: 2026-04-25 v3.4 (see ARCH_CREDIT_SCORE.md).
-// Model: LHDN cert is the identity gate (pass/fail) + utility bills are the
-// pure paying-behaviour score (0-100).
 //
-// 2026-04-25 update — UX revisions per Ken:
-//   - LHDN verification step now offers both KEY-IN NUMBER and UPLOAD PDF
-//     paths (tenant picks whichever is easier).
-//   - Third utility tile changed from IWK to MOBILE POSTPAID (stronger signal:
-//     monthly cycle, faster disconnection on non-payment, near-universal).
+// Model:
+//   STEP 2 — LHDN cert is the IDENTITY GATE only. Pass/fail. Proves the tenant
+//            is a real previous renter at a real address. Contributes ZERO to
+//            the credit score. Tenant can either key in cert # OR upload PDF.
+//   STEP 3 — Utility bills are the PURE PAYING-BEHAVIOUR SCORE (0-100). Tenant
+//            picks the lowest-effort method per utility:
+//              · Account # only (we look up the bill — works for current month)
+//              · Upload 1 recent bill (one bill natively contains 3-6 months
+//                of "Bayaran Diterima" payment history — strongest signal/effort)
+//              · Upload multiple bills (max coverage)
 //
 // THIS IS A MOCK DEMO BUILD:
-//   - Any LHDN cert # OR uploaded file → returns fake "verified" data
-//   - Any uploaded utility file → registers as a successful bill upload
-//   - Score is hardcoded to a high number (94/100) for the demo
-//   - Real OCR + real LHDN integration happens in later sessions per the
-//     8-step build order in ARCH_CREDIT_SCORE.md
+//   - Any LHDN cert # OR uploaded LHDN PDF → returns fake "verified" data
+//   - Account # OR uploaded bill → marks utility as covered (mock 14 months)
+//   - Score is hardcoded to 94/100
+//   - Real OCR + LHDN integration happens in later sessions per build order
+//     in ARCH_CREDIT_SCORE.md
 // ────────────────────────────────────────────────────────────────────────────
 
 const DEMO_MODE = true;
 
 // Inline EN/BM/ZH strings — kept local for v0 to avoid disturbing labels.js.
-// When the spec stabilises post-pilot, move to labels.js for parity with TOOL 3.
 const STR = {
   en: {
     title: 'Tenant Credit Score',
@@ -42,7 +44,7 @@ const STR = {
     icLabel: 'IC last 4 digits',
     icPh: '4321',
     s2Title: 'LHDN tenancy verification',
-    s2Sub: 'Tenant provides their previous tenancy stamp certificate. We cross-check it against the official LHDN STAMPS portal.',
+    s2Sub: 'This step proves the tenant really rented before. We cross-check the cert against LHDN STAMPS — nothing from the cert affects the score.',
     methodNumber: '⌨️  Key in number',
     methodPdf: '📎  Upload PDF',
     certLabel: 'LHDN stamp certificate number',
@@ -57,22 +59,53 @@ const STR = {
     period: 'Period',
     address: 'Address',
     icMatched: 'IC matches MyKad on file',
+
     s3Title: 'Utility payment history',
-    s3Sub: 'Tenant uploads utility bills covering the verified tenancy period. We read paying behaviour directly from the bills.',
-    upload: 'Upload',
-    uploaded: 'Uploaded',
-    addBill: 'Add bill',
+    s3Sub: 'For each utility, pick whichever the tenant has handy. Account number alone is enough — one recent bill is even better (it includes 3-6 months of payment history).',
+    add: 'Add',
+    edit: 'Edit',
+    methodAcct: '⌨️  Account number',
+    methodAcctHint: 'Easiest — we pull the bill',
+    methodUpload: '📎  Upload bill',
+    methodUploadHint: 'Recent bill = 3-6 months of history',
+    acctPlaceholder: 'Account number',
+    acctTnbPh: 'e.g. 220012345678',
+    acctWaterPh: 'e.g. 4001234567',
+    acctMobilePh: 'e.g. 0123456789',
+    uploadAnyBill: 'Tap to upload bill (any month)',
+    uploadHint: 'PDF or photo',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    addedAcct: 'Account · {n} months covered',
+    addedFile: 'Bill uploaded · {n} months covered',
+    addedFileFromAcct: 'Account ····{tail} · {n} months covered',
+
     tnb: 'TNB (Electricity)',
-    water: 'Water (Air Selangor / SYABAS / etc)',
+    water: 'Water (Air Selangor / SYABAS)',
     mobile: 'Mobile postpaid (Maxis / CelcomDigi / U Mobile / Yes)',
     monthsCovered: 'months covered',
     seeScore: 'See paying behaviour score',
-    needTwo: 'Upload at least TNB + Water to continue',
+    needTwo: 'Add at least TNB + Water to continue',
+
     s4Title: 'Paying Behaviour Score',
-    paidOnTime: 'Bills paid on time',
-    zeroCarry: 'Bills with zero carry-over',
-    zeroLate: 'Late charges',
-    zeroDisc: 'Disconnections',
+    timingHeader: 'Average payment timing',
+    gapBefore: '{n} days BEFORE due date',
+    gapAfter: '{n} days AFTER due date',
+    gapSame: 'On the due date',
+    variance: '±{n} days variance',
+    predictHigh: 'Highly predictable',
+    predictMid: 'Somewhat predictable',
+    predictLow: 'Erratic',
+    upfrontTag: '✓ Upfront tenant',
+    onTimeTag: '✓ On-time tenant',
+    lateTag: '⚠ Late tenant',
+    tierUpfront: 'Upfront',
+    tierOnTime: 'On-time',
+    tierLate: 'Late',
+    tierVeryLate: 'Very late',
+    tierDefault: 'Default',
+    months: 'months',
+    autoDebit: 'auto-debit',
     sourcedFrom: 'Sourced from',
     monthsBills: 'months of utility bills at the verified address',
     confidence: 'Confidence',
@@ -104,7 +137,7 @@ const STR = {
     icLabel: '4 digit akhir IC',
     icPh: '4321',
     s2Title: 'Pengesahan sewaan LHDN',
-    s2Sub: 'Penyewa memberi sijil setem sewaan terdahulu. Kami semak silang dengan portal rasmi LHDN STAMPS.',
+    s2Sub: 'Langkah ini membuktikan penyewa benar-benar pernah menyewa. Kami semak silang sijil dengan LHDN STAMPS — tiada apa-apa dari sijil mempengaruhi skor.',
     methodNumber: '⌨️  Masukkan nombor',
     methodPdf: '📎  Muat naik PDF',
     certLabel: 'Nombor sijil setem LHDN',
@@ -119,22 +152,53 @@ const STR = {
     period: 'Tempoh',
     address: 'Alamat',
     icMatched: 'IC sepadan dengan MyKad dalam fail',
+
     s3Title: 'Sejarah bayaran utiliti',
-    s3Sub: 'Penyewa muat naik bil utiliti meliputi tempoh sewaan disahkan. Kami baca tingkah laku bayaran terus dari bil.',
-    upload: 'Muat naik',
-    uploaded: 'Dimuat naik',
-    addBill: 'Tambah bil',
+    s3Sub: 'Untuk setiap utiliti, pilih apa yang penyewa ada di tangan. Nombor akaun sahaja sudah cukup — satu bil terkini lagi bagus (termasuk 3-6 bulan sejarah bayaran).',
+    add: 'Tambah',
+    edit: 'Ubah',
+    methodAcct: '⌨️  Nombor akaun',
+    methodAcctHint: 'Paling mudah — kami tarik bil',
+    methodUpload: '📎  Muat naik bil',
+    methodUploadHint: 'Bil terkini = 3-6 bulan sejarah',
+    acctPlaceholder: 'Nombor akaun',
+    acctTnbPh: 'cth. 220012345678',
+    acctWaterPh: 'cth. 4001234567',
+    acctMobilePh: 'cth. 0123456789',
+    uploadAnyBill: 'Ketuk untuk muat naik bil (mana-mana bulan)',
+    uploadHint: 'PDF atau foto',
+    confirm: 'Sahkan',
+    cancel: 'Batal',
+    addedAcct: 'Akaun · {n} bulan diliputi',
+    addedFile: 'Bil dimuat naik · {n} bulan diliputi',
+    addedFileFromAcct: 'Akaun ····{tail} · {n} bulan diliputi',
+
     tnb: 'TNB (Elektrik)',
-    water: 'Air (Air Selangor / SYABAS / dll)',
+    water: 'Air (Air Selangor / SYABAS)',
     mobile: 'Pascabayar mudah alih (Maxis / CelcomDigi / U Mobile / Yes)',
     monthsCovered: 'bulan diliputi',
     seeScore: 'Lihat skor tingkah laku bayaran',
-    needTwo: 'Muat naik sekurang-kurangnya TNB + Air untuk teruskan',
+    needTwo: 'Tambah sekurang-kurangnya TNB + Air untuk teruskan',
+
     s4Title: 'Skor Tingkah Laku Bayaran',
-    paidOnTime: 'Bil dibayar tepat masa',
-    zeroCarry: 'Bil tiada tunggakan dibawa',
-    zeroLate: 'Caj lewat',
-    zeroDisc: 'Pemutusan',
+    timingHeader: 'Purata masa bayaran',
+    gapBefore: '{n} hari SEBELUM tarikh akhir',
+    gapAfter: '{n} hari SELEPAS tarikh akhir',
+    gapSame: 'Pada tarikh akhir',
+    variance: 'varians ±{n} hari',
+    predictHigh: 'Sangat boleh diramal',
+    predictMid: 'Sederhana boleh diramal',
+    predictLow: 'Tidak konsisten',
+    upfrontTag: '✓ Penyewa awal',
+    onTimeTag: '✓ Penyewa tepat masa',
+    lateTag: '⚠ Penyewa lewat',
+    tierUpfront: 'Awal',
+    tierOnTime: 'Tepat masa',
+    tierLate: 'Lewat',
+    tierVeryLate: 'Sangat lewat',
+    tierDefault: 'Gagal',
+    months: 'bulan',
+    autoDebit: 'auto-debit',
     sourcedFrom: 'Bersumberkan',
     monthsBills: 'bulan bil utiliti di alamat yang disahkan',
     confidence: 'Keyakinan',
@@ -166,7 +230,7 @@ const STR = {
     icLabel: '身份证后4位',
     icPh: '4321',
     s2Title: 'LHDN 租赁验证',
-    s2Sub: '租客提供其上一份租赁合约的印花证书。我们与官方 LHDN STAMPS 门户交叉验证。',
+    s2Sub: '此步骤证明租客确实租赁过。我们与 LHDN STAMPS 交叉验证 — 证书内容不影响评分。',
     methodNumber: '⌨️  输入编号',
     methodPdf: '📎  上传 PDF',
     certLabel: 'LHDN 印花证书编号',
@@ -181,22 +245,53 @@ const STR = {
     period: '期间',
     address: '地址',
     icMatched: '身份证与档案中 MyKad 匹配',
+
     s3Title: '公用事业付款记录',
-    s3Sub: '租客上传涵盖已验证租赁期间的公用事业账单。我们直接从账单读取付款行为。',
-    upload: '上传',
-    uploaded: '已上传',
-    addBill: '添加账单',
+    s3Sub: '每项公用事业，选租客手头有的。仅账户编号已足够 — 一份近期账单更佳（含3-6个月付款历史）。',
+    add: '添加',
+    edit: '编辑',
+    methodAcct: '⌨️  账户编号',
+    methodAcctHint: '最简单 — 我们调取账单',
+    methodUpload: '📎  上传账单',
+    methodUploadHint: '近期账单 = 3-6 个月历史',
+    acctPlaceholder: '账户编号',
+    acctTnbPh: '例：220012345678',
+    acctWaterPh: '例：4001234567',
+    acctMobilePh: '例：0123456789',
+    uploadAnyBill: '点击上传账单（任何月份）',
+    uploadHint: 'PDF 或照片',
+    confirm: '确认',
+    cancel: '取消',
+    addedAcct: '账户 · 覆盖 {n} 个月',
+    addedFile: '账单已上传 · 覆盖 {n} 个月',
+    addedFileFromAcct: '账户 ····{tail} · 覆盖 {n} 个月',
+
     tnb: 'TNB（电费）',
-    water: '水费（Air Selangor / SYABAS 等）',
+    water: '水费（Air Selangor / SYABAS）',
     mobile: '手机后付（Maxis / CelcomDigi / U Mobile / Yes）',
     monthsCovered: '个月覆盖',
     seeScore: '查看付款行为评分',
-    needTwo: '至少上传 TNB + 水费才能继续',
+    needTwo: '至少添加 TNB + 水费才能继续',
+
     s4Title: '付款行为评分',
-    paidOnTime: '按时支付的账单',
-    zeroCarry: '无欠款的账单',
-    zeroLate: '迟缴费用',
-    zeroDisc: '断缴',
+    timingHeader: '平均付款时间',
+    gapBefore: '到期日前 {n} 天',
+    gapAfter: '到期日后 {n} 天',
+    gapSame: '到期日当天',
+    variance: '±{n} 天波动',
+    predictHigh: '高度可预测',
+    predictMid: '中等可预测',
+    predictLow: '不稳定',
+    upfrontTag: '✓ 提前付款租客',
+    onTimeTag: '✓ 准时付款租客',
+    lateTag: '⚠ 迟付款租客',
+    tierUpfront: '提前',
+    tierOnTime: '准时',
+    tierLate: '迟付',
+    tierVeryLate: '严重迟付',
+    tierDefault: '违约',
+    months: '个月',
+    autoDebit: '自动扣款',
     sourcedFrom: '来源于',
     monthsBills: '个月在已验证地址的公用事业账单',
     confidence: '可信度',
@@ -218,7 +313,7 @@ const STR = {
   },
 };
 
-// Mock LHDN-verified tenancy data — what the real LHDN cert lookup would return.
+// Mock LHDN-verified tenancy data
 const MOCK_LHDN_RESULT = {
   tenantName: 'Ahmad bin Ali',
   tenantIC: '901223-08-4321',
@@ -229,21 +324,26 @@ const MOCK_LHDN_RESULT = {
   landlordName: 'Tan Ken Yap',
 };
 
-// Mock score result — what the real scoring engine would return after OCR.
-// Third utility is now Mobile Postpaid (replaced IWK per Ken's call — stronger
-// behaviour signal: monthly cycle, faster disconnection on non-payment, near-universal).
+// Mock score result — v3.4.1 timing-tier model.
+// Each utility tracks per-month payment timing relative to due date:
+//   upfront  = paid 7+ days before due date
+//   onTime   = paid 0-6 days before due date
+//   late     = paid 1-7 days after due date (within grace)
+//   veryLate = paid 8+ days after due date
+//   default  = carry-over to next bill or disconnection notice
+// Mock shows a high-quality tenant: mostly upfront, no late events.
 const MOCK_SCORE = {
   total: 94,
-  paidOnTimePct: 100,
-  zeroCarryPct: 100,
-  lateCharges: 0,
-  disconnections: 0,
+  avgGapDays: -4,        // negative = paid before due (good)
+  varianceDays: 2,       // low variance = predictable
   utilities: [
-    { name: 'TNB', months: 14, onTime: 14, carry: 0, late: 0, disc: 0 },
-    { name: 'Air Selangor', months: 14, onTime: 14, carry: 0, late: 0, disc: 0 },
-    { name: 'Maxis Postpaid', months: 14, onTime: 14, carry: 0, late: 0, disc: 0 },
+    { name: 'TNB',            months: 14, upfront: 12, onTime: 2, late: 0, veryLate: 0, default: 0, autoDebit: false },
+    { name: 'Air Selangor',   months: 14, upfront: 14, onTime: 0, late: 0, veryLate: 0, default: 0, autoDebit: true  },
+    { name: 'Maxis Postpaid', months: 14, upfront: 13, onTime: 1, late: 0, veryLate: 0, default: 0, autoDebit: true  },
   ],
 };
+
+const COVERAGE_MOCK_MONTHS = 14;
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
@@ -254,10 +354,7 @@ function StepDots({ step, total = 4 }) {
         <div
           key={i}
           className="h-1 rounded-full transition-all"
-          style={{
-            flex: i === step ? 2 : 1,
-            background: i <= step ? '#0f172a' : '#e2e8f0',
-          }}
+          style={{ flex: i === step ? 2 : 1, background: i <= step ? '#0f172a' : '#e2e8f0' }}
         />
       ))}
     </div>
@@ -267,14 +364,14 @@ function StepDots({ step, total = 4 }) {
 function TextInput({ label, value, onChange, placeholder, mono = false }) {
   return (
     <div>
-      <label className="text-[11px] font-bold uppercase tracking-widest mb-2 block" style={{ color: '#94a3b8' }}>{label}</label>
+      {label && <label className="text-[11px] font-bold uppercase tracking-widest mb-2 block" style={{ color: '#94a3b8' }}>{label}</label>}
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className={`w-full rounded-xl px-4 py-3.5 text-[15px] focus:outline-none ${mono ? 'font-mono' : 'font-semibold'}`}
-        style={{ background: '#f8fafc', border: '1px solid #edf0f4', color: '#0f172a' }}
+        style={{ background: '#fff', border: '1px solid #e2e8f0', color: '#0f172a' }}
       />
     </div>
   );
@@ -366,50 +463,234 @@ function PdfDropZone({ pdfName, onPick, t }) {
   );
 }
 
-function BillTile({ label, uploaded, onUpload, t }) {
-  return (
-    <div
-      className="p-3.5 rounded-xl flex items-center gap-3 transition"
-      style={{
-        background: uploaded ? '#d1fae5' : '#f8fafc',
-        border: `1px solid ${uploaded ? '#a7f3d0' : '#edf0f4'}`,
-      }}
-    >
-      <div
-        className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-        style={{ background: uploaded ? '#065f46' : '#fff', boxShadow: uploaded ? 'none' : '0 1px 2px rgba(15,23,42,0.04)' }}
-      >
-        {uploaded ? (
+// ─── BillTile — utility input with two methods (account # OR upload) ─────────
+//
+// State machine per tile:
+//   { open: false, method: null }            ← initial collapsed
+//   { open: true, method: null }             ← expanded, method picker shown
+//   { open: true, method: 'acct', value: '' }← account # input visible
+//   { open: true, method: 'file', file: ''}  ← file picker visible
+//   { done: true, method, value | file }     ← collapsed green, with summary
+
+function BillTile({ label, ph, state, setState, t }) {
+  const { open = false, method = null, value = '', file = '', done = false } = state || {};
+
+  // Collapsed completed state — green tile with summary
+  if (done) {
+    const summary = method === 'acct'
+      ? t.addedAcct.replace('{n}', String(COVERAGE_MOCK_MONTHS))
+      : (value
+          ? t.addedFileFromAcct.replace('{tail}', value.slice(-4)).replace('{n}', String(COVERAGE_MOCK_MONTHS))
+          : t.addedFile.replace('{n}', String(COVERAGE_MOCK_MONTHS))
+        );
+    return (
+      <div className="p-3.5 rounded-xl flex items-center gap-3"
+        style={{ background: '#d1fae5', border: '1px solid #a7f3d0' }}>
+        <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#065f46' }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="20 6 9 17 4 12" />
           </svg>
-        ) : (
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="text-[12px] font-bold truncate" style={{ color: '#065f46' }}>{label}</div>
+          <div className="text-[10px] mt-0.5 truncate" style={{ color: '#065f46' }}>{summary}</div>
+        </div>
+        <button
+          onClick={() => setState({ open: true, method: null, value: '', file: '', done: false })}
+          className="text-[11px] font-bold px-3 py-1.5 rounded-lg transition active:scale-95 flex-shrink-0"
+          style={{ background: '#fff', color: '#065f46' }}
+        >
+          {t.edit}
+        </button>
+      </div>
+    );
+  }
+
+  // Closed initial state — tile with Add button
+  if (!open) {
+    return (
+      <div className="p-3.5 rounded-xl flex items-center gap-3"
+        style={{ background: '#f8fafc', border: '1px solid #edf0f4' }}>
+        <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+          style={{ background: '#fff', boxShadow: '0 1px 2px rgba(15,23,42,0.04)' }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
             <polyline points="14 2 14 8 20 8" />
           </svg>
-        )}
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="text-[12px] font-bold truncate" style={{ color: uploaded ? '#065f46' : '#0f172a' }}>
-          {label}
         </div>
-        <div className="text-[10px] mt-0.5" style={{ color: uploaded ? '#065f46' : '#94a3b8' }}>
-          {uploaded ? `${t.uploaded} · 14 ${t.monthsCovered}` : t.addBill}
+        <div className="flex-1 min-w-0">
+          <div className="text-[12px] font-bold truncate" style={{ color: '#0f172a' }}>{label}</div>
+          <div className="text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>—</div>
         </div>
+        <button
+          onClick={() => setState({ open: true, method: null, value: '', file: '', done: false })}
+          className="text-[11px] font-bold px-3 py-1.5 rounded-lg transition active:scale-95 flex-shrink-0"
+          style={{ background: '#0f172a', color: '#fff' }}
+        >
+          {t.add}
+        </button>
       </div>
-      <label
-        className="text-[11px] font-bold px-3 py-1.5 rounded-lg cursor-pointer transition active:scale-95 flex-shrink-0"
-        style={{ background: uploaded ? '#fff' : '#0f172a', color: uploaded ? '#065f46' : '#fff' }}
-      >
-        {uploaded ? '✓' : t.upload}
-        <input
-          type="file"
-          accept="image/*,application/pdf"
-          className="hidden"
-          onChange={(e) => { if (e.target.files?.[0]) onUpload(); }}
-        />
-      </label>
+    );
+  }
+
+  // Expanded — picker or chosen-method input
+  return (
+    <div className="rounded-xl overflow-hidden"
+      style={{ background: '#f8fafc', border: '1px solid #edf0f4' }}>
+      {/* Header row */}
+      <div className="px-3.5 pt-3.5 pb-2.5 flex items-center justify-between">
+        <div className="text-[12px] font-bold" style={{ color: '#0f172a' }}>{label}</div>
+        <button
+          onClick={() => setState({ open: false, method: null, value: '', file: '', done: false })}
+          className="text-[10px] font-semibold px-2 py-1 rounded transition active:scale-95"
+          style={{ color: '#64748b' }}
+        >
+          {t.cancel}
+        </button>
+      </div>
+
+      {/* Method picker */}
+      {!method && (
+        <div className="px-3.5 pb-3.5 space-y-2">
+          <button
+            onClick={() => setState({ ...state, method: 'acct' })}
+            className="w-full p-3 rounded-lg text-left transition active:scale-[0.99] flex items-center justify-between"
+            style={{ background: '#fff', border: '1px solid #cbd5e1' }}
+          >
+            <div>
+              <div className="text-[13px] font-bold" style={{ color: '#0f172a' }}>{t.methodAcct}</div>
+              <div className="text-[10.5px] mt-0.5" style={{ color: '#65a30d' }}>{t.methodAcctHint}</div>
+            </div>
+            <span className="text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded" style={{ background: '#d1fae5', color: '#065f46' }}>★</span>
+          </button>
+          <button
+            onClick={() => setState({ ...state, method: 'file' })}
+            className="w-full p-3 rounded-lg text-left transition active:scale-[0.99]"
+            style={{ background: '#fff', border: '1px solid #cbd5e1' }}
+          >
+            <div className="text-[13px] font-bold" style={{ color: '#0f172a' }}>{t.methodUpload}</div>
+            <div className="text-[10.5px] mt-0.5" style={{ color: '#94a3b8' }}>{t.methodUploadHint}</div>
+          </button>
+        </div>
+      )}
+
+      {/* Account # input */}
+      {method === 'acct' && (
+        <div className="px-3.5 pb-3.5 space-y-2.5">
+          <TextInput value={value} onChange={(v) => setState({ ...state, value: v })} placeholder={ph} mono />
+          <div className="flex gap-2">
+            <button
+              onClick={() => setState({ ...state, method: null })}
+              className="px-4 py-2.5 rounded-lg text-[12px] font-semibold transition active:scale-95"
+              style={{ background: '#fff', color: '#475569', border: '1px solid #e2e8f0' }}
+            >
+              {t.back}
+            </button>
+            <button
+              onClick={() => setState({ ...state, done: true })}
+              disabled={!value.trim()}
+              className="flex-1 py-2.5 rounded-lg text-[12px] font-bold text-white disabled:opacity-40 transition active:scale-[0.98]"
+              style={{ background: '#0f172a' }}
+            >
+              {t.confirm}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* File upload input */}
+      {method === 'file' && (
+        <div className="px-3.5 pb-3.5 space-y-2.5">
+          <label
+            className="block p-3 rounded-lg cursor-pointer transition active:scale-[0.99]"
+            style={file
+              ? { background: '#d1fae5', border: '1px dashed #65a30d' }
+              : { background: '#fff', border: '1px dashed #cbd5e1' }
+            }
+          >
+            <div className="flex items-center gap-2.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={file ? '#065f46' : '#64748b'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                {file ? <polyline points="20 6 9 17 4 12" /> : <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" x2="12" y1="3" y2="15" /></>}
+              </svg>
+              <div className="flex-1 min-w-0">
+                <div className="text-[12px] font-bold truncate" style={{ color: file ? '#065f46' : '#0f172a' }}>
+                  {file || t.uploadAnyBill}
+                </div>
+                <div className="text-[10px] mt-0.5" style={{ color: file ? '#065f46' : '#94a3b8' }}>
+                  {file ? t.pdfReady : t.uploadHint}
+                </div>
+              </div>
+            </div>
+            <input
+              type="file"
+              accept="application/pdf,image/*"
+              className="hidden"
+              onChange={(e) => { if (e.target.files?.[0]) setState({ ...state, file: e.target.files[0].name }); }}
+            />
+          </label>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setState({ ...state, method: null })}
+              className="px-4 py-2.5 rounded-lg text-[12px] font-semibold transition active:scale-95"
+              style={{ background: '#fff', color: '#475569', border: '1px solid #e2e8f0' }}
+            >
+              {t.back}
+            </button>
+            <button
+              onClick={() => setState({ ...state, done: true })}
+              disabled={!file}
+              className="flex-1 py-2.5 rounded-lg text-[12px] font-bold text-white disabled:opacity-40 transition active:scale-[0.98]"
+              style={{ background: '#0f172a' }}
+            >
+              {t.confirm}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── UtilityTimingCard — per-utility tier breakdown bar ─────────────────────
+//
+// Stacked horizontal bar showing the distribution of payment timing tiers
+// for one utility, with a legend below. Tiers shown only if count > 0 to
+// keep the legend compact.
+function UtilityTimingCard({ utility, t }) {
+  const total = utility.months || 1;
+  const segs = [
+    { key: 'upfront',  count: utility.upfront  || 0, color: '#10b981', icon: '🥇', label: t.tierUpfront },
+    { key: 'onTime',   count: utility.onTime   || 0, color: '#84cc16', icon: '✅', label: t.tierOnTime },
+    { key: 'late',     count: utility.late     || 0, color: '#f59e0b', icon: '⚠️', label: t.tierLate },
+    { key: 'veryLate', count: utility.veryLate || 0, color: '#ef4444', icon: '🔴', label: t.tierVeryLate },
+    { key: 'default',  count: utility.default  || 0, color: '#1e293b', icon: '💀', label: t.tierDefault },
+  ].filter((s) => s.count > 0);
+
+  return (
+    <div className="p-3.5 rounded-xl" style={{ background: '#f8fafc', border: '1px solid #edf0f4' }}>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="text-[12px] font-bold truncate" style={{ color: '#0f172a' }}>{utility.name}</div>
+          {utility.autoDebit && (
+            <span className="text-[8.5px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded flex-shrink-0"
+              style={{ background: '#dbeafe', color: '#1e40af' }}>{t.autoDebit}</span>
+          )}
+        </div>
+        <div className="text-[10px] flex-shrink-0" style={{ color: '#94a3b8' }}>{utility.months} {t.months}</div>
+      </div>
+      <div className="flex h-2 rounded-full overflow-hidden mb-2" style={{ background: '#e2e8f0' }}>
+        {segs.map((s) => (
+          <div key={s.key} style={{ width: `${(s.count / total) * 100}%`, background: s.color }} title={`${s.label}: ${s.count}`} />
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-x-3 gap-y-1">
+        {segs.map((s) => (
+          <span key={s.key} className="text-[10.5px] font-semibold flex items-center gap-1" style={{ color: '#475569' }}>
+            <span>{s.icon}</span>
+            <span>{s.count} {s.label.toLowerCase()}</span>
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -444,8 +725,11 @@ export default function TenantScreen({
   const [verifying, setVerifying] = useState(false);
   const [lhdnResult, setLhdnResult] = useState(null);
 
-  // Step 3 state — TNB + Water + Mobile (Mobile replaces IWK per Ken's call)
-  const [bills, setBills] = useState({ tnb: false, water: false, mobile: false });
+  // Step 3 state — TNB + Water + Mobile, each with its own mini-state machine
+  const blank = { open: false, method: null, value: '', file: '', done: false };
+  const [tnbState, setTnbState] = useState(blank);
+  const [waterState, setWaterState] = useState(blank);
+  const [mobileState, setMobileState] = useState(blank);
 
   // Step 4 state
   const [savedToCase, setSavedToCase] = useState(false);
@@ -454,7 +738,6 @@ export default function TenantScreen({
   const goBack = () => setStep((s) => Math.max(s - 1, 0));
 
   // Mock LHDN verification — accepts both number and PDF paths.
-  // 1.4s spinner, then return canonical mock data.
   const verifyWithLHDN = () => {
     const ready = lhdnMethod === 'number' ? !!certNumber.trim() : !!lhdnPdfName;
     if (!ready) return;
@@ -467,9 +750,9 @@ export default function TenantScreen({
 
   const verifyDisabled = verifying || (lhdnMethod === 'number' ? !certNumber.trim() : !lhdnPdfName);
 
-  const billsOk = bills.tnb && bills.water; // Mobile is optional
+  // TNB + Water required, Mobile is bonus
+  const billsOk = tnbState.done && waterState.done;
 
-  // Save the screen result to case memory so chatbox + future tools can reference it.
   const saveToCase = () => {
     if (!onSaveMemory) return;
     const prev = activeMemory || {
@@ -508,7 +791,7 @@ export default function TenantScreen({
           <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded"
             style={{ background: '#92400E', color: '#fff' }}>DEMO</span>
           <span className="text-[11px] font-semibold" style={{ color: '#92400E' }}>
-            v0 mock — any cert # / PDF works · any uploaded bill counts · score is hardcoded
+            v0 mock — any input counts as success · score is hardcoded 94/100
           </span>
         </div>
       )}
@@ -565,7 +848,7 @@ export default function TenantScreen({
         </div>
       )}
 
-      {/* ═══ STEP 2 — LHDN CERT VERIFICATION (dual-input: number OR PDF) ═══ */}
+      {/* ═══ STEP 2 — LHDN CERT VERIFICATION (identity gate only) ═══ */}
       {step === 2 && (
         <div className="space-y-4">
           <div>
@@ -663,7 +946,7 @@ export default function TenantScreen({
         </div>
       )}
 
-      {/* ═══ STEP 3 — UTILITY BILLS (TNB + Water + Mobile) ═══ */}
+      {/* ═══ STEP 3 — UTILITY BILLS (per-tile dual-input: account # OR upload) ═══ */}
       {step === 3 && (
         <div className="space-y-4">
           <div>
@@ -675,9 +958,9 @@ export default function TenantScreen({
           </div>
 
           <div className="space-y-2.5">
-            <BillTile label={t.tnb} uploaded={bills.tnb} onUpload={() => setBills((b) => ({ ...b, tnb: true }))} t={t} />
-            <BillTile label={t.water} uploaded={bills.water} onUpload={() => setBills((b) => ({ ...b, water: true }))} t={t} />
-            <BillTile label={t.mobile} uploaded={bills.mobile} onUpload={() => setBills((b) => ({ ...b, mobile: true }))} t={t} />
+            <BillTile label={t.tnb} ph={t.acctTnbPh} state={tnbState} setState={setTnbState} t={t} />
+            <BillTile label={t.water} ph={t.acctWaterPh} state={waterState} setState={setWaterState} t={t} />
+            <BillTile label={t.mobile} ph={t.acctMobilePh} state={mobileState} setState={setMobileState} t={t} />
           </div>
 
           {!billsOk && (
@@ -725,37 +1008,29 @@ export default function TenantScreen({
             </div>
           </div>
 
-          {/* Per-utility breakdown */}
-          <div className="rounded-xl overflow-hidden" style={{ background: '#f8fafc', border: '1px solid #edf0f4' }}>
-            {MOCK_SCORE.utilities.map((u, i) => (
-              <div
-                key={u.name}
-                className="flex items-center gap-3 px-3.5 py-3"
-                style={i > 0 ? { borderTop: '1px solid #edf0f4' } : {}}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                <div className="flex-1 min-w-0">
-                  <div className="text-[12px] font-bold" style={{ color: '#0f172a' }}>{u.name}</div>
-                  <div className="text-[10px] mt-0.5" style={{ color: '#64748b' }}>
-                    {u.onTime}/{u.months} {t.paidOnTime.toLowerCase()} · 0 {t.zeroLate.toLowerCase()} · 0 {t.zeroDisc.toLowerCase()}
-                  </div>
-                </div>
-              </div>
-            ))}
+          {/* Average timing card — the headline insight */}
+          <div className="p-4 rounded-2xl" style={{ background: '#d1fae5', border: '1px solid #a7f3d0' }}>
+            <div className="flex items-center justify-between mb-1.5">
+              <div className="text-[9px] font-black uppercase tracking-widest" style={{ color: '#065f46' }}>{t.timingHeader}</div>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded" style={{ background: '#065f46', color: '#fff' }}>{t.upfrontTag}</span>
+            </div>
+            <div className="text-[20px] font-bold leading-tight" style={{ color: '#065f46' }}>
+              {MOCK_SCORE.avgGapDays < 0
+                ? t.gapBefore.replace('{n}', String(Math.abs(MOCK_SCORE.avgGapDays)))
+                : MOCK_SCORE.avgGapDays > 0
+                  ? t.gapAfter.replace('{n}', String(MOCK_SCORE.avgGapDays))
+                  : t.gapSame}
+            </div>
+            <div className="text-[11px] mt-1.5 font-semibold" style={{ color: '#047857' }}>
+              {t.predictHigh} · {t.variance.replace('{n}', String(MOCK_SCORE.varianceDays))}
+            </div>
           </div>
 
-          {/* Stat tiles */}
-          <div className="grid grid-cols-2 gap-2">
-            <div className="p-3 rounded-xl" style={{ background: '#d1fae5', border: '1px solid #a7f3d0' }}>
-              <div className="text-[9px] font-black uppercase tracking-widest" style={{ color: '#065f46' }}>{t.paidOnTime}</div>
-              <div className="text-[20px] font-bold mt-0.5" style={{ color: '#065f46' }}>{MOCK_SCORE.paidOnTimePct}%</div>
-            </div>
-            <div className="p-3 rounded-xl" style={{ background: '#d1fae5', border: '1px solid #a7f3d0' }}>
-              <div className="text-[9px] font-black uppercase tracking-widest" style={{ color: '#065f46' }}>{t.zeroCarry}</div>
-              <div className="text-[20px] font-bold mt-0.5" style={{ color: '#065f46' }}>{MOCK_SCORE.zeroCarryPct}%</div>
-            </div>
+          {/* Per-utility timing breakdown — stacked bar + legend per utility */}
+          <div className="space-y-2">
+            {MOCK_SCORE.utilities.map((u) => (
+              <UtilityTimingCard key={u.name} utility={u} t={t} />
+            ))}
           </div>
 
           {/* DNA disclaimer */}

@@ -1,5 +1,5 @@
 # FIND.AI — COMPRESSED MEMORY
-> Single-file project snapshot. Upload this to any new session for instant full context. Last updated: 2026-04-25 (v3.4 — TOOL 1 Credit Score spec locked · LHDN gate + utility bill behaviour score · Cakap 2.0 · DNA: TRUST BEFORE SIGNING).
+> Single-file project snapshot. Upload this to any new session for instant full context. Last updated: 2026-04-25 (v3.4.1 — TOOL 1 Credit Score · v0 mock SHIPPED · timing-tier scoring model (upfront/on-time/late/very-late/default) · Cakap 2.0 · DNA: TRUST BEFORE SIGNING).
 
 ## 🟢 PICK UP HERE (2026-04-25 — v3.4 SPEC LOCK)
 
@@ -42,6 +42,47 @@ TOOL 3 (SDSAS) stamps tenancies today → creates LHDN certs → those certs gat
 
 - `ARCH_CREDIT_SCORE.md` — **NEW**, locked spec for TOOL 1 (Phase 1)
 - `ARCH_UTILITY_BRIDGE.md` — existing Phase 2 post-signing utility ledger; updated header notes the credit-scoring portion split into the new doc
+
+### 🟢 v3.4.1 — TIMING-TIER SCORING REFINEMENT (Ken: *"yes do it"*)
+
+Sharp refinement to the v3.4 scoring model. Ken's insight: **binary "settled vs not settled" is weak. The real signal is WHEN the tenant pays relative to due date.** Same underlying bill data, much sharper read.
+
+**5 payment-timing tiers** (extracted from native bill fields `Tarikh Bayaran Akhir` due date vs `Bayaran Diterima Pada` payment date):
+
+| Tier | Definition |
+|---|---|
+| 🥇 Upfront | Paid 7+ days before due |
+| ✅ On-time | Paid 0-6 days before due |
+| ⚠️ Late (in grace) | Paid 1-7 days after due |
+| 🔴 Very late | Paid 8+ days after due |
+| 💀 Default | Carry-over / disconnection notice |
+
+**Refined scoring formula (replaces v3.4):**
+- Average payment timing 50% (mean tier-score across all bills)
+- Consistency / low variance 25% (predictable tenants score higher than erratic)
+- Worst single event 15% (catches "looks fine on average but had a 30-day late period")
+- Disconnection events 10% (binary fail flag)
+
+**Why this rewards what landlords actually want:** predictable, proactive payers. Same data, much more discriminating signal — a tenant who pays consistently 5 days early scores 95+ while a tenant who randomly pays anywhere from 10 days early to 10 days late scores in the 60s with an "Erratic" badge.
+
+**Files updated for v3.4.1:**
+- `src/components/tools/TenantScreen.js` — new MOCK_SCORE structure with per-tier counts; new `UtilityTimingCard` helper renders stacked bar + emoji legend per utility; new "Average payment timing" headline card on the score reveal screen; full EN/BM/中文 parity for timing labels (timingHeader, gapBefore, variance, predictHigh, tierUpfront/OnTime/Late/VeryLate/Default, autoDebit, etc.)
+- `ARCH_CREDIT_SCORE.md` — replaced "Scoring formula" section with timing-tier model + new "What the Landlord Sees" example showing both a ★★★★★ upfront tenant and a ★★ flagged late tenant for contrast
+
+### 🟢 v0 MOCK DEMO SHIPPED (live build, ready to push)
+
+**File:** `src/components/tools/TenantScreen.js` (full rewrite from previous "Payment Discipline Scan" design — preserved in git history).
+
+4-step modal flow:
+- Step 0 — intro (navy hero card with TOOL 1 branding + gold checkmarks)
+- Step 1 — tenant identity (name + IC last 4)
+- Step 2 — LHDN cert verification (dual-input: ⌨️ key in number OR 📎 upload PDF — tenant picks lower-friction path)
+- Step 3 — utility bills with **per-tile dual input**: each utility (TNB / Water / Mobile postpaid) has two methods — ⌨️ Account number OR 📎 Upload bill — tenant picks per utility
+- Step 4 — score reveal: navy hero (94/100), Average Timing card (4 days BEFORE due date · Highly predictable · Upfront tenant ✓), per-utility timing bars (TNB / Air Selangor / Maxis Postpaid each with stacked tier visualization), DNA disclaimer, PDF + Save buttons
+
+DEMO_MODE banner at top of every step makes it obvious this is a v0 mock for pilot validation. Score is hardcoded 94/100 in the realistic high-quality tenant scenario.
+
+Wiring already in place from previous session — landing.js → onOpenScreen → openScreenDirect → showScreenTool → TenantScreen modal renders.
 
 ### 🅿️ Open questions parked from this session
 
@@ -462,7 +503,9 @@ Stamp Act 1949 (incl. s.52, s.36A, s.62 as amended), Finance Act 2025 (SDSAS), B
 - **v3.3 (2026-04-21)** — **Phase 1 doctrine lock.** Find.ai reframed as a toolkit (Screen/Audit/Stamp/Chat), not a chatbot. Tagline "Don't sign blind." CLAUDE.md rewritten to define 4 Phase 1 tools + 4-Phase internal roadmap (Phases 2-4 never mentioned publicly). Each tool produces a branded PDF with QR viral loop. 90-day pre-signing wedge focus.
 - **v3.3.1 (2026-04-21)** — StampDuty (TOOL 3) wired into live app. Shared `buildStampReport` + `exportReport` ship the first end-to-end branded PDF. "Pre-signing toolkit" bento launcher row added to chat empty state.
 - **v3.3.2 (2026-04-23)** — **UI v9.3 Persistent PeekChat Dock locked.** ChatDrawer modal retired. New `src/components/PeekChat.js` ships a 56px bottom-anchored dock → peek preview (last 3 messages) → full chat escalation. Mounted on every top-level branch (Landing / Profile / Chat). `closeToolSmart` + `landingToTool` flag fix the "tool close returns me to chat, not Landing" bug. Landing FAB removed; `.v9-screen-peek-safe` reserves 96px bottom padding. Chat feels ambient, not destination. Ken's verdict: *"this version is great."*
-- **v3.4 (2026-04-25 — THIS SAVE POINT · SPEC LOCK, build pending)** — **TOOL 1 Credit Score spec locked.** Ken greenlight: *"ok ship it."* Strategic shift: utility data promoted from Phase 2 (post-signing custodian, `ARCH_UTILITY_BRIDGE.md`) to Phase 1 by reframing as a **government-anchored credit-scoring engine**. Two-step model: LHDN stamp cert is the identity gate (pass/fail, zero scoring weight) + utility bills are the pure paying-behaviour score (0-100, four factors weighted from native bill fields `Bayaran Diterima` 50% / `Tunggakan` 30% / `Caj Lewat` 10% / `Pemberitahuan Pemutusan` 10%). Design calls: NO bank linking, NO bank statement upload, NO scoring on tenancy length / lease completion / past tenancy count (unfair to short-term tenants), Score and Confidence are separate outputs, Identity tiers Gold (MyDigital ID) + Silver (IC photo + selfie liveness) only — no Bronze, LHDN lookup via Path A (manual screenshot OCR) for MVP, Live Bound Verification (LBV) pattern locks score-presentation to live face match (PDF alone never sufficient), 3-signal verification lattice for landlord utility ownership when Bridge ships in Phase 2. Tenant effort to build first credit profile = ~3 minutes lifetime. Strategic flywheel: TOOL 3 stamping now becomes the on-ramp to TOOL 1 credit scoring — stamping a tenancy today creates the LHDN cert that gates that tenant's future credit score. Files: `ARCH_CREDIT_SCORE.md` (NEW, locked spec) · `ARCH_UTILITY_BRIDGE.md` (header updated to note split). Build pending — see PICK UP HERE block at top of this file for sequenced 8-step build order.
+- **v3.4.1 (2026-04-25 — THIS SAVE POINT · v0 MOCK SHIPPED + TIMING-TIER REFINEMENT)** — Two ship-events in one day. (1) **v0 mock demo** of TOOL 1 Credit Score wired and ready: 4-step modal (intro → identity → LHDN dual-input → per-utility dual-input bills → score reveal), full EN/BM/中文, DEMO_MODE banner, mock LHDN result + mock 94/100 score. File: `src/components/tools/TenantScreen.js` (full rewrite of previous Payment Discipline Scan design). (2) **Scoring model refined to timing-tier system** per Ken's insight that binary settled-vs-not is weak — real signal is WHEN tenant pays relative to due date. 5 tiers (Upfront / On-time / Late / Very late / Default) extracted from native bill date fields (`Tarikh Bayaran Akhir` vs `Bayaran Diterima Pada`). New scoring formula: avg timing 50% + consistency 25% + worst event 15% + disconnections 10%. Score reveal UI shows stacked tier bars per utility + headline "Average payment timing: N days BEFORE/AFTER due date" + Upfront/On-time/Late tenant badge. Files updated: `src/components/tools/TenantScreen.js` + `ARCH_CREDIT_SCORE.md` + this file. Build remaining (real OCR, real LHDN integration, PDF export) per 8-step backlog in `ARCH_CREDIT_SCORE.md`.
+
+- **v3.4 (2026-04-25)** — **TOOL 1 Credit Score spec locked.** Ken greenlight: *"ok ship it."* Strategic shift: utility data promoted from Phase 2 (post-signing custodian, `ARCH_UTILITY_BRIDGE.md`) to Phase 1 by reframing as a **government-anchored credit-scoring engine**. Two-step model: LHDN stamp cert is the identity gate (pass/fail, zero scoring weight) + utility bills are the pure paying-behaviour score (0-100, four factors weighted from native bill fields `Bayaran Diterima` 50% / `Tunggakan` 30% / `Caj Lewat` 10% / `Pemberitahuan Pemutusan` 10%). Design calls: NO bank linking, NO bank statement upload, NO scoring on tenancy length / lease completion / past tenancy count (unfair to short-term tenants), Score and Confidence are separate outputs, Identity tiers Gold (MyDigital ID) + Silver (IC photo + selfie liveness) only — no Bronze, LHDN lookup via Path A (manual screenshot OCR) for MVP, Live Bound Verification (LBV) pattern locks score-presentation to live face match (PDF alone never sufficient), 3-signal verification lattice for landlord utility ownership when Bridge ships in Phase 2. Tenant effort to build first credit profile = ~3 minutes lifetime. Strategic flywheel: TOOL 3 stamping now becomes the on-ramp to TOOL 1 credit scoring — stamping a tenancy today creates the LHDN cert that gates that tenant's future credit score. Files: `ARCH_CREDIT_SCORE.md` (NEW, locked spec) · `ARCH_UTILITY_BRIDGE.md` (header updated to note split). Build pending — see PICK UP HERE block at top of this file for sequenced 8-step build order.
 
 - **v3.3.3 (2026-04-23)** — **UI v9.4 + v9.5 polish pass locked and live on production.** Ran two 30-user simulations against v9.3 across EN/BM/ZH. Shipped 11 polish tickets. v9.4 (T1–T5): 3-pill empty peek, *"Don't sign blind"* motto on Welcome, privacy chip + lang toggle readability bump, one-time dock hint with localStorage suppression, tile eyebrows. v9.5 micro-polish (N1–N5 + T11): inline 👋 heading, 1600ms hint timing, neutral speech-bubble pill icons, quieter tile eyebrow (0.10em/9px), SVG triangle hint tail, *"SDSAS 2026"* sub-eyebrow on Stamp tile. **Aggregate: 🤔 17/30 → 4/30, 👍 13/30 → 26/30.** Four remaining 🤔 all map to P2 feature work, not first-run trust blockers. Files: `src/app/landing.js` 381 lines · `src/components/PeekChat.js` 677 lines. See `UX_REVIEW_v9.4.md` + `UX_REVIEW_v9.5.md`.
 

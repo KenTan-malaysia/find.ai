@@ -114,18 +114,44 @@ Malaysian utility bills already contain payment-behaviour signals natively. We O
 | **Service address** | Cross-match against LHDN cert address (must match or bill is rejected) |
 | **Account number** | For audit trail; we don't validate the account holder name |
 
+### The real signal — payment TIMING, not just settled vs not
+
+> **v3.4.1 refinement (Ken):** binary "paid / not paid" is weak. The real signal is **WHEN** the tenant pays relative to the due date. A tenant who pays 7 days BEFORE due is fundamentally different from one who pays 7 days AFTER, even if both eventually settle.
+
+Every Malaysian utility bill prints these dates natively:
+
+- **Tarikh Bil** (bill issue date)
+- **Tarikh Bayaran Akhir** (due date — varies per account, e.g. 21 days after issue)
+- **Bayaran Diterima Pada** (payment received date — for the previous bill)
+
+So from N bills, we extract N-1 payment-timing events: `gap = payment_date − due_date`. Negative = paid before due (good). Positive = paid late (bad).
+
+### Payment-timing tiers
+
+Each payment event classifies into one of five tiers:
+
+| Tier | Definition | Signal |
+|---|---|---|
+| 🥇 **Upfront** | Paid 7+ days before due date | Proactive · likely auto-debit · gold |
+| ✅ **On-time** | Paid 0-6 days before due date | Reliable · managed properly |
+| ⚠️ **Late (within grace)** | Paid 1-7 days after due date | Forgetful but not in trouble |
+| 🔴 **Very late** | Paid 8+ days after due date | Cash flow / discipline issue |
+| 💀 **Default** | Carry-over to next bill or disconnection notice | Serious risk — likely to be late on rent too |
+
 ### Scoring formula
 
-100-point scale, weighted across four behaviour factors:
+100-point scale, weighted across four timing-derived factors:
 
 | Factor | Weight | How calculated |
 |---|---|---|
-| **% bills paid on time** | 50% | Count of bills where "Bayaran Diterima" date is before next bill's issue date / total bills × 100 |
-| **% bills with zero outstanding** | 30% | Count of bills where "Tunggakan" = RM 0 / total bills × 100 |
-| **Zero late charges across period** | 10% | 100 if no "Caj Lewat" line items anywhere; else 100 - (10 × number of bills with late charges) |
-| **Zero disconnection events** | 10% | 100 if no disconnection notices and no service gaps; else 0 |
+| **Average payment timing** | 50% | Mean tier-score across all bills · upfront = 100, on-time = 85, late = 50, very late = 20, default = 0. Weighted average → final value. |
+| **Consistency (low variance)** | 25% | Standard deviation of payment gaps (in days). Low variance = predictable = high score. ±0-3 days = 100, ±4-7 days = 80, ±8-14 days = 50, >14 days = 20. |
+| **Worst single event** | 15% | Catches "looks fine on average but had a 30-day late period." Score = 100 - (max late days × 3), floored at 0. |
+| **Disconnection events** | 10% | Binary fail flag. If any disconnection notice in the period: 0. Else: 100. Severe events trigger a hard cap on final score. |
 
 Final score = weighted sum, rounded to nearest integer. Range: 0-100.
+
+**Why this rewards what landlords actually want:** predictable, proactive payers. A tenant who consistently pays 5 days early with ±2 day variance scores ~95-98. A tenant who randomly pays anywhere from 10 days early to 10 days late, even if "always paid eventually," scores in the 60s — landlord sees "Erratic" badge and knows.
 
 ### Multi-utility cross-check
 
@@ -145,13 +171,39 @@ TENANT: Ahmad bin Ali
 
 PAYING BEHAVIOUR SCORE: 94 / 100  ★★★★★
 
-Sourced from utility bills at the verified address:
-✓ TNB · 14/14 bills paid on time · 0 carry-over · 0 late charges · 0 disconnections
-✓ Air Selangor · 14/14 bills paid on time · 0 carry-over · 0 late charges
-✓ IWK · 14/14 bills paid on time · 0 carry-over
+AVERAGE TIMING: 4 days BEFORE due date            ✓ UPFRONT TENANT
+Highly predictable · ±2 days variance
+
+TNB · 14 months
+🥇 Upfront    [████████████░░]  12
+✅ On-time    [██░░░░░░░░░░░░]   2
+⚠️ Late       [░░░░░░░░░░░░░░]   0
+
+Air Selangor · 14 months  [auto-debit]
+🥇 Upfront    [██████████████]  14
+
+Maxis Postpaid · 14 months  [auto-debit]
+🥇 Upfront    [█████████████░]  13
+✅ On-time    [█░░░░░░░░░░░░░]   1
 
 [ View bill details ↓ ]   [ Download Find.ai Trust Report PDF 🛡️ ]
 ```
+
+Compare with a flagged tenant — same "did they pay" answer, but timing tells the real story:
+
+```
+PAYING BEHAVIOUR SCORE: 51 / 100  ★★
+
+AVERAGE TIMING: 9 days AFTER due date            ⚠ LATE TENANT
+Erratic · ±14 days variance
+
+TNB · 8 months
+✅ On-time    [█░░░░░░░░░░░░░]   1
+⚠️ Late       [████░░░░░░░░░░]   4
+🔴 Very late  [███░░░░░░░░░░░]   3
+```
+
+The landlord sees at a glance: *"This tenant pays before the bill is even due. They'll pay rent the same way."* — vs the flagged tenant where the variance + tier mix surfaces the real risk.
 
 The PDF is the viral artifact — branded Find.ai letterhead + QR for live re-verification (LBV — Live Bound Verification, see ARCH_UTILITY_BRIDGE.md for the full LBV pattern).
 
