@@ -109,6 +109,10 @@ const STR = {
     s4SubConfidence: 'Confidence',
     s4Formula: 'Behaviour {b} × Confidence {c}%',
     s4EffortHint: 'Upload more bills → Trust Score rises',
+    methodologyLink: 'How is this calculated?',
+    methodologyTitle: 'How the Trust Score works',
+    methodologyBody: 'Two parts: BEHAVIOUR (how well the tenant paid past utility bills, based on payment timing relative to due date) × CONFIDENCE (how much evidence backs that judgment — more bills + LHDN-verified tenancy = higher confidence). Both numbers are visible above. The exact algorithm is proprietary; categories are public. Read more: HOW_TRUST_SCORE_WORKS.md',
+    methodologyDecision: 'Find.ai surfaces evidence. The rental decision rests with you, the landlord.',
     confTierMature: 'Mature',
     confTierEstablished: 'Established',
     confTierProvisional: 'Provisional',
@@ -238,6 +242,10 @@ const STR = {
     s4SubConfidence: 'Keyakinan',
     s4Formula: 'Tingkah laku {b} × Keyakinan {c}%',
     s4EffortHint: 'Muat naik lebih bil → Skor Amanah meningkat',
+    methodologyLink: 'Bagaimana dikira?',
+    methodologyTitle: 'Cara Skor Amanah berfungsi',
+    methodologyBody: 'Dua bahagian: TINGKAH LAKU (sebaik mana penyewa bayar bil utiliti lepas, berdasarkan masa bayaran berbanding tarikh akhir) × KEYAKINAN (banyak mana bukti menyokong penilaian — lebih bil + sewaan disahkan LHDN = keyakinan lebih tinggi). Kedua-dua nombor ditunjukkan di atas. Algoritma tepat adalah proprietari; kategori adalah awam.',
+    methodologyDecision: 'Find.ai memaparkan bukti. Keputusan menyewa terletak pada anda, tuan rumah.',
     confTierMature: 'Matang',
     confTierEstablished: 'Mantap',
     confTierProvisional: 'Sementara',
@@ -367,6 +375,10 @@ const STR = {
     s4SubConfidence: '可信度',
     s4Formula: '行为 {b} × 可信度 {c}%',
     s4EffortHint: '上传更多账单 → 信任分数上升',
+    methodologyLink: '如何计算？',
+    methodologyTitle: '信任分数的工作原理',
+    methodologyBody: '两部分：行为（基于付款时间相对于到期日，租客过往支付公用事业账单的表现）× 可信度（多少证据支撑此判断 — 更多账单 + LHDN 已验证租赁 = 更高可信度）。两个数字均显示在上方。具体算法专有；类别公开。',
+    methodologyDecision: 'Find.ai 呈现证据。租赁决定权在您，房东。',
     confTierMature: '成熟',
     confTierEstablished: '稳定',
     confTierProvisional: '临时',
@@ -453,13 +465,40 @@ const MOCK_SCORE = {
 
 const COVERAGE_MOCK_MONTHS = 14;
 
-// ─── Confidence multiplier — Trust Score = Behaviour × Confidence ────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// ⚠️  TRADE SECRET — SERVER-SIDE MIGRATION REQUIRED FOR v1 PRODUCTION
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// The exact multiplier values in this function are PROPRIETARY and represent
+// Find.ai's core scoring methodology. Currently they live in client code,
+// which means anyone can View Source on the production site (or open
+// browser DevTools) and steal the exact values.
+//
+// FOR THE v0 MOCK DEMO this is acceptable — every value is fake demo data.
+//
+// BEFORE v1 PRODUCTION LAUNCH (REQUIRED — DO NOT SKIP):
+//   1. Move this function to a server-side API endpoint (POST /api/score)
+//   2. Client only receives the computed Trust Score + tier label, NEVER raw
+//      multiplier values or factor weights
+//   3. Multiplier values stored in server-side config (env or DB), never sent
+//      to client
+//   4. API response shape must NOT leak weights via field structure
+//   5. Production logs must NOT include raw scoring inputs
+//   6. Add NDA + IP confidentiality clause to engineering onboarding
+//   7. Consider patent application for the multi-signal verification methodology
+//
+// See SCORING_DISCLOSURE_POLICY.md for the 3-tier disclosure rule.
+// See HOW_TRUST_SCORE_WORKS.md for what's safe to publish (no exact numbers).
+//
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// Confidence multiplier — Trust Score = Behaviour × Confidence
 //
 // v3.4.4 (Ken's fairness call): a perfect-paying tenant who provides 1 bill
 // should NOT get the same Trust Score as one who provides 6 bills. The
 // behaviour quality is the same, but the confidence in our judgment is not.
 //
-// Multiplier table (locked in ARCH_CREDIT_SCORE.md):
+// Multiplier table (also in ARCH_CREDIT_SCORE.md — internal Tier 3 doc only):
 //   LHDN ✓ + 3 utilities     → 1.00 multiplier · Mature tier
 //   LHDN ✓ + 2 utilities     → 0.85 · Established
 //   LHDN ✓ + 1 utility       → 0.70 · Provisional
@@ -1368,6 +1407,16 @@ export default function TenantScreen({
 
           {/* T2 — Score benchmark scale (helps landlord interpret Trust Score) */}
           <ScoreScale score={trustScore} t={t} />
+
+          {/* Methodology link — public-tier disclosure of how the Trust Score
+              works. Builds trust at the moment of decision. Implementation per
+              SCORING_DISCLOSURE_POLICY.md Tier 2 (in-product drill-in only). */}
+          <div className="text-center">
+            <HelpHint title={t.methodologyTitle} body={`${t.methodologyBody}\n\n${t.methodologyDecision}`} />
+            <span className="text-[11px] font-semibold underline ml-1" style={{ color: '#475569' }}>
+              {t.methodologyLink}
+            </span>
+          </div>
 
           {/* Effort hint — gamification: more uploads = higher Trust Score */}
           {confMul < 1.0 && (
