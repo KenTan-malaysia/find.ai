@@ -556,12 +556,22 @@ function StepDots({ step, total = 4 }) {
   );
 }
 
-function TextInput({ label, value, onChange, placeholder, mono = false }) {
+function TextInput({ label, value, onChange, placeholder, mono = false, inputMode = 'text' }) {
+  // inputMode controls the on-screen keyboard on mobile:
+  //   'numeric' → number pad (no decimal) — used for IC, account #
+  //   'tel'     → phone keypad (digits + special chars)
+  //   'text'    → default keyboard
+  // pattern="[0-9]*" forces iOS to show the numeric keyboard
+  // (older iOS versions ignore inputMode but respect pattern).
+  const isNumeric = inputMode === 'numeric' || inputMode === 'tel';
   return (
     <div>
       {label && <label className="text-[11px] font-bold uppercase tracking-widest mb-2 block" style={{ color: '#94a3b8' }}>{label}</label>}
       <input
         type="text"
+        inputMode={inputMode}
+        pattern={isNumeric ? '[0-9]*' : undefined}
+        autoComplete="off"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
@@ -774,7 +784,7 @@ function BillTile({ label, ph, deepLinkUrl, deepLinkLabel, state, setState, t })
             2. After verified → "Mark verified" button → done */}
       {method === 'acct' && (
         <div className="px-3.5 pb-3.5 space-y-2.5">
-          <TextInput value={value} onChange={(v) => setState({ ...state, value: v, verified: false })} placeholder={ph} mono />
+          <TextInput value={value} onChange={(v) => setState({ ...state, value: v, verified: false })} placeholder={ph} mono inputMode="numeric" />
 
           {/* Sub-state 1: not yet verified — show deep-link button */}
           {!verified && (
@@ -1250,7 +1260,7 @@ export default function TenantScreen({
           </div>
           <TextInput label={t.nameLabel} value={tenantName} onChange={setTenantName} placeholder={t.namePh} />
           <div>
-            <TextInput label={t.icLabel} value={tenantIC} onChange={setTenantIC} placeholder={t.icPh} mono />
+            <TextInput label={t.icLabel} value={tenantIC} onChange={setTenantIC} placeholder={t.icPh} mono inputMode="numeric" />
             <p className="text-[10px] mt-1.5 italic" style={{ color: '#94a3b8' }}>{t.icSubtitle}</p>
           </div>
           <div className="flex gap-2 pt-2">
