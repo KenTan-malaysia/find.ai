@@ -150,6 +150,8 @@ const STR = {
     confMature: 'Mature · 14 months verified',
     exportCard: '🛡️ Save Trust Card',
     shareWhatsApp: '📲 Forward via WhatsApp',
+    doneBackHome: '← Done · Back to home',
+    screenAnother: '🔄 Screen another tenant',
     cardBrand: 'TRUST CARD',
     cardSub: 'Business-card format · WhatsApp shareable',
     cardVerified: 'MyDigital ID verified',
@@ -289,6 +291,8 @@ const STR = {
     confMature: 'Matang · 14 bulan disahkan',
     exportCard: '🛡️ Simpan Kad Amanah',
     shareWhatsApp: '📲 Hantar melalui WhatsApp',
+    doneBackHome: '← Selesai · Kembali ke utama',
+    screenAnother: '🔄 Saring penyewa lain',
     cardBrand: 'KAD AMANAH',
     cardSub: 'Format kad bisnes · boleh dikongsi WhatsApp',
     cardVerified: 'Disahkan MyDigital ID',
@@ -428,6 +432,8 @@ const STR = {
     confMature: '成熟 · 14 个月已验证',
     exportCard: '🛡️ 保存信任卡',
     shareWhatsApp: '📲 通过 WhatsApp 转发',
+    doneBackHome: '← 完成 · 返回主页',
+    screenAnother: '🔄 筛查另一位租客',
     cardBrand: '信任卡',
     cardSub: '名片格式 · 可通过 WhatsApp 分享',
     cardVerified: 'MyDigital ID 已验证',
@@ -1147,6 +1153,24 @@ export default function TenantScreen({
   const goNext = () => setStep((s) => Math.min(s + 1, 4));
   const goBack = () => setStep((s) => Math.max(s - 1, 0));
 
+  // "Screen another tenant" — full reset to start a fresh case. Used at the
+  // end of score reveal so landlords can run a back-to-back screening
+  // without re-opening the modal.
+  const resetForScreenAnother = () => {
+    setStep(0);
+    setTenantName(DEMO_MODE ? MOCK_LHDN_RESULT.tenantName : '');
+    setTenantIC(DEMO_MODE ? '4321' : '');
+    setLhdnMethod('number');
+    setCertNumber(DEMO_MODE ? 'ABC1234567890' : '');
+    setLhdnPdfName('');
+    setVerifying(false);
+    setLhdnResult(null);
+    setTnbState(blank);
+    setWaterState(blank);
+    setMobileState(blank);
+    setSavedToCase(false);
+  };
+
   // Mock LHDN verification — accepts both number and PDF paths.
   const verifyWithLHDN = () => {
     const ready = lhdnMethod === 'number' ? !!certNumber.trim() : !!lhdnPdfName;
@@ -1689,6 +1713,24 @@ Ref: ${stableCaseRef}`;
             <div className="text-center pt-1">
               <span className="text-[9px] font-mono" style={{ color: '#cbd5e1' }}>Ref · {stableCaseRef}</span>
             </div>
+          </div>
+
+          {/* "What next?" footer — clear thumb-zone exit options.
+              Solves: after score reveal, where do I go? Don't make landlord
+              hunt for the X close button. */}
+          <div className="pt-3 mt-2 grid grid-cols-2 gap-2" style={{ borderTop: '1px solid #f1f5f9' }}>
+            <button
+              onClick={resetForScreenAnother}
+              className="py-2.5 rounded-xl text-[11.5px] font-semibold transition active:scale-[0.98]"
+              style={{ background: '#fff', color: '#475569', border: '1px solid #e2e8f0' }}>
+              {t.screenAnother}
+            </button>
+            <button
+              onClick={onClose}
+              className="py-2.5 rounded-xl text-[11.5px] font-semibold transition active:scale-[0.98]"
+              style={{ background: '#f1f5f9', color: '#475569', border: '1px solid #e2e8f0' }}>
+              {t.doneBackHome}
+            </button>
           </div>
         </div>
       )}
