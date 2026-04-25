@@ -41,10 +41,17 @@ const STR = {
     s1Sub: 'Enter what the tenant told you. We will verify it next.',
     nameLabel: 'Full name (per MyKad)',
     namePh: 'Ahmad bin Ali',
-    icLabel: 'IC last 4 digits',
+    icLabel: "Tenant's IC last 4 digits",
+    icSubtitle: '(the person you are screening)',
     icPh: '4321',
     s2Title: 'LHDN tenancy verification',
     s2Sub: 'This step proves the tenant really rented before. We cross-check the cert against LHDN STAMPS — nothing from the cert affects the score.',
+    lhdnHelp: "What's a LHDN cert?",
+    lhdnHelpBody: 'Every legally stamped tenancy agreement (rent over RM150/month) gets a unique LHDN reference number. Ask the tenant\'s previous landlord — usually starts with letters followed by digits.',
+    lhdnSkip: 'Skip — no cert / first-time renter',
+    lhdnSkipNote: 'Landlord proceeds at own discretion · Find.ai is a support tool',
+    lhdnSkipped: 'LHDN SKIPPED',
+    identityUnverified: 'Identity unverified',
     methodNumber: '⌨️  Key in number',
     methodPdf: '📎  Upload PDF',
     certLabel: 'LHDN stamp certificate number',
@@ -85,7 +92,17 @@ const STR = {
     mobile: 'Mobile postpaid (Maxis / CelcomDigi / U Mobile / Yes)',
     monthsCovered: 'months covered',
     seeScore: 'See paying behaviour score',
-    needTwo: 'Add at least TNB + Water to continue',
+    needTwo: 'Add at least 1 utility for paying-behaviour signal',
+    skipBills: 'Skip — no bills available',
+    scaleHeader: 'Where this score sits',
+    tierRisky: 'Risky',
+    tierMixed: 'Mixed',
+    tierSolid: 'Solid',
+    tierOutstandingScale: 'Outstanding',
+    confLandlordJudgment: 'Landlord judgment required',
+    confIdentityOnly: 'Identity-only · No payment data',
+    confBehaviourOnly: 'Behaviour-only · No LHDN anchor',
+    confLimited: 'Limited data · {n} of 3 utilities',
 
     s4Title: 'Paying Behaviour Score',
     timingHeader: 'Average payment timing',
@@ -141,10 +158,17 @@ const STR = {
     s1Sub: 'Masukkan apa yang penyewa beritahu anda. Kami akan sahkan seterusnya.',
     nameLabel: 'Nama penuh (ikut MyKad)',
     namePh: 'Ahmad bin Ali',
-    icLabel: '4 digit akhir IC',
+    icLabel: '4 digit akhir IC penyewa',
+    icSubtitle: '(orang yang anda saring)',
     icPh: '4321',
     s2Title: 'Pengesahan sewaan LHDN',
     s2Sub: 'Langkah ini membuktikan penyewa benar-benar pernah menyewa. Kami semak silang sijil dengan LHDN STAMPS — tiada apa-apa dari sijil mempengaruhi skor.',
+    lhdnHelp: 'Apa itu sijil LHDN?',
+    lhdnHelpBody: 'Setiap perjanjian sewaan yang disahkan setem (sewa lebih RM150/bulan) ada nombor rujukan LHDN unik. Tanya tuan rumah penyewa sebelum ini — biasanya bermula dengan huruf diikuti angka.',
+    lhdnSkip: 'Langkau — tiada sijil / penyewa kali pertama',
+    lhdnSkipNote: 'Tuan rumah meneruskan atas budi bicara sendiri · Find.ai adalah alat sokongan',
+    lhdnSkipped: 'LHDN DILANGKAU',
+    identityUnverified: 'Identiti tidak disahkan',
     methodNumber: '⌨️  Masukkan nombor',
     methodPdf: '📎  Muat naik PDF',
     certLabel: 'Nombor sijil setem LHDN',
@@ -185,7 +209,17 @@ const STR = {
     mobile: 'Pascabayar mudah alih (Maxis / CelcomDigi / U Mobile / Yes)',
     monthsCovered: 'bulan diliputi',
     seeScore: 'Lihat skor tingkah laku bayaran',
-    needTwo: 'Tambah sekurang-kurangnya TNB + Air untuk teruskan',
+    needTwo: 'Tambah sekurang-kurangnya 1 utiliti untuk isyarat tingkah laku bayaran',
+    skipBills: 'Langkau — tiada bil tersedia',
+    scaleHeader: 'Kedudukan skor ini',
+    tierRisky: 'Berisiko',
+    tierMixed: 'Bercampur',
+    tierSolid: 'Mantap',
+    tierOutstandingScale: 'Cemerlang',
+    confLandlordJudgment: 'Pertimbangan tuan rumah diperlukan',
+    confIdentityOnly: 'Identiti sahaja · Tiada data bayaran',
+    confBehaviourOnly: 'Tingkah laku sahaja · Tiada anchor LHDN',
+    confLimited: 'Data terhad · {n} daripada 3 utiliti',
 
     s4Title: 'Skor Tingkah Laku Bayaran',
     timingHeader: 'Purata masa bayaran',
@@ -241,10 +275,17 @@ const STR = {
     s1Sub: '输入租客告诉您的信息。我们将在下一步验证。',
     nameLabel: '全名（按身份证）',
     namePh: 'Ahmad bin Ali',
-    icLabel: '身份证后4位',
+    icLabel: '租客身份证后4位',
+    icSubtitle: '（您要筛查的人）',
     icPh: '4321',
     s2Title: 'LHDN 租赁验证',
     s2Sub: '此步骤证明租客确实租赁过。我们与 LHDN STAMPS 交叉验证 — 证书内容不影响评分。',
+    lhdnHelp: 'LHDN 证书是什么？',
+    lhdnHelpBody: '每份合法盖印的租赁合约（月租超过 RM150）都有唯一的 LHDN 参考编号。向租客的前任房东询问 — 通常以字母开头加数字。',
+    lhdnSkip: '跳过 — 无证书 / 首次租赁',
+    lhdnSkipNote: '房东自行决定 · Find.ai 是辅助工具',
+    lhdnSkipped: '已跳过 LHDN',
+    identityUnverified: '身份未验证',
     methodNumber: '⌨️  输入编号',
     methodPdf: '📎  上传 PDF',
     certLabel: 'LHDN 印花证书编号',
@@ -285,7 +326,17 @@ const STR = {
     mobile: '手机后付（Maxis / CelcomDigi / U Mobile / Yes）',
     monthsCovered: '个月覆盖',
     seeScore: '查看付款行为评分',
-    needTwo: '至少添加 TNB + 水费才能继续',
+    needTwo: '至少添加 1 项公用事业以获得付款行为信号',
+    skipBills: '跳过 — 无可用账单',
+    scaleHeader: '此分数所处位置',
+    tierRisky: '风险',
+    tierMixed: '中等',
+    tierSolid: '稳健',
+    tierOutstandingScale: '优秀',
+    confLandlordJudgment: '需房东自行判断',
+    confIdentityOnly: '仅身份 · 无付款数据',
+    confBehaviourOnly: '仅行为 · 无 LHDN 锚定',
+    confLimited: '数据有限 · 3 项中的 {n} 项',
 
     s4Title: '付款行为评分',
     timingHeader: '平均付款时间',
@@ -716,6 +767,66 @@ function UtilityTimingCard({ utility, t }) {
   );
 }
 
+// ─── HelpHint — collapsible (?) info bubble ──────────────────────────────────
+//
+// Used inline next to fields that need a quick "what is this?" explainer.
+// Tap (?) → expands a small body card. Tap again → collapses.
+// Also dismissible via close button.
+function HelpHint({ title, body }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span className="inline-block">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold transition active:scale-90 ml-1.5"
+        style={{ background: open ? '#0f172a' : '#e2e8f0', color: open ? '#fff' : '#64748b' }}
+        aria-label={title}
+      >
+        ?
+      </button>
+      {open && (
+        <div className="mt-2 p-3 rounded-xl text-[11px] leading-relaxed fade-in"
+          style={{ background: '#f0f9ff', border: '1px solid #bae6fd', color: '#075985' }}>
+          <div className="font-bold mb-1">{title}</div>
+          <div>{body}</div>
+        </div>
+      )}
+    </span>
+  );
+}
+
+// ─── ScoreScale — visual benchmark for the 0-100 score ──────────────────────
+//
+// Horizontal gradient bar with a marker at the actual score position.
+// Helps landlords interpret "94/100" vs "70" vs "51" — what's good?
+function ScoreScale({ score, t }) {
+  const pos = Math.max(0, Math.min(100, score));
+  return (
+    <div className="p-3 rounded-xl" style={{ background: '#f8fafc', border: '1px solid #edf0f4' }}>
+      <div className="text-[9px] font-black uppercase tracking-widest mb-2" style={{ color: '#94a3b8' }}>
+        {t.scaleHeader}
+      </div>
+      <div className="relative h-2 rounded-full overflow-hidden mb-2" style={{
+        background: 'linear-gradient(to right, #ef4444 0%, #f59e0b 39%, #84cc16 69%, #10b981 84%, #10b981 100%)',
+      }}>
+        {/* Marker at score position */}
+        <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
+          style={{ left: `${pos}%` }}>
+          <div className="w-3 h-3 rounded-full bg-white"
+            style={{ border: '2px solid #0f172a', boxShadow: '0 1px 4px rgba(15,23,42,0.4)' }} />
+        </div>
+      </div>
+      <div className="flex justify-between text-[9px] font-semibold" style={{ color: '#475569' }}>
+        <span>{t.tierRisky}</span>
+        <span>{t.tierMixed}</span>
+        <span>{t.tierSolid}</span>
+        <span>{t.tierOutstandingScale} ★</span>
+      </div>
+    </div>
+  );
+}
+
 // ─── TrustCardPreview — business-card-format Trust Card visual ──────────────
 //
 // Replaces the "Export PDF Report" output with a compact business-card visual
@@ -864,8 +975,11 @@ export default function TenantScreen({
 
   const verifyDisabled = verifying || (lhdnMethod === 'number' ? !certNumber.trim() : !lhdnPdfName);
 
-  // TNB + Water required, Mobile is bonus
-  const billsOk = tnbState.done && waterState.done;
+  // v3.4.3 (Ken): Find.ai is a support tool, landlord decides what's enough.
+  // At least 1 utility is enough to proceed. Even mobile-only is OK.
+  // Landlord sees clear "limited data" badge if they proceed with partial data.
+  const billsCount = (tnbState.done ? 1 : 0) + (waterState.done ? 1 : 0) + (mobileState.done ? 1 : 0);
+  const billsOk = billsCount >= 1;
 
   const saveToCase = () => {
     if (!onSaveMemory) return;
@@ -949,7 +1063,10 @@ export default function TenantScreen({
             <p className="text-[12px] mt-1" style={{ color: '#64748b' }}>{t.s1Sub}</p>
           </div>
           <TextInput label={t.nameLabel} value={tenantName} onChange={setTenantName} placeholder={t.namePh} />
-          <TextInput label={t.icLabel} value={tenantIC} onChange={setTenantIC} placeholder={t.icPh} mono />
+          <div>
+            <TextInput label={t.icLabel} value={tenantIC} onChange={setTenantIC} placeholder={t.icPh} mono />
+            <p className="text-[10px] mt-1.5 italic" style={{ color: '#94a3b8' }}>{t.icSubtitle}</p>
+          </div>
           <div className="flex gap-2 pt-2">
             <button onClick={goBack} className="px-5 py-3.5 rounded-xl text-[13px] font-semibold transition active:scale-95"
               style={{ background: '#f8fafc', color: '#475569', border: '1px solid #e2e8f0' }}>
@@ -969,7 +1086,10 @@ export default function TenantScreen({
             <div className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#94a3b8' }}>
               {t.stepLabel} 2 {t.of} 3
             </div>
-            <h4 className="text-[16px] font-bold" style={{ color: '#0f172a' }}>{t.s2Title}</h4>
+            <div className="flex items-start">
+              <h4 className="text-[16px] font-bold" style={{ color: '#0f172a' }}>{t.s2Title}</h4>
+              <HelpHint title={t.lhdnHelp} body={t.lhdnHelpBody} />
+            </div>
             <p className="text-[12px] mt-1 leading-relaxed" style={{ color: '#64748b' }}>{t.s2Sub}</p>
           </div>
 
@@ -1019,10 +1139,25 @@ export default function TenantScreen({
                   </>
                 )}
               </button>
+
+              {/* Skip option — Find.ai is a support tool, landlord decides */}
+              <div className="pt-1">
+                <button
+                  onClick={() => setLhdnResult({ skipped: true })}
+                  className="w-full py-2.5 rounded-xl text-[12px] font-semibold transition active:scale-[0.98]"
+                  style={{ background: 'transparent', color: '#64748b', border: '1px dashed #cbd5e1' }}
+                >
+                  {t.lhdnSkip}
+                </button>
+                <p className="text-[10px] text-center mt-1.5 leading-snug" style={{ color: '#94a3b8' }}>
+                  {t.lhdnSkipNote}
+                </p>
+              </div>
             </>
           )}
 
-          {lhdnResult && (
+          {/* Verified result — green */}
+          {lhdnResult && !lhdnResult.skipped && (
             <div className="p-4 rounded-2xl space-y-3 fade-in" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
               <div className="flex items-center justify-between">
                 <VerifiedBadge label={t.verified} />
@@ -1045,6 +1180,22 @@ export default function TenantScreen({
                 </svg>
                 <span className="text-[11px] font-semibold" style={{ color: '#15803d' }}>{t.icMatched}</span>
               </div>
+            </div>
+          )}
+
+          {/* Skipped result — amber, no green check */}
+          {lhdnResult && lhdnResult.skipped && (
+            <div className="p-4 rounded-2xl space-y-2 fade-in" style={{ background: '#FEF3C7', border: '1px solid #FDE68A' }}>
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest" style={{ background: '#92400E', color: '#fff' }}>
+                  ⊘ {t.lhdnSkipped}
+                </span>
+                <button onClick={() => setLhdnResult(null)} className="text-[10px] font-semibold" style={{ color: '#92400E' }}>
+                  {t.back}
+                </button>
+              </div>
+              <div className="text-[12px] font-semibold" style={{ color: '#92400E' }}>{t.identityUnverified}</div>
+              <div className="text-[10.5px] leading-relaxed" style={{ color: '#92400E' }}>{t.lhdnSkipNote}</div>
             </div>
           )}
 
@@ -1096,20 +1247,49 @@ export default function TenantScreen({
       {/* ═══ STEP 4 — SCORE REVEAL ═══ */}
       {step === 4 && (
         <div className="space-y-3 fade-in">
-          {/* Hero score card — navy */}
+          {/* Hero score card — navy. LHDN badge: green if verified, amber if skipped. */}
           <div className="p-6 rounded-2xl" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}>
             <div className="flex items-center justify-between mb-2">
               <div className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.4)' }}>{t.s4Title}</div>
-              <VerifiedBadge label="LHDN" />
+              {lhdnResult?.skipped ? (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest"
+                  style={{ background: '#92400E', color: '#fff' }}>
+                  ⊘ {t.lhdnSkipped}
+                </span>
+              ) : (
+                <VerifiedBadge label="LHDN" />
+              )}
             </div>
             <div className="flex items-baseline gap-2 mt-1">
               <div className="text-5xl font-bold text-white leading-none">{MOCK_SCORE.total}</div>
               <div className="text-[14px]" style={{ color: 'rgba(255,255,255,0.5)' }}>/ 100</div>
             </div>
             <div className="text-[12px] mt-3 pt-3" style={{ color: 'rgba(255,255,255,0.6)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-              {t.sourcedFrom} {MOCK_LHDN_RESULT.months} {t.monthsBills}
+              {lhdnResult?.skipped
+                ? `${t.confBehaviourOnly}`
+                : `${t.sourcedFrom} ${MOCK_LHDN_RESULT.months} ${t.monthsBills}`}
             </div>
           </div>
+
+          {/* T2 — Score benchmark scale (helps landlord interpret 94 vs 70 vs 51) */}
+          <ScoreScale score={MOCK_SCORE.total} t={t} />
+
+          {/* Landlord-judgment chip — surfaces when LHDN skipped or partial bills */}
+          {(lhdnResult?.skipped || billsCount < 3) && (
+            <div className="p-3 rounded-xl flex items-start gap-2" style={{ background: '#FEF3C7', border: '1px solid #FDE68A' }}>
+              <span className="text-[10px] flex-shrink-0">⚠️</span>
+              <div className="flex-1">
+                <div className="text-[11px] font-bold" style={{ color: '#92400E' }}>{t.confLandlordJudgment}</div>
+                <div className="text-[10.5px] mt-0.5" style={{ color: '#92400E' }}>
+                  {lhdnResult?.skipped && billsCount < 3
+                    ? `${t.identityUnverified} · ${t.confLimited.replace('{n}', String(billsCount))}`
+                    : lhdnResult?.skipped
+                      ? t.identityUnverified
+                      : t.confLimited.replace('{n}', String(billsCount))}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Confidence + tenant identity card */}
           <div className="p-3.5 rounded-xl flex items-center gap-3" style={{ background: '#f8fafc', border: '1px solid #edf0f4' }}>
@@ -1140,11 +1320,14 @@ export default function TenantScreen({
             </div>
           </div>
 
-          {/* Per-utility timing breakdown — stacked bar + legend per utility */}
+          {/* Per-utility timing breakdown — only show utilities landlord actually provided.
+              Honest mock: if landlord skipped Water, no Water card here. */}
           <div className="space-y-2">
-            {MOCK_SCORE.utilities.map((u) => (
-              <UtilityTimingCard key={u.name} utility={u} t={t} />
-            ))}
+            {MOCK_SCORE.utilities
+              .filter((_u, i) => (i === 0 ? tnbState.done : i === 1 ? waterState.done : mobileState.done))
+              .map((u) => (
+                <UtilityTimingCard key={u.name} utility={u} t={t} />
+              ))}
           </div>
 
           {/* Trust Card preview — replaces the old "PDF report" output.

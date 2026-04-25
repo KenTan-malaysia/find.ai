@@ -25,15 +25,33 @@ This is the moat.
 
 > **The LHDN cert is the gate. The utility bills are the score. That's the whole spec.**
 
-### Step 1 — Identity Gate (Pass / Fail)
+### ⚠️ Support-tool doctrine (v3.4.3 — Ken)
+
+> **"Find.ai surfaces evidence. The decision rests with the landlord."**
+>
+> Both the LHDN gate AND the utility bills are **OPTIONAL** in the UX. Landlord can skip either or both and proceed with whatever evidence is available. Find.ai's job is to gather and present, not to gatekeep. If the landlord wants to take a risk on a tenant with no LHDN cert and only one utility bill, that's their call — Find.ai surfaces the partial-data warning and lets them through.
+>
+> This handles three big real-world cases automatically:
+> - **Unstamped previous tenancy** (40-60% of MY rentals) → skip LHDN, proceed with bills only → "Behaviour-only · No LHDN anchor" badge
+> - **First-time renter** (no prior history of any kind) → skip everything, proceed with landlord judgment → "Identity unverified" badge
+> - **Tenant with only mobile bill** → proceed with mobile-only signal → "Limited data · 1 of 3 utilities" badge
+
+### Step 1 — Identity Gate (Pass / Fail / **SKIP**)
 
 The tenant proves they really lived at a specific address during a specific period. We use the LHDN stamp certificate from their previous tenancy as government-grade proof.
 
-The cert is a binary gate: pass (we have a verified tenancy to score) or fail (we don't have a verifiable foundation; tenant falls back to first-time-renter handling). **The cert itself contributes ZERO points to the final score.** We extract only the address and period — everything else (rent amount, lease length, landlord identity) is discarded for scoring purposes.
+Three outcomes:
+- **Pass** — cert verified, tenant identity + previous tenancy address proven, score gets "LHDN VERIFIED" green badge
+- **Skip** — landlord chose to proceed without LHDN verification (no cert available, first-time renter, etc.), score gets "LHDN SKIPPED" amber badge + "Identity unverified · Landlord judgment required" chip
+- **Fail** — cert exists but doesn't match tenant IC (very rare); same handling as Skip
 
-### Step 2 — Paying Behaviour Score (0-100)
+The cert itself contributes ZERO points to the final score. We extract only the address and period — everything else (rent amount, lease length, landlord identity) is discarded for scoring purposes.
 
-Once identity is gated, we score the tenant purely on how they paid utilities at that address during that period. The score answers exactly one question: *"During the verified tenancy, did this tenant pay their utility obligations reliably?"* Nothing else.
+### Step 2 — Paying Behaviour Score (0-100, partial allowed)
+
+Once identity is gated (or skipped), we score the tenant purely on how they paid utilities at the verified (or claimed) address. The score answers exactly one question: *"During the (verified) tenancy, did this tenant pay their utility obligations reliably?"* Nothing else.
+
+**Minimum required: at least 1 utility** (Ken v3.4.3). Any single utility unlocks the score. Even mobile-postpaid alone is acceptable. Landlord sees a "Limited data · {n} of 3 utilities" warning chip when partial data is provided — they decide whether to proceed.
 
 ---
 
