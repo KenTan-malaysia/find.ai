@@ -1,6 +1,6 @@
 # Find.ai — Malaysian Property Compliance Toolkit
 
-> Previously "Unbelievebe", then an AI chatbot. Now repositioned as a **compliance toolkit**, not a chatbot. Phase 1 doctrine locked 2026-04-21. Product version shipping now: **Cakap 2.0**.
+> Previously "Unbelievebe", then an AI chatbot. Now repositioned as a **compliance toolkit**, not a chatbot. Phase 1 doctrine locked 2026-04-21. Product version shipping now: **Cakap 2.0**. Last updated: 2026-04-25 (v3.4.1).
 
 ---
 
@@ -92,16 +92,25 @@ find-ai/
 
 All four tools share one spine — **pre-signing trust** — and data flows between them via the existing Case Memory system (`fi_chat_history[i].memory`). Every tool produces a branded PDF export. The PDF is the viral mechanic: when a landlord shares the Tenant Screening report on WhatsApp, the recipient sees the Find.ai letterhead + QR code and becomes a user.
 
-### TOOL 1 — Tenant Screening  [dormant code, to be resurrected]
+### TOOL 1 — Tenant Credit Score  [v0 MOCK LIVE — v3.4.1, 2026-04-25]
 **Question answered:** *"Can I trust this tenant before I hand over keys?"*
 
-**Inputs:** Tenant name + IC (or USCC for PRC company tenants) + optional CCRIS/CTOS consent + reference contacts.
+**Model — gate + score:**
+- **Step A — LHDN cert is the IDENTITY GATE only** (pass/fail, zero scoring weight). Tenant enters previous tenancy stamp cert # OR uploads cert PDF → cross-checked against tenant's MyDigital ID-verified IC.
+- **Step B — Utility bills are the PURE PAYING-BEHAVIOUR SCORE** (0-100). Per-utility dual input (account # OR upload bill — tenant picks per utility). Three utilities: TNB + Water + **Mobile postpaid** (Maxis/CelcomDigi/U Mobile/Yes — replaced IWK).
 
-**Outputs:** Trust score (A/B/C/D) + factor breakdown + red flags + **"Find.ai Screening Report PDF"** stamped with report ID and date.
+**Scoring — timing-tier model (v3.4.1):** Each payment event classified into 5 tiers based on `payment_date − due_date` extracted from native bill fields (`Tarikh Bayaran Akhir` vs `Bayaran Diterima Pada`):
+- 🥇 Upfront (paid 7+ days before due) · ✅ On-time (0-6 days before) · ⚠️ Late (1-7 days after) · 🔴 Very late (8+ days after) · 💀 Default (carry-over / disconnection)
 
-**Hand-off:** If passed, tenant details flow into the Case Memory → prefill Agreement Health Check and SDSAS Calculator.
+Score formula: avg payment timing (50%) + consistency (25%) + worst single event (15%) + disconnections (10%). Score and Confidence are **separate outputs** (Score = behaviour, Confidence = data volume — never blended).
 
-**Source of truth:** `src/components/tools/TenantScreen.jsx` (dormant, needs rewire + PDF export).
+**Identity tiers:** Gold = MyDigital ID OAuth one-tap; Silver = IC photo + selfie liveness; no Bronze.
+
+**Live Bound Verification (LBV):** PDF alone is never sufficient. Landlord scans QR → tenant pushed → live face match → score revealed with live photo overlay. PDF = invitation to verify, not the trust artifact.
+
+**Outputs:** Score 0-100 + per-utility timing-tier bars + Average Timing headline + tenant tag (Upfront/On-time/Late) + **"Find.ai Trust Report PDF"** with QR for re-verification.
+
+**Source of truth:** `src/components/tools/TenantScreen.js` (v0 MOCK live, ~1100 lines, EN/BM/中文 inline). Spec: `ARCH_CREDIT_SCORE.md`. Build remaining (real OCR, real LHDN integration, PDF export) per 8-step backlog in spec.
 
 ---
 
@@ -257,4 +266,8 @@ Phase 1 is the ENTIRE public product for the next 90 days. Phases 2-4 are intern
 - **v3.3 — Phase 1 doctrine lock.** Repositioned from "AI chatbot" to "pre-signing compliance toolkit." Four tools (Screen / Audit / Stamp / Chatbox), each with branded PDF export. Marketplace (Phase 4) moved to internal-only roadmap.
 - **v3.3.1 — TOOL 3 live.** StampDuty component wired into production app. Shared `src/lib/pdfExport.js` ships the first end-to-end branded PDF (`buildStampReport` + `exportReport`). "Pre-signing toolkit" bento launcher row added to chat empty state.
 - **v3.3.2 (2026-04-23) — UI v9.3 Persistent PeekChat Dock locked.** Retired the v9.2 modal `ChatDrawer` (hijacked the full screen). Shipped `src/components/PeekChat.js` — a 56px bottom-anchored dock that expands into a peek pane showing the last 3 messages, then escalates to full chat only when the user is serious. Dock mounts on every top-level branch (Landing / Profile / Chat). `closeToolSmart` + `landingToTool` flag fixes the "tool close returns me to chat, not Landing" stranding bug. Landing FAB removed; `.v9-screen-peek-safe { padding-bottom: 96px }` reserves clearance so the dock never covers CTAs. Chat is now ambient support, not a destination.
-- **v3.3.3 (2026-04-23) — UI v9.4 + v9.5 polish pass locked (ship build).** Ran 30-user UX simulation against v9.3 (landlords + agents + SME tenants across EN/BM/ZH). Shipped 11 polish tickets over two iterations. **v9.4 (T1–T5):** T1 empty peek → 3 tappable example pills, T2 *"DON'T SIGN BLIND"* motto on Welcome (EN/BM/ZH), T3 privacy chip + lang toggle readability bump (9px→11px, 11px→13px), T4 one-time dock hint with `fi_peek_hint_v1` localStorage suppression, T5 tile eyebrows signaling commercial/company coverage. **v9.5 micro-polish (N1–N5 + T11):** N1 hero 👋 shrunk 56px→26px inline with heading, N2 hint delay 900→1600ms / window 4.0→4.2s, N3 pill numeric badges → neutral speech-bubble SVG icons, N4 tile eyebrow 0.14em→0.10em / 9.5px→9px, N5 hint tail rotated-square → 12×7 SVG triangle (fixes Android hairline), T11 Stamp tile eyebrow now reads *"RESIDENTIAL + COMMERCIAL · SDSAS 2026"* in EN/BM/ZH for first-scan era disambiguation. **Aggregate:** 🤔 verdicts dropped 17/30 → 4/30, 👍 verdicts rose 13/30 → 26/30, "understood in ≤5s" rose 19/30 → 28/30. Files: `src/app/landing.js` (381 lines), `src/components/PeekChat.js` (677 lines). Remaining 4 🤔 all map to P2 feature work (Tamil policy call, Audit teaser notify-me, Welcome share-to-WhatsApp), not first-run trust blockers. See `UX_REVIEW_v9.4.md` + `UX_REVIEW_v9.5.md`.
+- **v3.3.3 (2026-04-23) — UI v9.4 + v9.5 polish pass locked (ship build).** Ran 30-user UX simulation against v9.3 (landlords + agents + SME tenants across EN/BM/ZH). Shipped 11 polish tickets over two iterations. **Aggregate:** 🤔 verdicts dropped 17/30 → 4/30, 👍 verdicts rose 13/30 → 26/30, "understood in ≤5s" rose 19/30 → 28/30. Files: `src/app/landing.js` (381 lines), `src/components/PeekChat.js` (677 lines). See `UX_REVIEW_v9.4.md` + `UX_REVIEW_v9.5.md`.
+
+- **v3.4 (2026-04-25) — TOOL 1 Credit Score spec locked.** Strategic shift: utility data promoted from Phase 2 (post-signing custodian, `ARCH_UTILITY_BRIDGE.md`) to Phase 1 by reframing as a government-anchored credit-scoring engine. LHDN cert as identity gate (zero scoring weight) + utility bills as pure paying-behaviour score. NO bank linking, NO bank statement upload, NO scoring on tenancy length. Identity tiers Gold (MyDigital ID) + Silver (IC photo + selfie liveness). LHDN lookup via Path A (manual screenshot OCR) for MVP; Path C (formal LHDN API partnership) pursued in parallel. Live Bound Verification (LBV) pattern locks score-presentation to live face match (PDF alone never sufficient). 3-signal verification lattice for landlord utility ownership in Phase 2. Spec: `ARCH_CREDIT_SCORE.md`.
+
+- **v3.4.1 (2026-04-25 — CURRENT SAVE POINT) — TOOL 1 v0 mock SHIPPED + timing-tier scoring model.** v0 mock of TOOL 1 wired into production app via existing `landing.js → openScreenDirect → showScreenTool → TenantScreen` path. 4-step modal (intro → identity → LHDN dual-input key-in-or-PDF → per-utility dual-input account-or-upload, TNB + Water + Mobile postpaid replacing IWK → score reveal 94/100). Scoring refined to **timing-tier system** per Ken's call: 5 tiers (Upfront/On-time/Late/Very-late/Default) classified by `payment_date − due_date` from native bill fields (`Tarikh Bayaran Akhir` vs `Bayaran Diterima Pada`). New formula: avg timing 50% + consistency 25% + worst event 15% + disconnections 10%. Score reveal UI shows stacked tier bars per utility + headline "Average payment timing: N days BEFORE/AFTER due date" + Upfront/On-time/Late tenant tag. DEMO_MODE banner makes mock obvious. Files: `src/components/tools/TenantScreen.js` (full rewrite, ~1100 lines, EN/BM/中文 inline), `ARCH_CREDIT_SCORE.md`, `ARCH_UTILITY_BRIDGE.md` (header notes split), `FINDAI_MEMORY.md`, this file.
