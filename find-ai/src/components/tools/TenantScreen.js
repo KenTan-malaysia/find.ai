@@ -79,11 +79,16 @@ const STR = {
     acctTnbPh: 'e.g. 220012345678',
     acctWaterPh: 'e.g. 4001234567',
     acctMobilePh: 'e.g. 0123456789',
+    verifyOnExternal: '🔗 Open {provider} to check this account',
+    demoNoteAcct: 'In production, this deep-links to {provider} with the account # pre-filled. For demo, opens {provider} home — return to Find.ai after.',
+    portalOpened: '{provider} opened in a new tab',
+    portalOpenedHint: 'Check the bill on the {provider} site, then come back here and tap below.',
+    markVerified: '✓ I checked — mark verified',
     uploadAnyBill: 'Tap to upload bill (any recent month)',
     uploadHint: 'PDF or photo · 1 bill = 3 months timing data',
     confirm: 'Confirm',
     cancel: 'Cancel',
-    addedAcct: 'Account ····{tail} · Active · 1 bill checked',
+    addedAcct: 'Account ····{tail} · Verified via {provider}',
     addedFile: 'Bill uploaded · 3 months timing extracted',
     addedFileFromAcct: 'Account ····{tail} · 3 months timing extracted',
 
@@ -212,11 +217,16 @@ const STR = {
     acctTnbPh: 'cth. 220012345678',
     acctWaterPh: 'cth. 4001234567',
     acctMobilePh: 'cth. 0123456789',
+    verifyOnExternal: '🔗 Buka {provider} untuk semak akaun ini',
+    demoNoteAcct: 'Dalam pengeluaran, ini deep-link ke {provider} dengan no. akaun pra-isi. Untuk demo, buka laman utama {provider} — kembali ke Find.ai selepas itu.',
+    portalOpened: '{provider} dibuka dalam tab baru',
+    portalOpenedHint: 'Semak bil di laman {provider}, kemudian kembali ke sini dan ketuk di bawah.',
+    markVerified: '✓ Saya dah semak — tandakan disahkan',
     uploadAnyBill: 'Ketuk untuk muat naik bil (mana-mana bulan terkini)',
     uploadHint: 'PDF atau foto · 1 bil = 3 bulan data masa',
     confirm: 'Sahkan',
     cancel: 'Batal',
-    addedAcct: 'Akaun ····{tail} · Aktif · 1 bil disemak',
+    addedAcct: 'Akaun ····{tail} · Disahkan melalui {provider}',
     addedFile: 'Bil dimuat naik · 3 bulan masa diekstrak',
     addedFileFromAcct: 'Akaun ····{tail} · 3 bulan masa diekstrak',
 
@@ -345,11 +355,16 @@ const STR = {
     acctTnbPh: '例：220012345678',
     acctWaterPh: '例：4001234567',
     acctMobilePh: '例：0123456789',
+    verifyOnExternal: '🔗 打开 {provider} 查询此账户',
+    demoNoteAcct: '在生产版本中，这会深度链接到 {provider} 并预填账户编号。演示版仅打开 {provider} 主页 — 之后请返回 Find.ai。',
+    portalOpened: '{provider} 已在新标签打开',
+    portalOpenedHint: '在 {provider} 网站查看账单，然后返回此处点击下方按钮。',
+    markVerified: '✓ 已核查 — 标记为已验证',
     uploadAnyBill: '点击上传账单（任何近期月份）',
     uploadHint: 'PDF 或照片 · 1 张账单 = 3 个月时间数据',
     confirm: '确认',
     cancel: '取消',
-    addedAcct: '账户 ····{tail} · 活跃 · 1 张账单已核查',
+    addedAcct: '账户 ····{tail} · 通过 {provider} 验证',
     addedFile: '账单已上传 · 提取 3 个月付款时间',
     addedFileFromAcct: '账户 ····{tail} · 提取 3 个月付款时间',
 
@@ -649,16 +664,16 @@ function PdfDropZone({ pdfName, onPick, t }) {
 //   { open: true, method: 'file', file: ''}  ← file picker visible
 //   { done: true, method, value | file }     ← collapsed green, with summary
 
-function BillTile({ label, ph, state, setState, t }) {
-  const { open = false, method = null, value = '', file = '', done = false } = state || {};
+function BillTile({ label, ph, deepLinkUrl, deepLinkLabel, state, setState, t }) {
+  const { open = false, method = null, value = '', file = '', verified = false, done = false } = state || {};
 
   // Collapsed completed state — green tile with summary.
-  // Path 1 (account #): subdued — only confirms account is active, 1 bill of data.
+  // Path 1 (account #): subdued — verified via deep-link to provider portal.
   // Path 2 (upload):    full green — 3 months of native bill timing data extracted.
   if (done) {
     const tail = (value || '0000').slice(-4);
     const summary = method === 'acct'
-      ? t.addedAcct.replace('{tail}', tail)
+      ? t.addedAcct.replace('{tail}', tail).replace('{provider}', deepLinkLabel || 'provider')
       : t.addedFile;
     return (
       <div className="p-3.5 rounded-xl flex items-center gap-3"
@@ -673,7 +688,7 @@ function BillTile({ label, ph, state, setState, t }) {
           <div className="text-[10px] mt-0.5 truncate" style={{ color: '#065f46' }}>{summary}</div>
         </div>
         <button
-          onClick={() => setState({ open: true, method: null, value: '', file: '', done: false })}
+          onClick={() => setState({ open: true, method: null, value: '', file: '', verified: false, done: false })}
           className="text-[11px] font-bold px-3 py-1.5 rounded-lg transition active:scale-95 flex-shrink-0"
           style={{ background: '#fff', color: '#065f46' }}
         >
@@ -700,7 +715,7 @@ function BillTile({ label, ph, state, setState, t }) {
           <div className="text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>—</div>
         </div>
         <button
-          onClick={() => setState({ open: true, method: null, value: '', file: '', done: false })}
+          onClick={() => setState({ open: true, method: null, value: '', file: '', verified: false, done: false })}
           className="text-[11px] font-bold px-3 py-1.5 rounded-lg transition active:scale-95 flex-shrink-0"
           style={{ background: '#0f172a', color: '#fff' }}
         >
@@ -718,7 +733,7 @@ function BillTile({ label, ph, state, setState, t }) {
       <div className="px-3.5 pt-3.5 pb-2.5 flex items-center justify-between">
         <div className="text-[12px] font-bold" style={{ color: '#0f172a' }}>{label}</div>
         <button
-          onClick={() => setState({ open: false, method: null, value: '', file: '', done: false })}
+          onClick={() => setState({ open: false, method: null, value: '', file: '', verified: false, done: false })}
           className="text-[10px] font-semibold px-2 py-1 rounded transition active:scale-95"
           style={{ color: '#64748b' }}
         >
@@ -751,27 +766,76 @@ function BillTile({ label, ph, state, setState, t }) {
         </div>
       )}
 
-      {/* Account # input */}
+      {/* Account # input — two sub-states:
+            1. Type account # → tap "Verify on {provider}" → opens portal in new tab + sets verified=true
+            2. After verified → "Mark verified" button → done */}
       {method === 'acct' && (
         <div className="px-3.5 pb-3.5 space-y-2.5">
-          <TextInput value={value} onChange={(v) => setState({ ...state, value: v })} placeholder={ph} mono />
-          <div className="flex gap-2">
-            <button
-              onClick={() => setState({ ...state, method: null })}
-              className="px-4 py-2.5 rounded-lg text-[12px] font-semibold transition active:scale-95"
-              style={{ background: '#fff', color: '#475569', border: '1px solid #e2e8f0' }}
-            >
-              {t.back}
-            </button>
-            <button
-              onClick={() => setState({ ...state, done: true })}
-              disabled={!value.trim()}
-              className="flex-1 py-2.5 rounded-lg text-[12px] font-bold text-white disabled:opacity-40 transition active:scale-[0.98]"
-              style={{ background: '#0f172a' }}
-            >
-              {t.confirm}
-            </button>
-          </div>
+          <TextInput value={value} onChange={(v) => setState({ ...state, value: v, verified: false })} placeholder={ph} mono />
+
+          {/* Sub-state 1: not yet verified — show deep-link button */}
+          {!verified && (
+            <>
+              <a
+                href={deepLinkUrl || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => { if (value.trim()) setState({ ...state, verified: true }); }}
+                className={`block w-full py-3 rounded-lg text-[13px] font-bold text-center transition active:scale-[0.98] ${value.trim() ? '' : 'pointer-events-none opacity-40'}`}
+                style={{ background: '#0f172a', color: '#fff', textDecoration: 'none' }}
+              >
+                {t.verifyOnExternal.replace('{provider}', deepLinkLabel || 'provider')}
+              </a>
+              <p className="text-[10px] italic leading-snug" style={{ color: '#94a3b8' }}>
+                {t.demoNoteAcct.replace(/\{provider\}/g, deepLinkLabel || 'provider')}
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setState({ ...state, method: null })}
+                  className="flex-1 py-2.5 rounded-lg text-[12px] font-semibold transition active:scale-95"
+                  style={{ background: '#fff', color: '#475569', border: '1px solid #e2e8f0' }}
+                >
+                  {t.back}
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* Sub-state 2: verified flag set — show "mark verified" final step */}
+          {verified && (
+            <>
+              <div className="p-3 rounded-lg flex items-start gap-2.5"
+                style={{ background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[12px] font-bold" style={{ color: '#15803d' }}>
+                    {t.portalOpened.replace('{provider}', deepLinkLabel || 'provider')}
+                  </div>
+                  <div className="text-[10.5px] mt-0.5 leading-snug" style={{ color: '#15803d' }}>
+                    {t.portalOpenedHint.replace('{provider}', deepLinkLabel || 'provider')}
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setState({ ...state, verified: false })}
+                  className="px-4 py-2.5 rounded-lg text-[12px] font-semibold transition active:scale-95"
+                  style={{ background: '#fff', color: '#475569', border: '1px solid #e2e8f0' }}
+                >
+                  {t.back}
+                </button>
+                <button
+                  onClick={() => setState({ ...state, done: true })}
+                  className="flex-1 py-2.5 rounded-lg text-[12px] font-bold text-white transition active:scale-[0.98]"
+                  style={{ background: '#0f172a' }}
+                >
+                  {t.markVerified}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -1342,9 +1406,33 @@ export default function TenantScreen({
           </div>
 
           <div className="space-y-2.5">
-            <BillTile label={t.tnb} ph={t.acctTnbPh} state={tnbState} setState={setTnbState} t={t} />
-            <BillTile label={t.water} ph={t.acctWaterPh} state={waterState} setState={setWaterState} t={t} />
-            <BillTile label={t.mobile} ph={t.acctMobilePh} state={mobileState} setState={setMobileState} t={t} />
+            <BillTile
+              label={t.tnb}
+              ph={t.acctTnbPh}
+              deepLinkUrl="https://www.mytnb.com.my"
+              deepLinkLabel="TNB"
+              state={tnbState}
+              setState={setTnbState}
+              t={t}
+            />
+            <BillTile
+              label={t.water}
+              ph={t.acctWaterPh}
+              deepLinkUrl="https://www.airselangor.com"
+              deepLinkLabel="Air Selangor"
+              state={waterState}
+              setState={setWaterState}
+              t={t}
+            />
+            <BillTile
+              label={t.mobile}
+              ph={t.acctMobilePh}
+              deepLinkUrl="https://www.maxis.com.my"
+              deepLinkLabel="Maxis"
+              state={mobileState}
+              setState={setMobileState}
+              t={t}
+            />
           </div>
 
           {!billsOk && (
