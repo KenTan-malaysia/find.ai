@@ -98,7 +98,38 @@ From the `Pengesahan Ketulenan` (Authentication) lookup at https://stamps.hasil.
 
 ### What we ask the tenant for
 
-Utility bills covering the verified tenancy period, ideally all consecutive months. Minimum: TNB + water (Air Selangor / SYABAS / SADA / SAJ / LAKU / SESB / SARAWESB depending on state). IWK is optional bonus signal.
+Per-utility data covering the verified tenancy period. Three utilities supported in v3.4.1:
+
+- **TNB** (electricity) — required
+- **Water** — required (Air Selangor / SYABAS / SADA / SAJ / LAKU / SESB / SARAWESB depending on state)
+- **Mobile postpaid** — optional but high-value bonus signal (Maxis / CelcomDigi / U Mobile / Yes / Yoodo)
+
+> **Why Mobile replaced IWK (v3.4.1 design call):** Mobile postpaid bills come monthly with explicit due dates, providers cut service quickly for non-payment (1-2 months), almost every adult has one, and the account is in the tenant's own name (so they can supply it without landlord cooperation). IWK is often paid annually/quarterly, often bundled with quit rent, less granular per-payment signal.
+
+### Bill collection procedure — locked decision (v3.4.1)
+
+For each utility, the tenant chooses one of two methods. These are the only realistic paths in 2026 (no public APIs exist for any Malaysian utility; full automation = web scraping = legal + technical + reputation risk; see "Why Approach A is risky" below).
+
+| Path | Method | Tenant friction | What we get | Scoring strength |
+|---|---|---|---|---|
+| **Path 1** | Account number → tenant uses myTNB / myWater / telco app guest enquiry, screenshots, uploads back | ~30 sec | Account active confirmation + service address + current outstanding | Weak — 1 bill snapshot, no timing history |
+| **Path 2 ★** | Upload 1 recent bill PDF / photo | ~10 sec | Account #, address, payment date for previous bill, 3 months of native payment-timing history (extracted from `Bayaran Diterima` field) | **Strong — 3 timing events from one upload** |
+| **Path 3** | Upload 3+ recent bills | ~60 sec | Full multi-month timing chronology + cross-validation across bills | Strongest — for Mature confidence tier |
+| Path 4 | Previous landlord cooperation (parked for Phase 2 viral loop) | 0 sec for tenant | Full 12-24 months of bills via account holder login | — |
+
+**Why Path 2 is the recommended default:** A single recent TNB / water bill PDF natively contains 3-6 months of payment-timing history in the `Bayaran Diterima Pada` payment-history field. So one upload (10 seconds, low friction) delivers richer data than four manual screenshot-the-website steps for current bill only. The v0 mock UI marks Path 2 with a ★ in the per-tile method picker.
+
+**Why Path 1 still exists:** It's a fallback when the tenant can't find any recent bills. It at least confirms the account is active, the address matches, and there's no current arrears — a meaningful "is this person's previous tenancy real and current?" check, even if it can't carry the timing signal.
+
+### Why backend automation (Approach A) is NOT in scope
+
+We considered and rejected backend web scraping of myTNB / Air Selangor / telco portals:
+
+- **Legal:** TNB / utility ToS prohibit automated access. PDPA 2010 violation if extracting account holder's data without their consent (account holder = previous landlord, not the tenant we're scoring). Computer Crimes Act 1997 s.3 risk if anti-bot measures present.
+- **Technical:** CAPTCHA almost certainly deployed. Headless browser breaks every UI update. Need to maintain 13+ utility scrapers (TNB + 7 water authorities + 5 telcos). Session token refresh / anti-CSRF.
+- **Reputational:** Cease-and-desist from TNB = bad story for a "trust" brand.
+
+**Long-term path (Path 4 / D — pursued in parallel):** formal API partnership with TNB / LHDN via MAMPU. 6-12 month sales cycle. Cleanest moat once secured. Not blocking Phase 1 launch.
 
 ### What we extract from each bill
 

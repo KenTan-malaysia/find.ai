@@ -65,20 +65,20 @@ const STR = {
     add: 'Add',
     edit: 'Edit',
     methodAcct: '⌨️  Account number',
-    methodAcctHint: 'Easiest — we pull the bill',
+    methodAcctHint: 'Quick check · current bill only',
     methodUpload: '📎  Upload bill',
-    methodUploadHint: 'Recent bill = 3-6 months of history',
+    methodUploadHint: '★ Best · 1 bill includes 3 months history',
     acctPlaceholder: 'Account number',
     acctTnbPh: 'e.g. 220012345678',
     acctWaterPh: 'e.g. 4001234567',
     acctMobilePh: 'e.g. 0123456789',
-    uploadAnyBill: 'Tap to upload bill (any month)',
-    uploadHint: 'PDF or photo',
+    uploadAnyBill: 'Tap to upload bill (any recent month)',
+    uploadHint: 'PDF or photo · 1 bill = 3 months timing data',
     confirm: 'Confirm',
     cancel: 'Cancel',
-    addedAcct: 'Account · {n} months covered',
-    addedFile: 'Bill uploaded · {n} months covered',
-    addedFileFromAcct: 'Account ····{tail} · {n} months covered',
+    addedAcct: 'Account ····{tail} · Active · 1 bill checked',
+    addedFile: 'Bill uploaded · 3 months timing extracted',
+    addedFileFromAcct: 'Account ····{tail} · 3 months timing extracted',
 
     tnb: 'TNB (Electricity)',
     water: 'Water (Air Selangor / SYABAS)',
@@ -158,20 +158,20 @@ const STR = {
     add: 'Tambah',
     edit: 'Ubah',
     methodAcct: '⌨️  Nombor akaun',
-    methodAcctHint: 'Paling mudah — kami tarik bil',
+    methodAcctHint: 'Semakan pantas · bil semasa sahaja',
     methodUpload: '📎  Muat naik bil',
-    methodUploadHint: 'Bil terkini = 3-6 bulan sejarah',
+    methodUploadHint: '★ Terbaik · 1 bil = 3 bulan sejarah',
     acctPlaceholder: 'Nombor akaun',
     acctTnbPh: 'cth. 220012345678',
     acctWaterPh: 'cth. 4001234567',
     acctMobilePh: 'cth. 0123456789',
-    uploadAnyBill: 'Ketuk untuk muat naik bil (mana-mana bulan)',
-    uploadHint: 'PDF atau foto',
+    uploadAnyBill: 'Ketuk untuk muat naik bil (mana-mana bulan terkini)',
+    uploadHint: 'PDF atau foto · 1 bil = 3 bulan data masa',
     confirm: 'Sahkan',
     cancel: 'Batal',
-    addedAcct: 'Akaun · {n} bulan diliputi',
-    addedFile: 'Bil dimuat naik · {n} bulan diliputi',
-    addedFileFromAcct: 'Akaun ····{tail} · {n} bulan diliputi',
+    addedAcct: 'Akaun ····{tail} · Aktif · 1 bil disemak',
+    addedFile: 'Bil dimuat naik · 3 bulan masa diekstrak',
+    addedFileFromAcct: 'Akaun ····{tail} · 3 bulan masa diekstrak',
 
     tnb: 'TNB (Elektrik)',
     water: 'Air (Air Selangor / SYABAS)',
@@ -251,20 +251,20 @@ const STR = {
     add: '添加',
     edit: '编辑',
     methodAcct: '⌨️  账户编号',
-    methodAcctHint: '最简单 — 我们调取账单',
+    methodAcctHint: '快速核查 · 仅当前账单',
     methodUpload: '📎  上传账单',
-    methodUploadHint: '近期账单 = 3-6 个月历史',
+    methodUploadHint: '★ 最佳 · 1 张账单 = 3 个月历史',
     acctPlaceholder: '账户编号',
     acctTnbPh: '例：220012345678',
     acctWaterPh: '例：4001234567',
     acctMobilePh: '例：0123456789',
-    uploadAnyBill: '点击上传账单（任何月份）',
-    uploadHint: 'PDF 或照片',
+    uploadAnyBill: '点击上传账单（任何近期月份）',
+    uploadHint: 'PDF 或照片 · 1 张账单 = 3 个月时间数据',
     confirm: '确认',
     cancel: '取消',
-    addedAcct: '账户 · 覆盖 {n} 个月',
-    addedFile: '账单已上传 · 覆盖 {n} 个月',
-    addedFileFromAcct: '账户 ····{tail} · 覆盖 {n} 个月',
+    addedAcct: '账户 ····{tail} · 活跃 · 1 张账单已核查',
+    addedFile: '账单已上传 · 提取 3 个月付款时间',
+    addedFileFromAcct: '账户 ····{tail} · 提取 3 个月付款时间',
 
     tnb: 'TNB（电费）',
     water: '水费（Air Selangor / SYABAS）',
@@ -475,14 +475,14 @@ function PdfDropZone({ pdfName, onPick, t }) {
 function BillTile({ label, ph, state, setState, t }) {
   const { open = false, method = null, value = '', file = '', done = false } = state || {};
 
-  // Collapsed completed state — green tile with summary
+  // Collapsed completed state — green tile with summary.
+  // Path 1 (account #): subdued — only confirms account is active, 1 bill of data.
+  // Path 2 (upload):    full green — 3 months of native bill timing data extracted.
   if (done) {
+    const tail = (value || '0000').slice(-4);
     const summary = method === 'acct'
-      ? t.addedAcct.replace('{n}', String(COVERAGE_MOCK_MONTHS))
-      : (value
-          ? t.addedFileFromAcct.replace('{tail}', value.slice(-4)).replace('{n}', String(COVERAGE_MOCK_MONTHS))
-          : t.addedFile.replace('{n}', String(COVERAGE_MOCK_MONTHS))
-        );
+      ? t.addedAcct.replace('{tail}', tail)
+      : t.addedFile;
     return (
       <div className="p-3.5 rounded-xl flex items-center gap-3"
         style={{ background: '#d1fae5', border: '1px solid #a7f3d0' }}>
@@ -549,27 +549,27 @@ function BillTile({ label, ph, state, setState, t }) {
         </button>
       </div>
 
-      {/* Method picker */}
+      {/* Method picker — Upload first (★ best) per realistic data path; account # second */}
       {!method && (
         <div className="px-3.5 pb-3.5 space-y-2">
           <button
-            onClick={() => setState({ ...state, method: 'acct' })}
+            onClick={() => setState({ ...state, method: 'file' })}
             className="w-full p-3 rounded-lg text-left transition active:scale-[0.99] flex items-center justify-between"
-            style={{ background: '#fff', border: '1px solid #cbd5e1' }}
+            style={{ background: '#fff', border: '1px solid #65a30d' }}
           >
             <div>
-              <div className="text-[13px] font-bold" style={{ color: '#0f172a' }}>{t.methodAcct}</div>
-              <div className="text-[10.5px] mt-0.5" style={{ color: '#65a30d' }}>{t.methodAcctHint}</div>
+              <div className="text-[13px] font-bold" style={{ color: '#0f172a' }}>{t.methodUpload}</div>
+              <div className="text-[10.5px] mt-0.5" style={{ color: '#65a30d' }}>{t.methodUploadHint}</div>
             </div>
-            <span className="text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded" style={{ background: '#d1fae5', color: '#065f46' }}>★</span>
+            <span className="text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded flex-shrink-0" style={{ background: '#d1fae5', color: '#065f46' }}>★</span>
           </button>
           <button
-            onClick={() => setState({ ...state, method: 'file' })}
+            onClick={() => setState({ ...state, method: 'acct' })}
             className="w-full p-3 rounded-lg text-left transition active:scale-[0.99]"
             style={{ background: '#fff', border: '1px solid #cbd5e1' }}
           >
-            <div className="text-[13px] font-bold" style={{ color: '#0f172a' }}>{t.methodUpload}</div>
-            <div className="text-[10.5px] mt-0.5" style={{ color: '#94a3b8' }}>{t.methodUploadHint}</div>
+            <div className="text-[13px] font-bold" style={{ color: '#0f172a' }}>{t.methodAcct}</div>
+            <div className="text-[10.5px] mt-0.5" style={{ color: '#94a3b8' }}>{t.methodAcctHint}</div>
           </button>
         </div>
       )}
