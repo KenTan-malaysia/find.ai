@@ -68,7 +68,8 @@ const STR = {
     icMatched: 'IC matches MyKad on file',
 
     s3Title: 'Utility payment history',
-    s3Sub: 'For each utility, pick whichever the tenant has handy. Account number alone is enough — one recent bill is even better (it includes 3-6 months of payment history).',
+    s3Sub: 'All 3 optional — add at least 1. More uploads → higher Trust Score Confidence. Per utility: account # = quick check, upload bill = 3-month history.',
+    tileOptional: 'Optional · pick easier method',
     add: 'Add',
     edit: 'Edit',
     methodAcct: '⌨️  Account number',
@@ -209,7 +210,8 @@ const STR = {
     icMatched: 'IC sepadan dengan MyKad dalam fail',
 
     s3Title: 'Sejarah bayaran utiliti',
-    s3Sub: 'Untuk setiap utiliti, pilih apa yang penyewa ada di tangan. Nombor akaun sahaja sudah cukup — satu bil terkini lagi bagus (termasuk 3-6 bulan sejarah bayaran).',
+    s3Sub: 'Semua 3 pilihan — tambah sekurang-kurangnya 1. Lebih banyak = Keyakinan Skor Amanah lebih tinggi. Per utiliti: nombor akaun = semakan pantas, muat naik bil = sejarah 3 bulan.',
+    tileOptional: 'Pilihan · pilih cara mudah',
     add: 'Tambah',
     edit: 'Ubah',
     methodAcct: '⌨️  Nombor akaun',
@@ -350,7 +352,8 @@ const STR = {
     icMatched: '身份证与档案中 MyKad 匹配',
 
     s3Title: '公用事业付款记录',
-    s3Sub: '每项公用事业，选租客手头有的。仅账户编号已足够 — 一份近期账单更佳（含3-6个月付款历史）。',
+    s3Sub: '3 项均为可选 — 至少添加 1 项。上传越多 → 信任分数可信度越高。每项：账户编号 = 快速核查，上传账单 = 3 个月历史。',
+    tileOptional: '可选 · 选择更简单的方式',
     add: '添加',
     edit: '编辑',
     methodAcct: '⌨️  账户编号',
@@ -731,7 +734,7 @@ function BillTile({ label, ph, deepLinkUrl, deepLinkLabel, state, setState, t })
         </div>
         <div className="flex-1 min-w-0">
           <div className="text-[12px] font-bold truncate" style={{ color: '#0f172a' }}>{label}</div>
-          <div className="text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>—</div>
+          <div className="text-[10px] mt-0.5 italic" style={{ color: '#94a3b8' }}>{t.tileOptional}</div>
         </div>
         <button
           onClick={() => setState({ open: true, method: null, value: '', file: '', verified: false, done: false })}
@@ -1681,13 +1684,6 @@ Ref: ${stableCaseRef}`;
                 </a>
               );
             })()}
-
-            <button
-              onClick={() => alert('Trust Card export coming next session — see ARCH_CREDIT_SCORE.md build step 6 (business-card format · 85×55mm PDF + LBV QR).')}
-              className="w-full py-3.5 rounded-xl text-[13px] font-bold text-white transition active:scale-[0.98] flex items-center justify-center gap-2"
-              style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)', boxShadow: '0 4px 16px rgba(15,23,42,0.2)' }}>
-              {t.exportCard}
-            </button>
 
             {onSaveMemory && (
               <button
