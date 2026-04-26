@@ -135,32 +135,32 @@ Thanks for trying Find.ai. This 10-minute form captures your honest reaction to 
 
 ---
 
-## Section 5 — Pricing (3 questions, optional but high-value)
+## Section 5 — Use intent + premium interest (3 questions, optional but high-value)
 
-**Q5.1 — How much would you pay per single tenant screening?** [Multiple choice]
-- Free only
-- RM 5-10
-- RM 10-30
-- RM 30-50
-- RM 50-100
-- RM 100+
-- Depends — explain in next question
+> **Updated v3.4.19:** Find.ai is freemium-at-scale (free for individual landlords forever, premium tier launches at ~30k users for power users + B2B). See `MONETIZATION_PLAN.md`. Pricing-now questions removed — they would skew responses since the answer for Year 1-2 is "free."
 
-**Q5.2 — Would you prefer pay-per-screen or monthly subscription?** [Multiple choice]
-- Pay per screen (only when I need it)
-- Monthly subscription with unlimited screens
-- Yearly subscription (cheaper per month)
-- Free with ads (acceptable)
-- I wouldn't pay either way
+**Q5.1 — Would you keep using Find.ai if it remained FREE forever for individual landlords?** [Multiple choice]
+- Yes — I'd use it for every screening
+- Yes — I'd use it occasionally
+- Maybe — depends on accuracy + reliability
+- No — even free isn't worth the effort
 
-**Q5.3 — If subscription, what monthly price feels fair?** [Multiple choice]
-- RM 0 (free only)
-- RM 10-30 / month
-- RM 30-50 / month
-- RM 50-100 / month
-- RM 100-200 / month
-- RM 200+ / month
-- Depends on inclusions
+**Q5.2 — IF Find.ai stayed free for basic screening, but offered premium features at RM 30-50/month, which premium feature would be MOST valuable to you?** [Multiple choice]
+- Unlimited screenings (free tier caps at 5)
+- Trust Score history dashboard (see trends across all my tenants)
+- Priority verification (faster turnaround)
+- Bulk screening (5+ tenants at once — for agents/multi-property)
+- Branded Trust Card (add my logo)
+- Bulk export (CSV / PDF for tax/legal records)
+- None — free tier covers everything I need
+- Other (please specify) [open text]
+
+**Q5.3 — At RM 30-50/month for premium, would you upgrade?** [Multiple choice]
+- Yes — definitely
+- Probably yes — if features match my needs
+- Maybe — would need to try free tier first
+- No — free tier is enough for me
+- No — I don't trust paying online for property tools yet
 
 ---
 
@@ -243,8 +243,9 @@ After 7+ pilots have completed the form:
 | **UX friction** | Q3.1 average + Q3.2/3.5/3.6 distributions |
 | **NPS** | Q4.4 — Promoters (9-10) − Detractors (0-6) |
 | **Use intent** | Q4.1 — % saying YES or PROBABLY YES |
-| **Price tolerance** | Q5.1 distribution — modal price tier |
-| **Subscription preference** | Q5.2 distribution |
+| **Free tier sustainability** | Q5.1 — % saying YES they'd use even if free forever |
+| **Premium feature interest** | Q5.2 — modal premium feature (informs Phase 4 roadmap) |
+| **Premium upgrade willingness** | Q5.3 — % YES/PROBABLY YES at RM 30-50 (validates premium price point) |
 | **Top friction** | Q4.3 + Q7.2 — read all open text, cluster themes |
 | **Top wins** | Q7.1 — read all open text, cluster themes |
 | **Comparison signal** | Q6.2 — % saying Find.ai better/different from current method |
