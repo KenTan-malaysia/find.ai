@@ -206,11 +206,14 @@ export async function POST(request) {
     }
 
     const stream = await client.messages.stream({
-      // v3.4.15 — switched from 'claude-haiku-4-5-20251001' to 'claude-haiku-4-5'
-      // because Anthropic returned 400 Bad Request on the dated alias with
-      // SDK 0.91. The undated alias resolves to the latest Haiku 4.5 snapshot
-      // and is the format Anthropic recommends for production.
-      model: 'claude-haiku-4-5',
+      // v3.4.16 — switched to claude-3-5-haiku-20241022 (definitely available
+      // on every Anthropic account). Previous tries:
+      //   - claude-haiku-4-5-20251001 (dated alias) → 400 Bad Request
+      //   - claude-haiku-4-5 (undated alias) → still failing
+      // 3.5 Haiku is older but battle-tested and on every API key. Once chat
+      // is confirmed working, we can experiment back up to 4.5 if Ken's
+      // workspace has access (check at console.anthropic.com → Models).
+      model: 'claude-3-5-haiku-20241022',
       max_tokens: 4000,
       system: systemPrompt,
       messages: messages.map(msg => ({
