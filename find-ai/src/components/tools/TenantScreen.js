@@ -59,9 +59,10 @@ const STR = {
     pdfDropPrompt: 'Tap to upload LHDN cert PDF',
     pdfDropHint: 'PDF or image · max 10 MB',
     pdfReady: 'Ready to verify',
-    verify: 'Verify with LHDN',
+    verify: '🔗 Verify on LHDN STAMPS',
     verifying: 'Verifying with LHDN…',
     verified: 'LHDN VERIFIED',
+    lhdnDemoNote: 'In production, this deep-links to LHDN STAMPS Pengesahan Ketulenan with the cert # pre-filled. For demo, opens the LHDN portal home — return to Find.ai after.',
     verifiedTenancy: 'Verified previous tenancy',
     period: 'Period',
     address: 'Address',
@@ -218,9 +219,10 @@ const STR = {
     pdfDropPrompt: 'Ketuk untuk muat naik PDF sijil LHDN',
     pdfDropHint: 'PDF atau imej · maks 10 MB',
     pdfReady: 'Sedia untuk sahkan',
-    verify: 'Sahkan dengan LHDN',
+    verify: '🔗 Sahkan di LHDN STAMPS',
     verifying: 'Mengesah dengan LHDN…',
     verified: 'DISAHKAN LHDN',
+    lhdnDemoNote: 'Dalam pengeluaran, ini deep-link ke LHDN STAMPS Pengesahan Ketulenan dengan no. sijil pra-isi. Untuk demo, buka portal LHDN — kembali ke Find.ai selepas itu.',
     verifiedTenancy: 'Sewaan terdahulu disahkan',
     period: 'Tempoh',
     address: 'Alamat',
@@ -377,9 +379,10 @@ const STR = {
     pdfDropPrompt: '点击上传 LHDN 证书 PDF',
     pdfDropHint: 'PDF 或图片 · 最大 10 MB',
     pdfReady: '准备验证',
-    verify: '通过 LHDN 验证',
+    verify: '🔗 在 LHDN STAMPS 验证',
     verifying: '正在通过 LHDN 验证…',
     verified: 'LHDN 已验证',
+    lhdnDemoNote: '生产版中，这会深度链接到 LHDN STAMPS Pengesahan Ketulenan 并预填证书编号。演示版仅打开 LHDN 主页 — 之后请返回 Find.ai。',
     verifiedTenancy: '已验证的过往租赁',
     period: '期间',
     address: '地址',
@@ -1224,7 +1227,7 @@ export default function TenantScreen({
   const [lhdnMethod, setLhdnMethod] = useState('number'); // 'number' | 'pdf'
   const [certNumber, setCertNumber] = useState(DEMO_MODE ? 'ABC1234567890' : '');
   const [lhdnPdfName, setLhdnPdfName] = useState('');
-  const [verifying, setVerifying] = useState(false);
+  // v3.4.21 — `verifying` spinner state removed. LHDN verify is now a deep-link.
   const [lhdnResult, setLhdnResult] = useState(null);
 
   // Step 3 state — TNB + Water + Mobile, each with its own mini-state machine
@@ -1252,7 +1255,6 @@ export default function TenantScreen({
     setLhdnMethod('number');
     setCertNumber(DEMO_MODE ? 'ABC1234567890' : '');
     setLhdnPdfName('');
-    setVerifying(false);
     setLhdnResult(null);
     setTnbState(blank);
     setWaterState(blank);
@@ -1260,18 +1262,10 @@ export default function TenantScreen({
     setSavedToCase(false);
   };
 
-  // Mock LHDN verification — accepts both number and PDF paths.
-  const verifyWithLHDN = () => {
-    const ready = lhdnMethod === 'number' ? !!certNumber.trim() : !!lhdnPdfName;
-    if (!ready) return;
-    setVerifying(true);
-    setTimeout(() => {
-      setLhdnResult(MOCK_LHDN_RESULT);
-      setVerifying(false);
-    }, 1400);
-  };
-
-  const verifyDisabled = verifying || (lhdnMethod === 'number' ? !certNumber.trim() : !lhdnPdfName);
+  // v3.4.21 — verifyWithLHDN function + verifying spinner state removed.
+  // LHDN verification is now a deep-link to stamps.hasil.gov.my (same 1-click
+  // pattern as TNB Account #) that sets the mock result on click.
+  const verifyDisabled = (lhdnMethod === 'number' ? !certNumber.trim() : !lhdnPdfName);
 
   // v3.4.3 (Ken): Find.ai is a support tool, landlord decides what's enough.
   // At least 1 utility is enough to proceed. Even mobile-only is OK.
@@ -1441,30 +1435,31 @@ export default function TenantScreen({
                 />
               )}
 
-              <button
-                onClick={verifyWithLHDN}
-                disabled={verifyDisabled}
-                className="w-full py-3.5 rounded-xl text-[13px] font-bold text-white disabled:opacity-40 transition active:scale-[0.98] flex items-center justify-center gap-2"
-                style={{ background: '#0f172a', boxShadow: '0 4px 16px rgba(15,23,42,0.2)' }}
+              {/* v3.4.21 — Deep-link to LHDN STAMPS portal (same 1-click pattern
+                  as TNB Account #). Tap → opens stamps.hasil.gov.my in new tab
+                  AND immediately marks LHDN as verified with mock data.
+                  No API negotiation needed — we use LHDN's public Pengesahan
+                  Ketulenan portal that anyone can access. */}
+              <a
+                href="https://stamps.hasil.gov.my"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  if (verifyDisabled) {
+                    e.preventDefault();
+                    return;
+                  }
+                  // Mark verified after a tiny delay so the new tab opens first
+                  setTimeout(() => setLhdnResult(MOCK_LHDN_RESULT), 100);
+                }}
+                className={`block w-full py-3.5 rounded-xl text-[13px] font-bold text-white text-center transition active:scale-[0.98] ${verifyDisabled ? 'pointer-events-none opacity-40' : ''}`}
+                style={{ background: '#0f172a', boxShadow: '0 4px 16px rgba(15,23,42,0.2)', textDecoration: 'none' }}
               >
-                {verifying ? (
-                  <>
-                    <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <circle cx="12" cy="12" r="10" opacity="0.25" />
-                      <path d="M22 12a10 10 0 0 1-10 10" strokeLinecap="round" />
-                    </svg>
-                    {t.verifying}
-                  </>
-                ) : (
-                  <>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 12l2 2 4-4" />
-                      <path d="M12 2l8.5 4.7v7c0 4.5-3 8.5-8.5 10.3-5.5-1.8-8.5-5.8-8.5-10.3V6.7L12 2z" />
-                    </svg>
-                    {t.verify}
-                  </>
-                )}
-              </button>
+                {t.verify}
+              </a>
+              <p className="text-[10px] italic leading-snug" style={{ color: '#94a3b8' }}>
+                {t.lhdnDemoNote}
+              </p>
 
               {/* Skip option — Find.ai is a support tool, landlord decides */}
               <div className="pt-1">
