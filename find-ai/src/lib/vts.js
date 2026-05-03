@@ -394,50 +394,5 @@ function _hash(s) {
   for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
   return ("00000000" + (h >>> 0).toString(16)).slice(-8);
 }
-const PARAM_HASH = _hash(JSON.stringify(PARAMS));
-hout rewiring.
-//
-// Input: the .paired array out of scoreSource() — array of { pair, score }
-// Output: VTS event array ready to feed into score()
-// ─────────────────────────────────────────────────────────────────────────────
-const TIER_MAP = {
-  upfront:    "Upfront",
-  "on-time":  "OnTime",
-  late:       "Late",
-  "very-late":"VeryLate",
-  default:    "Default",
-  unpaid:     "Default",
-};
-const SOURCE_MAP = { tnb: "TNB", water: "Water", mobile: "Mobile" };
-
-export function adaptFromBillCycle(scoredPairs, anchorDate = new Date()) {
-  const out = [];
-  for (const sp of scoredPairs || []) {
-    const billDate = sp?.pair?.bill?.bill_date;
-    if (!billDate) continue;
-    const ageMs = anchorDate.getTime() - new Date(billDate).getTime();
-    const months_ago = Math.max(0, ageMs / (30 * 24 * 60 * 60 * 1000));
-    const utility = SOURCE_MAP[sp.score?.source ?? "tnb"] || "TNB";
-    const tier = TIER_MAP[sp.score?.tier] || null;
-    if (!tier) continue;
-    out.push({ utility, tier, months_ago });
-  }
-  return out;
-}
-
-// ─── Param snapshot hash (for Section 90A audit reproducibility) ─────────
-function _hash(s) {
-  // tiny non-crypto hash — just a stable fingerprint of the parameter set
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
-  return ("00000000" + (h >>> 0).toString(16)).slice(-8);
-}
-const PARAM_HASH = _hash(JSON.stringify(PARAMS));
-ash (for Section 90A audit reproducibility) ─────────
-function _hash(s) {
-  // tiny non-crypto hash — just a stable fingerprint of the parameter set
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
-  return ("00000000" + (h >>> 0).toString(16)).slice(-8);
-}
+// v1.3.2 — file integrity restored after corrupted patch sequence (2026-05-03)
 const PARAM_HASH = _hash(JSON.stringify(PARAMS));
