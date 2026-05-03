@@ -1,6 +1,21 @@
-# VTS v1.3.1 — integration note
+# VTS v1.3.2 — integration note
 
-> **Updated 2026-05-02:** Engine version bumped to `vts-1.3.1`. Three additive
+> **Updated 2026-05-03 (afternoon):**
+>
+> 1. Engine `vts-1.3.2` — Late penalty −0.7 → −1.0 + graded Late tail floor
+>    (3 lates → cap 80 / 5 → 70 / 8+ → 60). Hafiz fixed (80 Gold → 70 Silver).
+>    1000-case stress: 95 tier shifts (chronic-late gig workers Gold→Bronze),
+>    distribution Gold 322→286 / Silver 390→366 / Bronze 205→265.
+>
+> 2. **NEW — shadow-mode wiring shipped** (`src/lib/vtsShadowAdapter.js` +
+>    `src/lib/vtsShadowLogger.js`). TenantScreen.js now fires a v0-vs-v1.3.2
+>    comparison record on every score reveal. Default: console.info only.
+>    Set `NEXT_PUBLIC_VTS_SHADOW=1` + create the `vts_shadow_scores` Supabase
+>    table to also persist for v1.4 calibration. Failure-mode-safe — never
+>    blocks the user-facing flow. Smoke test:
+>    `node scripts/test-shadow.mjs` returns the comparison JSON.
+>
+> **Earlier (2026-05-02) — engine `vts-1.3.1`:** Three additive
 > patches landed:
 >
 > - **M-1-lite** — multi-account detection (e.g., factory + residential TNB).

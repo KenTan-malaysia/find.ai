@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Modal, ToolHeader, ActionBtn } from './shared';
 import { makeCaseRef } from '../../lib/pdfExport';
 // v3.7.2 — Real OCR wire-in (replaces v0 mock for LHDN cert + utility bills
@@ -1638,6 +1638,37 @@ export default function TenantScreen({
   const trustScore = Math.round(behaviourScore * confMul);
   const confTierLabel = t[`confTier${confTierKey}`] || confTierKey;
   const confTierDesc  = t[`confDesc${confTierKey}`]  || '';
+
+  // ── VTS v1.3.2 shadow log (additive, non-visual) ─────────────────────────
+  // Runs the new engine alongside the v0 mock score and emits a comparison
+  // record. Today: console.info only. With NEXT_PUBLIC_VTS_SHADOW=1 + Supabase
+  // configured, also writes to vts_shadow_scores table for v1.4 calibration.
+  // Fire once when reaching the score-reveal step (step 4); no UI change.
+  React.useEffect(() => {
+    if (step !== 4) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const [{ buildEventsFromMockState }, { logShadowComparison }] = await Promise.all([
+          import('../../lib/vtsShadowAdapter'),
+          import('../../lib/vtsShadowLogger'),
+        ]);
+        if (cancelled) return;
+        const events = buildEventsFromMockState({ tnbState, waterState, mobileState, lhdnVerified });
+        logShadowComparison({
+          caseRef: stableCaseRef,
+          v0Score: trustScore,
+          v0Confidence: confMul,
+          events,
+          context: { lhdnVerified, billsCount: effectiveBillsCount, tierKey: confTierKey, demoMode: DEMO_MODE },
+        });
+      } catch (err) {
+        // Shadow logging must never break the user-facing flow
+        if (typeof console !== 'undefined') console.warn('[vts-shadow] disabled:', err?.message || err);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [step, trustScore, confMul, effectiveBillsCount, lhdnVerified, stableCaseRef]);
 
   const saveToCase = () => {
     if (!onSaveMemory) return;

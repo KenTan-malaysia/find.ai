@@ -28,7 +28,7 @@
 export const TIER_POINTS = {
   Upfront:  +1.0,   // paid 7+ days early
   OnTime:   +0.7,   // paid 0-6 days early
-  Late:     -0.7,   // paid 1-7 days after due  (v1.3: stiffened from -0.5)
+  Late:     -1.0,   // paid 1-7 days after due  (v1.3.2: stiffened from -0.7 — Hafiz fix)
   VeryLate: -2.5,   // paid 8-30 days after due
   Default:  -10.0,  // 30d+ overdue / disconnection
 };
@@ -53,9 +53,13 @@ export const PARAMS = Object.freeze({
     VeryLate: [{ days: 30, cap: 65 }, { days: 60, cap: 75 }, { days: 90, cap: 85 }],
   },
 
-  // v1.3 Late tail floor
-  LATE_TAIL_FLOOR_COUNT: 3,             // > 3 Lates in window triggers cap
-  LATE_TAIL_FLOOR_CAP: 80,
+  // v1.3.2 Late tail floor — GRADED (replaces single 80 cap from v1.3)
+  // Each band: if late_count_in_window >= count, cap S_100 at cap. Use the strictest matching cap.
+  LATE_TAIL_FLOOR_BANDS: [
+    { count: 3, cap: 80 },   // 3 lates → Silver upper edge
+    { count: 5, cap: 70 },   // 5 lates → Silver mid
+    { count: 8, cap: 60 },   // 8+ lates → Bronze
+  ],
   LATE_TAIL_FLOOR_WINDOW_MONTHS: 12,
 
   // Confidence factors (v1.1 + v1.2)
@@ -81,7 +85,7 @@ export const PARAMS = Object.freeze({
   IC_REUSE_FLAG_WINDOW_DAYS: 7,
 
   // Engine version (every score is tagged for Section 90A trail)
-  ENGINE_VERSION: "vts-1.3.1",
+  ENGINE_VERSION: "vts-1.3.2",
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -190,13 +194,18 @@ export function score(caseData) {
     }
   }
 
-  // ── v1.3 Late tail floor (>3 Lates in last 12mo → cap 80) ──────────────
+  // ── v1.3.2 Late tail floor — graded by count (replaces binary cap) ────
   const recentLateCount = events.filter(
     (e) => e.tier === "Late" && e.months_ago <= PARAMS.LATE_TAIL_FLOOR_WINDOW_MONTHS,
   ).length;
-  if (recentLateCount > PARAMS.LATE_TAIL_FLOOR_COUNT && S_100 > PARAMS.LATE_TAIL_FLOOR_CAP) {
-    S_100 = PARAMS.LATE_TAIL_FLOOR_CAP;
-    floorReasons.push(`${recentLateCount} Lates in last 12mo → cap ${PARAMS.LATE_TAIL_FLOOR_CAP}`);
+  // Find the strictest applicable band — bands are sorted ascending by count
+  let lateCap = null;
+  for (const band of PARAMS.LATE_TAIL_FLOOR_BANDS) {
+    if (recentLateCount >= band.count) lateCap = band.cap;
+  }
+  if (lateCap != null && S_100 > lateCap) {
+    S_100 = lateCap;
+    floorReasons.push(`${recentLateCount} Lates in last 12mo → cap ${lateCap}`);
   }
   const floorReason = floorReasons.length ? floorReasons.join("; ") : null;
 
@@ -348,7 +357,7 @@ export function score(caseData) {
 //
 // Bridge from the existing src/lib/scoringEngine.js (which works on bill+receipt
 // pairs with day-deltas) to this module's event format. Lets you A/B-test VTS
-// v1.3 against the v0 engine on real bundled-bill data without rewiring.
+// v1.3.2 against the v0 engine on real bundled-bill data without rewiring.
 //
 // Input: the .paired array out of scoreSource() — array of { pair, score }
 // Output: VTS event array ready to feed into score()
@@ -417,6 +426,14 @@ export function adaptFromBillCycle(scoredPairs, anchorDate = new Date()) {
 }
 
 // ─── Param snapshot hash (for Section 90A audit reproducibility) ─────────
+function _hash(s) {
+  // tiny non-crypto hash — just a stable fingerprint of the parameter set
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  return ("00000000" + (h >>> 0).toString(16)).slice(-8);
+}
+const PARAM_HASH = _hash(JSON.stringify(PARAMS));
+ash (for Section 90A audit reproducibility) ─────────
 function _hash(s) {
   // tiny non-crypto hash — just a stable fingerprint of the parameter set
   let h = 0;
