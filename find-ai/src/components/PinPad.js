@@ -201,7 +201,7 @@ export default function PinPad({
                 fontFamily: 'var(--font-mono, "SF Mono", monospace)',
                 fontWeight: 500,
                 color: '#0F1E3F',
-                background: filled ? '#FAF8F3' : '#fff',
+                background: filled ? '#FBFCFD' : '#fff',
                 border: error ? '1.5px solid #C13A3A' : (filled ? '1.5px solid #0F1E3F' : '1.5px solid #E7E1D2'),
                 outline: 'none',
                 transition: 'border-color 120ms ease, background 120ms ease',

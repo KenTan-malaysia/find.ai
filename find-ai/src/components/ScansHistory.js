@@ -479,7 +479,7 @@ export default function ScansHistory({ open, lang = 'en', chatHistory, onClose }
 const styles = `
   .ts-root {
     position: fixed; inset: 0; z-index: 60;
-    background: #FAF8F3;
+    background: #FBFCFD;
     display: flex; flex-direction: column;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: #0F1E3F;
@@ -558,7 +558,7 @@ const styles = `
     border-color: #0F1E3F;
   }
   .ts-card:active { transform: rotate(0deg) scale(0.98); }
-  .ts-card:focus-visible { outline: 3px solid #B8893A; outline-offset: 3px; }
+  .ts-card:focus-visible { outline: 3px solid #002B5C; outline-offset: 3px; }
 
   /* Tone-band accent bar along the top-left corner. Tone now driven by
      COVERAGE (evidence completeness), not by score. */
@@ -640,7 +640,7 @@ const styles = `
   .ts-card-foot { margin-top: auto; padding-top: 10px; }
   .ts-card-ref {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 9px; color: #B8893A; letter-spacing: 0.04em;
+    font-size: 9px; color: #002B5C; letter-spacing: 0.04em;
   }
 
   /* Empty state */
@@ -674,7 +674,7 @@ const styles = `
   .ts-detail {
     width: 100%; max-width: 560px;
     max-height: 92vh;
-    background: #FAF8F3;
+    background: #FBFCFD;
     border-radius: 24px 24px 0 0;
     display: flex; flex-direction: column;
     overflow: hidden;
@@ -762,7 +762,7 @@ const styles = `
   .ts-signal-name { font-size: 13px; font-weight: 700; color: #0F1E3F; }
   .ts-signal-vendor {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 10px; color: #B8893A; letter-spacing: 0.04em;
+    font-size: 10px; color: #002B5C; letter-spacing: 0.04em;
     text-transform: uppercase;
   }
   .ts-signal-bits {

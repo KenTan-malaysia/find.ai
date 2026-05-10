@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function NotFoundPage() {
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+    <main style={{ minHeight: '100vh', background: '#FBFCFD', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
       <div style={{ maxWidth: 560, textAlign: 'center' }}>
         {/* Brand */}
         <Link
@@ -19,7 +19,7 @@ export default function NotFoundPage() {
           aria-label="Veri.ai home"
         >
           <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.02em' }}>Veri</span>
-          <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#B8893A' }}>.ai</span>
+          <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#002B5C' }}>.ai</span>
         </Link>
 
         {/* Eyebrow */}

@@ -74,7 +74,7 @@ export default function NewScreenRequestPage() {
   const waUrl = generatedUrl ? `https://wa.me/?text=${encodeURIComponent(waMsg)}` : null;
 
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3', padding: '32px 16px' }}>
+    <main style={{ minHeight: '100vh', background: '#FBFCFD', padding: '32px 16px' }}>
       <div style={{ maxWidth: 560, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 18 }}>
         {/* Brand */}
         <header style={{ textAlign: 'center', marginBottom: 4 }}>
@@ -85,7 +85,7 @@ export default function NewScreenRequestPage() {
           >
             {/* v3.4.38 — Wordmark-only brand. */}
             <span style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em' }}>Veri</span>
-            <span style={{ fontSize: 18, fontWeight: 500, letterSpacing: '-0.02em', color: '#B8893A' }}>.ai</span>
+            <span style={{ fontSize: 18, fontWeight: 500, letterSpacing: '-0.02em', color: '#002B5C' }}>.ai</span>
           </Link>
         </header>
 
@@ -281,7 +281,7 @@ function ModeOption({ active, onClick, title, desc, recommended }) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
         <span style={{ fontSize: 14, fontWeight: 800, color: '#0F1E3F' }}>{title}</span>
         {recommended && (
-          <span style={{ fontSize: 9, fontWeight: 800, color: '#B8893A', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+          <span style={{ fontSize: 9, fontWeight: 800, color: '#002B5C', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
             Recommended
           </span>
         )}
@@ -308,7 +308,7 @@ function Field({ label, placeholder, value, onChange, required }) {
           borderRadius: 10,
           fontSize: 14,
           color: '#0F1E3F',
-          background: '#FAF8F3',
+          background: '#FBFCFD',
           border: '1.5px solid #E7E1D2',
           outline: 'none',
           fontFamily: 'inherit',

@@ -25,7 +25,7 @@ function CallbackFallback() {
     <main
       style={{
         minHeight: '100vh',
-        background: '#FAF8F3',
+        background: '#FBFCFD',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -85,7 +85,7 @@ function AuthCallbackInner() {
     <main
       style={{
         minHeight: '100vh',
-        background: '#FAF8F3',
+        background: '#FBFCFD',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -116,7 +116,7 @@ function AuthCallbackInner() {
           aria-label="Veri.ai home"
         >
           <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.02em' }}>Veri</span>
-          <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#B8893A' }}>.ai</span>
+          <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#002B5C' }}>.ai</span>
         </Link>
 
         {stage === 'verifying' && (

@@ -806,7 +806,7 @@ function AgentApproveDialog({ claim, onClose, onResponded, degraded, configured,
             <p style={{ fontSize: 13, color: 'var(--color-slate)', lineHeight: 1.55, marginTop: 0, marginBottom: 14 }}>
               {t.agentForwardLinkLabel}
             </p>
-            <div style={{ background: 'var(--color-cream, #FAF8F3)', borderRadius: 12, padding: '12px 14px', marginBottom: 14, fontSize: 12, fontFamily: 'var(--font-mono, monospace)', color: 'var(--color-navy)', wordBreak: 'break-all' }}>
+            <div style={{ background: 'var(--color-cream, #FBFCFD)', borderRadius: 12, padding: '12px 14px', marginBottom: 14, fontSize: 12, fontFamily: 'var(--font-mono, monospace)', color: 'var(--color-navy)', wordBreak: 'break-all' }}>
               {doneResult.forwardUrl}
             </div>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -858,7 +858,7 @@ function AgentApproveDialog({ claim, onClose, onResponded, degraded, configured,
 
             <div
               style={{
-                background: 'var(--color-cream, #FAF8F3)', border: '1px solid var(--color-hairline)',
+                background: 'var(--color-cream, #FBFCFD)', border: '1px solid var(--color-hairline)',
                 borderRadius: 'var(--radius-md)', padding: '14px 16px', marginBottom: 16,
                 fontSize: 12.5, lineHeight: 1.6, color: 'var(--color-slate)',
               }}
@@ -922,7 +922,7 @@ function AgentApproveDialog({ claim, onClose, onResponded, degraded, configured,
                   placeholder={t.declinePh}
                   style={{
                     width: '100%', padding: '10px 14px', borderRadius: 'var(--radius-md)',
-                    background: 'var(--color-cream, #FAF8F3)', border: '1px solid var(--color-hairline)',
+                    background: 'var(--color-cream, #FBFCFD)', border: '1px solid var(--color-hairline)',
                     color: 'var(--color-navy)', fontSize: 13, lineHeight: 1.5, fontFamily: 'inherit',
                     outline: 'none', resize: 'vertical', marginBottom: 16,
                   }}
@@ -1230,7 +1230,7 @@ function ConsentDialog({ req, onClose, onResponded, degraded, configured, user, 
 
         <div
           style={{
-            background: 'var(--color-cream, #FAF8F3)', border: '1px solid var(--color-hairline)',
+            background: 'var(--color-cream, #FBFCFD)', border: '1px solid var(--color-hairline)',
             borderRadius: 'var(--radius-md)', padding: '14px 16px', marginBottom: 16,
             fontSize: 12.5, lineHeight: 1.6, color: 'var(--color-slate)',
           }}
@@ -1289,7 +1289,7 @@ function ConsentDialog({ req, onClose, onResponded, degraded, configured, user, 
               placeholder={t.declinePh}
               style={{
                 width: '100%', padding: '10px 14px', borderRadius: 'var(--radius-md)',
-                background: 'var(--color-cream, #FAF8F3)', border: '1px solid var(--color-hairline)',
+                background: 'var(--color-cream, #FBFCFD)', border: '1px solid var(--color-hairline)',
                 color: 'var(--color-navy)', fontSize: 13, lineHeight: 1.5, fontFamily: 'inherit',
                 outline: 'none', resize: 'vertical', marginBottom: 16,
               }}

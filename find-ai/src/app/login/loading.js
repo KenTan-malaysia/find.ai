@@ -2,7 +2,7 @@
 
 export default function LoginLoading() {
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3' }} aria-busy="true">
+    <main style={{ minHeight: '100vh', background: '#FBFCFD' }} aria-busy="true">
       <div style={{ maxWidth: 480, margin: '0 auto', padding: '64px 16px 80px' }}>
         <Skeleton w={140} h={12} mb={12} />
         <Skeleton w={300} h={56} mb={20} />

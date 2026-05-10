@@ -156,7 +156,7 @@ export default function TransparencyPage() {
   const t = STR[lang] || STR.en;
 
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3', padding: '24px 16px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#FBFCFD', padding: '24px 16px 80px' }}>
       <div style={{ maxWidth: 720, margin: '0 auto' }}>
         <header style={{ marginBottom: 40, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link
@@ -165,7 +165,7 @@ export default function TransparencyPage() {
             aria-label="Veri.ai home"
           >
             <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.02em' }}>Veri</span>
-            <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#B8893A' }}>.ai</span>
+            <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#002B5C' }}>.ai</span>
           </Link>
           <button
             type="button"

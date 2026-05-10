@@ -253,7 +253,7 @@ function Field({ label, children }) {
 
 const input = {
   width: '100%', height: 38, padding: '0 12px', borderRadius: 8,
-  background: '#FAF8F3', border: '1px solid #E7E1D2', color: '#0F1E3F',
+  background: '#FBFCFD', border: '1px solid #E7E1D2', color: '#0F1E3F',
   fontSize: 13, fontFamily: 'inherit', outline: 'none',
 };
 const primaryBtn = {

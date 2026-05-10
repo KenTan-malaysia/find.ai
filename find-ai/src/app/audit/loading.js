@@ -3,12 +3,12 @@
 
 export default function AuditLoading() {
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3' }} aria-busy="true">
+    <main style={{ minHeight: '100vh', background: '#FBFCFD' }} aria-busy="true">
       <div style={{ background: '#fff', borderBottom: '1px solid #E7E1D2' }}>
         <div style={{ maxWidth: 720, margin: '0 auto', padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 2, color: '#0F1E3F' }}>
             <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.02em' }}>Veri</span>
-            <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#B8893A' }}>.ai</span>
+            <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#002B5C' }}>.ai</span>
           </div>
           <Skeleton w={48} h={28} radius={999} />
         </div>

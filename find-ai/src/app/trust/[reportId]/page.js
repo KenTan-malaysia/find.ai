@@ -188,7 +188,7 @@ const layoutStyles = `
   .tc-spine-card:hover { border-color: #C9C0A8; transform: translateY(-1px); }
   .tc-spine-card-active {
     background: #F3EFE4;
-    border-color: #B8893A;
+    border-color: #002B5C;
     border-width: 1.5px;
   }
   .tc-spine-card-locked { opacity: 0.65; }

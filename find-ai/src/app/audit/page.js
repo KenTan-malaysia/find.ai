@@ -412,7 +412,7 @@ export default function AuditPage() {
   const hasAnalysis = !!analysis;
 
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3' }}>
+    <main style={{ minHeight: '100vh', background: '#FBFCFD' }}>
       {/* Brand strip + lang toggle */}
       <div style={{ background: '#fff', borderBottom: '1px solid #E7E1D2' }}>
         <div style={{ maxWidth: 720, margin: '0 auto', padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
@@ -422,7 +422,7 @@ export default function AuditPage() {
             aria-label="Veri.ai home"
           >
             <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.02em' }}>Veri</span>
-            <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#B8893A' }}>.ai</span>
+            <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#002B5C' }}>.ai</span>
           </Link>
           <button
             onClick={cycleLang}
@@ -645,7 +645,7 @@ export default function AuditPage() {
               fontSize: 13,
               lineHeight: 1.55,
               color: '#0F1E3F',
-              background: uploadedFile && uploadedFile.kind === 'pdf' ? '#F3EFE4' : '#FAF8F3',
+              background: uploadedFile && uploadedFile.kind === 'pdf' ? '#F3EFE4' : '#FBFCFD',
               border: '1.5px solid #E7E1D2',
               outline: 'none',
               fontFamily: 'inherit',
@@ -831,7 +831,7 @@ export default function AuditPage() {
                     textAlign: 'left',
                     padding: '12px 14px',
                     borderRadius: 12,
-                    background: active ? '#F1F6EF' : '#FAF8F3',
+                    background: active ? '#F1F6EF' : '#FBFCFD',
                     border: `1.5px solid ${active ? '#CFE1C7' : '#E7E1D2'}`,
                     cursor: 'pointer',
                     transition: 'background .15s, border-color .15s',

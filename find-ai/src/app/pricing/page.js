@@ -203,7 +203,7 @@ export default function PricingPage() {
   const t = STR[lang] || STR.en;
 
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3' }}>
+    <main style={{ minHeight: '100vh', background: '#FBFCFD' }}>
       {/* Brand strip + lang toggle */}
       <div style={{ maxWidth: 1080, margin: '0 auto', padding: '24px 24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link
@@ -212,7 +212,7 @@ export default function PricingPage() {
           aria-label="Veri.ai home"
         >
           <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.02em' }}>Veri</span>
-          <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#B8893A' }}>.ai</span>
+          <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#002B5C' }}>.ai</span>
         </Link>
         <button
           type="button"

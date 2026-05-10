@@ -17,7 +17,7 @@ export default function GlobalError({ error, reset }) {
   }, [error]);
 
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+    <main style={{ minHeight: '100vh', background: '#FBFCFD', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
       <div style={{ maxWidth: 560, textAlign: 'center' }}>
         <Link
           href="/"
@@ -25,7 +25,7 @@ export default function GlobalError({ error, reset }) {
           aria-label="Veri.ai home"
         >
           <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.02em' }}>Veri</span>
-          <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#B8893A' }}>.ai</span>
+          <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#002B5C' }}>.ai</span>
         </Link>
 
         <div style={{ fontSize: 11, fontWeight: 500, color: '#5A6780', textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: 18 }}>

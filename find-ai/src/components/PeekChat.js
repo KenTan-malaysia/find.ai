@@ -371,7 +371,7 @@ export default function PeekChat({
        don't pretend to be apps on iOS home screen). Removed border-top
        (corner widget doesn't sit on a page edge). */
     .pc-dock {
-      background: #FAF8F3;
+      background: #FBFCFD;
       padding: 10px 12px;
       display: flex; align-items: center; gap: 8px;
     }
@@ -398,7 +398,7 @@ export default function PeekChat({
     /* v3.4.27 — Peek is a fixed-size corner panel at every viewport.
        No more "slide up from bottom" mobile-app sheet behavior. */
     .pc-peek {
-      background: #FAF8F3; color: #0F1E3F;
+      background: #FBFCFD; color: #0F1E3F;
       max-height: 480px; min-height: 360px;
       display: flex; flex-direction: column;
       animation: pcFadeIn .2s ease both;
@@ -416,7 +416,7 @@ export default function PeekChat({
     }
     .pc-chip {
       display: inline-flex; align-items: center; gap: 6px;
-      background: #F3EFE4; color: #B8893A;
+      background: #F3EFE4; color: #002B5C;
       font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em;
       padding: 4px 10px; border-radius: 999px; border: 1px solid #E7E1D2;
       font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -456,7 +456,7 @@ export default function PeekChat({
     .pc-bubble.assistant { background: #FFFFFF; color: #0F1E3F; border: 1px solid #E7E1D2; border-bottom-left-radius: 6px; }
     .pc-bubble.error { background: #FEF2F2; border-color: #FEE2E2; color: #991B1B; }
     .pc-thinking { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: #9A9484; padding: 4px 2px; }
-    .pc-dot { width: 5px; height: 5px; border-radius: 999px; background: #B8893A; animation: pcPulse 1.2s infinite ease-in-out; }
+    .pc-dot { width: 5px; height: 5px; border-radius: 999px; background: #002B5C; animation: pcPulse 1.2s infinite ease-in-out; }
     .pc-dot:nth-child(2) { animation-delay: 0.15s; }
     .pc-dot:nth-child(3) { animation-delay: 0.3s; }
     @keyframes pcPulse { 0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
@@ -465,7 +465,7 @@ export default function PeekChat({
     .pc-peek-input-wrap {
       flex-shrink: 0; padding: 10px 12px 12px;
       padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-      background: #FAF8F3; border-top: 1px solid #E7E1D2;
+      background: #FBFCFD; border-top: 1px solid #E7E1D2;
       display: flex; gap: 8px; align-items: flex-end;
     }
     .pc-peek-input {
@@ -494,7 +494,7 @@ export default function PeekChat({
     }
     .pc-hint .pc-hint-dot {
       width: 6px; height: 6px; border-radius: 999px;
-      background: #B8893A;
+      background: #002B5C;
       animation: pcHintPulse 1.4s infinite ease-in-out;
     }
     @keyframes pcHintPulse { 0%, 100% { opacity: 0.55; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1.15); } }
@@ -526,11 +526,11 @@ export default function PeekChat({
       display: flex; align-items: center; gap: 10px;
       transition: border-color .15s ease, transform .1s ease, background .15s ease;
     }
-    .pc-pill:hover { border-color: #0F1E3F; background: #FAF8F3; }
+    .pc-pill:hover { border-color: #0F1E3F; background: #FBFCFD; }
     .pc-pill:active { transform: scale(0.99); }
     .pc-pill-ico {
       width: 24px; height: 24px; border-radius: 999px;
-      background: #F3EFE4; color: #B8893A;
+      background: #F3EFE4; color: #002B5C;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }

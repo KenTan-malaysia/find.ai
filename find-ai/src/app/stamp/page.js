@@ -44,7 +44,7 @@ export default function StampDutyPage() {
   } : null;
 
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3', padding: '24px 16px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#FBFCFD', padding: '24px 16px 80px' }}>
       <div style={{ maxWidth: 720, margin: '0 auto' }}>
         {/* Brand strip */}
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 0 32px' }}>
@@ -54,7 +54,7 @@ export default function StampDutyPage() {
             aria-label="Veri.ai home"
           >
             <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.02em' }}>Veri</span>
-            <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#B8893A' }}>.ai</span>
+            <span style={{ fontSize: 17, fontWeight: 500, letterSpacing: '-0.02em', color: '#002B5C' }}>.ai</span>
           </Link>
           <button
             type="button"

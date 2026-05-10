@@ -1829,7 +1829,7 @@ export default function Home() {
       </header>
 
       {/* Chat area */}
-      <div ref={chatRef} className="chat-area flex-1 overflow-y-auto px-4 py-4" style={{ background: has ? '#FAF8F3' : '#FAF8F3' }}>
+      <div ref={chatRef} className="chat-area flex-1 overflow-y-auto px-4 py-4" style={{ background: has ? '#FBFCFD' : '#FBFCFD' }}>
         {!has ? (
           <div className="flex flex-col items-center justify-center pb-8 pt-8 min-h-[60vh] fade-in">
             {/* v9.1 — Minimal chat empty state. Chat is tile 04, not the homepage. */}

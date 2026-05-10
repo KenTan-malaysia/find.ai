@@ -2,7 +2,7 @@
 
 export default function ScreenNewLoading() {
   return (
-    <main style={{ minHeight: '100vh', background: '#FAF8F3', padding: '32px 16px' }} aria-busy="true">
+    <main style={{ minHeight: '100vh', background: '#FBFCFD', padding: '32px 16px' }} aria-busy="true">
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <Skeleton w={64} h={20} mb={20} />

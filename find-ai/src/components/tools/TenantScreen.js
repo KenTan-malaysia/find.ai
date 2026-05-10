@@ -1084,7 +1084,7 @@ function BillTile({ label, ph, deepLinkUrl, deepLinkLabel, state, setState, t, l
             </a>
             <label
               className={`flex-1 py-2.5 rounded-lg text-[12px] font-bold text-center transition active:scale-[0.98] cursor-pointer ${value.trim() ? '' : 'pointer-events-none opacity-40'}`}
-              style={{ background: '#fff', color: '#0f172a', border: '2px solid #B8893A' }}
+              style={{ background: '#fff', color: '#0f172a', border: '2px solid #002B5C' }}
             >
               {t.uploadScreenshotShort}
               <input
@@ -1344,7 +1344,7 @@ function ScoreScale({ behaviourScore, trustScore, confMul, confTierLabel, t }) {
               style={{
                 width: 18, height: 18,
                 background: '#fff',
-                border: '3px solid #B8893A',
+                border: '3px solid #002B5C',
                 boxShadow: '0 2px 6px rgba(184,137,58,0.35)',
               }} />
           </div>
@@ -1354,7 +1354,7 @@ function ScoreScale({ behaviourScore, trustScore, confMul, confTierLabel, t }) {
       {/* Trust Score label + value (below bar) */}
       <div className="text-center mb-3">
         <div className="text-[10px]" style={{ color: '#64748b' }}>{t.scaleTrustLabel}</div>
-        <div className="text-[20px] font-bold leading-none mt-0.5" style={{ color: '#B8893A' }}>{trustScore}</div>
+        <div className="text-[20px] font-bold leading-none mt-0.5" style={{ color: '#002B5C' }}>{trustScore}</div>
       </div>
 
       {/* Range arrow line + tier band labels */}
@@ -1391,7 +1391,7 @@ function ScoreScale({ behaviourScore, trustScore, confMul, confTierLabel, t }) {
         </div>
         <div className="text-center">
           <div className="text-[9px] uppercase tracking-widest" style={{ color: '#94a3b8' }}>{t.s4Title}</div>
-          <div className="text-[16px] font-bold mt-0.5" style={{ color: '#B8893A' }}>{trustScore}</div>
+          <div className="text-[16px] font-bold mt-0.5" style={{ color: '#002B5C' }}>{trustScore}</div>
         </div>
       </div>
     </div>
@@ -1425,8 +1425,8 @@ function TrustCardPreview({ tenantName, tenantIC, score, behaviour, tierLabel, l
       <div className="px-4 py-2.5 flex items-center justify-between"
         style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}>
         <div className="flex items-center gap-2">
-          <span className="text-white text-[11px] font-black tracking-tight">FIND<span style={{ color: '#B8893A' }}>.AI</span></span>
-          <span className="text-[8.5px] font-black uppercase tracking-widest" style={{ color: '#B8893A' }}>
+          <span className="text-white text-[11px] font-black tracking-tight">FIND<span style={{ color: '#002B5C' }}>.AI</span></span>
+          <span className="text-[8.5px] font-black uppercase tracking-widest" style={{ color: '#002B5C' }}>
             {t.cardBrand}
           </span>
         </div>
@@ -1455,7 +1455,7 @@ function TrustCardPreview({ tenantName, tenantIC, score, behaviour, tierLabel, l
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[11px] tracking-tight" style={{ color: '#B8893A' }}>{stars}</div>
+            <div className="text-[11px] tracking-tight" style={{ color: '#002B5C' }}>{stars}</div>
             <div className="text-[8.5px] mt-0.5" style={{ color: '#94a3b8' }}>{lhdnResult?.months || 14} {t.months}</div>
           </div>
         </div>
@@ -1688,14 +1688,14 @@ export default function TenantScreen({
       {step === 0 && (
         <div className="space-y-5">
           <div className="p-5 rounded-2xl" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}>
-            <div className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#B8893A' }}>
+            <div className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#002B5C' }}>
               TOOL 1 · {t.title}
             </div>
             <h4 className="text-[18px] font-bold text-white leading-tight">{t.introTitle}</h4>
             <div className="mt-4 space-y-2">
               {t.introBullets.map((b, i) => (
                 <div key={i} className="flex items-start gap-2.5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B8893A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#002B5C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                   <span className="text-[12px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.85)' }}>{b}</span>
@@ -1957,7 +1957,7 @@ export default function TenantScreen({
                 </a>
                 <label
                   className={`flex-1 py-3 rounded-xl text-[12px] font-bold text-center transition active:scale-[0.98] cursor-pointer ${verifyDisabled ? 'pointer-events-none opacity-40' : ''}`}
-                  style={{ background: '#fff', color: '#0f172a', border: '2px solid #B8893A' }}
+                  style={{ background: '#fff', color: '#0f172a', border: '2px solid #002B5C' }}
                 >
                   {t.uploadScreenshot}
                   <input
@@ -2341,7 +2341,7 @@ export default function TenantScreen({
                 <span className="font-bold text-white">{Math.round(confMul * 100)}%</span>
               </div>
               <div className="text-[10px] mt-1.5 flex items-center gap-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-widest" style={{ background: 'rgba(184,137,58,0.2)', color: '#B8893A' }}>{confTierLabel}</span>
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-widest" style={{ background: 'rgba(0,43,92,0.2)', color: '#002B5C' }}>{confTierLabel}</span>
                 <span>·</span>
                 <span>{confTierDesc}</span>
                 {!lhdnVerified && <><span>·</span><span>{t.identityUnverified}</span></>}

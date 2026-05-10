@@ -678,7 +678,7 @@ function ConsentRequestDialog({
             </h3>
 
             {tierChoices.length === 0 ? (
-              <div style={{ padding: '14px 16px', background: '#FAF8F3', border: '1px solid #E7E1D2', borderRadius: 12, fontSize: 12.5, color: '#5A6780' }}>
+              <div style={{ padding: '14px 16px', background: '#FBFCFD', border: '1px solid #E7E1D2', borderRadius: 12, fontSize: 12.5, color: '#5A6780' }}>
                 Already at the highest tier ({currentTier}). No further reveal possible.
               </div>
             ) : (
@@ -690,7 +690,7 @@ function ConsentRequestDialog({
                       style={{
                         display: 'flex', alignItems: 'flex-start', gap: 10,
                         padding: '10px 12px', borderRadius: 10,
-                        background: pickedTier === t ? '#FAF8F3' : '#fff',
+                        background: pickedTier === t ? '#FBFCFD' : '#fff',
                         border: pickedTier === t ? '1.5px solid #0F1E3F' : '1px solid #E7E1D2',
                         cursor: 'pointer',
                         transition: 'background 120ms ease, border-color 120ms ease',
@@ -812,7 +812,7 @@ function ConsentRequestDialog({
             <p style={{ fontSize: 13, color: '#5A6780', lineHeight: 1.55, marginTop: 0, marginBottom: 14 }}>
               Share the link below via WhatsApp. The tenant opens it, enters their Veri PIN, and the tier on this Trust Card flips automatically.
             </p>
-            <div style={{ background: '#FAF8F3', borderRadius: 12, padding: '12px 14px', marginBottom: 14, fontSize: 12, fontFamily: 'var(--font-mono, monospace)', color: '#0F1E3F', wordBreak: 'break-all' }}>
+            <div style={{ background: '#FBFCFD', borderRadius: 12, padding: '12px 14px', marginBottom: 14, fontSize: 12, fontFamily: 'var(--font-mono, monospace)', color: '#0F1E3F', wordBreak: 'break-all' }}>
               {lastSent.consentUrl}
             </div>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>

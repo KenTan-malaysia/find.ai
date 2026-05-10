@@ -491,7 +491,7 @@ function ScoreVisual() {
       <defs>
         <linearGradient id="apg-score" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#FFD27A"/>
-          <stop offset="100%" stopColor="#B8893A"/>
+          <stop offset="100%" stopColor="#002B5C"/>
         </linearGradient>
       </defs>
       <circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="14"/>
@@ -505,9 +505,9 @@ function ScoreVisual() {
 function StampVisual() {
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="ap-visual-svg">
-      <rect x="40" y="40" width="120" height="120" rx="14" fill="#FAF8F3" stroke="#E7E1D2" strokeWidth="1.5"/>
+      <rect x="40" y="40" width="120" height="120" rx="14" fill="#FBFCFD" stroke="#E7E1D2" strokeWidth="1.5"/>
       <text x="100" y="98" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="38" fontWeight="700" fill="#0F1E3F" letterSpacing="-1">RM</text>
-      <text x="100" y="128" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="500" fill="#B8893A">SDSAS 2026</text>
+      <text x="100" y="128" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="500" fill="#002B5C">SDSAS 2026</text>
       <line x1="56" y1="146" x2="144" y2="146" stroke="#E7E1D2" strokeDasharray="3 3"/>
     </svg>
   );
@@ -864,7 +864,7 @@ const STYLES = `
   .ap-root {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: #0F1E3F;
-    background: #FAF8F3;
+    background: #FBFCFD;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
   }
@@ -900,7 +900,7 @@ const STYLES = `
     flex-shrink: 0;
   }
   .ap-brand-find { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; }
-  .ap-brand-ai { font-weight: 500; font-size: 17px; letter-spacing: -0.02em; color: #B8893A; }
+  .ap-brand-ai { font-weight: 500; font-size: 17px; letter-spacing: -0.02em; color: #002B5C; }
   .ap-nav-links {
     flex: 1;
     display: none;
@@ -916,7 +916,7 @@ const STYLES = `
     font-weight: 400;
     transition: color .15s ease;
   }
-  .ap-nav-links a:hover { color: #B8893A; }
+  .ap-nav-links a:hover { color: #002B5C; }
   .ap-nav-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
   .ap-lang-btn {
     height: 28px; padding: 0 12px;
@@ -931,7 +931,7 @@ const STYLES = `
     color: #0F1E3F; text-decoration: none;
     transition: color .15s;
   }
-  .ap-signin:hover { color: #B8893A; }
+  .ap-signin:hover { color: #002B5C; }
   .ap-burger {
     width: 36px; height: 36px;
     border: 1px solid rgba(15,30,63,0.1);
@@ -1032,7 +1032,7 @@ const STYLES = `
     padding: 4px 0;
     transition: color .15s;
   }
-  .ap-chip-link:hover { color: #B8893A; }
+  .ap-chip-link:hover { color: #002B5C; }
   .ap-chip-link span { margin-left: 4px; transition: transform .15s; display: inline-block; }
   .ap-chip-link:hover span { transform: translateX(3px); }
 
@@ -1187,7 +1187,7 @@ const STYLES = `
     font-size: 13px; font-weight: 700;
     flex-shrink: 0;
   }
-  .ap-htc-notif-ico-amber { background: #FEF3C7; color: #B8893A; border: 1.5px solid #FDE68A; }
+  .ap-htc-notif-ico-amber { background: #FEF3C7; color: #854F0B; border: 1.5px solid #FDE68A; }
   .ap-htc-notif-title {
     font-size: 12px; font-weight: 700;
     color: #0F1E3F;
@@ -1244,7 +1244,7 @@ const STYLES = `
   }
   .ap-door-primary {
     background: #F3EFE4;
-    border-color: #B8893A;
+    border-color: #002B5C;
   }
   .ap-door-primary:hover {
     background: #EDE6D5;
@@ -1330,7 +1330,7 @@ const STYLES = `
     transition: transform .15s;
     display: inline-block;
   }
-  .ap-btn-link:hover { color: #B8893A; }
+  .ap-btn-link:hover { color: #002B5C; }
   .ap-btn-link:hover span { transform: translateX(3px); }
   .ap-btn-link-light { color: #FFFFFF; }
   .ap-btn-link-light:hover { color: #FFD27A; }
@@ -1393,12 +1393,12 @@ const STYLES = `
   .ap-tile-eyebrow {
     font-size: 11px; font-weight: 500;
     letter-spacing: 0.16em;
-    color: #B8893A;
+    color: #002B5C;
     text-transform: uppercase;
     margin-bottom: 8px;
   }
   .ap-tile-dark .ap-tile-eyebrow { color: #FFD27A; }
-  .ap-tile-eyebrow-amber { color: #B8893A; }
+  .ap-tile-eyebrow-amber { color: #002B5C; }
   .ap-tile-h3 {
     font-family: 'Instrument Serif', 'Iowan Old Style', Baskerville, 'Times New Roman', serif;
     font-size: 38px;
@@ -1488,7 +1488,7 @@ const STYLES = `
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.18em;
-    color: #B8893A;
+    color: #002B5C;
     margin-bottom: 14px;
   }
   .ap-step-title {
