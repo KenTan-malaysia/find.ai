@@ -5,16 +5,21 @@ during its loop. Each tool is intentionally small and deterministic so the
 agent can reason about failure cases (bad phone numbers, missing templates,
 opt-outs) without surprises.
 
-Nothing in this module ever hits a real API. Real providers (Twilio,
-WhatsApp Cloud API) get wired up inside `send_whatsapp_message` when
-`campaign.dry_run` is False — see the TODO comments below.
+Real sends only happen when `campaign.dry_run` is False AND a supported
+provider is configured. Provider `whatsapp_cloud` reads `WHATSAPP_PHONE_ID`
+and `WHATSAPP_ACCESS_TOKEN` from the environment and posts to the Meta
+Graph API. Any other provider (including the default `stub`) refuses to
+send and returns a failed SendResult.
 """
 
 from __future__ import annotations
 
 import csv
 import json
+import os
 import re
+import urllib.error
+import urllib.request
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Any
@@ -96,6 +101,58 @@ def _load_campaign(path: Path) -> dict[str, Any]:
             raise RuntimeError("PyYAML not installed — run `pip install pyyaml`.")
         return yaml.safe_load(text)
     return json.loads(text)
+
+
+# ---------------------------------------------------------------------------
+# Providers
+# ---------------------------------------------------------------------------
+
+WHATSAPP_CLOUD_GRAPH_VERSION = "v19.0"
+
+
+def _send_via_whatsapp_cloud(phone_e164: str, body: str) -> tuple[bool, str]:
+    """POST a text message via the Meta WhatsApp Cloud API.
+
+    Returns (ok, reason). Credentials come from the environment so they
+    never end up in the campaign file:
+      - WHATSAPP_PHONE_ID:     numeric phone-number-id from Meta Business
+      - WHATSAPP_ACCESS_TOKEN: long-lived system-user token
+    """
+    phone_id = os.environ.get("WHATSAPP_PHONE_ID")
+    token = os.environ.get("WHATSAPP_ACCESS_TOKEN")
+    if not phone_id or not token:
+        return False, "WHATSAPP_PHONE_ID / WHATSAPP_ACCESS_TOKEN not set"
+
+    url = f"https://graph.facebook.com/{WHATSAPP_CLOUD_GRAPH_VERSION}/{phone_id}/messages"
+    # The Cloud API expects `to` without the leading '+'.
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": phone_e164.lstrip("+"),
+        "type": "text",
+        "text": {"body": body},
+    }
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            resp.read()
+            return True, "whatsapp_cloud ok"
+    except urllib.error.HTTPError as e:
+        detail = ""
+        try:
+            detail = e.read().decode("utf-8", errors="replace")[:300]
+        except Exception:  # pragma: no cover
+            pass
+        return False, f"whatsapp_cloud http {e.code}: {detail or e.reason}"
+    except urllib.error.URLError as e:
+        return False, f"whatsapp_cloud network error: {e.reason}"
 
 
 # ---------------------------------------------------------------------------
@@ -193,13 +250,11 @@ async def send_whatsapp_message(args: dict[str, Any]) -> dict[str, Any]:
         result = SendResult(phone, name, "failed", reason=f"invalid phone '{phone}'")
     elif dry_run:
         result = SendResult(phone, name, "sent", reason="dry-run", preview=body[:300])
+    elif provider == "whatsapp_cloud":
+        ok, reason = _send_via_whatsapp_cloud(phone, body)
+        status = "sent" if ok else "failed"
+        result = SendResult(phone, name, status, reason=reason, preview=body[:300] if ok else "")
     else:
-        # TODO: plug in a real provider. Example shapes:
-        #   - Twilio:        POST /2010-04-01/Accounts/{sid}/Messages.json
-        #                     form body: From=whatsapp:+... To=whatsapp:+... Body=...
-        #   - WhatsApp Cloud: POST graph.facebook.com/v19.0/{phone_id}/messages
-        #                     json body: { messaging_product, to, type: "text", text: { body } }
-        # Until then, refuse to pretend we sent something.
         result = SendResult(
             phone, name, "failed",
             reason=f"provider '{provider}' not wired up; keep dry_run=true",

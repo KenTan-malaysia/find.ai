@@ -24,5 +24,8 @@ filter_tags_any: []
 max_sends: 1000
 # Dry-run mode never hits a real API. Flip to false only after wiring a provider.
 dry_run: true
-# Provider is a stub until you plug in Twilio / WhatsApp Cloud API keys.
+# Supported providers:
+#   stub           — refuses to send (default; keep for tests).
+#   whatsapp_cloud — Meta Graph API. Needs WHATSAPP_PHONE_ID and
+#                    WHATSAPP_ACCESS_TOKEN in the environment.
 provider: stub
