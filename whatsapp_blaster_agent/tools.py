@@ -5,16 +5,28 @@ during its loop. Each tool is intentionally small and deterministic so the
 agent can reason about failure cases (bad phone numbers, missing templates,
 opt-outs) without surprises.
 
-Nothing in this module ever hits a real API. Real providers (Twilio,
-WhatsApp Cloud API) get wired up inside `send_whatsapp_message` when
-`campaign.dry_run` is False — see the TODO comments below.
+Real providers are wired up inside `send_whatsapp_message` and are only
+invoked when `campaign.dry_run` is False. Supported providers:
+
+  - "twilio":        needs TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN,
+                     TWILIO_WHATSAPP_FROM env vars.
+  - "whatsapp_cloud": needs WHATSAPP_CLOUD_PHONE_ID,
+                     WHATSAPP_CLOUD_ACCESS_TOKEN (and optionally
+                     WHATSAPP_CLOUD_API_VERSION, default "v19.0") env vars.
+
+Credentials never live in the campaign file or the repo.
 """
 
 from __future__ import annotations
 
+import base64
 import csv
 import json
+import os
 import re
+import urllib.error
+import urllib.parse
+import urllib.request
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Any
@@ -96,6 +108,90 @@ def _load_campaign(path: Path) -> dict[str, Any]:
             raise RuntimeError("PyYAML not installed — run `pip install pyyaml`.")
         return yaml.safe_load(text)
     return json.loads(text)
+
+
+# ---------------------------------------------------------------------------
+# Live providers — only invoked when campaign.dry_run is False.
+# Credentials come from environment variables so they never live in the repo.
+# Each helper returns (ok, detail). detail is the provider message id on
+# success or a human-readable error on failure.
+# ---------------------------------------------------------------------------
+
+def _http_post(url: str, data: bytes, headers: dict[str, str], timeout: float = 15.0) -> tuple[bool, str]:
+    req = urllib.request.Request(url, data=data, headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            body = resp.read().decode("utf-8", errors="replace")
+            return True, body
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", errors="replace") if e.fp else ""
+        return False, f"HTTP {e.code}: {body[:300]}"
+    except urllib.error.URLError as e:
+        return False, f"network error: {e.reason}"
+    except Exception as e:  # pragma: no cover — defensive catch-all
+        return False, f"unexpected error: {e}"
+
+
+def _send_via_twilio(phone_e164: str, body: str) -> tuple[bool, str]:
+    sid = os.environ.get("TWILIO_ACCOUNT_SID")
+    token = os.environ.get("TWILIO_AUTH_TOKEN")
+    sender = os.environ.get("TWILIO_WHATSAPP_FROM")  # e.g. "+14155238886"
+    if not (sid and token and sender):
+        return False, "missing TWILIO_ACCOUNT_SID / TWILIO_AUTH_TOKEN / TWILIO_WHATSAPP_FROM"
+
+    url = f"https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json"
+    form = urllib.parse.urlencode({
+        "From": f"whatsapp:{sender}",
+        "To": f"whatsapp:{phone_e164}",
+        "Body": body,
+    }).encode("utf-8")
+    auth = base64.b64encode(f"{sid}:{token}".encode("utf-8")).decode("ascii")
+    headers = {
+        "Authorization": f"Basic {auth}",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    ok, detail = _http_post(url, form, headers)
+    if not ok:
+        return False, detail
+    try:
+        sid_out = json.loads(detail).get("sid", "")
+        return True, sid_out or "sent"
+    except json.JSONDecodeError:
+        return True, "sent"
+
+
+def _send_via_whatsapp_cloud(phone_e164: str, body: str) -> tuple[bool, str]:
+    phone_id = os.environ.get("WHATSAPP_CLOUD_PHONE_ID")
+    access_token = os.environ.get("WHATSAPP_CLOUD_ACCESS_TOKEN")
+    api_version = os.environ.get("WHATSAPP_CLOUD_API_VERSION", "v19.0")
+    if not (phone_id and access_token):
+        return False, "missing WHATSAPP_CLOUD_PHONE_ID / WHATSAPP_CLOUD_ACCESS_TOKEN"
+
+    url = f"https://graph.facebook.com/{api_version}/{phone_id}/messages"
+    payload = json.dumps({
+        "messaging_product": "whatsapp",
+        "to": phone_e164.lstrip("+"),
+        "type": "text",
+        "text": {"body": body},
+    }).encode("utf-8")
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+    ok, detail = _http_post(url, payload, headers)
+    if not ok:
+        return False, detail
+    try:
+        msgs = json.loads(detail).get("messages") or []
+        return True, (msgs[0].get("id") if msgs else "") or "sent"
+    except json.JSONDecodeError:
+        return True, "sent"
+
+
+PROVIDERS = {
+    "twilio": _send_via_twilio,
+    "whatsapp_cloud": _send_via_whatsapp_cloud,
+}
 
 
 # ---------------------------------------------------------------------------
@@ -194,16 +290,18 @@ async def send_whatsapp_message(args: dict[str, Any]) -> dict[str, Any]:
     elif dry_run:
         result = SendResult(phone, name, "sent", reason="dry-run", preview=body[:300])
     else:
-        # TODO: plug in a real provider. Example shapes:
-        #   - Twilio:        POST /2010-04-01/Accounts/{sid}/Messages.json
-        #                     form body: From=whatsapp:+... To=whatsapp:+... Body=...
-        #   - WhatsApp Cloud: POST graph.facebook.com/v19.0/{phone_id}/messages
-        #                     json body: { messaging_product, to, type: "text", text: { body } }
-        # Until then, refuse to pretend we sent something.
-        result = SendResult(
-            phone, name, "failed",
-            reason=f"provider '{provider}' not wired up; keep dry_run=true",
-        )
+        sender = PROVIDERS.get(provider)
+        if sender is None:
+            result = SendResult(
+                phone, name, "failed",
+                reason=f"unknown provider '{provider}' (expected one of: {', '.join(PROVIDERS)})",
+            )
+        else:
+            ok, detail = sender(phone, body)
+            if ok:
+                result = SendResult(phone, name, "sent", reason=detail, preview=body[:300])
+            else:
+                result = SendResult(phone, name, "failed", reason=detail)
 
     return {"content": [{"type": "text", "text": json.dumps(asdict(result), indent=2)}]}
 
